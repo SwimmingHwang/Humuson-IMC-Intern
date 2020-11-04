@@ -1,6 +1,6 @@
 buildscript {
     ext{ //build.gradle에서 사용하는 전역변수를 설정
-        springBootVersion = '2.3.5.RELEASE'
+        springBootVersion = '2.1.9.RELEASE'
     }
     repositories {
         mavenCentral()
@@ -28,5 +28,9 @@ repositories { // 각종 의존성(라이브러리)들을 어떤 원격 저장�
 
 dependencies { // 프로젝트 개발에 필요한 의조넝들을 선언하는 곳
     compile('org.springframework.boot:spring-boot-starter-web')
+    compile('org.projectlombok:lombok')
+    //Springi Data JPA 적용
+    compile('org.springframework.boot:spring-boot-starter-data-jpa')
+    compile('com.h2database:h2')
     testCompile('org.springframework.boot:spring-boot-starter-test')
 }
