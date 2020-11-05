@@ -1,0 +1,33 @@
+{{>layout/header}}
+
+<h1>알림톡 메세지 발송 메인 페이지</h1>
+<div class="col-md-12">
+    <div class="row">
+        <div class="col-md-6">
+            <a href="/msgs/save" role="button" class="btn btn-primary">발송 메시지 등록</a>
+
+        </div>
+    </div>
+    <br>
+    <!-- 목록 출력 영역 -->
+    <table class="table table-horizontal table-bordered">
+        <thead class="thead-strong">
+        <tr>
+            <th>게시글번호</th>
+            <th>메세지 내용</th>
+            <th>전화번호</th>
+        </tr>
+        </thead>
+        <tbody id="tbody">
+        {{#msgs}}
+            <tr>
+                <td>{{id}}</td>
+                <td><a href="/msgs/update/{{id}}">{{msg}}</a></td>
+                <td>{{phoneNumber}}</td>
+            </tr>
+        {{/msgs}}
+        </tbody>
+    </table>
+</div>
+
+{{>layout/footer}}
