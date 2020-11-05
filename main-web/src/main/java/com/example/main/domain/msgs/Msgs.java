@@ -9,10 +9,13 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 
-
+@DynamicInsert // insert 시 null인 필드 제외
+@DynamicUpdate // update 시
 @Getter
 @NoArgsConstructor
 @Table(name = "imc_at_biz_msg", schema = "imc-intern")
@@ -22,26 +25,34 @@ public class Msgs {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
+
     @NotNull
     @ColumnDefault("0")
     private String status;
+
     @NotNull
     @ColumnDefault("0")
     private String priority;
+
     @NotNull
-    @ColumnDefault("0")
+    @ColumnDefault("1999-99-99")
     private String reservedDate;
+
     @NotNull
     @ColumnDefault("0")
     private String senderKey;
+
     @NotNull
     @ColumnDefault("0")
     private String phoneNumber;
+
     //    private String appUserId;
     @NotNull
     @ColumnDefault("0")
     private String templateCode;
+
     @Column(name = "MESSAGE")
+    @ColumnDefault("0")
     private String msg; // 메시지 내용
 
 
@@ -57,8 +68,23 @@ public class Msgs {
         this.msg = msg;
     }
 
-    public void update(String msg, String status){
+    public void update(String msg){
         this.msg = msg;
-        this.status = status;
     }
+    /**
+     * insert 되기전 (persist 되기전) 실행된다.
+     * */
+    @PrePersist
+    public void prePersist() {
+
+        this.status = this.status== null ? "0" : this.status;
+        this.priority = this.priority== null ? "0" : this.priority;
+        this.reservedDate = this.reservedDate== null ? "0" : this.reservedDate;
+        this.senderKey = this.senderKey== null ? "0" : this.senderKey;
+        this.phoneNumber = this.phoneNumber== null ? "0" : this.phoneNumber;
+        this.templateCode = this.templateCode== null ? "0" : this.templateCode;
+        this.msg = this.msg== null ? "0" : this.msg;
+
+    }
+
 }
