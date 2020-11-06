@@ -34,6 +34,17 @@ dependencies { // 프로젝트 개발에 필요한 의조넝들을 선언하는 
 //    compile('com.h2database:h2')
     compile("mysql:mysql-connector-java")
     // mustache
-    compile('org.springframework.boot:spring-boot-starter-mustache')
+    // compile('org.springframework.boot:spring-boot-starter-mustache')
+    // thymeleaf
+    compile('org.springframework.boot:spring-boot-starter-thymeleaf')
+    // spring secuirty 5
+    compile('org.springframework.boot:spring-boot-starter-security')
+    compile('org.thymeleaf.extras:thymeleaf-extras-springsecurity5')
+    // admin client
+    compile('de.codecentric:spring-boot-admin-starter-client:2.3.0')
+    //
+    compile('org.springframework.boot:spring-boot-starter-actuator')
+
     testCompile('org.springframework.boot:spring-boot-starter-test')
+
 }

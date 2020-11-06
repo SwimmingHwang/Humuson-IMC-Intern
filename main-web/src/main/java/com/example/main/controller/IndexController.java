@@ -1,7 +1,7 @@
 package com.example.main.controller;
 
-import com.example.main.service.MsgsService;
 import com.example.main.dto.MsgsResponseDto;
+import com.example.main.service.MsgsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,7 +17,7 @@ public class IndexController {
     @GetMapping("/")
     public String index(Model model) {// 서버 템플릿 엔진에서 사용할 수 있는 객체 저장
         model.addAttribute("msgs", msgsService.findAllDesc());// findalldesc 결과를 posts라는 이름으로 send.must에 전달
-        return "send/send";
+        return "index.html";
     }
 
 
