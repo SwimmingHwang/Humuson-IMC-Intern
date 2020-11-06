@@ -16,14 +16,15 @@ public class IndexController {
 
     @GetMapping("/")
     public String index(Model model) {// 서버 템플릿 엔진에서 사용할 수 있는 객체 저장
-        model.addAttribute("msgs", msgsService.findAllDesc());// findalldesc 결과를 posts라는 이름으로 send.must에 전달
-        return "send/send";
+//        model.addAttribute("msgs", msgsService.findAllDesc());// findalldesc 결과를 posts라는 이름으로 send.must에 전달
+        model.addAttribute("msgs", msgsService.findAll());// findalldesc 결과를 posts라는 이름으로 send.must에 전달
+        return "page/send";
     }
 
 
     @GetMapping("/msgs/save")
     public String msgsSave() {
-        return "send/msgs-save";
+        return "page/msgs-save";
     }
 
     @GetMapping("/msgs/update/{id}") // 수정할 화면 연결
@@ -31,6 +32,6 @@ public class IndexController {
         MsgsResponseDto dto = msgsService.findById(id);
         model.addAttribute("msg", dto);
 
-        return "send/msgs-update";
+        return "page/msgs-update";
     }
 }
