@@ -6,7 +6,6 @@
 
 package com.example.main.service;
 
-//package com.jojoldu.book.springboot.service;
 
 import com.example.main.domain.msgs.Msgs;
 import com.example.main.domain.msgs.MsgsRepository;

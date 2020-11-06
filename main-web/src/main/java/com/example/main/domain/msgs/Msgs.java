@@ -3,7 +3,6 @@
  * */
 package com.example.main.domain.msgs;
 
-import com.example.main.domain.BaseTimeEntity;
 import com.sun.istack.NotNull;
 import lombok.Builder;
 import lombok.Getter;

@@ -4,7 +4,6 @@
 package com.example.main.dto;
 
 import com.example.main.domain.msgs.Msgs;
-import com.example.main.domain.posts.Posts;
 import lombok.Getter;
 
 @Getter

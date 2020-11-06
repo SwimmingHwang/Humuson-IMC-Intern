@@ -1,4 +1,4 @@
-package com.example.main.domain.controller;
+package com.example.main.controller;
 
 import com.example.main.service.MsgsService;
 import com.example.main.dto.MsgsListResponseDto;
