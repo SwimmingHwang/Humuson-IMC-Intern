@@ -15,14 +15,17 @@ public class IndexController {
     private final MsgsService msgsService;
 
     @GetMapping("/")
-    public String index(Model model) {// 서버 템플릿 엔진에서 사용할 수 있는 객체 저장
-        model.addAttribute("msgs", msgsService.findAllDesc());// findalldesc 결과를 posts라는 이름으로 send.must에 전달
-        return "index.html";
+    public String index() {// 서버 템플릿 엔진에서 사용할 수 있는 객체 저장
+//        model.addAttribute("msgs", msgsService.findAllDesc());// findalldesc 결과를 posts라는 이름으로 send.must에 전달
+        return "index";
 // send page
 //        model.addAttribute("msgs", msgsService.findAll());// findalldesc 결과를 posts라는 이름으로 send.must에 전달
 //        return "page/send";
     }
-
+    @GetMapping("/login")
+    public String login() {// 서버 템플릿 엔진에서 사용할 수 있는 객체 저장
+        return "page/login";
+    }
 
     @GetMapping("/msgs/save")
     public String msgsSave() {
