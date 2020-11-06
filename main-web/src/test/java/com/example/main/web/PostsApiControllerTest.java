@@ -1,13 +1,11 @@
 package com.example.main.web;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.example.main.domain.posts.Posts;
 import com.example.main.domain.posts.PostsRepository;
-import com.example.main.web.dto.PostsSaveRequestDto;
-import com.example.main.web.dto.PostsUpdateRequestDto;
+import com.example.main.dto.PostsSaveRequestDto;
+import com.example.main.dto.PostsUpdateRequestDto;
 
 import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,9 +15,6 @@ import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.*;
 //import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.context.WebApplicationContext;
 
 import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -28,7 +23,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 // For mockMvc
 

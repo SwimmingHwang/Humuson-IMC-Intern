@@ -1,4 +1,4 @@
-package com.example.main.web.dto;
+package com.example.main.dto;
 
 import org.junit.Test;
 

@@ -1,4 +1,4 @@
-package com.example.main.web.dto;
+package com.example.main.dto;
 
 import com.example.main.domain.posts.Posts;
 

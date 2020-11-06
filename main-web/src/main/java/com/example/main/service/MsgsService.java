@@ -10,10 +10,10 @@ package com.example.main.service;
 
 import com.example.main.domain.msgs.Msgs;
 import com.example.main.domain.msgs.MsgsRepository;
-import com.example.main.web.dto.MsgsListResponseDto;
-import com.example.main.web.dto.MsgsResponseDto;
-import com.example.main.web.dto.MsgsSaveRequestDto;
-import com.example.main.web.dto.MsgsUpdateRequestDto;
+import com.example.main.dto.MsgsListResponseDto;
+import com.example.main.dto.MsgsResponseDto;
+import com.example.main.dto.MsgsSaveRequestDto;
+import com.example.main.dto.MsgsUpdateRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

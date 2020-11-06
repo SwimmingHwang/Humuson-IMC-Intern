@@ -1,6 +1,7 @@
 package com.example.main.web;
 
 //import com.jojoldu.book.springboot.config.auth.SecurityConfig;
+import com.example.main.domain.controller.HelloController;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

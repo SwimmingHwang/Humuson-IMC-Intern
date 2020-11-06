@@ -1,4 +1,4 @@
-package com.example.main.web;
+package com.example.main.domain.controller;
 
 //import com.example.main.service.PostsService;
 //import com.example.main.web.dto.PostsListResponseDto;
@@ -7,10 +7,10 @@ package com.example.main.web;
 //import com.example.main.web.dto.PostsUpdateRequestDto;
 
 import com.example.main.service.PostsService;
-import com.example.main.web.dto.PostsListResponseDto;
-import com.example.main.web.dto.PostsResponseDto;
-import com.example.main.web.dto.PostsSaveRequestDto;
-import com.example.main.web.dto.PostsUpdateRequestDto;
+import com.example.main.dto.PostsListResponseDto;
+import com.example.main.dto.PostsResponseDto;
+import com.example.main.dto.PostsSaveRequestDto;
+import com.example.main.dto.PostsUpdateRequestDto;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.web.bind.annotation.DeleteMapping;

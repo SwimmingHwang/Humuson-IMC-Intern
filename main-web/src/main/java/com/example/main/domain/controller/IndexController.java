@@ -1,9 +1,9 @@
-package com.example.main.web;
+package com.example.main.domain.controller;
 
 import com.example.main.service.MsgsService;
 import com.example.main.service.PostsService;
-import com.example.main.web.dto.MsgsResponseDto;
-import com.example.main.web.dto.PostsResponseDto;
+import com.example.main.dto.MsgsResponseDto;
+import com.example.main.dto.PostsResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

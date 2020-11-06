@@ -5,7 +5,7 @@
 * - Req/Res 용 DTO는 View를 위한 클래스라 자주 변경 필요!!!
 * */
 
-package com.example.main.web.dto;
+package com.example.main.dto;
 
 import com.example.main.domain.msgs.Msgs;
 import lombok.Builder;

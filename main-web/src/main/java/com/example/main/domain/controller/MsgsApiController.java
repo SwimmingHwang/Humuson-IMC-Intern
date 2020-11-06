@@ -1,10 +1,10 @@
-package com.example.main.web;
+package com.example.main.domain.controller;
 
 import com.example.main.service.MsgsService;
-import com.example.main.web.dto.MsgsListResponseDto;
-import com.example.main.web.dto.MsgsResponseDto;
-import com.example.main.web.dto.MsgsSaveRequestDto;
-import com.example.main.web.dto.MsgsUpdateRequestDto;
+import com.example.main.dto.MsgsListResponseDto;
+import com.example.main.dto.MsgsResponseDto;
+import com.example.main.dto.MsgsSaveRequestDto;
+import com.example.main.dto.MsgsUpdateRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 

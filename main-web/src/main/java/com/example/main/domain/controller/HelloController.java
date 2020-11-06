@@ -1,9 +1,8 @@
-package com.example.main.web;
+package com.example.main.domain.controller;
 
-import com.example.main.web.dto.HelloResponseDto;
+import com.example.main.dto.HelloResponseDto;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
