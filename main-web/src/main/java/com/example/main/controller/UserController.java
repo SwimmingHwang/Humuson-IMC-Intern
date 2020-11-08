@@ -1,7 +1,7 @@
 package com.example.main.controller;
 
-import com.example.main.dto.MemberDto;
-import com.example.main.service.MemberService;
+import com.example.main.dto.UserDto;
+import com.example.main.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -9,9 +9,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 @RequiredArgsConstructor
 @Controller
-public class MemberController {
+public class UserController {
 
-    private final MemberService memberService;
+    private final UserService userService;
 
     // 회원가입 페이지
     @GetMapping("/user/signup")
@@ -21,8 +21,8 @@ public class MemberController {
 
     // 회원가입 처리
     @PostMapping("/user/signup")
-    public String execSignup(MemberDto memberDto) {
-        memberService.joinUser(memberDto);
+    public String execSignup(UserDto userDto) throws Exception{
+        userService.joinUser(userDto);
 
         return "redirect:/user/login";
     }
