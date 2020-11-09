@@ -1,0 +1,38 @@
+<!--
+layout:decorator : "layout" 은 layout을 상속받는다.
+layout에 있는 content fragment자리에 아래이 content fragment를 끼워넣음-->
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout/default_layout">
+
+
+<!-- send.html 고유 CSS 추가 -->
+<!--<th:block layout:fragment="css">-->
+<!--    <link rel="stylesheet" th:href="@{/css/common/sb-admin-2.min.css}">-->
+<!--</th:block>-->
+
+<!-- send.html 고유 스크립트 추가 -->
+<!--<th:block layout:fragment="script">-->
+<!--    <script th:src="@{/js/app/mtSend.js}"></script>-->
+<!--</th:block>-->
+
+<div layout:fragment="content">
+    <!-- Page Heading -->
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">문자 메시지 발송 예약</h1>
+        <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>
+    </div>
+
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-md-6">
+                <a href="/send/msgs/save/mt" role="button" class="btn btn-primary">발송 메시지 등록</a>
+
+            </div>
+        </div>
+        <br>
+    </div>
+</div>
+</html>
