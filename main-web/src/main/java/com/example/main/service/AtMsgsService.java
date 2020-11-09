@@ -1,0 +1,71 @@
+/*
+ *
+ * 비즈니스 로직은 service 클래스 내부에서 처리 된다. 객체는 단순히 데이터 덩어리 역할만.ㅊ
+ * 서비스 베소드는 트랜잭션과 도메인 간의 순서만 보장한다.  -> 도메인 모델을 다룸.
+ * */
+
+package com.example.main.service;
+
+
+import com.example.main.domain.msgs.AtMsgs;
+import com.example.main.domain.msgs.AtMsgsRepository;
+import com.example.main.dto.AtMsgsListResponseDto;
+import com.example.main.dto.AtMsgsResponseDto;
+import com.example.main.dto.AtMsgsSaveRequestDto;
+import com.example.main.dto.AtMsgsUpdateRequestDto;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
+@RequiredArgsConstructor// final이 선언된 모든 필드를 인자값으로하는 생성자를 생성해줌.
+@Service
+public class AtMsgsService {
+    private final AtMsgsRepository atMsgsRepository;
+
+    @Transactional
+    public Integer save(AtMsgsSaveRequestDto requestDto) {
+        return atMsgsRepository.save(requestDto.toEntity()).getId(); // insert/update 쿼리 실행
+    }
+
+    @Transactional
+    public Integer update(Integer id, AtMsgsUpdateRequestDto requestDto) {
+        AtMsgs atMsgs = atMsgsRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("해당 사용자가 없습니다. id=" + id));
+
+        atMsgs.update(requestDto.getMsg());
+
+        return id;
+    }
+
+    @Transactional
+    public void delete (Integer id) {
+        AtMsgs atMsgs = atMsgsRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("해당 사용자가 없습니다. id=" + id));
+
+        atMsgsRepository.delete(atMsgs);
+    }
+
+    @Transactional(readOnly = true)
+    public AtMsgsResponseDto findById(Integer id) {
+        AtMsgs entity = atMsgsRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("해당 사용자가 없습니다. id=" + id));
+
+        return new AtMsgsResponseDto(entity);
+    }
+
+    @Transactional(readOnly = true)
+    public List<AtMsgsListResponseDto> findAllDesc() {
+        // repo에서 넘어온 stream을 map을 통해 dto로 변환해서 리스트로 반환
+        return atMsgsRepository.findAllDesc().stream()
+                .map(AtMsgsListResponseDto::new)
+                .collect(Collectors.toList());
+    }
+    @Transactional(readOnly = true)
+    public List<AtMsgs> findAll() {
+        // repo에서 넘어온 stream을 map을 통해 dto로 변환해서 리스트로 반환
+        return atMsgsRepository.findAll();
+    }
+}

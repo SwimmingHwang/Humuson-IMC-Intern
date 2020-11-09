@@ -52,8 +52,9 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .invalidateHttpSession(true)
                 .and()
                 // csrf 적용
-                .csrf()
-                .and()
+                // TODO : POST 요청 처리 안 되어서 임시로
+                .csrf().disable()
+//                .and()
                 // 403 예외처리 핸들링
                 .exceptionHandling().accessDeniedPage("/user/denied");
     }
