@@ -1,7 +1,5 @@
 package com.example.main.config;
 
-import com.example.main.auth.UserAuthenticationProvider;
-import com.example.main.auth.UserAuthenticationSuccessHandler;
 import com.example.main.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -13,10 +11,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.access.AccessDeniedHandler;
-import org.springframework.security.web.authentication.AuthenticationFailureHandler;
-import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
-import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
@@ -26,15 +21,10 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private UserService userService;
 
-
-    private UserAuthenticationProvider authenticationProvider;
-/*
-
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-*/
 
     @Override
     public void configure(WebSecurity web) throws Exception {
@@ -48,14 +38,17 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
                 // 페이지 권한 설정
                 .antMatchers("/member/**").hasRole("MEMBER")
                 .antMatchers("/admin/**").hasRole("ADMIN")
+                .antMatchers("/user/**").permitAll()
+                // .anyRequest().authenticated() // 이외의 모든 요청은 인증된 사용자만 접근 가능
                 // .antMatchers("/user/myinfo").hasRole("MEMBER")
                 .antMatchers("/**").permitAll() // 모두 접근 가능
                 .and() // 로그인 설정
                 .formLogin()
                 .loginPage("/user/login")
-//                .defaultSuccessUrl("/user/login/result")
+                .loginProcessingUrl("/user/login")
+                .defaultSuccessUrl("/user/login/result")
+                .failureUrl("/user/login")
                 .permitAll()
-                .successHandler(authenticationSuccessHandler())
                 .and() // 로그아웃 설정
                 .logout()
                 .logoutRequestMatcher(new AntPathRequestMatcher("/user/logout"))
@@ -63,30 +56,18 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .invalidateHttpSession(true)
                 .and()
                 // csrf 적용
-                .csrf()
+                .csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
                 .and()
                 // 403 예외처리 핸들링
                 .exceptionHandling().accessDeniedPage("/user/denied");
+//                .and()
+//                .httpBasic()
+//                .disable();
     }
 
     @Override
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
-        //auth.userDetailsService(userService).passwordEncoder(passwordEncoder());
-        auth.authenticationProvider(authenticationProvider);
-    }
-
-    /* * SuccessHandler bean register */
-/*
-    @Bean
-    public AuthSuccessHandler authSuccessHandler() {
-        return new AuthSuccessHandler();
-    }
-    */
-    @Bean
-    public AuthenticationSuccessHandler authenticationSuccessHandler() {
-        UserAuthenticationSuccessHandler successHandler = new UserAuthenticationSuccessHandler();
-//        successHandler.setDefaultTargetUrl("/index");
-        return successHandler;
+        auth.userDetailsService(userService).passwordEncoder(passwordEncoder());
     }
 
 }

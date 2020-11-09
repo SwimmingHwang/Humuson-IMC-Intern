@@ -17,7 +17,7 @@ import javax.persistence.*;
 @DynamicUpdate // update 시
 @Getter
 @NoArgsConstructor
-@Table(name = "IMC_AT_BIZ_MSG", schema = "imc-intern")
+@Table(name = "imc_at_biz_msg", schema = "imc-intern")
 @Entity //JPA의 어노테이션
 public class Msgs {
 

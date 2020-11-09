@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.springframework.org/schema/security"
+      layout:decorator="layout/login_layout">
+
+<div layout:fragment="content">
+    <span sec:authentication="name"></span>님 환영합니다~
+    </p>
+    <a th:href="@{'/'}">메인으로 이동</a>
+</div>
+</html>
+
