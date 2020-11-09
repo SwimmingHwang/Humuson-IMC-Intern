@@ -3,31 +3,26 @@ package com.example.main.dto;
 import com.example.main.domain.entity.UserEntity;
 import lombok.*;
 
-import java.time.LocalDateTime;
-
 @Getter
 @Setter
-@ToString
 @NoArgsConstructor
 public class UserDto {
-    private Long id;
+    private String username;
     private String email;
     private String password;
-    private LocalDateTime createdDate;
-    private LocalDateTime modifiedDate;
+
+    @Builder
+    public UserDto(String username, String email, String password) {
+        this.username = username;
+        this.email = email;
+        this.password = password;
+    }
 
     public UserEntity toEntity(){
         return UserEntity.builder()
-                .id(id)
+                .username(username)
                 .email(email)
                 .password(password)
                 .build();
-    }
-
-    @Builder
-    public UserDto(Long id, String email, String password) {
-        this.id = id;
-        this.email = email;
-        this.password = password;
     }
 }

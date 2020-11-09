@@ -1,31 +1,50 @@
 package com.example.main.domain.entity;
 
-import lombok.AccessLevel;
+import com.sun.istack.NotNull;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@DynamicInsert // insert 시 null인 필드 제외
+@DynamicUpdate // update 시
 @Getter
-@Entity
-@Table(name = "IMC_USER", schema = "imc-intern")
+@NoArgsConstructor
+@Table(name = "imc_user", schema = "imc-intern")
+@Entity //JPA의 어노테이션
 public class UserEntity {
+
     @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(length = 20, nullable = false)
+    @NotNull
+    private String username;
+
+    @NotNull
     private String email;
 
-    @Column(length = 100, nullable = false)
+    @NotNull
     private String password;
 
+    @NotNull
+    private String authority;
+
     @Builder
-    public UserEntity(Long id, String email, String password) {
+    public UserEntity(Long id, String username, String email, String password, String authority) {
         this.id = id;
+        this.username = username;
         this.email = email;
         this.password = password;
+        this.authority = authority;
+    }
+
+    @PrePersist
+    public void prePersist() {
+        this.authority = this.authority == null ? "ROLE_MEMBER" : this.authority;
     }
 }

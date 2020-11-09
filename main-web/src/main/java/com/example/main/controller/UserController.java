@@ -14,15 +14,15 @@ public class UserController {
     private final UserService userService;
 
     // 회원가입 페이지
-    @GetMapping("/user/signup")
+    @GetMapping("/user/sign-up")
     public String dispSignup() {
-        return "user/signup";
+        return "user/sign-up";
     }
 
     // 회원가입 처리
-    @PostMapping("/user/signup")
-    public String execSignup(UserDto userDto) throws Exception{
-        userService.joinUser(userDto);
+    @PostMapping("/user/sign-up")
+    public String execSignup(UserDto userDto) {
+        userService.saveUser(userDto);
 
         return "redirect:/user/login";
     }
@@ -33,10 +33,17 @@ public class UserController {
         return "user/login";
     }
 
+    // 로그인 처리
+    @PostMapping("/user/login")
+    public String execLogin(UserDto userDto) {
+        userService.loadUserByUsername(userDto.getEmail());
+        return "redirect:/user/login/result";
+    }
+
     // 로그인 결과 페이지
     @GetMapping("/user/login/result")
     public String dispLoginResult() {
-        return "user/loginSuccess";
+        return "user/login-success";
     }
 
     // 로그아웃 결과 페이지
@@ -51,15 +58,4 @@ public class UserController {
         return "user/denied";
     }
 
-    // 내 정보 페이지
-    @GetMapping("/user/info")
-    public String dispMyInfo() {
-        return "user/myinfo";
-    }
-
-    // 어드민 페이지
-    @GetMapping("/admin")
-    public String dispAdmin() {
-        return "admin";
-    }
 }
