@@ -1,8 +1,6 @@
 package com.example.main.config;
 
-import com.example.main.auth.LoginSuccessHandler;
 import com.example.main.service.UserService;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,7 +12,6 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
@@ -46,12 +43,8 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.formLogin()
             .loginPage("/user/login")
             .usernameParameter("email").passwordParameter("password") // id, pwd param 변경
-            .loginProcessingUrl("/user/login")
             .defaultSuccessUrl("/user/login/result")
             .failureForwardUrl("/user/login")
-            
-//            .successForwardUrl(authenticationSuccessHandler)
-//            .failureForwardUrl(authenticationFailureHandler)
         ;
         http.logout()
             .logoutRequestMatcher(new AntPathRequestMatcher("/user/logout"))
@@ -69,7 +62,8 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
             .disable()
         ;
 //        http.sessionManagement()
-//            .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+//            .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+//        ;
     }
 
     @Override
@@ -78,18 +72,4 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
         //auth.authenticationProvider(authenticationProvider);
     }
 
-    /* * SuccessHandler bean register */
-/*
-    @Bean
-    public AuthSuccessHandler authSuccessHandler() {
-        return new AuthSuccessHandler();
-    }
-    *//*
-    @Bean
-    public AuthenticationSuccessHandler authenticationSuccessHandler() {
-        UserAuthenticationSuccessHandler successHandler = new UserAuthenticationSuccessHandler();
-//        successHandler.setDefaultTargetUrl("/index");
-        return successHandler;
-    }
-*/
 }

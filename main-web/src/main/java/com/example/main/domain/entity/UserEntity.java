@@ -16,7 +16,7 @@ import javax.validation.constraints.NotEmpty;
 @NoArgsConstructor
 @Table(name = "imc_user", schema = "imc-intern")
 @Entity //JPA의 어노테이션
-public class UserEntity {
+public class UserEntity { // db layer 와 데이터 주고 받을 때 사용
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

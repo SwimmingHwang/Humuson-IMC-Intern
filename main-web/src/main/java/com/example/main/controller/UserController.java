@@ -33,17 +33,14 @@ public class UserController {
         return "user/login";
     }
 
-    // 로그인 처리
-    @PostMapping("/user/login")
-    public String execLogin(UserDto userDto) {
-        userService.loadUserByUsername(userDto.getEmail());
-        return "redirect:/user/login/result";
-    }
-
     // 로그인 결과 페이지
     @GetMapping("/user/login/result")
     public String dispLoginResult() {
-        return "user/login-success";
+        if(userService.hasAdminRole()) {
+            return "redirect:/user/admin";
+        } else {
+            return "redirect:/user/member";
+        }
     }
 
     // 로그아웃 결과 페이지
@@ -56,6 +53,16 @@ public class UserController {
     @GetMapping("/user/denied")
     public String dispDenied() {
         return "user/denied";
+    }
+
+    @GetMapping("/user/admin")
+    public String dispAdmin() {
+        return "user/admin/admin-page";
+    }
+
+    @GetMapping("/user/member")
+    public String dispMember() {
+        return "user/member/member-page";
     }
 
 }
