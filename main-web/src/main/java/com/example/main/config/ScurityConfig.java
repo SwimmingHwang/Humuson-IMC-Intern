@@ -45,10 +45,11 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
         ;
         http.formLogin()
             .loginPage("/user/login")
-//            .usernameParameter("root@naver.com").passwordParameter("0000") // default id, pwd
+            .usernameParameter("email").passwordParameter("password") // id, pwd param 변경
             .loginProcessingUrl("/user/login")
             .defaultSuccessUrl("/user/login/result")
             .failureForwardUrl("/user/login")
+            
 //            .successForwardUrl(authenticationSuccessHandler)
 //            .failureForwardUrl(authenticationFailureHandler)
         ;
