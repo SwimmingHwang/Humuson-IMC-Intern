@@ -1,0 +1,34 @@
+<!--
+config, header, footer의 경우 th:replace="fragment/파일명 :: fragment명" 으로 등록 (layout에 다른 fragment들 치환)
+content의 경우 : layout:fragment="fragment명" 으로 등록 (content가 layout을 상속)
+-->
+
+<!DOCTYPE html>
+
+<html lagn="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>IMC-Intern-Project</title>
+    <!-- config fragment 사용 -->
+    <th:block th:replace="fragment/configCss :: configCssFragment" ></th:block>
+</head>
+
+<body class="bg-gradient-primary">
+<!-- header fragment 사용 -->
+
+<!--
+    content fragment 사용
+    현재 layout을 사용하는 content fragment의 내용을 삽입한다.
+-->
+<th:block layout:fragment="content"></th:block>
+
+<!-- footer fragment 사용 -->
+<th:block th:replace="fragment/footer :: footerFragment"></th:block>
+<th:block th:replace="fragment/configJs :: configJsFragment"></th:block>
+
+</body>
+
+</html>

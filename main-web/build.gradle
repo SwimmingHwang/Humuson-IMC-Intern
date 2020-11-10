@@ -29,11 +29,24 @@ repositories { // 각종 의존성(라이브러리)들을 어떤 원격 저장�
 dependencies { // 프로젝트 개발에 필요한 의조넝들을 선언하는 곳
     compile('org.springframework.boot:spring-boot-starter-web')
     compile('org.projectlombok:lombok')
-    //Springi Data JPA 적용
+    //Spring Data JPA 적용
     compile('org.springframework.boot:spring-boot-starter-data-jpa')
 //    compile('com.h2database:h2')
     compile("mysql:mysql-connector-java")
     // mustache
-    compile('org.springframework.boot:spring-boot-starter-mustache')
-    testCompile('org.springframework.boot:spring-boot-starter-test')
+    // compile('org.springframework.boot:spring-boot-starter-mustache')
+    // thymeleaf
+    compile('org.springframework.boot:spring-boot-starter-thymeleaf')
+    compile(group: 'nz.net.ultraq.thymeleaf', name: 'thymeleaf-layout-dialect', version: '2.4.1')
+    // spring secuirty 5
+    compile('org.springframework.boot:spring-boot-starter-security')
+    compile('org.thymeleaf.extras:thymeleaf-extras-springsecurity5')
+    // admin client
+    compile('de.codecentric:spring-boot-admin-starter-client:2.3.0')
+    //
+    compile('org.springframework.boot:spring-boot-starter-actuator')
+    compile('org.springframework.boot:spring-boot-devtools')
+
+    testCompile('org.springframework.boot:spring-boot-starter-test') // static debug 용
+
 }

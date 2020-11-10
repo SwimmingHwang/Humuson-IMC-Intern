@@ -63,4 +63,9 @@ public class MsgsService {
                 .map(MsgsListResponseDto::new)
                 .collect(Collectors.toList());
     }
+    @Transactional(readOnly = true)
+    public List<Msgs> findAll() {
+        // repo에서 넘어온 stream을 map을 통해 dto로 변환해서 리스트로 반환
+        return msgsRepository.findAll();
+    }
 }
