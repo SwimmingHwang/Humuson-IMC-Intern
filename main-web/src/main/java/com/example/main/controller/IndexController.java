@@ -25,11 +25,7 @@ public class IndexController {
 
     @GetMapping("/")
     public String index() {
-//        model.addAttribute("msgs", msgsService.findAllDesc());// findalldesc 결과를 posts라는 이름으로 send.must에 전달
         return "index";
-// send page
-//        model.addAttribute("msgs", msgsService.findAll());// findalldesc 결과를 posts라는 이름으로 send.must에 전달
-//        return "page/send";
     }
 
     @GetMapping("/send")

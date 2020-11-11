@@ -1,7 +1,7 @@
 package com.example.main.controller;
 
-import com.example.main.dto.MemberDto;
-import com.example.main.service.MemberService;
+import com.example.main.dto.UserDto;
+import com.example.main.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -9,20 +9,20 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 @RequiredArgsConstructor
 @Controller
-public class MemberController {
+public class UserController {
 
-    private final MemberService memberService;
+    private final UserService userService;
 
     // 회원가입 페이지
-    @GetMapping("/user/signup")
+    @GetMapping("/user/sign-up")
     public String dispSignup() {
-        return "user/signup";
+        return "user/sign-up";
     }
 
     // 회원가입 처리
-    @PostMapping("/user/signup")
-    public String execSignup(MemberDto memberDto) {
-        memberService.joinUser(memberDto);
+    @PostMapping("/user/sign-up")
+    public String execSignup(UserDto userDto) {
+        userService.saveUser(userDto);
         return "redirect:/user/login";
     }
 
@@ -35,7 +35,11 @@ public class MemberController {
     // 로그인 결과 페이지
     @GetMapping("/user/login/result")
     public String dispLoginResult() {
-        return "user/loginSuccess";
+        if(userService.hasAdminRole()) {
+            return "redirect:/user/admin";
+        } else {
+            return "redirect:/user/member";
+        }
     }
 
     // 로그아웃 결과 페이지
@@ -50,15 +54,14 @@ public class MemberController {
         return "user/denied";
     }
 
-    // 내 정보 페이지
-    @GetMapping("/user/info")
-    public String dispMyInfo() {
-        return "user/myinfo";
+    @GetMapping("/user/admin")
+    public String dispAdmin() {
+        return "index";
     }
 
-    // 어드민 페이지
-    @GetMapping("/admin")
-    public String dispAdmin() {
-        return "admin";
+    @GetMapping("/user/member")
+    public String dispMember() {
+        return "index";
     }
+
 }
