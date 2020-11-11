@@ -4,7 +4,7 @@
       layout:decorator="layout/default_layout">
 <div layout:fragment="content">
 
-<h1>게시글 수정</h1>
+<h1>예약 메시지 수정</h1>
 
 <div class="col-md-12">
     <form>
@@ -26,7 +26,10 @@
     <button type="button" class="btn btn-primary" id="btn-update">수정 완료</button>
     <button type="button" class="btn btn-danger" id="btn-delete">삭제</button>
 </div>
-
+<!--custom 스크립트 -->
+<th:block layout:fragment="script">
+    <script th:src="@{/js/app/{msgjs}Send.js(msgjs=${msgSbj})}"></script>
+</th:block>
 </div>
 
 

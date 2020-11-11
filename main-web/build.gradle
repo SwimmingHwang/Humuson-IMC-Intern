@@ -45,7 +45,8 @@ dependencies { // 프로젝트 개발에 필요한 의조넝들을 선언하는 
     compile('de.codecentric:spring-boot-admin-starter-client:2.3.0')
     //
     compile('org.springframework.boot:spring-boot-starter-actuator')
+    compile('org.springframework.boot:spring-boot-devtools')
 
-    testCompile('org.springframework.boot:spring-boot-starter-test')
+    testCompile('org.springframework.boot:spring-boot-starter-test') // static debug 용
 
 }
