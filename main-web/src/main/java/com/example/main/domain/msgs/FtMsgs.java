@@ -20,50 +20,25 @@ import javax.persistence.*;
 @Table(name = "imc_ft_biz_msg", schema = "imc-intern")
 @Entity //JPA의 어노테이션
 public class FtMsgs {
-
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-
-    @NotNull
-    @ColumnDefault("0")
     private String status;
-
-    @NotNull
-    @ColumnDefault("0")
     private String priority;
-
-    @NotNull
-    @ColumnDefault("1999-99-99")
     private String reservedDate;
-
-    @NotNull
-    @ColumnDefault("0")
     private String senderKey;
-
-    @NotNull
-    @ColumnDefault("0")
     private String phoneNumber;
-
-    //    private String appUserId;
-    @NotNull
-    @ColumnDefault("0")
-    private String templateCode;
-
     @Column(name = "MESSAGE")
-    @ColumnDefault("0")
     private String msg; // 메시지 내용
-
 
     @Builder // 해당 클래스의 빌더 패턴 클래스를 생성
     public FtMsgs(String status, String priority, String reservedDate, String senderKey,
-                  String phoneNumber, String templateCode, String msg){
+                  String phoneNumber, String msg){
         this.status = status;
         this.priority = priority;
         this.reservedDate = reservedDate;
         this.senderKey = senderKey;
         this.phoneNumber = phoneNumber;
-        this.templateCode = templateCode;
         this.msg = msg;
     }
 
@@ -76,13 +51,12 @@ public class FtMsgs {
     @PrePersist
     public void prePersist() {
 
-        this.status = this.status== null ? "0" : this.status;
-        this.priority = this.priority== null ? "0" : this.priority;
-        this.reservedDate = this.reservedDate== null ? "0" : this.reservedDate;
-        this.senderKey = this.senderKey== null ? "0" : this.senderKey;
-        this.phoneNumber = this.phoneNumber== null ? "0" : this.phoneNumber;
-        this.templateCode = this.templateCode== null ? "0" : this.templateCode;
-        this.msg = this.msg== null ? "0" : this.msg;
+        this.status = this.status== null ? "9" : this.status;
+        this.priority = this.priority== null ? "9" : this.priority;
+        this.reservedDate = this.reservedDate== null ? "reservedDate" : this.reservedDate;
+        this.senderKey = this.senderKey== null ? "senderkey" : this.senderKey;
+        this.phoneNumber = this.phoneNumber== null ? "01099999999" : this.phoneNumber;
+        this.msg = this.msg== null ? "msg" : this.msg;
 
     }
 

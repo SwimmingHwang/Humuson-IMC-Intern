@@ -34,6 +34,10 @@ public class UserEntity { // db layer 와 데이터 주고 받을 때 사용
     @NotNull
     private String authority;
 
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY, optional = false)
+    private UserSendInfo userSendInfo;
+
     @Builder
     public UserEntity(Long id, String username, String email, String password, String authority) {
         this.id = id;

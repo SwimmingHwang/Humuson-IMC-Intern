@@ -17,12 +17,12 @@ import javax.persistence.*;
 @DynamicUpdate // update 시
 @Getter
 @NoArgsConstructor
-@Table(name = "imc_at_biz_msg", schema = "imc-intern")
+@Table(name = "imc_at_biz_msg")
 @Entity //JPA의 어노테이션
 public class Msgs {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @NotNull
