@@ -1,4 +1,4 @@
 rootProject.name = 'Imc'
-include 'main-web'
-include 'kafka-api'
+//include 'main-web'
+//include 'kafka-api'
 
