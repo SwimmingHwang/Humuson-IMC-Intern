@@ -1,5 +1,6 @@
 package com.example.main.domain.entity;
 
+import com.example.main.domain.Entity.UserEntity;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

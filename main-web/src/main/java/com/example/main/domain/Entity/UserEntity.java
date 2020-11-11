@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
+import com.example.main.domain.entity.UserSendInfo;
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 
