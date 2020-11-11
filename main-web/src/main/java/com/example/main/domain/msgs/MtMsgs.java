@@ -22,40 +22,16 @@ import javax.persistence.*;
 public class MtMsgs {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-
-    @NotNull
-    @ColumnDefault("0")
     private String status;
-
-    @NotNull
-    @ColumnDefault("0")
     private String priority;
-
-    @NotNull
-    @ColumnDefault("1999-99-99")
     private String reservedDate;
-
-    @NotNull
-    @ColumnDefault("0")
-    private String senderKey;
-
-    @NotNull
-    @ColumnDefault("0")
     private String phoneNumber;
-
-    //    private String appUserId;
-    @NotNull
-    @ColumnDefault("tp")
     private String mtType;
-
     private String adFlag; //CHAR(1)
-
     @Column(name = "MESSAGE")
-    @ColumnDefault("0")
     private String msg; // 메시지 내용
-
 
     @Builder // 해당 클래스의 빌더 패턴 클래스를 생성
     public MtMsgs(String status, String priority, String reservedDate, String senderKey,
@@ -63,7 +39,6 @@ public class MtMsgs {
         this.status = status;
         this.priority = priority;
         this.reservedDate = reservedDate;
-        this.senderKey = senderKey;
         this.phoneNumber = phoneNumber;
         this.mtType = mtType;
         this.adFlag = adFlag;
@@ -79,13 +54,12 @@ public class MtMsgs {
     @PrePersist
     public void prePersist() {
 
-        this.status = this.status== null ? "0" : this.status;
-        this.priority = this.priority== null ? "0" : this.priority;
-        this.reservedDate = this.reservedDate== null ? "0" : this.reservedDate;
-        this.senderKey = this.senderKey== null ? "0" : this.senderKey;
-        this.phoneNumber = this.phoneNumber== null ? "0" : this.phoneNumber;
-        this.mtType = this.mtType== null ? "tp" : this.mtType;
-        this.msg = this.msg== null ? "0" : this.msg;
+        this.status = this.status== null ? "9" : this.status;
+        this.priority = this.priority== null ? "9" : this.priority;
+        this.reservedDate = this.reservedDate== null ? "reservedDate" : this.reservedDate;
+        this.phoneNumber = this.phoneNumber== null ? "phonenumber" : this.phoneNumber;
+        this.mtType = this.mtType== null ? "mt" : this.mtType;
+        this.msg = this.msg== null ? "msg" : this.msg;
 
     }
 

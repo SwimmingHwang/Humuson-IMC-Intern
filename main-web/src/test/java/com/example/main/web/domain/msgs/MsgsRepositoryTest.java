@@ -1,5 +1,7 @@
 package com.example.main.web.domain.msgs;
 
+import com.example.main.domain.msgs.AtMsgs;
+import com.example.main.domain.msgs.AtMsgsRepository;
 import com.example.main.domain.msgs.Msgs;
 import com.example.main.domain.msgs.MsgsRepository;
 import org.junit.After;
@@ -20,6 +22,8 @@ public class MsgsRepositoryTest {
 
     @Autowired
     MsgsRepository msgsRepository;
+    @Autowired
+    AtMsgsRepository atMsgsRepository;
 
     @After
     public void cleanup() {
@@ -60,6 +64,35 @@ public class MsgsRepositoryTest {
 
         //then
         Msgs msgs = msgsList.get(0);
+        assertThat(msgs.getMsg()).isEqualTo(msg);
+        assertThat(msgs.getPhoneNumber()).isEqualTo(phoneNumber);
+
+    }
+    @Test
+    public void insertAtTest(){
+        String msg = "발송 메세지";
+        String phoneNumber = "전화번호";
+        String status = "9";
+        String priority = "9";
+        String reservedDate = "20201111";
+        String senderKey = "@tjkgkjg#kjklf";
+        String templateCode = "SPRING TEST CODE";
+
+        atMsgsRepository.save(AtMsgs.builder()
+                .msg(msg)
+                .phoneNumber(phoneNumber)
+                .status(status)
+                .priority(priority)
+                .reservedDate(reservedDate)
+                .senderKey(senderKey)
+                .templateCode(templateCode)
+                .build());
+
+        //when
+        List<AtMsgs> msgsList = atMsgsRepository.findAll();
+
+        //then
+        AtMsgs msgs = msgsList.get(0);
         assertThat(msgs.getMsg()).isEqualTo(msg);
         assertThat(msgs.getPhoneNumber()).isEqualTo(phoneNumber);
 

@@ -17,6 +17,9 @@ var send = {
         });
     },
     save : function () {
+        var csrfHeader =  $("meta[name='_csrf_header']").attr("content");
+        var csrfToken = $("meta[name='_csrf']").attr("content");
+
         var data = {
             msg: $('#msg').val(),
             phoneNumber: $('#phoneNumber').val(),
@@ -27,7 +30,11 @@ var send = {
             url: '/api/v1/ft-msgs',
             dataType: 'json',
             contentType: 'application/json; charset=utf-8',
-            data: JSON.stringify(data)
+            data: JSON.stringify(data),
+            beforeSend : function(xhr) {
+                //데이터를 전송하기 전에 헤더에 csrf값을 설정한다
+                xhr.setRequestHeader(csrfHeader, csrfToken);
+            },
         }).done(function () {
             alert('글이 등록되었습니다.');
             window.location.href = '/send/ft-send';
