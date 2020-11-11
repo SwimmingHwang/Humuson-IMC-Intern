@@ -23,7 +23,6 @@ public class UserController {
     @PostMapping("/user/sign-up")
     public String execSignup(UserDto userDto) {
         userService.saveUser(userDto);
-
         return "redirect:/user/login";
     }
 
@@ -57,12 +56,12 @@ public class UserController {
 
     @GetMapping("/user/admin")
     public String dispAdmin() {
-        return "user/admin/admin-page";
+        return "index";
     }
 
     @GetMapping("/user/member")
     public String dispMember() {
-        return "user/member/member-page";
+        return "index";
     }
 
 }
