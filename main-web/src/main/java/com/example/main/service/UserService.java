@@ -1,8 +1,8 @@
 package com.example.main.service;
 
 import com.example.main.domain.Role;
-import com.example.main.domain.entity.UserEntity;
-import com.example.main.domain.repository.UserRepository;
+import com.example.main.domain.Entity.UserEntity;
+import com.example.main.domain.Repository.UserRepository;
 import com.example.main.dto.UserDto;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.Authentication;

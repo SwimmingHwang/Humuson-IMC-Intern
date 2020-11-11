@@ -1,6 +1,6 @@
 package com.example.main.dto;
 
-import com.example.main.domain.entity.UserEntity;
+import com.example.main.domain.Entity.UserEntity;
 import lombok.*;
 
 @Getter

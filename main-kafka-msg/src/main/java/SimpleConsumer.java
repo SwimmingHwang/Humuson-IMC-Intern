@@ -13,7 +13,7 @@ import java.util.Properties;
 public class SimpleConsumer {
     private static final Logger logger = LoggerFactory.getLogger(SimpleConsumer.class);
 
-    private static String TOPIC_NAME = "topic_generated_201110";
+    private static String TOPIC_NAME = "mytopic";
     private static String BOOTSTRAP_SERVERS = "localhost:9092";
     private static String GROUP_ID = "test-group";
 
