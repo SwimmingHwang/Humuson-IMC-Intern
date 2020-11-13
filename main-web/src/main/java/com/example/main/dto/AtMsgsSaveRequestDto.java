@@ -17,16 +17,24 @@ import lombok.NoArgsConstructor;
 public class AtMsgsSaveRequestDto {
     private String msg;
     private String phoneNumber;
+    private String templateCode;
+    private String reservedDate;
+
 
     @Builder
-    public AtMsgsSaveRequestDto(String msg, String phoneNumber) {
+    public AtMsgsSaveRequestDto(String msg, String phoneNumber, String templateCode, String reservedDate) {
         this.msg = msg;
         this.phoneNumber = phoneNumber;
+        this.templateCode = templateCode;
+        this.reservedDate = reservedDate;
     }
+
     public AtMsgs toEntity() {
         return AtMsgs.builder()
                 .msg(msg)
                 .phoneNumber(phoneNumber)
+                .templateCode(templateCode)
+                .reservedDate(reservedDate)
                 .build();
     }
 }

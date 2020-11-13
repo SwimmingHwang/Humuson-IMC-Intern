@@ -1,13 +1,11 @@
 package com.example.main.controller;
 
+import com.example.main.domain.entity.TemplateInfo;
 import com.example.main.dto.AtMsgsResponseDto;
 import com.example.main.dto.FtMsgsResponseDto;
 import com.example.main.dto.MsgsResponseDto;
 import com.example.main.dto.MtMsgsResponseDto;
-import com.example.main.service.AtMsgsService;
-import com.example.main.service.FtMsgsService;
-import com.example.main.service.MsgsService;
-import com.example.main.service.MtMsgsService;
+import com.example.main.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,6 +20,8 @@ public class IndexController {
     private final AtMsgsService atMsgsService;
     private final FtMsgsService ftMsgsService;
     private final MtMsgsService mtMsgsService;
+
+    private final TemplateInfoService templateInfoService;
 
     @GetMapping("/")
     public String index() {
@@ -88,15 +88,28 @@ public class IndexController {
     }
 
 
+
+
+
     /*
     * 메시지 Create, Update url
     * */
 
     // Save
+//    @GetMapping("/send/msgs/save/{msg}")
+//    public String msgsSave(@PathVariable String msg, Model model) {
+//        model.addAttribute("msg",msg);
+//        //test 용
+//        model.addAttribute("msgs", atMsgsService.findAll());
+//        return "page/msgs-save";
+//    }
     @GetMapping("/send/msgs/save/{msg}")
     public String msgsSave(@PathVariable String msg, Model model) {
         model.addAttribute("msg",msg);
-        return "page/msgs-save";
+        //test 용
+        model.addAttribute("msgs", atMsgsService.findAll());
+        model.addAttribute("templateCodes",templateInfoService.findAll());
+        return "page/msgs-save-ing";
     }
 
     // Update

@@ -58,10 +58,10 @@ public class AtMsgs {
     public void prePersist() {
         this.status = this.status== null ? "1" : this.status;
         this.priority = this.priority== null ? "N" : this.priority; // S-Slow, N-Normal, F-Fast
-        this.reservedDate = this.reservedDate== null ? getCurrentTimeStamp() : this.reservedDate; // yyyyMMddhhmmss (hh:24h)
+        this.reservedDate = this.reservedDate== null ? "null" : this.reservedDate; // yyyyMMddhhmmss (hh:24h)
         this.senderKey = this.senderKey== null ? "senderKey" : this.senderKey;
         this.phoneNumber = this.phoneNumber== null ? "phoneNumber" : this.phoneNumber; //821012345678
-        this.templateCode = this.templateCode== null ? "00001_00009" : this.templateCode;
+        this.templateCode = this.templateCode== null ? "null" : this.templateCode;
         this.msg = this.msg== null ? "NULL MESSAGE" : this.msg;
 
     }

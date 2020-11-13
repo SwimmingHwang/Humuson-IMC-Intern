@@ -21,9 +21,10 @@ public class UserSendInfo {
     @GeneratedValue
     private long id;
 
-    @NotNull
     @Column(name="SENDER_KEY")
     private String senderKey;
+
+    private String senderName;
 
     @OneToOne(fetch = FetchType.LAZY)
     @MapsId
@@ -31,9 +32,10 @@ public class UserSendInfo {
 
 
     @Builder
-    public UserSendInfo(long id, String senderKey) {
+    public UserSendInfo(long id, String senderKey, String senderName) {
         this.id = id;
         this.senderKey = senderKey;
+        this.senderName = senderName;
     }
 
 }

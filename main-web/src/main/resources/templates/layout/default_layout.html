@@ -12,26 +12,21 @@ content의 경우 : layout:fragment="fragment명" 으로 등록 (content가 layo
     <head>
         <meta charset="UTF-8" />
         <title>IMC-Intern-Project</title>
-
-
         <!-- config fragment 사용 -->
         <th:block th:replace="fragment/configCss :: configCssFragment" ></th:block>
+        <th:block th:replace="fragment/configJs :: configJsFragment"></th:block>
+
     </head>
     
     <body>
         <!-- header fragment 사용 -->
         <th:block th:replace="fragment/header :: headerFragment"></th:block>
-        
-        <!-- 
+        <!--
             content fragment 사용 
             현재 layout을 사용하는 content fragment의 내용을 삽입한다.
         -->
         <th:block layout:fragment="content"></th:block>
-        
         <!-- footer fragment 사용 -->
         <th:block th:replace="fragment/footer :: footerFragment"></th:block>
-        <th:block th:replace="fragment/configJs :: configJsFragment"></th:block>
-
     </body>
-
 </html>

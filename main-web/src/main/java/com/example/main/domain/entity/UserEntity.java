@@ -38,9 +38,9 @@ public class UserEntity { // db layer 와 데이터 주고 받을 때 사용
             fetch = FetchType.LAZY, optional = false)
     private UserSendInfo userSendInfo;
 
+
     @Builder
-    public UserEntity(Long id, String username, String email, String password, String authority) {
-        this.id = id;
+    public UserEntity(String username, String email, String password, String authority) {
         this.username = username;
         this.email = email;
         this.password = password;
@@ -51,4 +51,5 @@ public class UserEntity { // db layer 와 데이터 주고 받을 때 사용
     public void prePersist() {
         this.authority = this.authority == null ? "ROLE_MEMBER" : this.authority;
     }
+
 }
