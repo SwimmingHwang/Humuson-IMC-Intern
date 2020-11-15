@@ -1,0 +1,91 @@
+buildscript {
+    ext{ //build.gradle에서 사용하는 전역변수를 설정
+        springBootVersion = '2.1.9.RELEASE'
+    }
+    repositories {
+        mavenCentral()
+        jcenter() // 라이브러리 업로드 간단하게 하기 위해
+    }
+    dependencies {
+        //해당 버전을 스프링부트 그레이들 플러그인의 해당 버전을 의존성으로 받겠다.
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+    }
+}
+
+subprojects {
+
+
+    apply plugin: 'java'
+    apply plugin: 'idea'
+    apply plugin: 'eclipse'
+    apply plugin: 'org.springframework.boot'
+    apply plugin: 'io.spring.dependency-management'
+
+    group = 'com.humuson'
+    version = '0.0.1-SNAPSHOT'
+    sourceCompatibility = 1.8
+
+    repositories {
+        mavenCentral()
+        jcenter()
+    }
+
+    dependencies {
+        compileOnly('org.projectlombok:lombok')
+    }
+}
+
+// Type, Util 등을 정의한다
+// 가능하면 사용하지 않는다
+project(':intern-common') {
+    bootJar { enabled = false }
+    jar { enabled = true }
+    dependencies {
+        //Spring Data JPA 적용
+        compile('org.springframework.boot:spring-boot-starter-data-jpa')
+        compile('com.h2database:h2')
+        compile("mysql:mysql-connector-java")
+        // spring secuirty 5
+        compile('org.springframework.boot:spring-boot-starter-security')
+        compile('org.thymeleaf.extras:thymeleaf-extras-springsecurity5')
+    }
+}
+
+
+project(':intern-web') {
+    bootJar { enabled = false }
+    jar { enabled = true }
+    dependencies {
+        compile project(':intern-api')
+
+        compile('org.springframework.boot:spring-boot-starter-web')
+        // thymeleaf
+        compile('org.springframework.boot:spring-boot-starter-thymeleaf')
+        compile(group: 'nz.net.ultraq.thymeleaf', name: 'thymeleaf-layout-dialect', version: '2.4.1')
+
+    }
+}
+
+project(':intern-api') {
+    bootJar { enabled = false }
+    jar { enabled = true }
+    dependencies {
+        compile project(':intern-common')
+    }
+}
+
+project('intern-batch') {
+    dependencies {
+        compile project(':intern-common')
+        compile ('org.springframework.boot:spring-boot-starter-batch')
+
+    }
+}
+
+/*
+
+project(':main-web') {
+    dependencies {
+        compile project(':main-kafka-api')
+    }
+}*/
