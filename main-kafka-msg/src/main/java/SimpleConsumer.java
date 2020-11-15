@@ -32,6 +32,7 @@ public class SimpleConsumer {
             ConsumerRecords<String, String> records = consumer.poll(Duration.ofSeconds(1));
             for (ConsumerRecord<String, String> record : records) {
                 String data = record.toString();
+
                 logger.info("Consume From " + TOPIC_NAME + " | data : " + data);
             }
         }

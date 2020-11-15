@@ -4,7 +4,7 @@ import com.humuson.domain.Role;
 import com.humuson.domain.user.User;
 import com.humuson.dto.UserDto;
 import com.humuson.repository.UserRepository;
-import lombok.NoArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -22,9 +22,9 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-@NoArgsConstructor
 public class UserService implements UserDetailsService {
 
+    @Autowired
     private UserRepository userRepository;
 
     /**

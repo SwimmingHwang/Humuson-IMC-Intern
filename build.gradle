@@ -53,24 +53,14 @@ project(':intern-common') {
 
 
 project(':intern-web') {
-    bootJar { enabled = false }
-    jar { enabled = true }
     dependencies {
-        compile project(':intern-api')
+        compile project(':intern-common')
 
         compile('org.springframework.boot:spring-boot-starter-web')
         // thymeleaf
         compile('org.springframework.boot:spring-boot-starter-thymeleaf')
         compile(group: 'nz.net.ultraq.thymeleaf', name: 'thymeleaf-layout-dialect', version: '2.4.1')
 
-    }
-}
-
-project(':intern-api') {
-    bootJar { enabled = false }
-    jar { enabled = true }
-    dependencies {
-        compile project(':intern-common')
     }
 }
 

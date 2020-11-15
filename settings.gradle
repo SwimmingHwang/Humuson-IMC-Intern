@@ -4,6 +4,4 @@ rootProject.name = 'imc'
 //include 'main-kafka-api'
 include 'intern-web'
 include 'intern-common'
-include 'intern-api'
 include 'intern-batch'
-

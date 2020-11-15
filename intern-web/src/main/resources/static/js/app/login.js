@@ -1,7 +1,7 @@
 var login = {
     init: function () {
         var _this = this;
-        $('#btn-login-save').on('click', function () {
+        $('#btn-user-save').on('click', function () {
             _this.save();
         });
     },
@@ -15,7 +15,7 @@ var login = {
 
         $.ajax({
             type: 'POST',
-            url: '/user/login',
+            url: '/user/sign-up',
             dataType: 'json',
             contentType: 'application/json; charset=utf-8',
             data: JSON.stringify(data)

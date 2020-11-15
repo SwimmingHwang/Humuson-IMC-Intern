@@ -21,8 +21,8 @@ public class UserController {
 
     // 회원가입 처리
     @PostMapping("/user/sign-up")
-    public String execSignup(UserDto userDto) {
-        userService.saveUser(userDto);
+    public String execSignup(UserDto memberDto) {
+        userService.saveUser(memberDto);
         return "redirect:/user/login";
     }
 
