@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.w3.org/1999/xhtml"
+
+      layout:decorator="layout/default_layout">
+
+<div layout:fragment="content">
+
+    <h1>고객 정보 추가</h1>
+    <div class="col-md-12">
+        <div class="col-md-4">
+            <form>
+                <div class="form-group">
+                    <label for="phoneNumber"> 전화번호 </label>
+                    <input type="text" class="form-control" id="phoneNumber" placeholder="전화번호를 입력하세요">
+                </div>
+            </form>
+            <!--        TODO : 취소하면 이전 페이지로 이동하게 설정할 것 -->
+            <a href="/" role="button" class="btn btn-secondary">취소</a>
+            <button type="button" class="btn btn-primary" id="btn-save">등록</button>
+        </div>
+    </div>
+    <!--custom 스크립트 -->
+    <th:block layout:fragment="script">
+        <script th:src="@{/js/app/customer.js}"></script>
+    </th:block>
+</div>
+
+
+</html>

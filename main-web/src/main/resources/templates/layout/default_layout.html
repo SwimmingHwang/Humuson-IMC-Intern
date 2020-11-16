@@ -5,7 +5,7 @@ content의 경우 : layout:fragment="fragment명" 으로 등록 (content가 layo
 
 <!DOCTYPE html>
 
-<html lagn="ko" 
+<html lang="ko"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 
@@ -18,7 +18,7 @@ content의 경우 : layout:fragment="fragment명" 으로 등록 (content가 layo
 
     </head>
     
-    <body>
+    <body id="page-top" class="sidebar-toggled">
         <!-- header fragment 사용 -->
         <th:block th:replace="fragment/header :: headerFragment"></th:block>
         <!--

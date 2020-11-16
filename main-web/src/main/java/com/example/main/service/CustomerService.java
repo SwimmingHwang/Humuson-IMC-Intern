@@ -7,8 +7,8 @@
 package com.example.main.service;
 
 
-import com.example.main.domain.msgs.AtMsgs;
-import com.example.main.domain.msgs.AtMsgsRepository;
+import com.example.main.domain.entity.Customer;
+import com.example.main.domain.repository.CustomerRepository;
 import com.example.main.dto.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,56 +19,50 @@ import java.util.stream.Collectors;
 
 @RequiredArgsConstructor// final이 선언된 모든 필드를 인자값으로하는 생성자를 생성해줌.
 @Service
-public class AtMsgsService {
-    private final AtMsgsRepository atMsgsRepository;
+public class CustomerService {
+    private final CustomerRepository customerRepository;
 
     @Transactional
-    public Integer save(AtMsgsSaveRequestDto requestDto) {
-        return atMsgsRepository.save(requestDto.toEntity()).getId(); // insert/update 쿼리 실행
-    }
-    @Transactional
-    public List<AtMsgs> saveAll(MultiAtMsgsSaveRequestDto requestDto){
-        // requestDto 를 AtMsgs 리스트로 변환
-        List<AtMsgs> atMsgs = requestDto.toEntity();
-        return atMsgsRepository.saveAll(atMsgs);
+    public long save(CustomerSaveRequestDto requestDto) {
+        return customerRepository.save(requestDto.toEntity()).getId(); // insert/update 쿼리 실행
     }
 
     @Transactional
-    public Integer update(Integer id, AtMsgsUpdateRequestDto requestDto) {
-        AtMsgs atMsgs = atMsgsRepository.findById(id)
+    public long update(long id, CustomerUpdateRequestDto requestDto) {
+        Customer customer = customerRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("해당 사용자가 없습니다. id=" + id));
 
-        atMsgs.update(requestDto.getMsg());
+        customer.update(requestDto.getPhoneNumber());
 
         return id;
     }
 
     @Transactional
-    public void delete (Integer id) {
-        AtMsgs atMsgs = atMsgsRepository.findById(id)
+    public void delete (long id) {
+        Customer customer = customerRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("해당 사용자가 없습니다. id=" + id));
 
-        atMsgsRepository.delete(atMsgs);
+        customerRepository.delete(customer);
     }
 
     @Transactional(readOnly = true)
-    public AtMsgsResponseDto findById(Integer id) {
-        AtMsgs entity = atMsgsRepository.findById(id)
+    public CustomerResponseDto findById(long id) {
+        Customer entity = customerRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("해당 사용자가 없습니다. id=" + id));
 
-        return new AtMsgsResponseDto(entity);
+        return new CustomerResponseDto(entity);
     }
 
     @Transactional(readOnly = true)
-    public List<AtMsgsListResponseDto> findAllDesc() {
+    public List<CustomerListResponseDto> findAllDesc() {
         // repo에서 넘어온 stream을 map을 통해 dto로 변환해서 리스트로 반환
-        return atMsgsRepository.findAllDesc().stream()
-                .map(AtMsgsListResponseDto::new)
+        return customerRepository.findAllDesc().stream()
+                .map(CustomerListResponseDto::new)
                 .collect(Collectors.toList());
     }
     @Transactional(readOnly = true)
-    public List<AtMsgs> findAll() {
+    public List<Customer> findAll() {
         // repo에서 넘어온 stream을 map을 통해 dto로 변환해서 리스트로 반환
-        return atMsgsRepository.findAll();
+        return customerRepository.findAll();
     }
 }

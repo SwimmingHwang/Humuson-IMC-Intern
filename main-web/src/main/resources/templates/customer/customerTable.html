@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout/default_layout">
+
+<div layout:fragment="content">
+
+
+<!-- Page Heading -->
+<h1 class="h3 mb-2 text-gray-800" th:text="${title}">Title</h1>
+<p class="mb-4"></a>설명 설명 설명 설명 설명 설명 설명 설명 설명 설명 설명 설명 설명 설명 설명 설명 </p>
+
+<!-- DataTales Example -->
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">고객 주소록 관리 페이지 입니다. </h6>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <div class="col-md-6">
+                <a href="/customer/create" role="button" class="btn btn-primary">주소록 추가</a>
+            </div>
+            <br>
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <!-- 기존 -->
+                <!--<table class="table table-horizontal table-bordered">-->
+                <thead class="thead-strong">
+                <tr>
+                    <th>번호</th>
+                    <th>전화번호</th>
+                </tr>
+                </thead>
+                <tbody id="tbody">
+                <tr th:each="customer : ${customers}">
+                    <td th:text="${customer.id}">default</td>
+                    <td th:text="${customer.phoneNumber}">default</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+</div>
+</html>
