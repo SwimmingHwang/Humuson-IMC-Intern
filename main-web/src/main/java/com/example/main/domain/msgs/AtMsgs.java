@@ -34,11 +34,12 @@ public class AtMsgs {
     private String templateCode;
     @Column(name = "MESSAGE")
     private String msg; // 메시지 내용
+    private String etc1;  // 결과 받는 URL
 
 
     @Builder // 해당 클래스의 빌더 패턴 클래스를 생성
     public AtMsgs(String status, String priority, String reservedDate, String senderKey,
-                  String phoneNumber, String templateCode, String msg){
+                  String phoneNumber, String templateCode, String msg, String etc1){
         this.status = status;
         this.priority = priority;
         this.reservedDate = reservedDate;
@@ -46,6 +47,7 @@ public class AtMsgs {
         this.phoneNumber = phoneNumber;
         this.templateCode = templateCode;
         this.msg = msg;
+        this.etc1 = etc1;
     }
 
     public void update(String msg){
@@ -59,10 +61,11 @@ public class AtMsgs {
         this.status = this.status== null ? "1" : this.status;
         this.priority = this.priority== null ? "N" : this.priority; // S-Slow, N-Normal, F-Fast
         this.reservedDate = this.reservedDate== null ? "null" : this.reservedDate; // yyyyMMddhhmmss (hh:24h)
-        this.senderKey = this.senderKey== null ? "senderKey" : this.senderKey;
+        this.senderKey = this.senderKey== null ? "54ef196697bda7dbc36a45a334beb83580d8ca2a" : this.senderKey;
         this.phoneNumber = this.phoneNumber== null ? "phoneNumber" : this.phoneNumber; //821012345678
         this.templateCode = this.templateCode== null ? "null" : this.templateCode;
         this.msg = this.msg== null ? "NULL MESSAGE" : this.msg;
+        this.etc1 = this.etc1 == null? "0" : this.etc1; // 결과 받는 URL
 
     }
     public static String getCurrentTimeStamp() {

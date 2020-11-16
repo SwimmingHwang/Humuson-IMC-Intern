@@ -35,12 +35,12 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 //        http.authorizeRequests().antMatchers("/**").permitAll();
-
         http.authorizeRequests()
             .antMatchers("/user/**").permitAll()
             //member 권한
             .antMatchers("/member/**").hasRole("MEMBER")
             .antMatchers("/send/**").hasRole("MEMBER")
+            .antMatchers("/profile/**").hasRole("MEMBER")
             //admin 권한
             .antMatchers("/admin/**").hasRole("ADMIN")
             .antMatchers("/**").authenticated()

@@ -23,6 +23,7 @@ public class IndexController {
 
     private final TemplateInfoService templateInfoService;
 
+    // TODO : index로 가는일 없게 하기 혹은 다른 페이지 보여주기
     @GetMapping("/")
     public String index() {
         return "index";
@@ -34,10 +35,10 @@ public class IndexController {
         return "page/send";
     }
 
-    @GetMapping("/login")
-    public String login() {// 서버 템플릿 엔진에서 사용할 수 있는 객체 저장
-        return "page/login";
-    }
+//    @GetMapping("/login")
+//    public String login() {// 서버 템플릿 엔진에서 사용할 수 있는 객체 저장
+//        return "page/login";
+//    }
 
     /*
     * 발송 페이지
@@ -137,4 +138,16 @@ public class IndexController {
 
         return "page/msgs-update";
     }
+
+
+
+    /*
+    * Profile
+    * */
+    @GetMapping("/profile/create")
+    public String proofieCreate(){
+        return "profile/create";
+    }
+
+
 }

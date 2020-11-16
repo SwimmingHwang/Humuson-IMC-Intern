@@ -64,4 +64,9 @@ public class UserController {
         return "index";
     }
 
+    @GetMapping("/user/info")
+    public String dispUserInfo(){
+        return "errorPage";
+    }
+
 }

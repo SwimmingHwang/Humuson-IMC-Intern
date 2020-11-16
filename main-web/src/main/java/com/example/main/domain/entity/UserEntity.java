@@ -1,14 +1,15 @@
 package com.example.main.domain.entity;
 
 import com.sun.istack.NotNull;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
+import org.springframework.boot.autoconfigure.security.SecurityProperties;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
+import java.util.Collection;
 
 @DynamicInsert // insert 시 null인 필드 제외
 @DynamicUpdate // update 시
@@ -34,9 +35,9 @@ public class UserEntity { // db layer 와 데이터 주고 받을 때 사용
     @NotNull
     private String authority;
 
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL,
-            fetch = FetchType.LAZY, optional = false)
-    private UserSendInfo userSendInfo;
+//    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL,
+//            fetch = FetchType.LAZY, optional = false)
+//    private Profile profile;
 
 
     @Builder
@@ -51,5 +52,6 @@ public class UserEntity { // db layer 와 데이터 주고 받을 때 사용
     public void prePersist() {
         this.authority = this.authority == null ? "ROLE_MEMBER" : this.authority;
     }
+
 
 }

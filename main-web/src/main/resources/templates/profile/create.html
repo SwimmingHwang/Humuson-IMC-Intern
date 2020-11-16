@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.w3.org/1999/xhtml"
+
+      layout:decorator="layout/default_layout">
+
+<div layout:fragment="content">
+    <!--  플러스친구 ID 등록 (발신 프로필 키 등록) 사이트 -->
+    <h1>플러스친구 ID 추가</h1>
+    <div class="col-md-12">
+        <div class="col-md-4">
+            <form>
+                <div class="form-group">
+                    <label for="profileId"> 플러스친구 ID</label>
+                    <input type="text" class="form-control" id="profileId" placeholder="ex) @humuson">
+                </div>
+                <div class="form-group">
+                    <label for="senderName"> 플러스친구 이름</label>
+                    <input type="text" class="form-control" id="senderName" placeholder="ex) 휴머스온">
+                </div>
+                <div class="form-group">
+                    <label for="phoneNumber"> 플러스 친구 관리자 핸드폰 번호 </label>
+                    <input type="text" class="form-control" id="phoneNumber" placeholder="ex) 01012345678">
+                </div>
+            </form>
+            <div>
+            <a href="/" role="button" class="btn btn-secondary">취소</a>
+            <button type="button" class="btn btn-primary" id="btn-save">등록</button>
+            </div>
+        </div>
+    </div>
+    <!--custom 스크립트 -->
+    <th:block layout:fragment="script">
+        <script th:src="@{/js/app/profileCreate.js}"></script>
+    </th:block>
+</div>
+
+
+</html>
