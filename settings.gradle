@@ -5,3 +5,5 @@ rootProject.name = 'imc'
 include 'intern-web'
 include 'intern-common'
 include 'intern-batch'
+include 'intern-admin'
+

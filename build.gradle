@@ -55,12 +55,21 @@ project(':intern-common') {
 project(':intern-web') {
     dependencies {
         compile project(':intern-common')
-
         compile('org.springframework.boot:spring-boot-starter-web')
         // thymeleaf
         compile('org.springframework.boot:spring-boot-starter-thymeleaf')
         compile(group: 'nz.net.ultraq.thymeleaf', name: 'thymeleaf-layout-dialect', version: '2.4.1')
 
+    }
+}
+
+project(':intern-admin') {
+    dependencies {
+        compile project(':intern-common')
+        compile('org.springframework.boot:spring-boot-starter-web')
+        // thymeleaf
+        compile('org.springframework.boot:spring-boot-starter-thymeleaf')
+        compile(group: 'nz.net.ultraq.thymeleaf', name: 'thymeleaf-layout-dialect', version: '2.4.1')
     }
 }
 
@@ -71,11 +80,3 @@ project('intern-batch') {
 
     }
 }
-
-/*
-
-project(':main-web') {
-    dependencies {
-        compile project(':main-kafka-api')
-    }
-}*/

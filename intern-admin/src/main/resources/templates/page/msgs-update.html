@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout/default_layout">
+<div layout:fragment="content">
+
+<h1>예약 메시지 수정</h1>
+
+<div class="col-md-12">
+    <form>
+        <div class="form-group">
+            <label for="msg">글 번호</label>
+            <input type="text" class="form-control" id="id" th:value="${msg.id}" readonly>
+        </div>
+        <div class="form-group">
+            <label for="msg">메세지 내용</label>
+            <input type="text" class="form-control" id="msg" th:value="${msg.msg}">
+        </div>
+        <div class="form-group">
+            <label for="phoneNumber"> 전화번호 </label>
+            <input type="text" class="form-control" id="phoneNumber" th:value="${msg.phoneNumber}" readonly>
+        </div>
+
+    </form>
+    <a href="/" role="button" class="btn btn-secondary">취소</a>
+    <button type="button" class="btn btn-primary" id="btn-update">수정 완료</button>
+    <button type="button" class="btn btn-danger" id="btn-delete">삭제</button>
+</div>
+<!--custom 스크립트 -->
+<th:block layout:fragment="script">
+    <script th:src="@{/js/app/{msgjs}Send.js(msgjs=${msgSbj})}"></script>
+</th:block>
+</div>
+
+
+</html>
