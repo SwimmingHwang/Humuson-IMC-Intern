@@ -10,7 +10,7 @@ public class SimpleProducer {
 
     private static final Logger logger = LoggerFactory.getLogger(SimpleProducer.class);
 
-    private static String TOPIC_NAME = "topic_generated_201110";
+    private static String TOPIC_NAME = "mytopic";
     private static String BOOTSTRAP_SERVERS = "localhost:9092";
 
     public static void main(String[] args) {

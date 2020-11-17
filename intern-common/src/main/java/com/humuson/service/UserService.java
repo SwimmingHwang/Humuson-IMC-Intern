@@ -1,15 +1,14 @@
-package com.example.main.service;
+package com.humuson.service;
 
-import com.example.main.domain.Role;
-import com.example.main.domain.Entity.UserEntity;
-import com.example.main.domain.Repository.UserRepository;
-import com.example.main.dto.UserDto;
-import lombok.AllArgsConstructor;
+import com.humuson.domain.Role;
+import com.humuson.domain.user.User;
+import com.humuson.dto.UserDto;
+import com.humuson.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -23,9 +22,9 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-@AllArgsConstructor
 public class UserService implements UserDetailsService {
 
+    @Autowired
     private UserRepository userRepository;
 
     /**
@@ -53,15 +52,15 @@ public class UserService implements UserDetailsService {
      */
     @Override
     public UserDetails loadUserByUsername(String userEmail) throws UsernameNotFoundException {
-        Optional<UserEntity> userEntityWrapper = userRepository.findByEmail(userEmail);
-        UserEntity userEntity = userEntityWrapper.orElseThrow(() -> new UsernameNotFoundException(userEmail));
+        Optional<User> userEntityWrapper = userRepository.findByEmail(userEmail);
+        User user = userEntityWrapper.orElseThrow(() -> new UsernameNotFoundException(userEmail));
         List<GrantedAuthority> authorities = new ArrayList<>();
-        if (userEntity.getAuthority().equals("ROLE_ADMIN")) {
+        if (user.getAuthority().equals("ROLE_ADMIN")) {
             authorities.add(new SimpleGrantedAuthority(Role.ADMIN.getValue()));
         } else {
             authorities.add(new SimpleGrantedAuthority(Role.MEMBER.getValue()));
         }
-        return new User(userEntity.getEmail(), userEntity.getPassword(), authorities);
+        return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), authorities);
     }
 
     // 현재 사용자가 admin 권한을 가지고 있는지 검사

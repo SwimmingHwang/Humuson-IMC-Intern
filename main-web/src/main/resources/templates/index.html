@@ -11,6 +11,6 @@
     <p> <a sec:authorize="isAuthenticated()" th:href="@{/user/logout}">로그아웃</a> </p>
     <p> <a sec:authorize="isAnonymous()" th:href="@{/user/sign-up}">회원가입</a> </p>
     <p> <a sec:authorize="hasRole('ROLE_MEMBER')" th:href="@{/user/info}">내정보</a> </p>
-    <p> <a sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/templates/admin}">어드민</a> </p>
+    <p> <a sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/user/admin/admin-page}">어드민</a> </p>
 </div>
 </html>
