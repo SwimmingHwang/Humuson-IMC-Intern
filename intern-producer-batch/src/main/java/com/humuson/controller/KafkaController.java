@@ -24,24 +24,9 @@ import java.util.List;
 
 @Slf4j
 @RequiredArgsConstructor
-@RestController
 public class KafkaController {
 
     private static final DateTimeFormatter fmt = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-
-    // KafkaConfiguration에서 작성한 Bean 주입.
-    private final KafkaTemplate kafkaTemplate;
-
-    @GetMapping("/get")
-    public String getData(@RequestParam(value = "message", required = true, defaultValue = "") String message ){
-        // 현재 시간
-        LocalDateTime date = LocalDateTime.now();
-        String dateStr = date.format(fmt);
-
-        // atMsgsLog 토픽에 현재 시간 + message를 produce 한다.
-        kafkaTemplate.send("atMsgsLog", dateStr + "   " + message);
-        return "kafkaTemplate.send >>  " + message ;
-    }
 
     private final AtMsgsLogService atMsgsLogService;
     private final ProducerService producerSerivce;
@@ -55,12 +40,10 @@ public class KafkaController {
             log.info("=============etc1 0 인거 있다============= ");
             // kafka producer 생성하여 토픽에 전달
             producerSerivce.sendatMsgsLogList(atMsgsLogList);
+            // 토픽에 전달된 데이터 상태 변경
             atMsgsLogService.changeAllEtc1Status("0");
-//            atMsgsLogList.stream().forEach(at -> {
-//                atMsgsLogService.saveEtc1Status(at.getId());
-//            });
         } else {
-            log.info("=============etc1 0 인거 없다다다다============= ");
+            log.info("=============etc1 0 인거 없다============= ");
         }
     }
 

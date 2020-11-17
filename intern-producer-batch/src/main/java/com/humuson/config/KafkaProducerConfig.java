@@ -2,11 +2,9 @@ package com.humuson.config;
 
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
-import org.springframework.core.env.Environment;
 import org.springframework.kafka.annotation.EnableKafka;
 import org.springframework.kafka.core.DefaultKafkaProducerFactory;
 import org.springframework.kafka.core.KafkaTemplate;
@@ -16,31 +14,42 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Configuration
-@PropertySource("classpath:kafka.properties")
 @EnableKafka
-public class KafkaConfig {
+public class KafkaProducerConfig {
 
-    @Autowired
-    private Environment env;
+    @Value(value = "${kafka.bootstrapAddress}")
+    private String bootStrapAddress;
+
+    @Value(value = "${retries}")
+    private String retries;
+
+    @Value(value = "${batch.size}")
+    private String batchSize;
+
+    @Value(value = "${linger.ms}")
+    private String lingerMs;
+
+    @Value(value = "${buffer.memory}")
+    private String bufferMemory;
 
     public Map<String, Object> producerConfigs() {
 
         Map<String, Object> props = new HashMap<>();
 
         // server host 및 port 지정
-        props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, env.getProperty(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG));
+        props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootStrapAddress);
 
         // retries 횟수
-        props.put(ProducerConfig.RETRIES_CONFIG, env.getProperty(ProducerConfig.RETRIES_CONFIG));
+        props.put(ProducerConfig.RETRIES_CONFIG, retries);
 
         // batch size 지정
-        props.put(ProducerConfig.BATCH_SIZE_CONFIG, env.getProperty(ProducerConfig.BATCH_SIZE_CONFIG));
+        props.put(ProducerConfig.BATCH_SIZE_CONFIG, batchSize);
 
         // linger.ms
-        props.put(ProducerConfig.LINGER_MS_CONFIG, env.getProperty(ProducerConfig.LINGER_MS_CONFIG));
+        props.put(ProducerConfig.LINGER_MS_CONFIG, lingerMs);
 
         // buffer memory size 지정
-        props.put(ProducerConfig.BUFFER_MEMORY_CONFIG, env.getProperty(ProducerConfig.BUFFER_MEMORY_CONFIG));
+        props.put(ProducerConfig.BUFFER_MEMORY_CONFIG, bufferMemory);
 
         // key serialize 지정
         props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
@@ -59,7 +68,7 @@ public class KafkaConfig {
     @Bean
     public KafkaTemplate<String, Object> kafkaTemplate() {
         // Bean을 통하여 의존성 주입
-        return new KafkaTemplate<String, Object>(producerFactory());
+        return new KafkaTemplate<>(producerFactory());
     }
 
 }

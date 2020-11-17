@@ -73,10 +73,33 @@ project(':intern-admin') {
     }
 }
 
-project('intern-batch') {
+project(':intern-producer-batch') {
     dependencies {
-        compile project(':intern-common')
-        compile ('org.springframework.boot:spring-boot-starter-batch')
+        compile('org.springframework.boot:spring-boot-starter-web')
+        compile('org.springframework.kafka:spring-kafka')
+        //Spring Data JPA 적용
+        compile('org.springframework.boot:spring-boot-starter-data-jpa')
+        compile('com.h2database:h2')
+        compile("mysql:mysql-connector-java")
+        compile('org.springframework.boot:spring-boot-starter-batch')
+    }
+}
 
+project(':intern-consumer-client') {
+    dependencies {
+        compile('org.springframework.boot:spring-boot-starter-web')
+        compile('org.springframework.kafka:spring-kafka')
+    }
+}
+
+project(':intern-batch') {
+    dependencies {
+        compile('org.springframework.boot:spring-boot-starter-web')
+        compile('org.springframework.kafka:spring-kafka')
+        //Spring Data JPA 적용
+        compile('org.springframework.boot:spring-boot-starter-data-jpa')
+        compile('com.h2database:h2')
+        compile("mysql:mysql-connector-java")
+        compile('org.springframework.boot:spring-boot-starter-batch')
     }
 }

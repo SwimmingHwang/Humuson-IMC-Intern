@@ -35,8 +35,9 @@ public class ProducerService {
         configs.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
         configs.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
 
+        KafkaProducer<String, Object> producer = new KafkaProducer<>(configs);
+
         atMsgsLogList.stream().forEach((at) -> {
-            KafkaProducer<String, Object> producer = new KafkaProducer<>(configs);
             ObjectMapper objectMapper = new ObjectMapper();
             String json = "{ \"id\" : \""+at.getId()+"\", " +
                     "\"status\" : \""+at.getStatus()+"\", " +
@@ -55,19 +56,14 @@ public class ProducerService {
 
                 ProducerRecord<String, Object> record = new ProducerRecord(TOPIC_NAME, atObject);
                 producer.send(record);
-
-//                saveEtc1Status(at.getId());
-
-                producer.flush();
-                producer.close();
-
             } catch (IOException e) {
                 log.info("error : {}", e.toString());
             }
 
         });
 
-
+        producer.flush();
+        producer.close();
     }
 
 
