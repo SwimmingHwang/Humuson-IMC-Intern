@@ -9,6 +9,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
@@ -40,8 +41,6 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
             //member 권한
             .antMatchers("/member/**").hasRole("MEMBER")
 //            .antMatchers("/send/**").hasRole("MEMBER")
-            //admin 권한
-            .antMatchers("/admin/**").hasRole("ADMIN")
             .antMatchers("/**").authenticated()
         ;
         http.formLogin()
@@ -66,9 +65,10 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
             .httpStrictTransportSecurity()
             .disable()
         ;
-//        http.sessionManagement()
-//            .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-//        ;
+        http.sessionManagement()
+//                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .maximumSessions(1); // 세션 1개만 유지
+        ;
     }
 
     @Override

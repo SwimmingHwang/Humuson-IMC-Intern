@@ -33,9 +33,12 @@ public class User { // db layer 와 데이터 주고 받을 때 사용
     @NotNull
     private String phoneNumber;
 
-
     @NotNull
     private String authority;
+
+    @NotNull
+    @Column(columnDefinition = "TINYINT", length=1)
+    private Integer status; // 가입 대기 상태
 
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL,
@@ -43,17 +46,20 @@ public class User { // db layer 와 데이터 주고 받을 때 사용
     private UserSendInfo userSendInfo;
 
     @Builder
-    public User(Long id, String username, String email, String password, String phoneNumber, String authority) {
+    public User(Long id, String username, String email, String password, String phoneNumber, String authority, Integer status) {
         this.id = id;
         this.username = username;
         this.email = email;
         this.password = password;
         this.phoneNumber = phoneNumber;
         this.authority = authority;
+        this.status = status;
     }
 
-    @PrePersist
-    public void prePersist() {
-        this.authority = this.authority == null ? "ROLE_MEMBER" : this.authority;
-    }
+//    @PrePersist
+//    public void prePersist() {
+//        this.authority = this.authority == null ? "ROLE_MEMBER" : this.authority;
+//        this.status = this.status == null ? '0' : this.status;
+//    }
+
 }

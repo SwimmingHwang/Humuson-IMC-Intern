@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.w3.org/1999/xhtml"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout/default_layout">
+<div layout:fragment="content">
+    <h1>메인 페이지</h1>
+    <hr>
+    <p> <a sec:authorize="isAnonymous()" th:href="@{/user/login}">로그인</a> </p>
+    <p> <a sec:authorize="isAuthenticated()" th:href="@{/user/logout}">로그아웃</a> </p>
+    <p> <a sec:authorize="isAnonymous()" th:href="@{/user/sign-up}">회원가입</a> </p>
+    <p> <a sec:authorize="hasRole('ROLE_MEMBER')" th:href="@{/user/info}">내정보</a> </p>
+    <p> <a sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/user/admin/admin-page}">어드민</a> </p>
+</div>
+</html>

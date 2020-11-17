@@ -21,8 +21,8 @@ public class UserController {
 
     // 회원가입 처리
     @PostMapping("/user/sign-up")
-    public String execSignup(UserDto memberDto) {
-        userService.saveUser(memberDto);
+    public String execSignup(UserDto userDto) {
+        userService.saveMemberUser(userDto);
         return "redirect:/user/login";
     }
 
@@ -31,6 +31,7 @@ public class UserController {
     public String dispLogin() {
         return "user/login";
     }
+/*
 
     // 로그인 결과 페이지
     @GetMapping("/user/login/result")
@@ -41,11 +42,17 @@ public class UserController {
             return "redirect:/user/member";
         }
     }
+*/
+
+    @GetMapping("/user/login/result")
+    public String dispLoginResult() {
+        return "redirect:/member";
+    }
 
     // 로그아웃 결과 페이지
     @GetMapping("/user/logout/result")
     public String dispLogout() {
-        return "user/logout";
+        return "user/login";
     }
 
     // 접근 거부 페이지
@@ -54,12 +61,7 @@ public class UserController {
         return "user/denied";
     }
 
-    @GetMapping("/user/admin")
-    public String dispAdmin() {
-        return "index";
-    }
-
-    @GetMapping("/user/member")
+    @GetMapping("/member")
     public String dispMember() {
         return "index";
     }
