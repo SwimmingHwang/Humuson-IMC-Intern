@@ -48,7 +48,7 @@ dependencies { // 프로젝트 개발에 필요한 의조넝들을 선언하는 
 //    compile('org.springframework.boot:spring-boot-devtools')
     //for producer
     compile('org.apache.kafka:kafka-clients:2.5.0')
-    compile('org.slf4j:slf4j-simple:1.7.30')
+//    compile('org.slf4j:slf4j-simple:1.7.30')
 
     testCompile('org.springframework.boot:spring-boot-starter-test') // static debug 용
 
