@@ -1,5 +1,6 @@
 package com.example.main.dto;
 
+import com.example.main.domain.entity.Customer;
 import com.example.main.domain.msgs.AtMsgs;
 import lombok.Builder;
 
@@ -11,22 +12,19 @@ public class MultiAtMsgsSaveListRequestDto {
     private String phoneNumber;
     private String templateCode;
     private String reservedDate;
-    private List<List<String>> phoneNumList;
 
     @Builder
-    public MultiAtMsgsSaveListRequestDto(String msg, String phoneNumber, String templateCode, String reservedDate, List<List<String>>  phoneNumList) {
+    public MultiAtMsgsSaveListRequestDto(String msg, String phoneNumber, String templateCode, String reservedDate){
         this.msg = msg;
         this.phoneNumber = phoneNumber;
         this.templateCode = templateCode;
         this.reservedDate = reservedDate;
-        this.phoneNumList = phoneNumList;
     }
 
-    public List<AtMsgs> toEntity() {
+    public List<AtMsgs> toEntity(List<Customer> all) {
         List<AtMsgs> msgs = new ArrayList<>();
-        for (List<String> li : phoneNumList) {
-            System.out.println("res" +li.toString());
-            AtMsgs atMsg = new AtMsgs(null,null,reservedDate,null, li.get(3),templateCode,msg,null);
+        for (Customer customer : all) {
+            AtMsgs atMsg = new AtMsgs(null,null,reservedDate,null, "82"+customer.getPhoneNumber().substring(1),templateCode,msg,null);
             msgs.add(atMsg);
         }
         return msgs;

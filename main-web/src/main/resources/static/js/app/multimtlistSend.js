@@ -67,14 +67,26 @@ var send = {
         var csrfHeader = $("meta[name='_csrf_header']").attr("content");
         var csrfToken = $("meta[name='_csrf']").attr("content");
 
+        var aF = "";
+        if($("input:checkbox[name='adFlag']").prop("checked") == true){
+            aF = "Y";
+        }
+        else{
+            aF = null;
+        }
+
         var data = {
             msg: $('#msg').val(),
-            templateCode: $('#templateCode').val(),
-            reservedDate: $('#datePicker').val()+$('#time').val().toString().replace(/:/gi,"")+"00",
+            phoneNumber: $('#phoneNumber').val(),
+            adFlag : aF,
+            mtType : $('#mtType').val(),
+            reservedDate :  $('#datePicker').val()+$('#time').val().toString().replace(/:/gi,"")+"00",
+            callback : $('#callback').val()
         };
+
         $.ajax({
             type: 'POST',
-            url: '/api/v1/multi-at-msgs/list',
+            url: '/api/v1/multi-mt-msgs/list',
             dataType: 'json',
             contentType: 'application/json; charset=utf-8',
             data: JSON.stringify(data),
@@ -84,7 +96,7 @@ var send = {
             },
         }).done(function () {
             alert('발송 예약이 완료되었습니다.');
-            window.location.href = '/send/at-send';
+            window.location.href = '/send/mt-send';
         }).fail(function (error) {
             alert(JSON.stringify(error));
         });
@@ -98,7 +110,7 @@ var send = {
 
         $.ajax({
             type: 'PUT',
-            url: '/api/v1/at-msgs/' + id,
+            url: '/api/v1/mt-msgs/' + id,
             dataType: 'json',
             contentType: 'application/json; charset=utf-8',
             data: JSON.stringify(data)
@@ -114,7 +126,7 @@ var send = {
 
         $.ajax({
             type: 'DELETE',
-            url: '/api/v1/at-msgs/' + id,
+            url: '/api/v1/mt-msgs/' + id,
             dataType: 'json',
             contentType: 'application/json; charset=utf-8'
         }).done(function () {

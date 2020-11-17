@@ -24,9 +24,10 @@
                 <tr>
                     <th>번호</th>
                     <th>발송 일시</th>
+                    <th>메시지 유형</th>
+                    <th>발신 번호</th>
                     <th>메세지 내용</th>
                     <th>전화번호</th>
-                    <th>템플릿 코드</th>
 <!--                     TODO  log 결과 받으면 상태 업데이트 해줘야함-->
                     <th>메시지 상태</th>
                 </tr>
@@ -35,9 +36,10 @@
                 <tr th:each="msg : ${msgs}">
                     <td th:text="${msg.id}">default</td>
                     <td th:text="${msg.reservedDate}">default</td>
+                    <td th:text="${msg.mtType}">default</td>
+                    <td th:text="${msg.callback}">default</td>
                     <td ><a th:href="@{/send/msgs/update/{sbj}/{id}(sbj=${msgSbj},id=${msg.id})}" th:text="${msg.msg}">default</a></td>
                     <td th:text="${msg.phoneNumber}">default</td>
-                    <td th:text="${msg.templateCode}">default</td>
                     <td th:text="${msg.status}">default</td>
                 </tr>
                 </tbody>

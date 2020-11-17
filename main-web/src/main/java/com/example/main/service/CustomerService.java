@@ -32,7 +32,7 @@ public class CustomerService {
         Customer customer = customerRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("해당 사용자가 없습니다. id=" + id));
 
-        customer.update(requestDto.getPhoneNumber());
+        customer.update(requestDto.getUserId(), requestDto.getName(), requestDto.getPhoneNumber());
 
         return id;
     }

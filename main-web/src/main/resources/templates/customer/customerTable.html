@@ -8,7 +8,7 @@
 
 <!-- Page Heading -->
 <h1 class="h3 mb-2 text-gray-800" th:text="${title}">Title</h1>
-<p class="mb-4"></a>설명 설명 설명 설명 설명 설명 설명 설명 설명 설명 설명 설명 설명 설명 설명 설명 </p>
+<p class="mb-4"></a>고객 성함을 누르면 고객 정보 수정이 가능합니다.</p>
 
 <!-- DataTales Example -->
 <div class="card shadow mb-4">
@@ -27,12 +27,16 @@
                 <thead class="thead-strong">
                 <tr>
                     <th>번호</th>
+                    <th>고객 아이디</th>
+                    <th>성함</th>
                     <th>전화번호</th>
                 </tr>
                 </thead>
                 <tbody id="tbody">
                 <tr th:each="customer : ${customers}">
                     <td th:text="${customer.id}">default</td>
+                    <td th:text="${customer.userId}">default</td>
+                    <td ><a th:href="@{/customer/update/{id} (id=${customer.id})}" th:text="${customer.name}">default</a></td>
                     <td th:text="${customer.phoneNumber}">default</td>
                 </tr>
                 </tbody>

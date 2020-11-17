@@ -28,17 +28,19 @@ public class MtMsgs {
     private String priority;
     private String reservedDate;
     private String phoneNumber;
+    private String callback;
     private String mtType;
     private String adFlag; //CHAR(1)
     @Column(name = "MESSAGE")
     private String msg; // 메시지 내용
 
     @Builder // 해당 클래스의 빌더 패턴 클래스를 생성
-    public MtMsgs(String status, String priority, String reservedDate, String senderKey,
+    public MtMsgs(String status, String priority, String reservedDate, String callback,
                   String phoneNumber, String mtType, String adFlag, String msg){
         this.status = status;
         this.priority = priority;
         this.reservedDate = reservedDate;
+        this.callback = callback;
         this.phoneNumber = phoneNumber;
         this.mtType = mtType;
         this.adFlag = adFlag;
@@ -54,12 +56,14 @@ public class MtMsgs {
     @PrePersist
     public void prePersist() {
 
-        this.status = this.status== null ? "9" : this.status;
-        this.priority = this.priority== null ? "9" : this.priority;
+        this.status = this.status== null ? "1" : this.status;
+        this.priority = this.priority== null ? "N" : this.priority;
         this.reservedDate = this.reservedDate== null ? "reservedDate" : this.reservedDate;
         this.phoneNumber = this.phoneNumber== null ? "phonenumber" : this.phoneNumber;
-        this.mtType = this.mtType== null ? "mt" : this.mtType;
+        this.callback = this.callback == null ? "01065362547" : this.callback;
+        this.mtType = this.mtType== null ? "SM" : this.mtType; // MT 상품 타입 (SM-SMS, LM-LMS)
         this.msg = this.msg== null ? "msg" : this.msg;
+        this.adFlag = this.adFlag == null ? "N" : this.adFlag;
 
     }
 

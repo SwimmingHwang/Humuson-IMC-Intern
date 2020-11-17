@@ -27,8 +27,7 @@ public class AtMsgsApiController {
     }
     @PostMapping("/api/v1/multi-at-msgs/list")
     public List<AtMsgs> saveAllList(@RequestBody MultiAtMsgsSaveListRequestDto requestDto) {
-        customerService.findAll();
-        return atMsgsService.saveAll(requestDto);
+        return atMsgsService.saveAllList(requestDto);
     }
     @PutMapping("/api/v1/at-msgs/{id}")
     public Integer update(@PathVariable Integer id, @RequestBody AtMsgsUpdateRequestDto requestDto) {

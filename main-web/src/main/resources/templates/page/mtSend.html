@@ -7,32 +7,58 @@ layout에 있는 content fragment자리에 아래이 content fragment를 끼워�
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorator="layout/default_layout">
 
-
-<!-- send.html 고유 CSS 추가 -->
-<!--<th:block layout:fragment="css">-->
-<!--    <link rel="stylesheet" th:href="@{/css/common/sb-admin-2.min.css}">-->
-<!--</th:block>-->
-
-<!-- send.html 고유 스크립트 추가 -->
-<!--<th:block layout:fragment="script">-->
-<!--    <script th:src="@{/js/app/mtSend.js}"></script>-->
-<!--</th:block>-->
-
 <div layout:fragment="content">
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">문자 메시지 발송 예약</h1>
-        <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>
+        <h1 class="h3 mb-0 text-gray-800">문자 메시지 발송 작성</h1>
     </div>
 
-    <div class="col-md-12">
-        <div class="row">
-            <div class="col-md-6">
-                <a href="/send/msgs/save/mt" role="button" class="btn btn-primary">발송 메시지 등록</a>
-
+    <div class="row">
+        <div class="col-lg-6">
+            <!--  발송 데이터 유형 버튼 -->
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">단일 발송</h6>
+                </div>
+                <div class="card-body">
+                    <p>한 분에게 메시지를 보냅니다.</p>
+                    <a href="/send/single-msg/save/mt" role="button" class="btn btn-primary">단일 발송하기</a>
+                </div>
             </div>
         </div>
-        <br>
+
+        <div class="col-lg-6">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">대량 발송</h6>
+                </div>
+                <div class="card-body">
+                    <p>두 분 이상의 고객에게 메시지를 대량으로 보냅니다. </p>
+                    <p>고객들의 정보를 업로드하는 방식에는 세가지가 있습니다.</p>
+                    <p>텍스트 파일, CSV파일, 사전에 등록해 놓은 주소록을 통해 고객 정보를 업로드 합니다.</p>
+                    <a href="/send/multi-msgs/save/mt" role="button" class="btn btn-primary">텍스트(txt)/CSV</a>
+                    <a href="/send/multi-msgs/save/mt/list" role="button" class="btn btn-primary">주소록</a>
+                </div>
+            </div>
+
+        </div>
+
     </div>
+    <!--  End of 발송 데이터 유형 버튼 -->
 </div>
+
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
 </html>

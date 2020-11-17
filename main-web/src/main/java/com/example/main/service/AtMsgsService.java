@@ -9,6 +9,7 @@ package com.example.main.service;
 
 import com.example.main.domain.msgs.AtMsgs;
 import com.example.main.domain.msgs.AtMsgsRepository;
+import com.example.main.domain.repository.CustomerRepository;
 import com.example.main.dto.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -21,6 +22,7 @@ import java.util.stream.Collectors;
 @Service
 public class AtMsgsService {
     private final AtMsgsRepository atMsgsRepository;
+    private final CustomerRepository customerRepository;
 
     @Transactional
     public Integer save(AtMsgsSaveRequestDto requestDto) {
@@ -30,6 +32,12 @@ public class AtMsgsService {
     public List<AtMsgs> saveAll(MultiAtMsgsSaveRequestDto requestDto){
         // requestDto 를 AtMsgs 리스트로 변환
         List<AtMsgs> atMsgs = requestDto.toEntity();
+        return atMsgsRepository.saveAll(atMsgs);
+    }
+    @Transactional
+    public List<AtMsgs> saveAllList(MultiAtMsgsSaveListRequestDto requestDto){
+        // requestDto 를 AtMsgs 리스트로 변환
+        List<AtMsgs> atMsgs = requestDto.toEntity(customerRepository.findAll());
         return atMsgsRepository.saveAll(atMsgs);
     }
 

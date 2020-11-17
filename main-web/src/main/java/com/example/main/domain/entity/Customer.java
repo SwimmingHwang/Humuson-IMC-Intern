@@ -21,15 +21,21 @@ public class Customer {
     @Id
     @GeneratedValue
     private long id;
+    private String userId;
+    private String name;
     private String phoneNumber; // 플러스친구를 개설한 관리자 핸드폰 번호를 입력하세요
 
-    public void update(String phoneNumber){
+    public void update(String userId, String name, String phoneNumber){
+        this.userId = userId;
+        this.name = name;
         this.phoneNumber = phoneNumber;
     }
 
     @Builder
-    public Customer(long id, String phoneNumber) {
+    public Customer(long id, String userId, String name, String phoneNumber) {
         this.id = id;
+        this.userId = userId;
+        this.name = name;
         this.phoneNumber = phoneNumber;
     }
 }

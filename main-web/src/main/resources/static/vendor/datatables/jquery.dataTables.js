@@ -358,7 +358,7 @@
 		 * Remove a row for the table
 		 *  @param {mixed} target The index of the row from aoData to be deleted, or
 		 *    the TR element you want to delete
-		 *  @param {function|null} [callBack] Callback function
+		 *  @param {function|null} [callback] Callback function
 		 *  @param {bool} [redraw=true] Redraw the table or not
 		 *  @returns {array} The row that was deleted
 		 *  @dtopt API

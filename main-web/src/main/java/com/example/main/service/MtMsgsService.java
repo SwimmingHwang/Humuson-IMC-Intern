@@ -7,12 +7,11 @@
 package com.example.main.service;
 
 
+import com.example.main.domain.msgs.AtMsgs;
 import com.example.main.domain.msgs.MtMsgs;
 import com.example.main.domain.msgs.MtMsgsRepository;
-import com.example.main.dto.MtMsgsListResponseDto;
-import com.example.main.dto.MtMsgsResponseDto;
-import com.example.main.dto.MtMsgsSaveRequestDto;
-import com.example.main.dto.MtMsgsUpdateRequestDto;
+import com.example.main.domain.repository.CustomerRepository;
+import com.example.main.dto.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,11 +23,26 @@ import java.util.stream.Collectors;
 @Service
 public class MtMsgsService {
     private final MtMsgsRepository mtMsgsRepository;
+    private final CustomerRepository customerRepository;
 
     @Transactional
     public Integer save(MtMsgsSaveRequestDto requestDto) {
         return mtMsgsRepository.save(requestDto.toEntity()).getId(); // insert/update 쿼리 실행
     }
+
+    @Transactional
+    public List<MtMsgs> saveAll(MultiMtMsgsSaveRequestDto requestDto){
+        // requestDto 를 AtMsgs 리스트로 변환
+        List<MtMsgs> mtMsgs = requestDto.toEntity();
+        return mtMsgsRepository.saveAll(mtMsgs);
+    }
+    @Transactional
+    public List<MtMsgs> saveAllList(MultiMtMsgsSaveListRequestDto requestDto){
+        // requestDto 를 AtMsgs 리스트로 변환
+        List<MtMsgs> mtMsgs = requestDto.toEntity(customerRepository.findAll());
+        return mtMsgsRepository.saveAll(mtMsgs);
+    }
+
 
     @Transactional
     public Integer update(Integer id, MtMsgsUpdateRequestDto requestDto) {

@@ -1,6 +1,7 @@
 package com.example.main.controller;
 
 import com.example.main.dto.AtMsgsResponseDto;
+import com.example.main.dto.CustomerResponseDto;
 import com.example.main.dto.FtMsgsResponseDto;
 import com.example.main.dto.MtMsgsResponseDto;
 import com.example.main.service.*;
@@ -81,7 +82,7 @@ public class IndexController {
         model.addAttribute("title","문자 메시지 발송 예약 내역");
         model.addAttribute("msgSbj","mt");
         model.addAttribute("msgs",mtMsgsService.findAll());
-        return "page/table";
+        return "page/mttable";
     }
 
 
@@ -89,34 +90,27 @@ public class IndexController {
     * 메시지 Create, Update url
     * */
 
-    // Save
-//    @GetMapping("/send/msgs/save/{msg}")
-//    public String msgsSave(@PathVariable String msg, Model model) {
-//        model.addAttribute("msg",msg);
-//        //test 용
-//        model.addAttribute("msgs", atMsgsService.findAll());
-//        return "page/msgs-save";
-//    }
-    @GetMapping("/send/single-msg/save/{msg}")
-    public String singleMsgSave(@PathVariable String msg, Model model) {
-        model.addAttribute("msg",msg);
+    // 알림톡
+    @GetMapping("/send/single-msg/save/at")
+    public String singleMsgSave( Model model) {
+        model.addAttribute("msg","at");
         //test 용
         model.addAttribute("msgs", atMsgsService.findAll());
         model.addAttribute("templateCodes",templateInfoService.findAll());
         return "page/singleMsgSend";
     }
-    @GetMapping("/send/multi-msgs/save/{msg}")
-    public String multiMsgsSave(@PathVariable String msg, Model model) {
-        model.addAttribute("msg",msg);
+    @GetMapping("/send/multi-msgs/save/at")
+    public String multiMsgsSave(Model model) {
+        model.addAttribute("msg","at");
         //test 용
         model.addAttribute("msgs", atMsgsService.findAll());
         model.addAttribute("templateCodes",templateInfoService.findAll());
         return "page/multiMsgsSend";
     }
-    // 주소록
-    @GetMapping("/send/multi-msgs/save/{msg}/list")
-    public String multiMsgsSaveList(@PathVariable String msg, Model model) {
-        model.addAttribute("msg",msg+"list");
+    @GetMapping("/send/multi-msgs/save/at/list")    // 주소록
+
+    public String multiMsgsSaveList(Model model) {
+        model.addAttribute("msg","at"+"list");
         model.addAttribute("msgs", atMsgsService.findAll());
         model.addAttribute("templateCodes",templateInfoService.findAll());
         model.addAttribute("customers",customerService.findAll());
@@ -132,15 +126,30 @@ public class IndexController {
         return "page/singleMsgSend";
     }
 
-    // Update
-    @GetMapping("/send/msgs/update/at/{id}") // 수정할 화면 연결
-    public String atMsgsUpdate(@PathVariable Integer id, Model model) {
-        AtMsgsResponseDto dto = atMsgsService.findById(id);
-        model.addAttribute("msgSbj","at");
-        model.addAttribute("msg", dto);
 
-        return "page/msgs-update";
+    // 문자톡
+    @GetMapping("/send/single-msg/save/mt")
+    public String singleMtMsgSave(Model model) {
+        model.addAttribute("msg","mt");
+        //test 용
+        model.addAttribute("msgs", mtMsgsService.findAll());
+        return "page/singleMtMsgSend";
     }
+    @GetMapping("/send/multi-msgs/save/mt")
+    public String multiMtMsgsSave(Model model) {
+        model.addAttribute("msg","mt");
+        //test 용
+//        model.addAttribute("msgs", mtMsgsService.findAll());
+        return "page/multiMtMsgsSend";
+    }
+    @GetMapping("/send/multi-msgs/save/mt/list")// 주소록
+    public String multiMtMsgsSaveList(Model model) {
+        model.addAttribute("msg","mt"+"list");
+        model.addAttribute("msgs", mtMsgsService.findAll());
+        model.addAttribute("customers",customerService.findAll());
+        return "page/multiMtMsgsSend";
+    }
+
     @GetMapping("/send/msgs/update/ft/{id}")
     public String ftMsgsUpdate(@PathVariable Integer id, Model model) {
         FtMsgsResponseDto dto = ftMsgsService.findById(id);
@@ -157,7 +166,6 @@ public class IndexController {
 
         return "page/msgs-update";
     }
-
 
     /*
     * Profile
@@ -183,4 +191,10 @@ public class IndexController {
         return "customer/customerSave";
     }
 
+    @GetMapping("/customer/update/{id}") // 수정할 화면 연결
+    public String customerUpdate(@PathVariable long id, Model model) {
+        CustomerResponseDto dto = customerService.findById(id);
+        model.addAttribute("customer", dto);
+        return "customer/customerUpdate";
+    }
 }

@@ -26,7 +26,7 @@ var send = {
         $(function () {
             $('#datePicker').datepicker({
                 // TODO default 날짜 형식 수정할 것
-                format: "yyyymmdd000000",	//데이터 포맷 형식(yyyy : 년 mm : 월 dd : 일 )
+                format: "yyyymmdd",	//데이터 포맷 형식(yyyy : 년 mm : 월 dd : 일 )
                 startDate: '0d',	//달력에서 선택 할 수 있는 가장 빠른 날짜. 이전으로는 선택 불가능 ( d : 일 m : 달 y : 년 w : 주)
                 endDate: '+30d',	//달력에서 선택 할 수 있는 가장 느린 날짜. 이후로 선택 불가 ( d : 일 m : 달 y : 년 w : 주)
                 autoclose: true,	//사용자가 날짜를 클릭하면 자동 캘린더가 닫히는 옵션
@@ -112,7 +112,7 @@ var send = {
         var data = {
             msg: $('#msg').val(),
             templateCode: $('#templateCode').val(),
-            reservedDate: $('#datePicker').val(),
+            reservedDate: $('#datePicker').val()+$('#time').val().toString().replace(/:/gi,"")+"00",
             phoneNumList: phoneNumList
         };
 
@@ -127,7 +127,7 @@ var send = {
                 xhr.setRequestHeader(csrfHeader, csrfToken);
             },
         }).done(function () {
-            alert('글이 등록되었습니다.');
+            alert('발송 예약이 완료되었습니다.');
             window.location.href = '/send/at-send';
         }).fail(function (error) {
             alert(JSON.stringify(error));

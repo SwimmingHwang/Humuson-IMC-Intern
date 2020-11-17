@@ -10,10 +10,15 @@ import lombok.Getter;
 @Getter
 public class CustomerResponseDto {
     private long id;
+    private String userId;
+    private String name;
     private String phoneNumber;
+
 
     public CustomerResponseDto(Customer entity) {
         this.id = entity.getId();
+        this.userId = entity.getUserId();
+        this.name = entity.getName();
         this.phoneNumber = entity.getPhoneNumber();
     }
 }

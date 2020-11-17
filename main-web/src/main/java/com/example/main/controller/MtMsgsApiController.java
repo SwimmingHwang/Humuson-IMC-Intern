@@ -1,9 +1,8 @@
 package com.example.main.controller;
 
-import com.example.main.dto.MtMsgsListResponseDto;
-import com.example.main.dto.MtMsgsResponseDto;
-import com.example.main.dto.MtMsgsSaveRequestDto;
-import com.example.main.dto.MtMsgsUpdateRequestDto;
+import com.example.main.domain.msgs.AtMsgs;
+import com.example.main.domain.msgs.MtMsgs;
+import com.example.main.dto.*;
 import com.example.main.service.MtMsgsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -25,7 +24,14 @@ public class MtMsgsApiController {
     public Integer update(@PathVariable Integer id, @RequestBody MtMsgsUpdateRequestDto requestDto) {
         return mtMsgsService.update(id, requestDto);
     }
-
+    @PostMapping("/api/v1/multi-mt-msgs")
+    public List<MtMsgs> saveAll(@RequestBody MultiMtMsgsSaveRequestDto requestDto) {
+        return mtMsgsService.saveAll(requestDto);
+    }
+    @PostMapping("/api/v1/multi-mt-msgs/list")
+    public List<MtMsgs> saveAllList(@RequestBody MultiMtMsgsSaveListRequestDto requestDto) {
+        return mtMsgsService.saveAllList(requestDto);
+    }
     @DeleteMapping("/api/v1/mt-msgs/{id}")
     public Integer delete(@PathVariable Integer id) {
         mtMsgsService.delete(id);
