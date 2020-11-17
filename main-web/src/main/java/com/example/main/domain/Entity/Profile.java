@@ -4,12 +4,10 @@ import com.example.main.domain.BaseTimeEntity;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.NonNull;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 
 @DynamicInsert // insert 시 null인 필드 제외
 @DynamicUpdate // update 시

@@ -1,11 +1,9 @@
 package com.example.main.dto;
 
 import com.example.main.domain.entity.Customer;
-import com.example.main.domain.msgs.AtMsgs;
 import com.example.main.domain.msgs.MtMsgs;
 import lombok.Builder;
 
-import javax.persistence.Column;
 import java.util.ArrayList;
 import java.util.List;
 

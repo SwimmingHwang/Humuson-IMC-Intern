@@ -8,7 +8,6 @@
 package com.example.main.dto;
 
 import com.example.main.domain.entity.Customer;
-import com.example.main.domain.msgs.AtMsgs;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

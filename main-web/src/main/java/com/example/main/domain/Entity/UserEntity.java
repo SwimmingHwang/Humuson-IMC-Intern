@@ -1,16 +1,11 @@
-package com.example.main.domain.Entity;
+package com.example.main.domain.entity;
 
 import com.sun.istack.NotNull;
 import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
-import org.springframework.boot.autoconfigure.security.SecurityProperties;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 
-import com.example.main.domain.entity.UserSendInfo;
 import javax.persistence.*;
-import java.util.Collection;
 
 @DynamicInsert // insert 시 null인 필드 제외
 @DynamicUpdate // update 시

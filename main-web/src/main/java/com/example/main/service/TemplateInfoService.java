@@ -1,7 +1,6 @@
 package com.example.main.service;
 
 import com.example.main.domain.entity.TemplateInfo;
-import com.example.main.domain.msgs.AtMsgs;
 import com.example.main.domain.repository.TemplateInfoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
