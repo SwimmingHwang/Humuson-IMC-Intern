@@ -32,7 +32,7 @@ public class MultiMtMsgsSaveRequestDto {
     public List<MtMsgs> toEntity() {
         List<MtMsgs> msgs = new ArrayList<>();
         for (List<String> li : phoneNumList) {
-            System.out.println("res" +li.toString());
+            System.out.println("Mtmsgs" +li.toString());
             MtMsgs mtMsg = new MtMsgs(status,priority,reservedDate,callback, li.get(3), mtType, adFlag, msg );
             msgs.add(mtMsg);
         }

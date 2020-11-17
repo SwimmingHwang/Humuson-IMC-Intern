@@ -1,9 +1,11 @@
 package com.example.main.controller;
 
+import com.example.main.call.ApiCall;
 import com.example.main.domain.msgs.AtMsgs;
 import com.example.main.dto.*;
 import com.example.main.service.AtMsgsService;
 import com.example.main.service.CustomerService;
+import com.google.gson.Gson;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,8 +20,15 @@ public class AtMsgsApiController {
 
     @PostMapping("/api/v1/at-msgs")
     public Integer save(@RequestBody AtMsgsSaveRequestDto requestDto) {
+        Gson gson = new Gson();
+        String res = gson.toJson(requestDto);
+        System.out.println("res"+res);
+
+        ApiCall.post("http://localhost:8082/helloworld/string",res);
         return atMsgsService.save(requestDto);
     }
+
+
 
     @PostMapping("/api/v1/multi-at-msgs")
     public List<AtMsgs> saveAll(@RequestBody MultiAtMsgsSaveRequestDto requestDto) {
