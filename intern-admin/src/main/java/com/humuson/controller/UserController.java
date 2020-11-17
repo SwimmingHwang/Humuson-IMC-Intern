@@ -13,6 +13,11 @@ public class UserController {
 
     private final UserService userService;
 
+    @GetMapping("/")
+    public String dashboard() {
+        return "redirect:/admin";
+    }
+
     // 회원가입 페이지
     @GetMapping("/user/sign-up")
     public String dispSignup() {
@@ -59,7 +64,7 @@ public class UserController {
 
     @GetMapping("/admin")
     public String dispAdmin() {
-        return "index";
+        return "admin/dashboard";
     }
 
 }

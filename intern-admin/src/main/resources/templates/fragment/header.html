@@ -17,7 +17,7 @@
                 <div class="sidebar-brand-icon rotate-n-15">
                     <i class="fas fa-laugh-wink"></i>
                 </div>
-                <div class="sidebar-brand-text mx-3">IMC Intern<sup></sup></div>
+                <div class="sidebar-brand-text mx-3">Admin Page<sup></sup></div>
             </a>
 
             <!-- Divider -->
@@ -26,8 +26,8 @@
             <!-- Nav Item - Dashboard -->
             <li class="nav-item active">
                 <a class="nav-link" href="/">
-                    <i class="fas fa-fw fa-tachometer-alt"></i>
-                    <span>Biz.</span></a>
+                    <i class="far fa-chart-bar"></i>
+                    <span>Dashboard</span></a>
             </li>
 
             <!-- Divider -->
@@ -35,43 +35,52 @@
 
             <!-- Heading -->
             <div class="sidebar-heading">
-                메시지 발송
+                Management
             </div>
 
             <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
-                    <i class="fas fa-fw fa-comments"></i>
-                    <span>발송 예약</span>
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUser" aria-expanded="true" aria-controls="collapseTwo">
+                    </i><i class="fas fa-users"></i>
+                    <span>회원 정보</span>
                 </a>
-                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                <div id="collapseUser" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">메시지 발송을 예약합니다.</h6>
-                        <a class="collapse-item" href="/send/at-send">알림톡 발송</a>
-                        <a class="collapse-item" href="/send/ft-send">친구톡 발송</a>
-                        <a class="collapse-item" href="/send/mt-send">문자 메시지 발송</a>
+                        <h6 class="collapse-header">User</h6>
+                        <a class="collapse-item" href="/user-mgt/member-info">기업 유저</a>
+                        <a class="collapse-item" href="/user-mgt/admin-info">관리자 유저</a>
                     </div>
                 </div>
             </li>
 
-            <!-- Nav Item - Utilities Collapse Menu -->
             <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities" aria-expanded="true" aria-controls="collapseUtilities">
-                    <i class="fas fa-fw fa-chart-area"></i>
-                    <span>발송 이력</span>
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTemplate" aria-expanded="true" aria-controls="collapseUtilities">
+                    <i class="far fa-file-alt"></i>
+                    <span>알림톡 템플릿</span>
                 </a>
-                <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
+                <div id="collapseTemplate" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">발송 이력 및 통계를 확인합니다.</h6>
-                        <a class="collapse-item" href="utilities-color.html">(X)전체</a>
-                        <a class="collapse-item" href="/send/at-record">알림톡</a>
-                        <a class="collapse-item" href="/send/ft-record">친구톡</a>
-                        <a class="collapse-item" href="/send/mt-record">문자 메시지</a>
+                        <h6 class="collapse-header">Template Code</h6>
+                        <a class="collapse-item" href="/template-mgt/code-info">템플릿 코드 정보</a>
+                        <a class="collapse-item" href="/template-mgt/code-wait-info">신청 대기</a>
                     </div>
                 </div>
             </li>
 
-            <!-- Divider -->
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseProfile" aria-expanded="true" aria-controls="collapseUtilities">
+                    <i class="far fa-address-card"></i>
+                    <span>발신 프로필</span>
+                </a>
+                <div id="collapseProfile" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">Send Profile Key</h6>
+                        <a class="collapse-item" href="/profile-mgt/key-info">발신 프로필키 정보</a>
+                        <a class="collapse-item" href="/profile-mgt/key-wait-info">신청 대기</a>
+                    </div>
+                </div>
+            </li>
+
             <hr class="sidebar-divider">
 
 <!--            &lt;!&ndash; Heading &ndash;&gt;-->
