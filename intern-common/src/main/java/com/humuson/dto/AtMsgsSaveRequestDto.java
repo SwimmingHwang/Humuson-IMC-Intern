@@ -11,8 +11,10 @@ import com.humuson.domain.msgs.AtMsgs;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Getter
+@Setter
 @NoArgsConstructor
 public class AtMsgsSaveRequestDto {
     private String msg;

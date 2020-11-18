@@ -17,4 +17,6 @@ public class AtMsgsResponseDto {
         this.msg = entity.getMsg();
         this.phoneNumber = entity.getPhoneNumber();
     }
+
+
 }

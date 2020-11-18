@@ -3,9 +3,9 @@ package com.humuson.controller;
 import com.google.gson.Gson;
 import com.humuson.call.ApiCall;
 import com.humuson.domain.msgs.AtMsgs;
-import com.humuson.dto.*;
 import com.humuson.service.AtMsgsService;
 import com.humuson.service.CustomerService;
+import com.humuson.dto.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,8 +25,7 @@ public class AtMsgsApiController {
         System.out.println("res"+res);
 
         ApiCall.post("http://localhost:8082/helloworld/string",res);
-        return 1;
-//        return atMsgsService.save(requestDto);
+        return atMsgsService.save(requestDto);
     }
 
 

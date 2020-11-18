@@ -13,7 +13,7 @@ import javax.persistence.*;
 @DynamicUpdate // update 시
 @Getter
 @NoArgsConstructor
-@Table(name = "imc_user", schema = "imc-intern")
+@Table(name = "imc_user", schema = "imc-client")
 @Entity //JPA의 어노테이션
 public class UserEntity { // db layer 와 데이터 주고 받을 때 사용
 

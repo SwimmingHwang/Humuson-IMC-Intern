@@ -6,6 +6,7 @@ package com.humuson.domain.msgs;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
@@ -16,6 +17,7 @@ import java.util.Date;
 @DynamicInsert // insert 시 null인 필드 제외
 @DynamicUpdate // update 시
 @Getter
+@Setter
 @NoArgsConstructor
 @Table(name = "imc_at_biz_msg")
 @Entity //JPA의 어노테이션
