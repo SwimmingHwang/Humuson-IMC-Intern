@@ -156,14 +156,14 @@ project(':intern-consumer-agent') {
 }
 
 
-project(':intern-batch') {
-    dependencies {
-        compile('org.springframework.boot:spring-boot-starter-web')
-        compile('org.springframework.kafka:spring-kafka')
-        //Spring Data JPA 적용
-        compile('org.springframework.boot:spring-boot-starter-data-jpa')
-        compile('com.h2database:h2')
-        compile("mysql:mysql-connector-java")
-        compile('org.springframework.boot:spring-boot-starter-batch')
-    }
-}
+//project(':intern-batch') {
+//    dependencies {
+//        compile('org.springframework.boot:spring-boot-starter-web')
+//        compile('org.springframework.kafka:spring-kafka')
+//        //Spring Data JPA 적용
+//        compile('org.springframework.boot:spring-boot-starter-data-jpa')
+//        compile('com.h2database:h2')
+//        compile("mysql:mysql-connector-java")
+//        compile('org.springframework.boot:spring-boot-starter-batch')
+//    }
+//}

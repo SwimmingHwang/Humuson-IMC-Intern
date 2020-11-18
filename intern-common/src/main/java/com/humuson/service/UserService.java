@@ -69,7 +69,7 @@ public class UserService implements UserDetailsService {
     }
 
     // 현재 사용자가 admin 권한을 가지고 있는지 검사
-    public static boolean hasAdminRole() {
+    public boolean hasAdminRole() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
         return authorities.stream().filter(o -> o.getAuthority().equals(Role.ADMIN.getValue())).findAny().isPresent();

@@ -1,8 +1,10 @@
 package com.humuson.controller;
 
+import com.humuson.domain.Role;
 import com.humuson.dto.UserDto;
 import com.humuson.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -40,8 +42,11 @@ public class UserController {
     // 로그인 처리
     @PostMapping("/user/login")
     public String execLogin(UserDto userDto) {
-        userService.loadUserByUsername(userDto.getEmail());
-        return "user/login/result";
+        if(userDto.getAuthority().equals(Role.ADMIN.getValue())) {
+            return "admin";
+        } else {
+            return "redirect:/user/login";
+        }
     }
 
     // 로그인 결과 페이지
