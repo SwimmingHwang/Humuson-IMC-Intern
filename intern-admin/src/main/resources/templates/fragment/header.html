@@ -17,7 +17,7 @@
                 <div class="sidebar-brand-icon rotate-n-15">
                     <i class="fas fa-laugh-wink"></i>
                 </div>
-                <div class="sidebar-brand-text mx-3">Admin Page<sup></sup></div>
+                <div class="sidebar-brand-text mx-3">IMC Intern<sup></sup></div>
             </a>
 
             <!-- Divider -->
@@ -26,8 +26,8 @@
             <!-- Nav Item - Dashboard -->
             <li class="nav-item active">
                 <a class="nav-link" href="/">
-                    <i class="far fa-chart-bar"></i>
-                    <span>Dashboard</span></a>
+                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <span>Biz.</span></a>
             </li>
 
             <!-- Divider -->
@@ -35,53 +35,60 @@
 
             <!-- Heading -->
             <div class="sidebar-heading">
-                Management
+                메시지 발송
             </div>
 
             <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUser" aria-expanded="true" aria-controls="collapseTwo">
-                    </i><i class="fas fa-users"></i>
-                    <span>회원 정보</span>
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+                    <i class="fas fa-fw fa-comments"></i>
+                    <span>발송 예약</span>
                 </a>
-                <div id="collapseUser" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">User</h6>
-                        <a class="collapse-item" href="/user-mgt/member-info">기업 유저</a>
-                        <a class="collapse-item" href="/user-mgt/admin-info">관리자 유저</a>
+                        <h6 class="collapse-header">메시지 발송을 예약합니다.</h6>
+                        <a class="collapse-item" href="/send/at-send">알림톡 발송</a>
+                        <a class="collapse-item" href="/send/ft-send">(X)친구톡 발송</a>
+                        <a class="collapse-item" href="/send/mt-send">문자 메시지 발송</a>
                     </div>
                 </div>
             </li>
 
+            <!-- Nav Item - Utilities Collapse Menu -->
             <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTemplate" aria-expanded="true" aria-controls="collapseUtilities">
-                    <i class="far fa-file-alt"></i>
-                    <span>알림톡 템플릿</span>
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities" aria-expanded="true" aria-controls="collapseUtilities">
+                    <i class="fas fa-fw fa-chart-area"></i>
+                    <span>발송 이력</span>
                 </a>
-                <div id="collapseTemplate" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
+                <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Template Code</h6>
-                        <a class="collapse-item" href="/template-mgt/code-info">템플릿 코드 정보</a>
-                        <a class="collapse-item" href="/template-mgt/code-wait-info">신청 대기</a>
+                        <h6 class="collapse-header">발송 이력 및 통계를 확인합니다.</h6>
+                        <a class="collapse-item" href="utilities-color.html">(X)전체</a>
+                        <a class="collapse-item" href="/send/at-record">알림톡</a>
+                        <a class="collapse-item" href="/send/ft-record">(X)친구톡</a>
+                        <a class="collapse-item" href="/send/mt-record">문자 메시지</a>
                     </div>
                 </div>
             </li>
 
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseProfile" aria-expanded="true" aria-controls="collapseUtilities">
-                    <i class="far fa-address-card"></i>
-                    <span>발신 프로필</span>
-                </a>
-                <div id="collapseProfile" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Send Profile Key</h6>
-                        <a class="collapse-item" href="/profile-mgt/key-info">발신 프로필키 정보</a>
-                        <a class="collapse-item" href="/profile-mgt/key-wait-info">신청 대기</a>
-                    </div>
-                </div>
-            </li>
-
+            <!-- Divider -->
             <hr class="sidebar-divider">
+            <div class="sidebar-heading">
+                고객 관리
+            </div>
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseCustomer" aria-expanded="true" aria-controls="collapseTwo">
+                    <i class="fas fa-fw fa-table"></i>
+                    <span>고객 주소록</span>
+                </a>
+                <div id="collapseCustomer" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">고객 주소록을 관리합니다.</h6>
+                        <a class="collapse-item" href="/customer">고객 정보 조회</a>
+                    </div>
+                </div>
+            </li>
+
 
 <!--            &lt;!&ndash; Heading &ndash;&gt;-->
 <!--            <div class="sidebar-heading">-->
@@ -142,13 +149,14 @@
                 <!-- Topbar -->
                 <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
 
+
                     <!-- Sidebar Toggle (Topbar) -->
-                    <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+                   <!-- <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
                         <i class="fa fa-bars"></i>
-                    </button>
+                    </button>-->
 
                     <!-- Topbar Search -->
-                    <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+                    <!--<form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
                         <div class="input-group">
                             <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
                             <div class="input-group-append">
@@ -157,18 +165,18 @@
                                 </button>
                             </div>
                         </div>
-                    </form>
+                    </form>-->
 
                     <!-- Topbar Navbar -->
                     <ul class="navbar-nav ml-auto">
 
-                        <!-- Nav Item - Search Dropdown (Visible Only XS) -->
+                        <!--&lt;!&ndash; Nav Item - Search Dropdown (Visible Only XS) &ndash;&gt;
                         <li class="nav-item dropdown no-arrow d-sm-none">
                             <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="fas fa-search fa-fw"></i>
                             </a>
-                            <!-- Dropdown - Messages -->
-                            <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in" aria-labelledby="searchDropdown">
+                            &lt;!&ndash; Dropdown - Messages &ndash;&gt;
+                            <div class="dropdown-menu dropdown-menu-right p-3 shadow animated&#45;&#45;grow-in" aria-labelledby="searchDropdown">
                                 <form class="form-inline mr-auto w-100 navbar-search">
                                     <div class="input-group">
                                         <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
@@ -182,15 +190,15 @@
                             </div>
                         </li>
 
-                        <!-- Nav Item - Alerts -->
+                        &lt;!&ndash; Nav Item - Alerts &ndash;&gt;
                         <li class="nav-item dropdown no-arrow mx-1">
                             <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="fas fa-bell fa-fw"></i>
-                                <!-- Counter - Alerts -->
+                                &lt;!&ndash; Counter - Alerts &ndash;&gt;
                                 <span class="badge badge-danger badge-counter">3+</span>
                             </a>
-                            <!-- Dropdown - Alerts -->
-                            <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="alertsDropdown">
+                            &lt;!&ndash; Dropdown - Alerts &ndash;&gt;
+                            <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated&#45;&#45;grow-in" aria-labelledby="alertsDropdown">
                                 <h6 class="dropdown-header">
                                     Alerts Center
                                 </h6>
@@ -231,15 +239,15 @@
                             </div>
                         </li>
 
-                        <!-- Nav Item - Messages -->
+                        &lt;!&ndash; Nav Item - Messages &ndash;&gt;
                         <li class="nav-item dropdown no-arrow mx-1">
                             <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="fas fa-envelope fa-fw"></i>
-                                <!-- Counter - Messages -->
+                                &lt;!&ndash; Counter - Messages &ndash;&gt;
                                 <span class="badge badge-danger badge-counter">7</span>
                             </a>
-                            <!-- Dropdown - Messages -->
-                            <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="messagesDropdown">
+                            &lt;!&ndash; Dropdown - Messages &ndash;&gt;
+                            <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated&#45;&#45;grow-in" aria-labelledby="messagesDropdown">
                                 <h6 class="dropdown-header">
                                     Message Center
                                 </h6>
@@ -285,7 +293,7 @@
                                 </a>
                                 <a class="dropdown-item text-center small text-gray-500" href="#">Read More Messages</a>
                             </div>
-                        </li>
+                        </li>-->
 
                         <div class="topbar-divider d-none d-sm-block"></div>
 
@@ -301,6 +309,7 @@
                                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Profile
                                 </a>
+                                <!--
                                 <a class="dropdown-item" href="#">
                                     <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Settings
@@ -309,8 +318,9 @@
                                     <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Activity Log
                                 </a>
+                                -->
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                                <a class="dropdown-item" th:href="@{/user/logout}" data-target="#logoutModal">
                                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Logout
                                 </a>

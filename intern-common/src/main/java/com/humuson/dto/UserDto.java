@@ -13,14 +13,18 @@ public class UserDto { // view layer 와 데이터 주고 받을 때 사용
     private String username;
     private String email;
     private String password;
+    private String phoneNumber;
     private String authority;
+    private Boolean status;
 
     @Builder
-    public UserDto(String username, String email, String password, String authority) {
+    public UserDto(String username, String email, String password, String phoneNumber, String authority, Boolean status) {
         this.username = username;
         this.email = email;
         this.password = password;
+        this.phoneNumber = phoneNumber;
         this.authority = authority;
+        this.status = status;
     }
 
     public UserEntity toEntity(){
@@ -28,7 +32,9 @@ public class UserDto { // view layer 와 데이터 주고 받을 때 사용
                 .username(username)
                 .email(email)
                 .password(password)
+                .phoneNumber(phoneNumber)
                 .authority(authority)
+                .status(status)
                 .build();
     }
 }

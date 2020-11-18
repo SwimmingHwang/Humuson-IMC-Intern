@@ -22,7 +22,7 @@ public class UserController {
     // 회원가입 처리
     @PostMapping("/user/sign-up")
     public String execSignup(UserDto userDto) {
-        userService.saveUser(userDto);
+        userService.saveMemberUser(userDto);
         return "redirect:/user/login";
     }
 
@@ -35,17 +35,13 @@ public class UserController {
     // 로그인 결과 페이지
     @GetMapping("/user/login/result")
     public String dispLoginResult() {
-        if(userService.hasAdminRole()) {
-            return "redirect:/user/admin";
-        } else {
-            return "redirect:/user/member";
-        }
+        return "redirect:/user/member";
     }
 
     // 로그아웃 결과 페이지
     @GetMapping("/user/logout/result")
     public String dispLogout() {
-        return "user/logout";
+        return "user/login";
     }
 
     // 접근 거부 페이지
@@ -54,19 +50,9 @@ public class UserController {
         return "user/denied";
     }
 
-    @GetMapping("/user/admin")
-    public String dispAdmin() {
-        return "index";
-    }
-
     @GetMapping("/user/member")
     public String dispMember() {
         return "index";
-    }
-
-    @GetMapping("/user/info")
-    public String dispUserInfo(){
-        return "errorPage";
     }
 
 }

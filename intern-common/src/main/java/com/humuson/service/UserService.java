@@ -28,12 +28,6 @@ public class UserService implements UserDetailsService {
 
     private UserRepository userRepository;
 
-    /**
-     * 회원정보 저장
-     *
-     * @param userDto 회원정보가 들어있는 DTO
-     * @return 저장되는 회원의 PK
-     */
     @Transactional
     public Long saveUser(UserDto userDto) {
         // 비밀번호 암호화
@@ -42,21 +36,31 @@ public class UserService implements UserDetailsService {
         return userRepository.save(userDto.toEntity()).getId();
     }
 
+    @Transactional
+    public Long saveAdminUser(UserDto userDto) {
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        userDto.setPassword(passwordEncoder.encode(userDto.getPassword()));
+        userDto.setAuthority(Role.ADMIN.getValue());
+        userDto.setStatus(false);
+        return userRepository.save(userDto.toEntity()).getId();
+    }
 
-    /**
-     * Spring Security 필수 메소드 구현
-     * 상세 정보 조회
-     *
-     * @param userEmail 이메일
-     * @return UserDetails
-     * @throws UsernameNotFoundException 유저가 없을 때 예외 발생
-     */
+    @Transactional
+    public Long saveMemberUser(UserDto userDto) {
+        // 비밀번호 암호화
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        userDto.setPassword(passwordEncoder.encode(userDto.getPassword()));
+        userDto.setAuthority(Role.MEMBER.getValue());
+        userDto.setStatus(false);
+        return userRepository.save(userDto.toEntity()).getId();
+    }
+
     @Override
     public UserDetails loadUserByUsername(String userEmail) throws UsernameNotFoundException {
         Optional<UserEntity> userEntityWrapper = userRepository.findByEmail(userEmail);
         UserEntity userEntity = userEntityWrapper.orElseThrow(() -> new UsernameNotFoundException(userEmail));
         List<GrantedAuthority> authorities = new ArrayList<>();
-        if (userEntity.getAuthority().equals("ROLE_ADMIN")) {
+        if (userEntity.getAuthority().equals(Role.ADMIN.getValue())) {
             authorities.add(new SimpleGrantedAuthority(Role.ADMIN.getValue()));
         } else {
             authorities.add(new SimpleGrantedAuthority(Role.MEMBER.getValue()));
@@ -70,5 +74,4 @@ public class UserService implements UserDetailsService {
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
         return authorities.stream().filter(o -> o.getAuthority().equals(Role.ADMIN.getValue())).findAny().isPresent();
     }
-
 }

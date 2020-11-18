@@ -31,25 +31,28 @@ public class UserEntity { // db layer 와 데이터 주고 받을 때 사용
     private String password;
 
     @NotNull
+    private String phoneNumber;
+
+    @NotNull
     private String authority;
 
-//    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL,
-//            fetch = FetchType.LAZY, optional = false)
-//    private Profile profile;
-
+    @NotNull
+    private Boolean status;
 
     @Builder
-    public UserEntity(String username, String email, String password, String authority) {
+    public UserEntity(String username, String email, String password, String phoneNumber, String authority, Boolean status) {
         this.username = username;
         this.email = email;
         this.password = password;
+        this.phoneNumber = phoneNumber;
         this.authority = authority;
+        this.status = status;
     }
 
     @PrePersist
     public void prePersist() {
+        this.status = this.status == null? false : this.status;
         this.authority = this.authority == null ? "ROLE_MEMBER" : this.authority;
     }
-
 
 }

@@ -1,7 +1,8 @@
 package com.humuson.service;
 
 import com.google.gson.Gson;
-import com.humuson.dto.AtMsgsSaveRequestDto;
+import com.humuson.agent.dto.AtMsgsSaveRequestDto;
+import com.humuson.agent.service.AtMsgsService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.annotation.KafkaListener;
@@ -18,7 +19,7 @@ public class atMsgReceiver {
     @KafkaListener(topics = "mytopic")
     public void listen(@Payload String message) {
         log.info("message : {}", message);
-        AtMsgsSaveRequestDto  atMsgstDto = new Gson().fromJson(message, AtMsgsSaveRequestDto.class);
+        AtMsgsSaveRequestDto atMsgstDto = new Gson().fromJson(message, AtMsgsSaveRequestDto.class);
         atMsgsService.save(atMsgstDto);
     }
 }
