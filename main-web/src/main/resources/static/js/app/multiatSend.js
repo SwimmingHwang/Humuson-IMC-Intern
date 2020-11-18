@@ -60,7 +60,6 @@ var send = {
                 sep = " ";
             else
                 sep = ",";
-            alert(reader.result)
 
             res = reader.result.split("\n");
             var tbody = document.getElementById('tbody');
