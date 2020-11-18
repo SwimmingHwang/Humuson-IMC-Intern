@@ -1,6 +1,6 @@
 package com.example.main.dto;
 
-import com.example.main.domain.entity.UserEntity;
+import com.example.main.domain.entity.User;
 import lombok.*;
 
 @Getter
@@ -20,8 +20,8 @@ public class UserDto { // view layer 와 데이터 주고 받을 때 사용
         this.authority = authority;
     }
 
-    public UserEntity toEntity(){
-        return UserEntity.builder()
+    public User toEntity(){
+        return User.builder()
                 .username(username)
                 .email(email)
                 .password(password)

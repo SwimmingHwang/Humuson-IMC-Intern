@@ -13,7 +13,7 @@ import javax.persistence.*;
 @DynamicUpdate // update 시
 @Getter
 @NoArgsConstructor
-@Table(name = "imc_user_send_info", schema = "imc-intern")
+@Table(name = "imc_user_send_info")
 @Entity //JPA의 어노테이션
 public class UserSendInfo {
     @Id

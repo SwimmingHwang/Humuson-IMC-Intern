@@ -11,9 +11,9 @@ import javax.persistence.*;
 @DynamicUpdate // update 시
 @Getter
 @NoArgsConstructor
-@Table(name = "imc_user", schema = "imc-intern")
+@Table(name = "imc_user")
 @Entity //JPA의 어노테이션
-public class UserEntity { // db layer 와 데이터 주고 받을 때 사용
+public class User { // db layer 와 데이터 주고 받을 때 사용
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,13 +31,9 @@ public class UserEntity { // db layer 와 데이터 주고 받을 때 사용
     @NotNull
     private String authority;
 
-//    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL,
-//            fetch = FetchType.LAZY, optional = false)
-//    private Profile profile;
-
 
     @Builder
-    public UserEntity(String username, String email, String password, String authority) {
+    public User(String username, String email, String password, String authority) {
         this.username = username;
         this.email = email;
         this.password = password;

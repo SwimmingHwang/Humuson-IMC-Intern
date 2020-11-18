@@ -2,7 +2,7 @@ package com.example.main.dto;
 
 
 import com.example.main.domain.entity.Profile;
-import com.example.main.domain.entity.UserEntity;
+import com.example.main.domain.entity.User;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,7 +16,7 @@ public class ProfileSaveRequestDto {
     private String phoneNumber;
     private String senderKey;
     private String senderName;
-    private UserEntity user;
+    private User user;
 
     @Builder
     public ProfileSaveRequestDto(String profileId, String phoneNumber, String senderKey, String senderName)  {

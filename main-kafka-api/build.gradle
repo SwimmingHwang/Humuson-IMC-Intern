@@ -27,8 +27,8 @@ repositories { // 각종 의존성(라이브러리)들을 어떤 원격 저장�
 }
 configurations{
     all {
-//        exclude group: 'org.springframework.boot', module: 'spring-boot-starter-logging'
-//        exclude group: 'ch.qos.logback', module: 'logback-classic'
+        exclude group: 'org.springframework.boot', module: 'spring-boot-starter-logging'
+        exclude group: 'ch.qos.logback', module: 'logback-classic'
         exclude group: 'org.apache.logging.log4j', module: 'log4j-to-slf4j'
     }
 }
@@ -48,7 +48,7 @@ dependencies { // 프로젝트 개발에 필요한 의조넝들을 선언하는 
 //    compile('org.springframework.boot:spring-boot-devtools')
     //for producer
     compile('org.apache.kafka:kafka-clients:2.5.0')
-//    compile('org.slf4j:slf4j-simple:1.7.30')
+    compile('org.slf4j:slf4j-simple:1.7.30')
 
     testCompile('org.springframework.boot:spring-boot-starter-test') // static debug 용
 

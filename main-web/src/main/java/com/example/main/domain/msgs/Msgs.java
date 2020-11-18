@@ -17,7 +17,7 @@ import javax.persistence.*;
 @DynamicUpdate // update 시
 @Getter
 @NoArgsConstructor
-@Table(name = "imc_at_biz_msg")
+@Table(name = "imc_msg")
 @Entity //JPA의 어노테이션
 public class Msgs {
 
@@ -25,33 +25,12 @@ public class Msgs {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @NotNull
-    @ColumnDefault("0")
     private String status;
-
-    @NotNull
-    @ColumnDefault("0")
     private String priority;
-
-    @NotNull
-    @ColumnDefault("1999-99-99")
     private String reservedDate;
-
-    @NotNull
-    @ColumnDefault("0")
     private String senderKey;
-
-    @NotNull
-    @ColumnDefault("0")
     private String phoneNumber;
-
-    //    private String appUserId;
-    @NotNull
-    @ColumnDefault("0")
     private String templateCode;
-
-    @Column(name = "MESSAGE")
-    @ColumnDefault("0")
     private String msg; // 메시지 내용
 
 
@@ -75,7 +54,6 @@ public class Msgs {
      * */
     @PrePersist
     public void prePersist() {
-
         this.status = this.status== null ? "0" : this.status;
         this.priority = this.priority== null ? "0" : this.priority;
         this.reservedDate = this.reservedDate== null ? "0" : this.reservedDate;
@@ -83,7 +61,6 @@ public class Msgs {
         this.phoneNumber = this.phoneNumber== null ? "0" : this.phoneNumber;
         this.templateCode = this.templateCode== null ? "0" : this.templateCode;
         this.msg = this.msg== null ? "0" : this.msg;
-
     }
 
 }

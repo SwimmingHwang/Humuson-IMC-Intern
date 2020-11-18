@@ -1,13 +1,11 @@
 /*
  *  테이블과 연결되어있어 엔티티 글래스를 기준으로 테이블이 생성되고 스키마가 변경되기 때문에 DTO필요
  * */
-package com.example.main.domain.msgs;
+package com.humuson.api;
 
-import com.sun.istack.NotNull;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
@@ -19,7 +17,7 @@ import java.util.Date;
 @DynamicUpdate // update 시
 @Getter
 @NoArgsConstructor
-@Table(name = "imc_at")
+@Table(name = "imc_at_biz_msg")
 @Entity //JPA의 어노테이션
 public class AtMsgs {
 

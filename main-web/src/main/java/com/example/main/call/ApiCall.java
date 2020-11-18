@@ -56,8 +56,7 @@ public class ApiCall {
     /*
     * HTTP Client POST
     * */
-    public static void post(String requestURL, String jsonMessage) {
-
+    public static String post(String requestURL, String jsonMessage) {
         try {
             HttpClient client = HttpClientBuilder.create().build(); // HttpClient 생성
             HttpPost postRequest = new HttpPost(requestURL); //POST 메소드 URL 새성
@@ -71,16 +70,23 @@ public class ApiCall {
 
             HttpResponse response = client.execute(postRequest);
 
+            //TODO : response 확인하기
+            System.out.println("response.getEntity() : " + response.getEntity());
+
+
             //Response 출력
             if (response.getStatusLine().getStatusCode() == 200) {
                 ResponseHandler<String> handler = new BasicResponseHandler();
                 String body = handler.handleResponse(response);
-                System.out.println(body);
+                System.out.println("response handler body is " + body);
+                return "200";
             } else {
                 System.out.println("response is error : " + response.getStatusLine().getStatusCode());
+                return response.getStatusLine().getStatusCode()+"";
             }
         } catch (Exception e){
             System.err.println(e.toString());
+            return "9000";
         }
     }
 

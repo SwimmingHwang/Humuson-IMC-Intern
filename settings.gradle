@@ -7,4 +7,5 @@ include 'intern-common'
 include 'intern-batch'
 include 'intern-admin'
 //include 'main-kafka-api'
+//include 'kafka-consumer-agent'
 

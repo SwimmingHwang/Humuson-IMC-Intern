@@ -19,20 +19,31 @@ public class AtMsgsApiController {
     private final CustomerService customerService;
 
     @PostMapping("/api/v1/at-msgs")
-    public Integer save(@RequestBody AtMsgsSaveRequestDto requestDto) {
+    public String save(@RequestBody AtMsgsSaveRequestDto requestDto) {
         Gson gson = new Gson();
-        String res = gson.toJson(requestDto);
-        System.out.println("res"+res);
+        String reqData = gson.toJson(requestDto);
+        System.out.println("Request DTA : "+reqData);
 
-        ApiCall.post("http://localhost:8082/helloworld/string",res);
-        return atMsgsService.save(requestDto);
+        String statusCode = ApiCall.post("http://localhost:8082/api/at-msg",reqData);
+        if (statusCode=="200"){
+            atMsgsService.save(requestDto);
+        }
+        return statusCode;
     }
 
-
-
     @PostMapping("/api/v1/multi-at-msgs")
-    public List<AtMsgs> saveAll(@RequestBody MultiAtMsgsSaveRequestDto requestDto) {
-        return atMsgsService.saveAll(requestDto);
+    public String saveAll(@RequestBody MultiAtMsgsSaveRequestDto requestDto) {
+        Gson gson = new Gson();
+        List<AtMsgs> atMsgs = requestDto.toEntity();
+        String reqData = gson.toJson(atMsgs);
+        System.out.println("Request Data : "+reqData);
+
+        String statusCode = ApiCall.post("http://localhost:8082/api/at-msgs",reqData);
+        if (statusCode=="200"){
+            atMsgsService.saveAll(requestDto);
+        }
+        return statusCode;
+//        return atMsgsService.saveAll(requestDto);
     }
     @PostMapping("/api/v1/multi-at-msgs/list")
     public List<AtMsgs> saveAllList(@RequestBody MultiAtMsgsSaveListRequestDto requestDto) {

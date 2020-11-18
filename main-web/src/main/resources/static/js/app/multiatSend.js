@@ -60,6 +60,7 @@ var send = {
                 sep = " ";
             else
                 sep = ",";
+            alert(reader.result)
 
             res = reader.result.split("\n");
             var tbody = document.getElementById('tbody');
@@ -73,12 +74,13 @@ var send = {
                 if (res[i].length <= 2)
                     break;
                 var row = tbody.insertRow(tbody.rows.length); // 하단에 추가
-                var cell1 = row.insertCell(0);
-                var cell2 = row.insertCell(1);
-                var cell3 = row.insertCell(2);
-                var cell4 = row.insertCell(3);
+                var cell1 = row.insertCell(0); // 순서
+                var cell2 = row.insertCell(1); // 아이디
+                var cell3 = row.insertCell(2); // 이름
+                var cell4 = row.insertCell(3); // 전화번호
 
                 cellData = res[i].split(sep);
+                cellData[3] = cellData[3].replace(/\r/gm,"")
 
                 cell1.innerHTML = cellData[0];
                 cell2.innerHTML = cellData[1];
@@ -126,11 +128,25 @@ var send = {
                 //데이터를 전송하기 전에 헤더에 csrf값을 설정한다
                 xhr.setRequestHeader(csrfHeader, csrfToken);
             },
-        }).done(function () {
-            alert('발송 예약이 완료되었습니다.');
-            window.location.href = '/send/at-send';
-        }).fail(function (error) {
-            alert(JSON.stringify(error));
+        }).done(function (stringStatusCode) {
+            if (stringStatusCode =="200") {
+                alert('발송 예약이 완료되었습니다.');
+                window.location.href = '/send/at-send';
+            }
+            else {
+                var error = "";
+                if (stringStatusCode == "9000"){
+                    error = " 9000: 서버 연결 실패";
+                }
+                else {
+                    error = stringStatusCode;
+                }
+                alert('문제가 발생했습니다. 다시 시도해 주세요.\nerror code'+error);
+            }
+        }).fail(function (data, textStatus, errorThrown) {
+            alert(JSON.stringify('문제가 발생했습니다. 다시 시도해 주세요.'+
+                data+textStatus+errorThrown));
+
         });
     },
     update: function () {

@@ -28,7 +28,7 @@ public class UserTemplate {
     @JoinColumns({
             @JoinColumn(name="user_id", referencedColumnName = "id")
     })
-    private com.example.main.domain.entity.UserEntity userEntity;
+    private User user;
 
 //
 }

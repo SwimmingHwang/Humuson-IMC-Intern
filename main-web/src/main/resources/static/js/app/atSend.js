@@ -66,6 +66,8 @@ var send = {
                 var cell4 = row.insertCell(3);
 
                 cellData = res[i].split(' ');
+                cellData[3] = cellData[3].replace(/\r/gm,"");
+
                 cell1.innerHTML = cellData[0];
                 cell2.innerHTML = cellData[1];
                 cell3.innerHTML = cellData[2];
@@ -113,11 +115,25 @@ var send = {
                 //데이터를 전송하기 전에 헤더에 csrf값을 설정한다
                 xhr.setRequestHeader(csrfHeader, csrfToken);
             },
-        }).done(function () {
-            alert('발송 예약이 완료되었습니다.');
-            window.location.href = '/send/at-send';
-        }).fail(function (error) {
-            alert(JSON.stringify(error));
+        }).done(function (stringStatusCode) {
+            if (stringStatusCode =="200") {
+                alert('발송 예약이 완료되었습니다.');
+                window.location.href = '/send/at-send';
+            }
+            else {
+                var error = "";
+                if (stringStatusCode == "9000"){
+                    error = " 9000: 서버 연결 실패";
+                }
+                else {
+                    error = stringStatusCode;
+                }
+                alert('문제가 발생했습니다. 다시 시도해 주세요.\nerror code'+error);
+            }
+        }).fail(function (data, textStatus, errorThrown) {
+            alert(JSON.stringify('문제가 발생했습니다. 다시 시도해 주세요.'+
+            data+textStatus+errorThrown));
+
         });
     },
     update : function () {
