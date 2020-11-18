@@ -1,10 +1,11 @@
 package com.humuson.controller;
 
-import com.humuson.dto.AtMsgsListResponseDto;
-import com.humuson.dto.AtMsgsResponseDto;
-import com.humuson.dto.AtMsgsSaveRequestDto;
-import com.humuson.dto.AtMsgsUpdateRequestDto;
+import com.google.gson.Gson;
+import com.humuson.call.ApiCall;
+import com.humuson.domain.msgs.AtMsgs;
+import com.humuson.dto.*;
 import com.humuson.service.AtMsgsService;
+import com.humuson.service.CustomerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,12 +16,29 @@ import java.util.List;
 public class AtMsgsApiController {
 
     private final AtMsgsService atMsgsService;
+    private final CustomerService customerService;
 
     @PostMapping("/api/v1/at-msgs")
     public Integer save(@RequestBody AtMsgsSaveRequestDto requestDto) {
-        return atMsgsService.save(requestDto);
+        Gson gson = new Gson();
+        String res = gson.toJson(requestDto);
+        System.out.println("res"+res);
+
+        ApiCall.post("http://localhost:8082/helloworld/string",res);
+        return 1;
+//        return atMsgsService.save(requestDto);
     }
 
+
+
+    @PostMapping("/api/v1/multi-at-msgs")
+    public List<AtMsgs> saveAll(@RequestBody MultiAtMsgsSaveRequestDto requestDto) {
+        return atMsgsService.saveAll(requestDto);
+    }
+    @PostMapping("/api/v1/multi-at-msgs/list")
+    public List<AtMsgs> saveAllList(@RequestBody MultiAtMsgsSaveListRequestDto requestDto) {
+        return atMsgsService.saveAllList(requestDto);
+    }
     @PutMapping("/api/v1/at-msgs/{id}")
     public Integer update(@PathVariable Integer id, @RequestBody AtMsgsUpdateRequestDto requestDto) {
         return atMsgsService.update(id, requestDto);

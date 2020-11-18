@@ -6,12 +6,10 @@
 
 package com.humuson.service;
 
+import com.humuson.domain.Repository.CustomerRepository;
 import com.humuson.domain.msgs.MtMsgs;
 import com.humuson.domain.msgs.MtMsgsRepository;
-import com.humuson.dto.MtMsgsListResponseDto;
-import com.humuson.dto.MtMsgsResponseDto;
-import com.humuson.dto.MtMsgsSaveRequestDto;
-import com.humuson.dto.MtMsgsUpdateRequestDto;
+import com.humuson.dto.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,11 +21,26 @@ import java.util.stream.Collectors;
 @Service
 public class MtMsgsService {
     private final MtMsgsRepository mtMsgsRepository;
+    private final CustomerRepository customerRepository;
 
     @Transactional
     public Integer save(MtMsgsSaveRequestDto requestDto) {
         return mtMsgsRepository.save(requestDto.toEntity()).getId(); // insert/update 쿼리 실행
     }
+
+    @Transactional
+    public List<MtMsgs> saveAll(MultiMtMsgsSaveRequestDto requestDto){
+        // requestDto 를 AtMsgs 리스트로 변환
+        List<MtMsgs> mtMsgs = requestDto.toEntity();
+        return mtMsgsRepository.saveAll(mtMsgs);
+    }
+    @Transactional
+    public List<MtMsgs> saveAllList(MultiMtMsgsSaveListRequestDto requestDto){
+        // requestDto 를 AtMsgs 리스트로 변환
+        List<MtMsgs> mtMsgs = requestDto.toEntity(customerRepository.findAll());
+        return mtMsgsRepository.saveAll(mtMsgs);
+    }
+
 
     @Transactional
     public Integer update(Integer id, MtMsgsUpdateRequestDto requestDto) {

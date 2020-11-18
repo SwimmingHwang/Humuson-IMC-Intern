@@ -1,5 +1,6 @@
 package com.humuson.dto;
 
+
 import com.humuson.domain.msgs.FtMsgs;
 
 public class FtMsgsListResponseDto {

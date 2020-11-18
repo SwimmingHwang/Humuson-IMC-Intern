@@ -1,13 +1,12 @@
 package com.humuson.service;
-import com.humuson.domain.msgslog.AtMsgsLog;
-import com.humuson.domain.msgslog.AtMsgsLogRepository;
+import com.humuson.domain.msgs.AtMsgsLog;
+import com.humuson.domain.msgs.AtMsgsLogRepository;
 import com.humuson.dto.AtMsgsLogListDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor

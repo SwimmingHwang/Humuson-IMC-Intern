@@ -1,19 +1,14 @@
 package com.humuson.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.humuson.domain.msgslog.AtMsgsLog;
-import com.humuson.domain.msgslog.AtMsgsLogRepository;
-import com.humuson.dto.AtMsgsLogDto;
 import com.humuson.dto.AtMsgsLogListDto;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.log4j.Log4j;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.common.serialization.StringSerializer;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.util.List;
@@ -21,13 +16,13 @@ import java.util.Properties;
 
 @Slf4j
 @Service
-@RequiredArgsConstructor
 public class ProducerService {
 
-    private static String TOPIC_NAME = "atMsgsLogTopic";
-    private static String BOOTSTRAP_SERVERS = "localhost:9092";
+    @Value(value = "${kafka.my.push.topic.name}")
+    private String TOPIC_NAME;
 
-    private final AtMsgsLogRepository atMsgsLogRepository;
+    @Value(value = "${kafka.bootstrapAddress}")
+    private String BOOTSTRAP_SERVERS;
 
     public void sendatMsgsLogList(List<AtMsgsLogListDto> atMsgsLogList) {
         Properties configs = new Properties();

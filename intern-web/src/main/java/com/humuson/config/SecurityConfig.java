@@ -9,7 +9,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
@@ -35,18 +34,17 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 //        http.authorizeRequests().antMatchers("/**").permitAll();
-
         http.authorizeRequests()
             .antMatchers("/user/**").permitAll()
             //member 권한
             .antMatchers("/member/**").hasRole("MEMBER")
-//            .antMatchers("/send/**").hasRole("MEMBER")
+            .antMatchers("/send/**").hasRole("MEMBER")
+            .antMatchers("/profile/**").hasRole("MEMBER")
             .antMatchers("/**").authenticated()
         ;
         http.formLogin()
             .loginPage("/user/login")
             .usernameParameter("email").passwordParameter("password") // id, pwd param 변경
-//            .loginProcessingUrl("/user/login")
             .defaultSuccessUrl("/user/login/result")
             .failureForwardUrl("/user/login")
         ;
@@ -65,10 +63,9 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
             .httpStrictTransportSecurity()
             .disable()
         ;
-        http.sessionManagement()
-//                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .maximumSessions(1); // 세션 1개만 유지
-        ;
+//        http.sessionManagement()
+//            .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+//        ;
     }
 
     @Override

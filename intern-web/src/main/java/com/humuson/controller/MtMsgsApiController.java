@@ -1,9 +1,7 @@
 package com.humuson.controller;
 
-import com.humuson.dto.MtMsgsListResponseDto;
-import com.humuson.dto.MtMsgsResponseDto;
-import com.humuson.dto.MtMsgsSaveRequestDto;
-import com.humuson.dto.MtMsgsUpdateRequestDto;
+import com.humuson.domain.msgs.MtMsgs;
+import com.humuson.dto.*;
 import com.humuson.service.MtMsgsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -25,7 +23,14 @@ public class MtMsgsApiController {
     public Integer update(@PathVariable Integer id, @RequestBody MtMsgsUpdateRequestDto requestDto) {
         return mtMsgsService.update(id, requestDto);
     }
-
+    @PostMapping("/api/v1/multi-mt-msgs")
+    public List<MtMsgs> saveAll(@RequestBody MultiMtMsgsSaveRequestDto requestDto) {
+        return mtMsgsService.saveAll(requestDto);
+    }
+    @PostMapping("/api/v1/multi-mt-msgs/list")
+    public List<MtMsgs> saveAllList(@RequestBody MultiMtMsgsSaveListRequestDto requestDto) {
+        return mtMsgsService.saveAllList(requestDto);
+    }
     @DeleteMapping("/api/v1/mt-msgs/{id}")
     public Integer delete(@PathVariable Integer id) {
         mtMsgsService.delete(id);

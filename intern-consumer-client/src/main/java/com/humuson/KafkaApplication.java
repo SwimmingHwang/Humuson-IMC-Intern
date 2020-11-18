@@ -20,6 +20,7 @@ import java.util.Properties;
 //@RestController
 public class KafkaApplication {
 
+
     private static String TOPIC_NAME = "atMsgsLog";
     private static String BOOTSTRAP_SERVERS = "localhost:9092";
     private static String GROUP_ID = "atMsgsLog-group";

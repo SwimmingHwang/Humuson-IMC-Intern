@@ -1,24 +1,12 @@
 package com.humuson.controller;
 
-import com.humuson.domain.msgslog.AtMsgsLog;
-import com.humuson.domain.msgslog.AtMsgsLogRepository;
-import com.humuson.dto.AtMsgsLogDto;
 import com.humuson.dto.AtMsgsLogListDto;
 import com.humuson.service.AtMsgsLogService;
 import com.humuson.service.ProducerService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.batch.core.configuration.annotation.StepScope;
-import org.springframework.batch.item.ItemProcessor;
-import org.springframework.batch.item.ItemWriter;
-import org.springframework.batch.item.support.ListItemReader;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 

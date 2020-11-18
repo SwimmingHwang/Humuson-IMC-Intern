@@ -1,6 +1,6 @@
 package com.humuson.dto;
 
-import com.humuson.domain.msgslog.AtMsgsLog;
+import com.humuson.domain.msgs.AtMsgsLog;
 import lombok.Getter;
 
 @Getter

@@ -1,10 +1,10 @@
 package com.humuson.controller;
 
-import com.humuson.service.MsgsService;
 import com.humuson.dto.MsgsListResponseDto;
 import com.humuson.dto.MsgsResponseDto;
 import com.humuson.dto.MsgsSaveRequestDto;
 import com.humuson.dto.MsgsUpdateRequestDto;
+import com.humuson.service.MsgsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 

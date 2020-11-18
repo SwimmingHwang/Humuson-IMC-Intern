@@ -1,11 +1,11 @@
 rootProject.name = 'imc'
-//include 'main-web'
-//include 'kafka-api'
-//include 'main-kafka-api'
+
 include 'intern-web'
 include 'intern-common'
 include 'intern-batch'
 include 'intern-admin'
-include 'intern-producer-batch'
+//include 'intern-producer-batch'
 include 'intern-consumer-client'
+include 'intern-consumer-agent'
+include 'intern-kafka-api'
 

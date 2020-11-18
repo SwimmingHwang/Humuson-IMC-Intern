@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout/default_layout">
+
+<div layout:fragment="content">
+
+
+<!-- Page Heading -->
+<h1 class="h3 mb-2 text-gray-800" th:text="${title}">Title</h1>
+<p class="mb-4"></a>설명 설명 설명 설명 설명 설명 설명 설명 설명 설명 설명 설명 설명 설명 설명 설명 </p>
+
+<!-- DataTales Example -->
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">발송 예약 내역입니다.</h6>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <!-- 기존 -->
+                <!--<table class="table table-horizontal table-bordered">-->
+                <thead class="thead-strong">
+                <tr>
+                    <th>번호</th>
+                    <th>발송 일시</th>
+                    <th>메시지 유형</th>
+                    <th>발신 번호</th>
+                    <th>메세지 내용</th>
+                    <th>전화번호</th>
+<!--                     TODO  log 결과 받으면 상태 업데이트 해줘야함-->
+                    <th>메시지 상태</th>
+                </tr>
+                </thead>
+                <tbody id="tbody">
+                <tr th:each="msg : ${msgs}">
+                    <td th:text="${msg.id}">default</td>
+                    <td th:text="${msg.reservedDate}">default</td>
+                    <td th:text="${msg.mtType}">default</td>
+                    <td th:text="${msg.callback}">default</td>
+                    <td ><a th:href="@{/send/msgs/update/{sbj}/{id}(sbj=${msgSbj},id=${msg.id})}" th:text="${msg.msg}">default</a></td>
+                    <td th:text="${msg.phoneNumber}">default</td>
+                    <td th:text="${msg.status}">default</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+</div>
+</html>

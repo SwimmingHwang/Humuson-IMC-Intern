@@ -29,25 +29,15 @@
                                     <input type="email" class="form-control form-control-user" id="email"
                                            name="email" placeholder="Email Address">
                                 </div>
-                                <div class="form-group">
-                                    <input type="password" class="form-control form-control-user"
-                                        name="password" id="password" placeholder="Password">
-                                </div>
-<!--                                -->
-<!--                                <div class="form-group row">-->
-<!--                                    <div class="col-sm-6 mb-3 mb-sm-0">-->
-<!--                                        <input type="password" class="form-control form-control-user"-->
-<!--                                               name="password" id="password" placeholder="Password">-->
-<!--                                    </div>-->
-<!--                                    <div class="col-sm-6">-->
-<!--                                        <input type="password" class="form-control form-control-user"-->
-<!--                                               id="repeat-password" placeholder="Repeat Password">-->
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                                -->
-                                <div class="form-group">
-                                    <input type="text" class="form-control form-control-user" id="phoneNumber"
-                                           name="phoneNumber" placeholder="Phone Number">
+                                <div class="form-group row">
+                                    <div class="col-sm-6 mb-3 mb-sm-0">
+                                        <input type="password" class="form-control form-control-user"
+                                               name="password" id="password" placeholder="Password">
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <input type="password" class="form-control form-control-user"
+                                               id="repeat-password" placeholder="Repeat Password">
+                                    </div>
                                 </div>
 
                                 <button type="submit" class="btn btn-primary btn-user btn-block">Register Account</button>
@@ -81,8 +71,6 @@
 
     </div>
     </body>
-    <th:block layout:fragment="script">
-        <script th:src="@{/js/app/{loginjs}Send.js(msgjs=${msg})}"></script>
-    </th:block>
+
 </div>
 </html>
