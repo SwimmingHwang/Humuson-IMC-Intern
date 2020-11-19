@@ -10,7 +10,7 @@ import javax.persistence.*;
 @Getter
 @Setter
 @NoArgsConstructor
-@Table(name = "imc_at_biz_msg")
+@Table(name = "imc_at")
 @Entity //JPA의 어노테이션
 public class AtMsgs {
 

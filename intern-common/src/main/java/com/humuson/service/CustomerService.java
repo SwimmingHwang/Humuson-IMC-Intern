@@ -7,7 +7,7 @@
 package com.humuson.service;
 
 import com.humuson.domain.Entity.Customer;
-import com.humuson.domain.Repository.CustomerRepository;
+import com.humuson.domain.repository.CustomerRepository;
 import com.humuson.dto.CustomerListResponseDto;
 import com.humuson.dto.CustomerResponseDto;
 import com.humuson.dto.CustomerSaveRequestDto;

@@ -1,4 +1,4 @@
-package com.humuson.domain.Repository;
+package com.humuson.domain.repository;
 
 import com.humuson.domain.Entity.Customer;
 import org.springframework.data.jpa.repository.JpaRepository;

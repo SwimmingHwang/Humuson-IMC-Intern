@@ -16,16 +16,21 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class CustomerSaveRequestDto {
     private String phoneNumber;
-
+    private String userId;
+    private String name;
 
     @Builder
-    public CustomerSaveRequestDto(String phoneNumber) {
+    public CustomerSaveRequestDto(String phoneNumber, String userId, String name) {
         this.phoneNumber = phoneNumber;
+        this.userId = userId;
+        this.name = name;
     }
 
     public Customer toEntity() {
         return Customer.builder()
                 .phoneNumber(phoneNumber)
+                .userId(userId)
+                .name(name)
                 .build();
     }
 }
