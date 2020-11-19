@@ -1,4 +1,4 @@
-package com.humuson.domain.Entity;
+package com.humuson.domain.entity;
 
 import lombok.Builder;
 import lombok.Getter;
