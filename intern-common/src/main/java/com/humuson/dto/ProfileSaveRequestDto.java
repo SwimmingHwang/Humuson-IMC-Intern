@@ -1,7 +1,7 @@
 package com.humuson.dto;
 
-import com.humuson.domain.Entity.Profile;
-import com.humuson.domain.Entity.User;
+import com.humuson.domain.entity.Profile;
+import com.humuson.domain.entity.User;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

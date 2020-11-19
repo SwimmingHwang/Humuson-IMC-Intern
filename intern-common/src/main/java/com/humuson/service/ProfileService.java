@@ -1,6 +1,6 @@
 package com.humuson.service;
 
-import com.humuson.domain.Repository.ProfileRepository;
+import com.humuson.domain.repository.ProfileRepository;
 import com.humuson.dto.ProfileSaveRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

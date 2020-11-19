@@ -4,15 +4,26 @@ import org.apache.kafka.clients.producer.*;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.stereotype.Component;
 
 import java.util.Properties;
 
+@Component
 public class Producer {
 
     private static final Logger logger = LoggerFactory.getLogger(Producer.class);
 
+    private static String tmp;
+
+    @Value("${kafka.bootstrap.address}")
+    public void setTemp(String path) {
+        tmp = path;
+    }
+
     private static String TOPIC_NAME = "AT_MSG_TOPIC";
-    private static String BOOTSTRAP_SERVERS = "localhost:9092";
+    private static String BOOTSTRAP_SERVERS = tmp;
 
     public static String produce(String args) {
         // TODO : String[] stream으로 처리할 것 .

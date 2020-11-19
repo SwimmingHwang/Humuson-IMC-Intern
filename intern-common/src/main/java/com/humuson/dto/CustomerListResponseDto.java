@@ -1,6 +1,6 @@
 package com.humuson.dto;
 
-import com.humuson.domain.Entity.Customer;
+import com.humuson.domain.entity.Customer;
 
 public class CustomerListResponseDto {
     private long id;

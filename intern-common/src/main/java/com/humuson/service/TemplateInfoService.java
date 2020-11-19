@@ -1,7 +1,7 @@
 package com.humuson.service;
 
-import com.humuson.domain.Entity.TemplateInfo;
-import com.humuson.domain.Repository.TemplateInfoRepository;
+import com.humuson.domain.entity.TemplateInfo;
+import com.humuson.domain.repository.TemplateInfoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

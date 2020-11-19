@@ -1,6 +1,6 @@
-package com.humuson.domain.Repository;
+package com.humuson.domain.repository;
 
-import com.humuson.domain.Entity.User;
+import com.humuson.domain.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

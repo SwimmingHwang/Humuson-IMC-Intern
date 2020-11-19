@@ -1,7 +1,7 @@
 package com.humuson.service;
 
-import com.humuson.domain.Entity.User;
-import com.humuson.domain.Repository.UserRepository;
+import com.humuson.domain.entity.User;
+import com.humuson.domain.repository.UserRepository;
 import com.humuson.domain.Role;
 import com.humuson.dto.UserDto;
 import lombok.AllArgsConstructor;

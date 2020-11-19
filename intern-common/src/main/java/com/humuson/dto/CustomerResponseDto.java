@@ -3,7 +3,7 @@
 * */
 package com.humuson.dto;
 
-import com.humuson.domain.Entity.Customer;
+import com.humuson.domain.entity.Customer;
 import lombok.Getter;
 
 @Getter

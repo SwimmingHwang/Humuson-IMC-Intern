@@ -6,7 +6,7 @@
 
 package com.humuson.service;
 
-import com.humuson.domain.Repository.CustomerRepository;
+import com.humuson.domain.repository.CustomerRepository;
 import com.humuson.domain.msgs.AtMsgs;
 import com.humuson.domain.msgs.AtMsgsRepository;
 import com.humuson.dto.*;
