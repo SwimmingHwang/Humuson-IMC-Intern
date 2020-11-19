@@ -5,7 +5,6 @@ import org.apache.kafka.common.serialization.StringSerializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 
 import java.util.Properties;
@@ -30,7 +29,6 @@ public class Producer {
     public static String produce(String args) {
         // TODO : String[] stream으로 처리할 것 .
         Properties configs = new Properties();
-        System.out.println(BOOTSTRAP_SERVERS);
         configs.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, BOOTSTRAP_SERVERS);
         configs.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
         configs.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
@@ -50,11 +48,11 @@ public class Producer {
         } catch (Exception e) {
             logger.error(e.getMessage(),e);
             stringStatusCode = "9000";
+        } finally{
+            producer.flush();
+            producer.close();
         }
-//        }
 
-        producer.flush();
-        producer.close();
         return stringStatusCode;
     }
 }

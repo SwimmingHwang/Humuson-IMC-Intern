@@ -1,20 +1,21 @@
 package com.humuson.controller;
 
 import com.google.gson.Gson;
-//import com.humuson.call.ApiCall;
-//import com.humuson.call.ApiCall;
 import com.humuson.call.ApiCall;
 import com.humuson.domain.msgs.AtMsgs;
 import com.humuson.dto.*;
 import com.humuson.service.AtMsgsService;
 import com.humuson.service.CustomerService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
+@Slf4j
 public class AtMsgsApiController {
 
     private final AtMsgsService atMsgsService;
@@ -24,10 +25,10 @@ public class AtMsgsApiController {
     public String save(@RequestBody AtMsgsSaveRequestDto requestDto) {
         Gson gson = new Gson();
         String reqData = gson.toJson(requestDto);
-        System.out.println("Request DTA : "+reqData);
-
+        log.info("Request Data : " + reqData);
         String statusCode = ApiCall.post("http://localhost:8082/api/at-msg",reqData);
-        if (statusCode=="200"){
+        log.info("statusCode :"+statusCode);
+        if (statusCode.equals("200")){
             atMsgsService.save(requestDto);
         }
         return statusCode;
@@ -38,18 +39,29 @@ public class AtMsgsApiController {
         Gson gson = new Gson();
         List<AtMsgs> atMsgs = requestDto.toEntity();
         String reqData = gson.toJson(atMsgs);
-        System.out.println("Request Data : "+reqData);
+        log.info("Request Data : " +reqData);
 
         String statusCode = ApiCall.post("http://localhost:8082/api/at-msgs",reqData);
-        if (statusCode=="200"){
+        log.info("statusCode :"+statusCode);
+
+        if (statusCode.equals("200")){
             atMsgsService.saveAll(requestDto);
         }
         return statusCode;
-//        return atMsgsService.saveAll(requestDto);
     }
     @PostMapping("/api/v1/multi-at-msgs/list")
-    public List<AtMsgs> saveAllList(@RequestBody MultiAtMsgsSaveListRequestDto requestDto) {
-        return atMsgsService.saveAllList(requestDto);
+    public String saveAllList(@RequestBody MultiAtMsgsSaveListRequestDto requestDto) {
+        Gson gson = new Gson();
+        List<AtMsgs> atMsgs = requestDto.toEntity(customerService.findAll());
+        String reqData = gson.toJson(atMsgs);
+        log.info("Request Data : " +reqData);
+        String statusCode = ApiCall.post("http://localhost:8082/api/at-msgs",reqData);
+        log.info("statusCode :"+statusCode);
+
+        if (statusCode.equals("200")){
+            atMsgsService.saveAllList(requestDto);
+        }
+        return statusCode;
     }
     @PutMapping("/api/v1/at-msgs/{id}")
     public Integer update(@PathVariable Integer id, @RequestBody AtMsgsUpdateRequestDto requestDto) {

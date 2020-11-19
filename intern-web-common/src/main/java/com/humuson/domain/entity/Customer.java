@@ -24,18 +24,30 @@ public class Customer {
     private String userId;
     private String name;
     private String phoneNumber; // 플러스친구를 개설한 관리자 핸드폰 번호를 입력하세요
+    private String var1;
+    private String var2;
+    private String var3;
 
-    public void update(String userId, String name, String phoneNumber){
+
+    public void update(String userId, String name, String phoneNumber, String var1, String var2, String var3) {
         this.userId = userId;
         this.name = name;
         this.phoneNumber = phoneNumber;
+        this.var1 = var1;
+        this.var2 = var2;
+        this.var3 = var3;
     }
 
+
     @Builder
-    public Customer(long id, String userId, String name, String phoneNumber) {
+    public Customer(long id, String userId, String name, String phoneNumber, String var1, String var2, String var3) {
         this.id = id;
         this.userId = userId;
         this.name = name;
         this.phoneNumber = phoneNumber;
+        this.var1 = var1;
+        this.var2 = var2;
+        this.var3 = var3;
     }
+
 }

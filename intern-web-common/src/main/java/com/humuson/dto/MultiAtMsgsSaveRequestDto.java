@@ -25,7 +25,6 @@ public class MultiAtMsgsSaveRequestDto {
     public List<AtMsgs> toEntity() {
         List<AtMsgs> msgs = new ArrayList<>();
         for (List<String> li : phoneNumList) {
-            System.out.println("res" +li.toString());
             AtMsgs atMsg = new AtMsgs(null,null,reservedDate,null, li.get(3),templateCode,msg,null);
             msgs.add(atMsg);
         }

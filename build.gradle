@@ -55,20 +55,21 @@ project(':intern-web-common') {
 project(':intern-web') {
     dependencies {
         compile project(':intern-web-common')
+
         compile('org.springframework.boot:spring-boot-starter-web')
         // thymeleaf
         compile('org.springframework.boot:spring-boot-starter-thymeleaf')
         compile(group: 'nz.net.ultraq.thymeleaf', name: 'thymeleaf-layout-dialect', version: '2.4.1')
 
-        //
+        // 유저가 어떤 URL을 호출했는지 알기 위해서는 Access Log를 남기기 위함.
         compile('org.springframework.boot:spring-boot-starter-actuator')
         compile('org.springframework.boot:spring-boot-devtools')
 
         // api request
         compile("com.google.code.gson:gson:2.8.6")
         compile('org.apache.httpcomponents:httpclient:4.5.13')
-        testCompile('org.springframework.boot:spring-boot-starter-test') // static debug 용
 
+        testCompile('org.springframework.boot:spring-boot-starter-test') // static debug 용
     }
 }
 
@@ -105,13 +106,13 @@ project(':intern-consumer-client') {
 }
 
 project(':intern-kafka-api') {
-    configurations{
-        all {
-//        exclude group: 'org.springframework.boot', module: 'spring-boot-starter-logging'
-            exclude group: 'ch.qos.logback', module: 'logback-classic'
-            exclude group: 'org.apache.logging.log4j', module: 'log4j-to-slf4j'
-        }
-    }
+//    configurations{
+//        all {
+////        exclude group: 'org.springframework.boot', module: 'spring-boot-starter-logging'
+//            exclude group: 'ch.qos.logback', module: 'logback-classic'
+//            exclude group: 'org.apache.logging.log4j', module: 'log4j-to-slf4j'
+//        }
+//    }
     dependencies { // 프로젝트 개발에 필요한 의조넝들을 선언하는 곳
         compile project(':intern-agent-common')
 
@@ -123,7 +124,6 @@ project(':intern-kafka-api') {
 
         //for producer
         compile('org.apache.kafka:kafka-clients:2.5.0')
-        compile('org.slf4j:slf4j-simple:1.7.30')
 
         testCompile('org.springframework.boot:spring-boot-starter-test') // static debug 용
     }
