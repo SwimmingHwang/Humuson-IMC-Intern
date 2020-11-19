@@ -1,5 +1,6 @@
 package com.humuson.controller;
 
+import com.humuson.dto.AtMsgsResponseDto;
 import com.humuson.dto.CustomerResponseDto;
 import com.humuson.dto.FtMsgsResponseDto;
 import com.humuson.dto.MtMsgsResponseDto;
@@ -89,7 +90,7 @@ public class IndexController {
     * 메시지 Create, Update url
     * */
 
-    // 알림톡
+    // 알림톡 create
     @GetMapping("/send/single-msg/save/at")
     public String singleMsgSave( Model model) {
         model.addAttribute("msg","at");
@@ -126,7 +127,7 @@ public class IndexController {
     }
 
 
-    // 문자톡
+    // 문자톡 create
     @GetMapping("/send/single-msg/save/mt")
     public String singleMtMsgSave(Model model) {
         model.addAttribute("msg","mt");
@@ -147,6 +148,19 @@ public class IndexController {
         model.addAttribute("msgs", mtMsgsService.findAll());
         model.addAttribute("customers",customerService.findAll());
         return "page/multiMtMsgsSend";
+    }
+
+
+
+
+    // UPDATE
+    @GetMapping("/send/msgs/update/at/{id}")
+    public String atMsgsUpdate(@PathVariable Integer id, Model model) {
+        AtMsgsResponseDto dto = atMsgsService.findById(id);
+        model.addAttribute("msgSbj","at");
+        model.addAttribute("msg", dto);
+
+        return "page/msgs-update";
     }
 
     @GetMapping("/send/msgs/update/ft/{id}")

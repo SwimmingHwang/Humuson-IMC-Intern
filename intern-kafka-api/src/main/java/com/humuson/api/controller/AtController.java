@@ -29,10 +29,6 @@ public class AtController {
     @ResponseBody
     public String apiAtMsgs(@RequestBody List<AtMsgs> reqAt) {
         Gson gson = new Gson();
-//        String reqDataJson= gson.toJson(reqAt);
-        // [{"msg":"test","phoneNumber":"821065362547\r","templateCode":"dev_template_code_0002","reservedDate":"20201118114000"},
-        // {"msg":"test","phoneNumber":"821023456789\r","templateCode":"dev_template_code_0002","reservedDate":"20201118114000"}]
-//        List<String> reqDataList = Arrays.asList(reqDataJson);
         String stringStatusCode = "";
         for(AtMsgs msg:reqAt){
             String reqDataJson= gson.toJson(msg);
@@ -40,14 +36,8 @@ public class AtController {
             stringStatusCode = Producer.produce(reqDataJson);
             System.out.println("IN AT CONTROLLER stringStatusCode : "+stringStatusCode);
         }
-//        for(String reqJsonData : reqDataList) {
-//        String stringStatusCode = Producer.produce(reqAt.toString());
-//        }
-//        System.out.println("IN AT CONTROLLER stringStatusCode : "+stringStatusCode);
         return stringStatusCode;//200 or 9000
     }
-
-
 
     /*
     화면에 {message:"helloworld"} 라고 출력됩니다.

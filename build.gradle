@@ -126,14 +126,8 @@ project(':intern-kafka-api') {
         compile('org.slf4j:slf4j-simple:1.7.30')
 
         testCompile('org.springframework.boot:spring-boot-starter-test') // static debug 용
-
     }
-
 }
-
-
-
-
 
 
 project(':intern-agent-common') {
