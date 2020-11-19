@@ -1,37 +1,56 @@
 package com.humuson.api.controller;
 
 import com.google.gson.Gson;
+import com.humuson.agent.domain.entity.AtMsgs;
 import com.humuson.api.Producer;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
+import java.util.List;
+
 @Controller
 public class AtController {
-    /*
-    1. 화면에 helloworld가 출력됩니다.
-    */
-//    @GetMapping(value = "/helloworld/string")
-//    @ResponseBody
-//    public String helloworldString() {
-//        return "helloworld";
-//    }
 
-    @PostMapping(value = "/helloworld/string")
+    @PostMapping(value = "/api/at-msg")
     @ResponseBody
-    public String helloworldString(@RequestBody At reqat) {
+    public String apiAtMsg(@RequestBody AtMsgs reqAt) {
         Gson gson = new Gson();
-        String res = gson.toJson(reqat);
-        System.out.println("res"+res);
-        Producer.produce(res);
-//        At at = new At(reqat.getMsg(),reqat.getPhoneNumber(), reqat.getReservedDate(),reqat.getTemplateCode());
-        return res;
+        String reqJsonData = gson.toJson(reqAt);
+        System.out.println("API At Msg : "+reqJsonData);
+        String stringStatusCode = Producer.produce(reqJsonData);
+        System.out.println("IN AT CONTROLLER stringStatusCode : "+stringStatusCode);
+        return stringStatusCode;//200 or 9000
+    }
+
+    @PostMapping(value = "/api/at-msgs")
+    @ResponseBody
+    public String apiAtMsgs(@RequestBody List<AtMsgs> reqAt) {
+        Gson gson = new Gson();
+//        String reqDataJson= gson.toJson(reqAt);
+        // [{"msg":"test","phoneNumber":"821065362547\r","templateCode":"dev_template_code_0002","reservedDate":"20201118114000"},
+        // {"msg":"test","phoneNumber":"821023456789\r","templateCode":"dev_template_code_0002","reservedDate":"20201118114000"}]
+//        List<String> reqDataList = Arrays.asList(reqDataJson);
+        String stringStatusCode = "";
+        for(AtMsgs msg:reqAt){
+            String reqDataJson= gson.toJson(msg);
+            System.out.println("API At Msgs : "+reqDataJson);
+            stringStatusCode = Producer.produce(reqDataJson);
+            System.out.println("IN AT CONTROLLER stringStatusCode : "+stringStatusCode);
+        }
+//        for(String reqJsonData : reqDataList) {
+//        String stringStatusCode = Producer.produce(reqAt.toString());
+//        }
+//        System.out.println("IN AT CONTROLLER stringStatusCode : "+stringStatusCode);
+        return stringStatusCode;//200 or 9000
     }
 
 
+
     /*
-    2. 화면에 {message:"helloworld"} 라고 출력됩니다.
+    화면에 {message:"helloworld"} 라고 출력됩니다.
     */
     @GetMapping(value = "/helloworld/json")
     @ResponseBody
@@ -41,21 +60,6 @@ public class AtController {
         return hello;
     }
 
-    @Setter
-    @Getter
-    public static class At{
-        private String msg;
-        private String phoneNumber;
-        private String templateCode;
-        private String reservedDate;
-
-        public At(String msg, String phoneNumber, String templateCode, String reservedDate) {
-            this.msg = msg;
-            this.phoneNumber = phoneNumber;
-            this.templateCode = templateCode;
-            this.reservedDate = reservedDate;
-        }
-    }
 
 
     @Setter
@@ -63,6 +67,4 @@ public class AtController {
     public static class Hello {
         private String message;
     }
-
-
 }

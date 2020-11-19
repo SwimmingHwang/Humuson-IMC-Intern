@@ -23,7 +23,7 @@ public class UserController {
     // 회원가입 처리
     @PostMapping("/user/sign-up")
     public String execSignup(UserDto userDto) {
-        userService.saveAdminUser(userDto);
+        userService.saveMemberUser(userDto);
         return "redirect:/user/login";
     }
 
@@ -37,7 +37,7 @@ public class UserController {
     @PostMapping("/user/login")
     public String execLogin(UserDto userDto) {
         if(userDto.getAuthority().equals(Role.MEMBER.getValue())) {
-            return "member/member-page";
+            return "redirect:/member";
         } else {
             return "redirect:/user/login";
         }

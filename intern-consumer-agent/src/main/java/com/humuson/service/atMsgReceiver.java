@@ -16,10 +16,11 @@ public class atMsgReceiver {
 
     private final AtMsgsService atMsgsService;
 
-    @KafkaListener(topics = "mytopic")
+    @KafkaListener(topics = "AT_MSG_TOPIC")
     public void listen(@Payload String message) {
         log.info("message : {}", message);
         AtMsgsSaveRequestDto atMsgstDto = new Gson().fromJson(message, AtMsgsSaveRequestDto.class);
         atMsgsService.save(atMsgstDto);
     }
+
 }

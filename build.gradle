@@ -113,6 +113,8 @@ project(':intern-kafka-api') {
         }
     }
     dependencies { // 프로젝트 개발에 필요한 의조넝들을 선언하는 곳
+        compile project(':intern-agent-common')
+
         compile('org.springframework.boot:spring-boot-starter-web')
         compile("com.google.code.gson:gson:2.8.6")
 
