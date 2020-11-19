@@ -79,11 +79,13 @@ var send = {
                 var cell4 = row.insertCell(3);
 
                 cellData = res[i].split(sep);
+                cellData[3] = cellData[3].replace(/\r/gm,"")
 
                 cell1.innerHTML = cellData[0];
                 cell2.innerHTML = cellData[1];
                 cell3.innerHTML = cellData[2];
                 cell4.innerHTML = cellData[3];
+
 
                 li.push(cellData[0]);
                 li.push(cellData[1]);

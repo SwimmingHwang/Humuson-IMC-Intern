@@ -1,6 +1,6 @@
 package com.humuson.service;
 
-import com.humuson.domain.Entity.UserEntity;
+import com.humuson.domain.Entity.User;
 import com.humuson.domain.Repository.UserRepository;
 import com.humuson.domain.Role;
 import com.humuson.dto.UserDto;
@@ -9,7 +9,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -57,15 +56,15 @@ public class UserService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String userEmail) throws UsernameNotFoundException {
-        Optional<UserEntity> userEntityWrapper = userRepository.findByEmail(userEmail);
-        UserEntity userEntity = userEntityWrapper.orElseThrow(() -> new UsernameNotFoundException(userEmail));
+        Optional<User> userEntityWrapper = userRepository.findByEmail(userEmail);
+        User userEntity = userEntityWrapper.orElseThrow(() -> new UsernameNotFoundException(userEmail));
         List<GrantedAuthority> authorities = new ArrayList<>();
         if (userEntity.getAuthority().equals(Role.ADMIN.getValue())) {
             authorities.add(new SimpleGrantedAuthority(Role.ADMIN.getValue()));
         } else {
             authorities.add(new SimpleGrantedAuthority(Role.MEMBER.getValue()));
         }
-        return new User(userEntity.getEmail(), userEntity.getPassword(), authorities);
+        return new org.springframework.security.core.userdetails.User(userEntity.getEmail(), userEntity.getPassword(), authorities);
     }
 
     // 현재 사용자가 admin 권한을 가지고 있는지 검사

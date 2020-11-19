@@ -1,7 +1,7 @@
 package com.humuson.dto;
 
 import com.humuson.domain.Entity.Profile;
-import com.humuson.domain.Entity.UserEntity;
+import com.humuson.domain.Entity.User;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,7 +15,7 @@ public class ProfileSaveRequestDto {
     private String phoneNumber;
     private String senderKey;
     private String senderName;
-    private UserEntity user;
+    private User user;
 
     @Builder
     public ProfileSaveRequestDto(String profileId, String phoneNumber, String senderKey, String senderName)  {

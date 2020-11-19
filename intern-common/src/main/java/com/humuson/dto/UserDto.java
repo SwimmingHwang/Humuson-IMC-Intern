@@ -1,6 +1,6 @@
 package com.humuson.dto;
 
-import com.humuson.domain.Entity.UserEntity;
+import com.humuson.domain.Entity.User;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -27,8 +27,8 @@ public class UserDto { // view layer 와 데이터 주고 받을 때 사용
         this.status = status;
     }
 
-    public UserEntity toEntity(){
-        return UserEntity.builder()
+    public User toEntity(){
+        return User.builder()
                 .username(username)
                 .email(email)
                 .password(password)

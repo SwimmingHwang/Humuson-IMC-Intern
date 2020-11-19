@@ -3,7 +3,9 @@ package com.humuson.controller;
 import com.humuson.dto.ProfileSaveRequestDto;
 import com.humuson.service.ProfileService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
 @RequiredArgsConstructor
 @RestController

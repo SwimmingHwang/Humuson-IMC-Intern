@@ -13,7 +13,7 @@ import javax.persistence.*;
 @DynamicUpdate // update 시
 @Getter
 @NoArgsConstructor
-@Table(name = "imc_profile", schema = "imc-client")
+@Table(name = "imc_profile")
 @Entity //JPA의 어노테이션
 public class Profile extends BaseTimeEntity {
     @Id
@@ -30,10 +30,10 @@ public class Profile extends BaseTimeEntity {
     @JoinColumns({
             @JoinColumn(name="user_id", referencedColumnName = "id")
     })
-    private UserEntity user;
+    private User user;
 
     @Builder
-    public Profile(long id, String profileId, String senderKey, String senderName, String phoneNumber, UserEntity user) {
+    public Profile(long id, String profileId, String senderKey, String senderName, String phoneNumber, User user) {
         this.id = id;
         this.profileId = profileId;
         this.senderKey = senderKey;

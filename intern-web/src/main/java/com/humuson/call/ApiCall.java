@@ -7,7 +7,6 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.HttpClientBuilder;
-import org.springframework.context.annotation.Bean;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -52,12 +51,11 @@ public class ApiCall {
         }
     }
 
-//    출처: https://digitalbourgeois.tistory.com/58 [IT 글자국]
+    //    출처: https://digitalbourgeois.tistory.com/58 [IT 글자국]
     /*
-    * HTTP Client POST
-    * */
-    public static void post(String requestURL, String jsonMessage) {
-
+     * HTTP Client POST
+     * */
+    public static String post(String requestURL, String jsonMessage) {
         try {
             HttpClient client = HttpClientBuilder.create().build(); // HttpClient 생성
             HttpPost postRequest = new HttpPost(requestURL); //POST 메소드 URL 새성
@@ -71,16 +69,23 @@ public class ApiCall {
 
             HttpResponse response = client.execute(postRequest);
 
+            //TODO : response 확인하기
+            System.out.println("response.getEntity() : " + response.getEntity());
+
+
             //Response 출력
             if (response.getStatusLine().getStatusCode() == 200) {
                 ResponseHandler<String> handler = new BasicResponseHandler();
                 String body = handler.handleResponse(response);
-                System.out.println(body);
+                System.out.println("response handler body is " + body);
+                return "200";
             } else {
                 System.out.println("response is error : " + response.getStatusLine().getStatusCode());
+                return response.getStatusLine().getStatusCode()+"";
             }
         } catch (Exception e){
             System.err.println(e.toString());
+            return "9000";
         }
     }
 
