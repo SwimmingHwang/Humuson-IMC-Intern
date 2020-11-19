@@ -15,19 +15,22 @@ public class Producer {
 
     private static final Logger logger = LoggerFactory.getLogger(Producer.class);
 
-    private static String tmp;
+    private static String TOPIC_NAME;
+    private static String BOOTSTRAP_SERVERS;
 
     @Value("${kafka.bootstrap.address}")
-    public void setTemp(String path) {
-        tmp = path;
+    public void setBootstrapServers(String address) {
+        BOOTSTRAP_SERVERS = address;
     }
-
-    private static String TOPIC_NAME = "AT_MSG_TOPIC";
-    private static String BOOTSTRAP_SERVERS = tmp;
+    @Value("${kafka.at.topic.name}")
+    public void setTopicName(String topicName){
+        TOPIC_NAME = topicName;
+    }
 
     public static String produce(String args) {
         // TODO : String[] stream으로 처리할 것 .
         Properties configs = new Properties();
+        System.out.println(BOOTSTRAP_SERVERS);
         configs.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, BOOTSTRAP_SERVERS);
         configs.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
         configs.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());

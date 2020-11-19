@@ -78,6 +78,7 @@ public class ApiCall {
                 ResponseHandler<String> handler = new BasicResponseHandler();
                 String body = handler.handleResponse(response);
                 System.out.println("response handler body is " + body);
+                // TODO : response handler body 가 9000이면 에러 일으키기!!!
                 return "200";
             } else {
                 System.out.println("response is error : " + response.getStatusLine().getStatusCode());

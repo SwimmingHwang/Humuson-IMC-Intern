@@ -37,7 +37,7 @@ subprojects {
 
 // Type, Util 등을 정의한다
 // 가능하면 사용하지 않는다
-project(':intern-common') {
+project(':intern-web-common') {
     bootJar { enabled = false }
     jar { enabled = true }
     dependencies {
@@ -54,7 +54,7 @@ project(':intern-common') {
 
 project(':intern-web') {
     dependencies {
-        compile project(':intern-common')
+        compile project(':intern-web-common')
         compile('org.springframework.boot:spring-boot-starter-web')
         // thymeleaf
         compile('org.springframework.boot:spring-boot-starter-thymeleaf')
@@ -74,7 +74,7 @@ project(':intern-web') {
 
 project(':intern-admin') {
     dependencies {
-        compile project(':intern-common')
+        compile project(':intern-web-common')
         compile('org.springframework.boot:spring-boot-starter-web')
         // thymeleaf
         compile('org.springframework.boot:spring-boot-starter-thymeleaf')
@@ -96,7 +96,7 @@ project(':intern-admin') {
 
 project(':intern-consumer-client') {
     dependencies {
-        compile project(':intern-common')
+        compile project(':intern-agent-common')
         compile('org.springframework.boot:spring-boot-starter-web')
         compile('org.springframework.kafka:spring-kafka')
 
