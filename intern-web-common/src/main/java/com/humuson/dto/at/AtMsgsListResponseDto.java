@@ -1,4 +1,4 @@
-package com.humuson.dto;
+package com.humuson.dto.at;
 
 import com.humuson.domain.msgs.AtMsgs;
 

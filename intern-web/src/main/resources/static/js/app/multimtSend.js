@@ -1,7 +1,7 @@
 /*
 * send.js만의 스코프 지정
 * */
-var phoneNumList = new Array();
+var customerList = new Array();
 var send = {
     init: function () {
         var _this = this;
@@ -23,6 +23,9 @@ var send = {
         $('#upload').on('click',function(){
             _this.uploadFile();
         })
+        $('#btn-applyVars').on('click', function () {
+            _this.applyVars();
+        });
         $(function () {
             $('#datePicker').datepicker({
                 // TODO default 날짜 형식 수정할 것
@@ -66,7 +69,7 @@ var send = {
             while (tbody.rows.length >= 1)
                 // my_tbody.deleteRow(0); // 상단부터 삭제
                 tbody.deleteRow(tbody.rows.length - 1); // 하단부터 삭제
-                phoneNumList = [];
+                customerList = [];
 
             for (var i in res) {
                 li = [];
@@ -91,7 +94,7 @@ var send = {
                 li.push(cellData[1]);
                 li.push(cellData[2]);
                 li.push(cellData[3]);
-                phoneNumList.push(li);
+                customerList.push(li);
             }
         };
         reader.readAsText(file, /* optional */ "UTF-8");
@@ -105,6 +108,26 @@ var send = {
         };
         input.click();
 
+    },
+    applyVars : function (){
+        var msg = $('#msg').val();
+        var var1 = "변수1";
+        var var2 = "변수2";
+        var var3 = "변수3";
+        if($("input:checkbox[name='var1']").prop("checked") == false)
+            var1="";
+        if($("input:checkbox[name='var2']").prop("checked") == false)
+            var2="";
+        if($("input:checkbox[name='var3']").prop("checked") == false)
+            var3="";
+
+        msg.replace("#{변수1}",var1);
+        msg.replace("#{변수2}",var2);
+        msg.replace("#{변수3}",var3);
+
+        var exMsg = document.getElementById('exMsg');
+
+        exMsg.innerText = msg;
     },
 
     save: function () {
@@ -123,7 +146,7 @@ var send = {
             phoneNumber: $('#phoneNumber').val(),
             adFlag : aF,
             mtType : $('#mtType').val(),
-            phoneNumList: phoneNumList,
+            customerList: customerList,
             reservedDate :  $('#datePicker').val()+$('#time').val().toString().replace(/:/gi,"")+"00",
             callback : $('#callback').val()
         };

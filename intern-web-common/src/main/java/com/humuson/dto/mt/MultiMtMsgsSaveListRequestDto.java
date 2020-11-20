@@ -1,4 +1,4 @@
-package com.humuson.dto;
+package com.humuson.dto.mt;
 
 import com.humuson.domain.entity.Customer;
 import com.humuson.domain.msgs.MtMsgs;

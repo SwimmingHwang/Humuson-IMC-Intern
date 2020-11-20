@@ -5,26 +5,26 @@
 * - Req/Res 용 DTO는 View를 위한 클래스라 자주 변경 필요!!!
 * */
 
-package com.humuson.dto;
+package com.humuson.dto.ft;
 
-import com.humuson.domain.msgs.Msgs;
+import com.humuson.domain.msgs.FtMsgs;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
-public class MsgsSaveRequestDto {
+public class FtMsgsSaveRequestDto {
     private String msg;
     private String phoneNumber;
 
     @Builder
-    public MsgsSaveRequestDto(String msg, String phoneNumber) {
+    public FtMsgsSaveRequestDto(String msg, String phoneNumber) {
         this.msg = msg;
         this.phoneNumber = phoneNumber;
     }
-    public Msgs toEntity() {
-        return Msgs.builder()
+    public FtMsgs toEntity() {
+        return FtMsgs.builder()
                 .msg(msg)
                 .phoneNumber(phoneNumber)
                 .build();

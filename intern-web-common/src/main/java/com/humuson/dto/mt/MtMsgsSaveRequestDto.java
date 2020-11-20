@@ -5,48 +5,41 @@
 * - Req/Res 용 DTO는 View를 위한 클래스라 자주 변경 필요!!!
 * */
 
-package com.humuson.dto;
+package com.humuson.dto.mt;
 
-import com.humuson.domain.msgs.AtMsgs;
+import com.humuson.domain.msgs.MtMsgs;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Getter
-@Setter
 @NoArgsConstructor
-public class AtMsgsSaveRequestDto {
+public class MtMsgsSaveRequestDto {
     private String msg;
     private String phoneNumber;
-    private String templateCode;
+    private String adFlag;
+    private String mtType;
     private String reservedDate;
-
+    private String callback;
 
     @Builder
-    public AtMsgsSaveRequestDto(String msg, String phoneNumber, String templateCode, String reservedDate) {
+    public MtMsgsSaveRequestDto(String msg, String phoneNumber, String adFlag, String callback, String mtType, String reservedDate) {
         this.msg = msg;
         this.phoneNumber = phoneNumber;
-        this.templateCode = templateCode;
+        this.adFlag = adFlag;
+        this.mtType = mtType;
         this.reservedDate = reservedDate;
+        this.callback = callback;
     }
 
-    public AtMsgs toEntity() {
-        return AtMsgs.builder()
+    public MtMsgs toEntity() {
+        return MtMsgs.builder()
                 .msg(msg)
                 .phoneNumber(phoneNumber)
-                .templateCode(templateCode)
+                .adFlag(adFlag)
+                .mtType(mtType)
+                .callback(callback)
                 .reservedDate(reservedDate)
                 .build();
-    }
-
-    @Override
-    public String toString() {
-        return "AtMsgs {" +
-                ", reserved_dat:" + reservedDate +
-                ", phone_number:" + phoneNumber +
-                ", template_code:" + templateCode +
-                ", messag:" + msg +
-                "}";
     }
 }

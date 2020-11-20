@@ -8,10 +8,10 @@ package com.humuson.service;
 
 import com.humuson.domain.entity.Customer;
 import com.humuson.domain.repository.CustomerRepository;
-import com.humuson.dto.CustomerListResponseDto;
-import com.humuson.dto.CustomerResponseDto;
-import com.humuson.dto.CustomerSaveRequestDto;
-import com.humuson.dto.CustomerUpdateRequestDto;
+import com.humuson.dto.customer.CustomerListResponseDto;
+import com.humuson.dto.customer.CustomerResponseDto;
+import com.humuson.dto.customer.CustomerSaveRequestDto;
+import com.humuson.dto.customer.CustomerUpdateRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,7 +34,7 @@ public class CustomerService {
         Customer customer = customerRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("해당 사용자가 없습니다. id=" + id));
 
-        customer.update(requestDto.getUserId(), requestDto.getName(), requestDto.getPhoneNumber());
+        customer.update(requestDto.getUserId(), requestDto.getName(), requestDto.getPhoneNumber(), requestDto.getVar1(),requestDto.getVar2(),requestDto.getVar3());
 
         return id;
     }

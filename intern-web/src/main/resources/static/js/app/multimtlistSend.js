@@ -1,7 +1,7 @@
 /*
 * send.js만의 스코프 지정
 * */
-var phoneNumList = new Array();
+var customerList = new Array();
 var send = {
     init: function () {
         var _this = this;

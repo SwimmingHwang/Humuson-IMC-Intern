@@ -24,6 +24,9 @@ var send = {
             userId: $('#userId').val(),
             name : $('#name').val(),
             phoneNumber: $('#phoneNumber').val(),
+            var1 :$('#var1').val(),
+            var2 : $('#var2').val(),
+            var3 : $('#var3').val()
         };
 
         $.ajax({
@@ -51,6 +54,9 @@ var send = {
             userId: $('#userId').val(),
             name : $('#name').val(),
             phoneNumber: $('#phoneNumber').val(),
+            var1 :$('#var1').val(),
+            var2 : $('#var2').val(),
+            var3 : $('#var3').val()
         };
 
         var id = $('#id').val();

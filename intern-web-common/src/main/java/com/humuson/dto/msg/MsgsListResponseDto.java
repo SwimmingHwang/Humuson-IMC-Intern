@@ -1,14 +1,13 @@
-package com.humuson.dto;
+package com.humuson.dto.msg;
 
+import com.humuson.domain.msgs.Msgs;
 
-import com.humuson.domain.msgs.FtMsgs;
-
-public class FtMsgsListResponseDto {
+public class MsgsListResponseDto {
     private Integer id;
     private String msg;
     private String phoneNumber;
 
-    public FtMsgsListResponseDto(FtMsgs entity) {
+    public MsgsListResponseDto(Msgs entity) {
         this.id = entity.getId();
         this.msg = entity.getMsg();
         this.phoneNumber = entity.getPhoneNumber();

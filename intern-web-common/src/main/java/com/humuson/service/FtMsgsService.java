@@ -8,10 +8,10 @@ package com.humuson.service;
 
 import com.humuson.domain.msgs.FtMsgs;
 import com.humuson.domain.msgs.FtMsgsRepository;
-import com.humuson.dto.FtMsgsListResponseDto;
-import com.humuson.dto.FtMsgsResponseDto;
-import com.humuson.dto.FtMsgsSaveRequestDto;
-import com.humuson.dto.FtMsgsUpdateRequestDto;
+import com.humuson.dto.ft.FtMsgsListResponseDto;
+import com.humuson.dto.ft.FtMsgsResponseDto;
+import com.humuson.dto.ft.FtMsgsSaveRequestDto;
+import com.humuson.dto.ft.FtMsgsUpdateRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

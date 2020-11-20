@@ -1,4 +1,4 @@
-package com.humuson.dto;
+package com.humuson.dto.msg;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -6,12 +6,12 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
-public class MtMsgsUpdateRequestDto {
+public class MsgsUpdateRequestDto {
     private String msg;
     private String phoneNumber;
 
     @Builder
-    public MtMsgsUpdateRequestDto(String msg, String phoneNumber) {
+    public MsgsUpdateRequestDto(String msg, String phoneNumber) {
         this.msg = msg;
         this.phoneNumber = phoneNumber;
     }

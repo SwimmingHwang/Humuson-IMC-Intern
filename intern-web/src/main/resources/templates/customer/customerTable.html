@@ -30,6 +30,10 @@
                     <th>고객 아이디</th>
                     <th>성함</th>
                     <th>전화번호</th>
+                    <th>변수1</th>
+                    <th>변수2</th>
+                    <th>변수3</th>
+
                 </tr>
                 </thead>
                 <tbody id="tbody">
@@ -38,6 +42,9 @@
                     <td th:text="${customer.userId}">default</td>
                     <td ><a th:href="@{/customer/update/{id} (id=${customer.id})}" th:text="${customer.name}">default</a></td>
                     <td th:text="${customer.phoneNumber}">default</td>
+                    <td th:text="${customer.var1}">default</td>
+                    <td th:text="${customer.var2}">default</td>
+                    <td th:text="${customer.var3}">default</td>
                 </tr>
                 </tbody>
             </table>

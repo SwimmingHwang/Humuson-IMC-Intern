@@ -5,7 +5,7 @@
 * - Req/Res 용 DTO는 View를 위한 클래스라 자주 변경 필요!!!
 * */
 
-package com.humuson.dto;
+package com.humuson.dto.customer;
 
 import com.humuson.domain.entity.Customer;
 import lombok.Builder;
@@ -18,12 +18,19 @@ public class CustomerSaveRequestDto {
     private String phoneNumber;
     private String userId;
     private String name;
+    private String var1;
+    private String var2;
+    private String var3;
+
 
     @Builder
-    public CustomerSaveRequestDto(String phoneNumber, String userId, String name) {
+    public CustomerSaveRequestDto(String phoneNumber, String userId, String name, String var1, String var2, String var3) {
         this.phoneNumber = phoneNumber;
         this.userId = userId;
         this.name = name;
+        this.var1 = var1;
+        this.var2 = var2;
+        this.var3 = var3;
     }
 
     public Customer toEntity() {
@@ -31,6 +38,9 @@ public class CustomerSaveRequestDto {
                 .phoneNumber(phoneNumber)
                 .userId(userId)
                 .name(name)
+                .var1(var1)
+                .var2(var2)
+                .var3(var3)
                 .build();
     }
 }

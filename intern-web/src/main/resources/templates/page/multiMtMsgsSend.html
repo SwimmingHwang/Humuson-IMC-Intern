@@ -25,7 +25,7 @@
                             </select>
                         </label>
                         <label>
-                            <input id="adFlag" type="checkbox" name="color" value="Y" > 광고 문구 표시 여부
+                            <input id="adFlag" type="checkbox" name="adFlag" value="Y" > 광고 문구 표시 여부
                         </label>
                         <label>
                             발송 일시
@@ -39,6 +39,12 @@
                             메시지 내용
                             <input type="text" class="form-control" id="msg" placeholder="내용을 입력하세요">
                         </label>
+                        <label>
+                            <input id="var1" type="checkbox" name="color" value="Y" > 광고 문구 표시 여부
+                            <input id="var2" type="checkbox" name="color" value="Y" > 광고 문구 표시 여부
+                            <input id="var3" type="checkbox" name="color" value="Y" > 광고 문구 표시 여부
+                        </label>
+
                         <div>
                         <label for="btn-phoneNumber"> 연락처
                             <a class="btn btn-success btn-icon-split" id="btn-phoneNumber" type="button">
@@ -60,6 +66,9 @@
                                 <th>아이디</th>
                                 <th>이름</th>
                                 <th>전화번호</th>
+                                <th>변수1</th>
+                                <th>변수2</th>
+                                <th>변수3</th>
                             </tr>
                             </thead>
                             <tbody id="tbody">
@@ -68,6 +77,9 @@
                                 <td th:text="${customer.userId}">default</td>
                                 <td th:text="${customer.name}">default</td>
                                 <td th:text="${customer.phoneNumber}">default</td>
+                                <td th:text="${customer.var1}">default</td>
+                                <td th:text="${customer.var2}">default</td>
+                                <td th:text="${customer.var3}">default</td>
                             </tr>
                             </tbody>
                         </table>

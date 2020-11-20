@@ -9,7 +9,7 @@ package com.humuson.service;
 import com.humuson.domain.repository.CustomerRepository;
 import com.humuson.domain.msgs.AtMsgs;
 import com.humuson.domain.msgs.AtMsgsRepository;
-import com.humuson.dto.*;
+import com.humuson.dto.at.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

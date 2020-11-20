@@ -24,6 +24,18 @@
             <label for="phoneNumber"> 전화번호 </label>
             <input type="text" class="form-control" id="phoneNumber" th:value="${customer.phoneNumber}" >
         </div>
+        <div class="form-group">
+            <label for="var1"> 변수1 </label>
+            <input type="text" class="form-control" id="var1" th:value="${customer.var1}">
+        </div>
+        <div class="form-group">
+            <label for="var2"> 변수2 </label>
+            <input type="text" class="form-control" id="var2" th:value="${customer.var2}">
+        </div>
+        <div class="form-group">
+            <label for="var3"> 변수3 </label>
+            <input type="text" class="form-control" id="var3" th:value="${customer.var3}">
+        </div>
 
     </form>
     <a href="/" role="button" class="btn btn-secondary">취소</a>

@@ -1,10 +1,19 @@
 /*
 * send.js만의 스코프 지정
 * */
-var phoneNumList = new Array();
+var customerList = new Array();
+
 var send = {
     init: function () {
         var _this = this;
+        $(function () {
+            var date = new Date();
+            var hour = date.getHours();
+            var min = date.getMinutes();
+            hour = (hour < 10 ? "0" : "") + hour;
+            min = (min < 10 ? "0" : "") + min;
+            document.getElementById("time").defaultValue = hour + ":" + min;
+        });
         $('#btn-phoneNumber').on('click', function () {
             _this.loadPhoneNums();
         });
@@ -20,9 +29,10 @@ var send = {
             _this.delete();
         });
 
-        $('#upload').on('click',function(){
-            _this.uploadFile();
-        })
+        $('#btn-applyVars').on('click', function () {
+            _this.applyVars();
+        });
+
         $(function () {
             $('#datePicker').datepicker({
                 // TODO default 날짜 형식 수정할 것
@@ -66,7 +76,8 @@ var send = {
             while (tbody.rows.length >= 1)
                 // my_tbody.deleteRow(0); // 상단부터 삭제
                 tbody.deleteRow(tbody.rows.length - 1); // 하단부터 삭제
-                phoneNumList = [];
+                customerList = [];
+                msgList = [];
 
             for (var i in res) {
                 li = [];
@@ -78,19 +89,31 @@ var send = {
                 var cell3 = row.insertCell(2); // 이름
                 var cell4 = row.insertCell(3); // 전화번호
 
+                var cell5 = row.insertCell(4); // var1
+                var cell6 = row.insertCell(5); // var2
+                var cell7 = row.insertCell(6); // var3
+
                 cellData = res[i].split(sep);
-                cellData[3] = cellData[3].replace(/\r/gm,"")
+                cellData[6] = cellData[6].replace(/\r/gm,"")
 
                 cell1.innerHTML = cellData[0];
                 cell2.innerHTML = cellData[1];
                 cell3.innerHTML = cellData[2];
                 cell4.innerHTML = cellData[3];
+                cell5.innerHTML = cellData[4];
+                cell6.innerHTML = cellData[5];
+                cell7.innerHTML = cellData[6];
 
                 li.push(cellData[0]);
                 li.push(cellData[1]);
                 li.push(cellData[2]);
                 li.push("82"+cellData[3].substring(1));
-                phoneNumList.push(li);
+                li.push(cellData[4])
+                li.push(cellData[5])
+                li.push(cellData[6])
+
+                customerList.push(li);
+
             }
         };
         reader.readAsText(file, /* optional */ "UTF-8");
@@ -105,16 +128,49 @@ var send = {
         input.click();
 
     },
+    applyVars : function (){
+        var msg = $('#msg').val();
+        var var1 = "#{변수1}";
+        var var2 = "#{변수2}";
+        var var3 = "#{변수3}";
 
+        if($("input:checkbox[name='var1']").prop("checked") == true)
+            var1="변수1";
+        if($("input:checkbox[name='var2']").prop("checked") == true)
+            var2="변수2";
+        if($("input:checkbox[name='var3']").prop("checked") == true)
+            var3="변수3";
+
+        msg = msg.replace(/#{변수1}/gi, var1);
+        msg = msg.replace(/#{변수1}/gi, var1);
+        msg = msg.replace(/#{변수2}/gi, var2);
+        msg = msg.replace(/#{변수3}/gi, var3);
+
+        // var exMsg = document.getElementById('exMsg');
+        $('#exMsg').text(msg);
+        if (msg.includes("#{변수")){
+            alert("매칭되지 않은 변수가 있습니다.\n변수를 잘 선택했는지 확인해 주세요.")
+        }
+    },
     save: function () {
         var csrfHeader = $("meta[name='_csrf_header']").attr("content");
         var csrfToken = $("meta[name='_csrf']").attr("content");
+
+        var varCheckList = [];
+
+        if($("input:checkbox[name='var1']").prop("checked") == true)
+            varCheckList.push(1);
+        if($("input:checkbox[name='var2']").prop("checked") == true)
+            varCheckList.push(2);
+        if($("input:checkbox[name='var3']").prop("checked") == true)
+            varCheckList.push(3);
 
         var data = {
             msg: $('#msg').val(),
             templateCode: $('#templateCode').val(),
             reservedDate: $('#datePicker').val()+$('#time').val().toString().replace(/:/gi,"")+"00",
-            phoneNumList: phoneNumList
+            customerList: customerList,
+            varCheckList : varCheckList
         };
 
         $.ajax({
@@ -135,7 +191,11 @@ var send = {
             else {
                 var error = "";
                 if (stringStatusCode == "9000"){
-                    error = " 9000: 서버 연결 실패";
+                    error = " 9000: kafka 서버 예외 발생";
+                }
+                else if(stringStatusCode == "4000"){
+                    error = " 4000: API Server Connection Error";
+
                 }
                 else {
                     error = stringStatusCode;
@@ -145,7 +205,6 @@ var send = {
         }).fail(function (data, textStatus, errorThrown) {
             alert(JSON.stringify('문제가 발생했습니다. 다시 시도해 주세요.'+
                 data+textStatus+errorThrown));
-
         });
     },
     update: function () {

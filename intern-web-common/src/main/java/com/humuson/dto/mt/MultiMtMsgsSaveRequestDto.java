@@ -1,4 +1,4 @@
-package com.humuson.dto;
+package com.humuson.dto.mt;
 
 import com.humuson.domain.msgs.MtMsgs;
 import lombok.Builder;
@@ -14,10 +14,10 @@ public class MultiMtMsgsSaveRequestDto {
     private String callback;
     private String priority;
     private String mtType;
-    private List<List<String>> phoneNumList;
+    private List<List<String>> customerList;
 
     @Builder
-    public MultiMtMsgsSaveRequestDto(String msg, String reservedDate, String adFlag, String status, String callback, String priority, String mtType, List<List<String>> phoneNumList) {
+    public MultiMtMsgsSaveRequestDto(String msg, String reservedDate, String adFlag, String status, String callback, String priority, String mtType, List<List<String>> customerList) {
         this.msg = msg;
         this.reservedDate = reservedDate;
         this.adFlag = adFlag;
@@ -25,12 +25,12 @@ public class MultiMtMsgsSaveRequestDto {
         this.callback = callback;
         this.priority = priority;
         this.mtType = mtType;
-        this.phoneNumList = phoneNumList;
+        this.customerList = customerList;
     }
 
     public List<MtMsgs> toEntity() {
         List<MtMsgs> msgs = new ArrayList<>();
-        for (List<String> li : phoneNumList) {
+        for (List<String> li : customerList) {
             System.out.println("Mtmsgs" +li.toString());
             MtMsgs mtMsg = new MtMsgs(status,priority,reservedDate,callback, li.get(3), mtType, adFlag, msg );
             msgs.add(mtMsg);

@@ -8,10 +8,10 @@ package com.humuson.service;
 
 import com.humuson.domain.msgs.Msgs;
 import com.humuson.domain.msgs.MsgsRepository;
-import com.humuson.dto.MsgsListResponseDto;
-import com.humuson.dto.MsgsResponseDto;
-import com.humuson.dto.MsgsSaveRequestDto;
-import com.humuson.dto.MsgsUpdateRequestDto;
+import com.humuson.dto.msg.MsgsListResponseDto;
+import com.humuson.dto.msg.MsgsResponseDto;
+import com.humuson.dto.msg.MsgsSaveRequestDto;
+import com.humuson.dto.msg.MsgsUpdateRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
