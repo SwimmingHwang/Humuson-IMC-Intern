@@ -62,7 +62,7 @@ public class ApiCall {
             HttpPost postRequest = new HttpPost(requestURL); //POST 메소드 URL 새성
             postRequest.setHeader("Accept", "application/json");
             postRequest.setHeader("Connection", "keep-alive");
-            postRequest.setHeader("Content-Type", "application/json");
+            postRequest.setHeader("Content-Type", "application/json; charset=utf-8");
             //postRequest.addHeader("x-api-key", RestTestCommon.API_KEY); //KEY 입력
             //postRequest.addHeader("Authorization", token); // token 이용시
 
@@ -70,15 +70,17 @@ public class ApiCall {
             HttpResponse response = client.execute(postRequest);
 
             //TODO : response 확인하기
-            log.debug("response.getEntity() : " + response.getEntity());
-
+            log.info("response.getEntity() : " + response.getEntity());
 
             //Response 출력
             if (response.getStatusLine().getStatusCode() == 200) {
                 ResponseHandler<String> handler = new BasicResponseHandler();
                 String body = handler.handleResponse(response);
-                log.debug("Response Data(body)"+body);
+                log.info("Response Data(body)"+body);
                 // TODO : response handler body 가 9000이면 에러 일으키기!!!
+                if (body.equals("9000")){ // produce 예외 발생시 9000
+                    log.error("Response is error 예외 발생: " + body);
+                }
                 return body;
             } else {
                 log.error("Response is error : " + response.getStatusLine().getStatusCode());
@@ -86,7 +88,7 @@ public class ApiCall {
             }
         } catch (Exception e){
             System.err.println(e.toString());
-            return "9000";
+            return "4000"; // http 연결 에러
         }
     }
 }
