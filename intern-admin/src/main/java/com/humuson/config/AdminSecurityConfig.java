@@ -38,7 +38,8 @@ class AdminSecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
             .antMatchers("/user/**").permitAll()
 //            .antMatchers("/admin/**").hasRole("ADMIN")
-                .antMatchers("/monitor/**").permitAll() // acturator의 endpoint에 모두 접근하게 허용
+            .antMatchers("/monitor/**").permitAll() // acturator의 endpoint에 모두 접근하게 허용
+            .antMatchers("/sba/**").permitAll()
             .anyRequest().hasRole("ADMIN")
         ;
         http.formLogin()
