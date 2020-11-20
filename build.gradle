@@ -48,6 +48,8 @@ project(':intern-web-common') {
         // spring secuirty 5
         compile('org.springframework.boot:spring-boot-starter-security')
         compile('org.thymeleaf.extras:thymeleaf-extras-springsecurity5')
+
+        compile('org.apache.httpcomponents:httpclient:4.5.13')
     }
 }
 
@@ -66,9 +68,13 @@ project(':intern-web') {
 
         // api request
         compile("com.google.code.gson:gson:2.8.6")
-        compile('org.apache.httpcomponents:httpclient:4.5.13')
+//        compile('org.apache.httpcomponents:httpclient:4.5.13')
         testCompile('org.springframework.boot:spring-boot-starter-test') // static debug 용
 
+        // actuator
+        compile('org.springframework.boot:spring-boot-starter-actuator')
+        // springboot admin - client
+        compile('de.codecentric:spring-boot-admin-starter-client:2.1.0')
     }
 }
 
@@ -79,6 +85,11 @@ project(':intern-admin') {
         // thymeleaf
         compile('org.springframework.boot:spring-boot-starter-thymeleaf')
         compile(group: 'nz.net.ultraq.thymeleaf', name: 'thymeleaf-layout-dialect', version: '2.4.1')
+
+        // actuator
+        compile('org.springframework.boot:spring-boot-starter-actuator')
+        // springboot admin - client
+        compile('de.codecentric:spring-boot-admin-starter-client:2.1.0')
     }
 }
 
@@ -101,6 +112,11 @@ project(':intern-consumer-client') {
         compile('org.springframework.kafka:spring-kafka')
 
         compile("com.google.code.gson:gson:2.8.6")
+
+        // actuator
+        compile('org.springframework.boot:spring-boot-starter-actuator')
+        // springboot admin - client
+        compile('de.codecentric:spring-boot-admin-starter-client:2.1.0')
     }
 }
 
@@ -127,6 +143,10 @@ project(':intern-kafka-api') {
 
         testCompile('org.springframework.boot:spring-boot-starter-test') // static debug 용
 
+        // actuator
+        compile('org.springframework.boot:spring-boot-starter-actuator')
+        // springboot admin - client
+        compile('de.codecentric:spring-boot-admin-starter-client:2.1.0')
     }
 
 }
@@ -154,9 +174,32 @@ project(':intern-consumer-agent') {
         compile('org.springframework.kafka:spring-kafka')
         compile("org.springframework.boot:spring-boot-starter-jdbc")
         compile("com.google.code.gson:gson:2.8.6")
+
+        // actuator
+        compile('org.springframework.boot:spring-boot-starter-actuator')
+        // springboot admin - client
+        compile('de.codecentric:spring-boot-admin-starter-client:2.1.0')
     }
 }
 
+project(':intern-springboot-admin') {
+    dependencies {
+//        compile project(':intern-web-common')
+
+        // springboot admin - server
+        compile('de.codecentric:spring-boot-admin-starter-server:2.1.0')
+        compile('de.codecentric:spring-boot-admin-server-ui:2.1.0')
+
+        compile('org.springframework.boot:spring-boot-starter-web')
+
+        // spring secuirty 5
+        compile('org.springframework.boot:spring-boot-starter-security')
+        // actuator
+        compile('org.springframework.boot:spring-boot-starter-actuator')
+
+        compile('org.apache.httpcomponents:httpclient:4.5.13')
+    }
+}
 
 //project(':intern-batch') {
 //    dependencies {

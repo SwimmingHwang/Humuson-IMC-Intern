@@ -38,7 +38,9 @@ class ClientSecurityConfig extends WebSecurityConfigurerAdapter {
             .antMatchers("/user/**").permitAll()
             //member 권한
             .antMatchers("/member/**").hasRole("MEMBER")
-            .antMatchers("/**").authenticated()
+            .antMatchers("/monitor/**").permitAll()
+            .antMatchers("/sba/**").permitAll()
+            .anyRequest().authenticated()
         ;
         http.formLogin()
             .loginPage("/user/login")
@@ -56,7 +58,7 @@ class ClientSecurityConfig extends WebSecurityConfigurerAdapter {
             .accessDeniedPage("/user/denied")
         ;
         http.httpBasic()
-            .disable()
+//            .disable()
         ;
         http.headers() // 기본 보안 암호 사용 제거
             .httpStrictTransportSecurity()
