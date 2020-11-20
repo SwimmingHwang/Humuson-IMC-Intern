@@ -1,9 +1,9 @@
 package com.humuson.controller;
 
-import com.humuson.dto.CustomerListResponseDto;
-import com.humuson.dto.CustomerResponseDto;
-import com.humuson.dto.CustomerSaveRequestDto;
-import com.humuson.dto.CustomerUpdateRequestDto;
+import com.humuson.dto.customer.CustomerListResponseDto;
+import com.humuson.dto.customer.CustomerResponseDto;
+import com.humuson.dto.customer.CustomerSaveRequestDto;
+import com.humuson.dto.customer.CustomerUpdateRequestDto;
 import com.humuson.service.CustomerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;

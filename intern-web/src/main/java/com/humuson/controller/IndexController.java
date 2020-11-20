@@ -1,9 +1,9 @@
 package com.humuson.controller;
 
-import com.humuson.dto.AtMsgsResponseDto;
-import com.humuson.dto.CustomerResponseDto;
-import com.humuson.dto.FtMsgsResponseDto;
-import com.humuson.dto.MtMsgsResponseDto;
+import com.humuson.dto.at.AtMsgsResponseDto;
+import com.humuson.dto.customer.CustomerResponseDto;
+import com.humuson.dto.ft.FtMsgsResponseDto;
+import com.humuson.dto.mt.MtMsgsResponseDto;
 import com.humuson.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -107,8 +107,8 @@ public class IndexController {
         model.addAttribute("templateCodes",templateInfoService.findAll());
         return "page/multiMsgsSend";
     }
-    @GetMapping("/send/multi-msgs/save/at/list")    // 주소록
 
+    @GetMapping("/send/multi-msgs/save/at/list")    // 주소록
     public String multiMsgsSaveList(Model model) {
         model.addAttribute("msg","at"+"list");
         model.addAttribute("msgs", atMsgsService.findAll());

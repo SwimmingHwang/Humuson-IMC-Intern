@@ -1,9 +1,9 @@
 package com.humuson.controller;
 
-import com.humuson.dto.FtMsgsListResponseDto;
-import com.humuson.dto.FtMsgsResponseDto;
-import com.humuson.dto.FtMsgsSaveRequestDto;
-import com.humuson.dto.FtMsgsUpdateRequestDto;
+import com.humuson.dto.ft.FtMsgsListResponseDto;
+import com.humuson.dto.ft.FtMsgsResponseDto;
+import com.humuson.dto.ft.FtMsgsSaveRequestDto;
+import com.humuson.dto.ft.FtMsgsUpdateRequestDto;
 import com.humuson.service.FtMsgsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;

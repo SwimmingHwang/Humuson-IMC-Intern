@@ -1,7 +1,7 @@
 package com.humuson.controller;
 
 import com.humuson.domain.msgs.MtMsgs;
-import com.humuson.dto.*;
+import com.humuson.dto.mt.*;
 import com.humuson.service.MtMsgsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
