@@ -20,7 +20,7 @@ public class AtController {
         Gson gson = new Gson();
         String reqJsonData = gson.toJson(requestDto);
         log.info("API At Msg : " + reqJsonData);
-        String stringStatusCode = Producer.produce(reqJsonData);
+        String stringStatusCode = Producer.produce(reqJsonData,0);
         log.info("IN AT CONTROLLER stringStatusCode : " + stringStatusCode);
         return stringStatusCode;//200 or 9000
     }
@@ -34,7 +34,7 @@ public class AtController {
         for (AtMsgsSaveRequestDto msg : requestDto) {
             String reqDataJson = gson.toJson(msg);
             log.info("API At Msgs : " + reqDataJson);
-            stringStatusCode = Producer.produce(reqDataJson);
+            stringStatusCode = Producer.produce(reqDataJson,0);
             log.info("IN AT CONTROLLER stringStatusCode : " + stringStatusCode);
         }
         return stringStatusCode;//200 or 9000
@@ -46,7 +46,7 @@ public class AtController {
         Gson gson = new Gson();
         String reqJsonData = gson.toJson(requestDto);
         log.info("API Mt Msg : " + reqJsonData);
-        String stringStatusCode = Producer.produce(reqJsonData);
+        String stringStatusCode = Producer.produce(reqJsonData,1);
         log.info("IN AT CONTROLLER stringStatusCode : " + stringStatusCode);
         return stringStatusCode;//200 or 9000
     }
@@ -60,7 +60,7 @@ public class AtController {
         for (MtMsgsSaveRequestDto msg : requestDto) {
             String reqDataJson = gson.toJson(msg);
             log.info("API Mt Msgs : " + reqDataJson);
-            stringStatusCode = Producer.produce(reqDataJson);
+            stringStatusCode = Producer.produce(reqDataJson,1);
             log.info("IN AT CONTROLLER stringStatusCode : " + stringStatusCode);
         }
         return stringStatusCode;//200 or 9000
