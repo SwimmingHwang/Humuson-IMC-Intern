@@ -1,30 +1,34 @@
 package com.humuson.api.config;
 
+import io.swagger.v3.oas.annotations.OpenAPIDefinition;
+import io.swagger.v3.oas.annotations.info.Contact;
+import io.swagger.v3.oas.annotations.info.Info;
+import io.swagger.v3.oas.annotations.info.License;
+import org.springdoc.core.GroupedOpenApi;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import springfox.documentation.builders.ApiInfoBuilder;
-import springfox.documentation.builders.PathSelectors;
-import springfox.documentation.builders.RequestHandlerSelectors;
-import springfox.documentation.service.ApiInfo;
-import springfox.documentation.spi.DocumentationType;
-import springfox.documentation.spring.web.plugins.Docket;
-import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
+@OpenAPIDefinition(
+        info = @Info(title = "humuson-intern project API 명세서",
+                description = "API 명세서",
+                version = "v1"
+//                contact = @Contact(name = "humuson-imc", email = "sooyoung971229@gmail.com"),
+//                license = @License(name = "Apache 2.0",
+//                        url = "http://www.apache.org/licenses/LICENSE-2.0.html")
+        )
+)
 @Configuration
-@EnableSwagger2
 public class SwaggerConfiguration {
+    /**
+     * customGameOpenApi.
+     * @return GroupedOpenApi
+     */
     @Bean
-    public Docket swaggerApi() {
-        return new Docket(DocumentationType.SWAGGER_2).apiInfo(swaggerInfo()).select()
-                .apis(RequestHandlerSelectors.basePackage("com.humuson.api.controller"))
-                .paths(PathSelectors.any())
-                .build()
-                .useDefaultResponseMessages(false); // 기본으로 세팅되는 200,401,403,404 메시지를 표시 하지 않음
-    }
-
-    private ApiInfo swaggerInfo() {
-        return new ApiInfoBuilder().title("Spring API Documentation")
-                .description("앱 개발시 사용되는 서버 API에 대한 연동 문서입니다")
-                .license("humuson-imc-intern").licenseUrl("http://humuson.com").version("1").build();
+    public GroupedOpenApi customGameOpenApi() {
+        String[] paths = {"/**"};
+        return GroupedOpenApi.builder().group("Defualt API").pathsToMatch(paths)
+                .build();
     }
 }
+
+
