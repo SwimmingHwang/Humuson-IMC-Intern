@@ -31,21 +31,16 @@ var send = {
 
             var day = date.getDate(),
                 month = date.getMonth() + 1,
-                year = date.getFullYear(),
-                hour = date.getHours(),
-                min  = date.getMinutes();
+                year = date.getFullYear();
 
             month = (month < 10 ? "0" : "") + month;
             day = (day < 10 ? "0" : "") + day;
-            hour = (hour < 10 ? "0" : "") + hour;
-            min = (min < 10 ? "0" : "") + min;
 
-            var today = year + "" + month + "" + day,
-                displayTime = hour + ":" + min;
+            var today = year + "" + month + "" + day;
+
+            $.fn.datepicker.defaults.format = "yyyymmdd";
 
             $('#datePicker').datepicker({
-                // TODO default 날짜 형식 수정할 것
-                defaultViewDate : today,
                 format: "yyyymmdd",	//데이터 포맷 형식(yyyy : 년 mm : 월 dd : 일 )
                 startDate: '0d',	//달력에서 선택 할 수 있는 가장 빠른 날짜. 이전으로는 선택 불가능 ( d : 일 m : 달 y : 년 w : 주)
                 endDate: '+30d',	//달력에서 선택 할 수 있는 가장 느린 날짜. 이후로 선택 불가 ( d : 일 m : 달 y : 년 w : 주)
@@ -69,6 +64,7 @@ var send = {
                 toggleActive : true,	//이미 선택된 날짜 선택하면 기본값 : false인경우 그대로 유지 true인 경우 날짜 삭제
                 weekStart : 0 ,//달력 시작 요일 선택하는 것 기본값은 0인 일요일
             });
+            $('#datePicker').datepicker('update',today);
         });
 
     },

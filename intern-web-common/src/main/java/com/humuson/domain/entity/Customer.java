@@ -6,10 +6,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @DynamicInsert // insert 시 null인 필드 제외
 @DynamicUpdate // update 시
@@ -37,17 +34,14 @@ public class Customer {
         this.var2 = var2;
         this.var3 = var3;
     }
-
-
     @Builder
     public Customer(long id, String userId, String name, String phoneNumber, String var1, String var2, String var3) {
         this.id = id;
         this.userId = userId;
         this.name = name;
         this.phoneNumber = phoneNumber;
-        this.var1 = var1;
-        this.var2 = var2;
-        this.var3 = var3;
+        this.var1 = this.var1 == null? "" : this.var1; // 결과 받는 URL
+        this.var2 = this.var2 == null? "" : this.var2; // 결과 받는 URL
+        this.var3 = this.var3 == null? "" : this.var3; // 결과 받는 URL
     }
-
 }
