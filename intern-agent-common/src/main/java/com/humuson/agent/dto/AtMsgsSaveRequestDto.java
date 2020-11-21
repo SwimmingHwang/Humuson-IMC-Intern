@@ -43,10 +43,10 @@ public class AtMsgsSaveRequestDto {
     @Override
     public String toString() {
         return "AtMsgs {" +
-                ", reserved_dat:" + reservedDate +
+                " message:" + msg +
                 ", phone_number:" + phoneNumber +
                 ", template_code:" + templateCode +
-                ", messag:" + msg +
+                ", reserved_date:" + reservedDate +
                 "}";
     }
 }

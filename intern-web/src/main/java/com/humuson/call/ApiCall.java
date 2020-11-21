@@ -1,5 +1,6 @@
 package com.humuson.call;
 
+import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.ResponseHandler;
@@ -25,8 +26,6 @@ public class ApiCall {
             con.setReadTimeout(5000); // InputStream 읽어 오는 Timeout 시간 설정
 //            con.addRequestProperty("x-api-key", RestTestCommon.API_KEY); //key값 설정
             con.setRequestMethod("GET");
-
-
 
             //URLConnection에 대한 doOutput 필드값을 지정된 값으로 설정한다. URL 연결은 입출력에 사용될 수 있다. URL 연결을 출력용으로 사용하려는 경우 DoOutput 플래그를 true로 설정하고, 그렇지 않은 경우는 false로 설정해야 한다. 기본값은 false이다.
 
@@ -66,7 +65,8 @@ public class ApiCall {
             //postRequest.addHeader("x-api-key", RestTestCommon.API_KEY); //KEY 입력
             //postRequest.addHeader("Authorization", token); // token 이용시
 
-            postRequest.setEntity(new StringEntity(jsonMessage)); //json 메시지 입력
+            HttpEntity entity = new StringEntity(jsonMessage, "UTF-8");
+            postRequest.setEntity(entity); //json 메시지 입력
             HttpResponse response = client.execute(postRequest);
 
             //TODO : response 확인하기

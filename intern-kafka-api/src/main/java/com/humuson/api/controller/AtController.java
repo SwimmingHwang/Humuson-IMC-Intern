@@ -2,6 +2,7 @@ package com.humuson.api.controller;
 
 import com.google.gson.Gson;
 import com.humuson.agent.domain.entity.AtMsgs;
+import com.humuson.agent.dto.AtMsgsSaveRequestDto;
 import com.humuson.api.Producer;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -12,27 +13,29 @@ import java.util.List;
 @Controller
 public class AtController {
 
-    @PostMapping(value = "/api/at-msg")
+    @PostMapping(value = "/api/at-msg",produces = "application/json; charset=utf8")
     @ResponseBody
-    public String apiAtMsg(@RequestBody AtMsgs reqAt) {
+    public String apiAtMsg(@RequestBody AtMsgsSaveRequestDto requestDto) {
+        log.info(requestDto.getMsg());
         Gson gson = new Gson();
-        String reqJsonData = gson.toJson(reqAt);
+        String reqJsonData = gson.toJson(requestDto);
         log.info("API At Msg : " + reqJsonData);
         String stringStatusCode = Producer.produce(reqJsonData);
         log.info("IN AT CONTROLLER stringStatusCode : " + stringStatusCode);
         return stringStatusCode;//200 or 9000
     }
 
-    @PostMapping(value = "/api/at-msgs")
+    @PostMapping(value = "/api/at-msgs",produces = "application/json; charset=utf8")
     @ResponseBody
-    public String apiAtMsgs(@RequestBody List<AtMsgs> reqAt) {
+    public String apiAtMsgs(@RequestBody List<AtMsgsSaveRequestDto> requestDto) {
+        log.info(requestDto.toString());
         Gson gson = new Gson();
         String stringStatusCode = "";
-        for (AtMsgs msg : reqAt) {
+        for (AtMsgsSaveRequestDto msg : requestDto) {
             String reqDataJson = gson.toJson(msg);
-            log.debug("API At Msgs : " + reqDataJson);
+            log.info("API At Msgs : " + reqDataJson);
             stringStatusCode = Producer.produce(reqDataJson);
-            log.debug("IN AT CONTROLLER stringStatusCode : " + stringStatusCode);
+            log.info("IN AT CONTROLLER stringStatusCode : " + stringStatusCode);
         }
         return stringStatusCode;//200 or 9000
     }
