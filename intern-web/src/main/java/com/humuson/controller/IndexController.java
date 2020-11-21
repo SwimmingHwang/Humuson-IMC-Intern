@@ -31,7 +31,7 @@ public class IndexController {
 
     @GetMapping("/send")
     public String send(Model model){// 서버 템플릿 엔진에서 사용할 수 있는 객체 저장
-        return "page/send";
+        return "page/send/send";
     }
 
 //    @GetMapping("/login")
@@ -44,7 +44,7 @@ public class IndexController {
     * */
     @GetMapping("/send/at-send")
     public String atSend(){
-        return "page/atSend";
+        return "page/send/atsend";
 
     }
     @GetMapping("/send/ft-send")
@@ -52,14 +52,14 @@ public class IndexController {
         model.addAttribute("title","친구톡 발송 예약 내역");
         model.addAttribute("msgSbj","ft");
         model.addAttribute("msgs",ftMsgsService.findAll());
-        return "page/ftSend";
+        return "page/send/ftsend";
     }
     @GetMapping("/send/mt-send")
     public String mtSend(Model model){
         model.addAttribute("title","문자 메시지 발송 예약 내역");
         model.addAttribute("msgSbj","mt");
         model.addAttribute("msgs",mtMsgsService.findAll());
-        return "page/mtSend";
+        return "page/send/mtsend";
     }
 
     // 결과 조회 ------------------------------------------------------------------------------------
@@ -97,7 +97,7 @@ public class IndexController {
         //test 용
         model.addAttribute("msgs", atMsgsService.findAll());
         model.addAttribute("templateCodes",templateInfoService.findAll());
-        return "page/singleMsgSend";
+        return "page/sendDetails/singleMsgSend";
     }
     @GetMapping("/send/multi-msgs/save/at")
     public String multiMsgsSave(Model model) {
@@ -105,7 +105,7 @@ public class IndexController {
         //test 용
         model.addAttribute("msgs", atMsgsService.findAll());
         model.addAttribute("templateCodes",templateInfoService.findAll());
-        return "page/multiMsgsSend";
+        return "page/sendDetails/multiMsgsSend";
     }
 
     @GetMapping("/send/multi-msgs/save/at/list")    // 주소록
@@ -114,7 +114,7 @@ public class IndexController {
         model.addAttribute("msgs", atMsgsService.findAll());
         model.addAttribute("templateCodes",templateInfoService.findAll());
         model.addAttribute("customers",customerService.findAll());
-        return "page/multiMsgsSend";
+        return "page/sendDetails/multiMsgsSend";
     }
 
     @GetMapping("/send/msgs/save/{msg}")
@@ -123,7 +123,7 @@ public class IndexController {
         //test 용
         model.addAttribute("msgs", atMsgsService.findAll());
         model.addAttribute("templateCodes",templateInfoService.findAll());
-        return "page/singleMsgSend";
+        return "page/sendDetails/singleMsgSend";
     }
 
 
@@ -133,21 +133,21 @@ public class IndexController {
         model.addAttribute("msg","mt");
         //test 용
         model.addAttribute("msgs", mtMsgsService.findAll());
-        return "page/singleMtMsgSend";
+        return "page/sendDetails/singleMtMsgSend";
     }
     @GetMapping("/send/multi-msgs/save/mt")
     public String multiMtMsgsSave(Model model) {
         model.addAttribute("msg","mt");
         //test 용
 //        model.addAttribute("msgs", mtMsgsService.findAll());
-        return "page/multiMtMsgsSend";
+        return "page/sendDetails/multiMtMsgsSend";
     }
     @GetMapping("/send/multi-msgs/save/mt/list")// 주소록
     public String multiMtMsgsSaveList(Model model) {
         model.addAttribute("msg","mt"+"list");
         model.addAttribute("msgs", mtMsgsService.findAll());
         model.addAttribute("customers",customerService.findAll());
-        return "page/multiMtMsgsSend";
+        return "page/sendDetails/multiMtMsgsSend";
     }
 
 

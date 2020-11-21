@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.w3.org/1999/xhtml"
+
+      layout:decorator="layout/default_layout">
+
+<div layout:fragment="content">
+    <h1 class="h3 mb-1 text-gray-800">대량 문자 발송</h1>
+    <p class="mb-4">두 분 이상의 고객에게 메시지를 대량으로 보냅니다.</p>
+
+    <div class="row">
+        <div class="col-md-12">
+<!--            <div class="col-lg-6">-->
+                <div class="card position-relative">
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary">메시지 작성</h6>
+                    </div>
+                    <div class="card-body">
+                        <div>
+                            <strong>메시지 유형</strong>
+                            <select id="mtType" class="custom-select">
+                                <option value="" disabled selected>메시지 유형을 선택하세요(MT 상품 타입 (SM-SMS, LM-LMS)</option>
+                                <option th:text="SM">default</option>
+                                <option th:text="LM">default</option>
+                            </select>
+                        </div>
+                        <br>
+
+                        <div>
+                            <strong>광고 문구 표시 여부</strong>
+                            <input id="adFlag" type="checkbox" name="adFlag" value="Y">
+                        </div>
+                        <br>
+
+                        <div>
+                            <strong>발송 일시</strong>
+                            <p>기본은 즉시 발송 입니다. 날짜를 선택하게 되면 선택한 시간으로 발송이 예약됩니다.</p>
+                            <input type="text" id="datePicker" class="form-control" >
+                            <input type="time" id="time" class="form-control"  value="10:00" min="00:00:00" max="23:59:59">
+                        </div>
+                        <br>
+
+                        <div>
+                            <strong>발신번호</strong>
+                            <input type="text" class="form-control" id="callback" placeholder="발신 번호를 입력하세요">
+                        </div>
+                        <br>
+
+                        <div>
+                            <strong>메시지 내용</strong>
+                            <input type="text" class="form-control" id="msg" placeholder="내용을 입력하세요">
+                        </div>
+                        <br>
+
+                        <div>
+                            <strong>변수 선택</strong>
+                            <p>삽입할 변수를 선택 후 체크버튼을 누르면 변수가 적용된 문장을 확인할 수 있습니다.</p>
+                            <input id="var1" type="checkbox" name="var1"> 변수1
+                            <input id="var2" type="checkbox" name="var2"> 변수2
+                            <input id="var3" type="checkbox" name="var3"> 변수3
+                            <a id="btn-applyVars" class="btn btn-primary btn-circle">
+                                <i class="fas fa-check"></i>
+                            </a>
+                            <p><strong>예시 문장</strong></p>
+                            <div id="exMsg"></div>
+                            <br>
+                        </div>
+
+                        <div>
+                            <label for="btn-phoneNumber">
+                                <strong>연락처</strong>
+                                <a class="btn btn-success btn-icon-split" id="btn-phoneNumber" type="button">
+                                            <span class="icon text-white-50">
+                                                <i class="fas fa-check"></i>
+                                            </span>
+                                    <div>
+                                        <span class="text">Open</span>
+                                    </div>
+                                </a>
+                            </label>
+                            <br>
+
+                            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                <!-- 기존 -->
+                                <!--<table class="table table-horizontal table-bordered">-->
+                                <thead class="thead-strong">
+                                <tr>
+                                    <th>순서</th>
+                                    <th>아이디</th>
+                                    <th>이름</th>
+                                    <th>전화번호</th>
+                                    <th>변수1</th>
+                                    <th>변수2</th>
+                                    <th>변수3</th>
+                                </tr>
+                                </thead>
+                                <tbody id="tbody">
+                                <tr th:each="customer : ${customers}">
+                                    <td th:text="${customer.id}">default</td>
+                                    <td th:text="${customer.userId}">default</td>
+                                    <td th:text="${customer.name}">default</td>
+                                    <td th:text="${customer.phoneNumber}">default</td>
+                                    <td th:text="${customer.var1}">default</td>
+                                    <td th:text="${customer.var2}">default</td>
+                                    <td th:text="${customer.var3}">default</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <br>
+                        </div>
+                        <br>
+
+                        <div>
+                            <a href="/" role="button" class="btn btn-secondary">취소</a>
+                            <button type="button" class="btn btn-primary" id="btn-save">등록</button>
+                        </div>
+
+                    </div>
+                </div>
+<!--            </div>-->
+        </div>
+    </div>
+    <!--custom 스크립트 -->
+    <th:block layout:fragment="script">
+        <link rel="stylesheet" th:href="@{/vendor/bootstrap/scss/bootstrap-datepicker.min.css}">
+        <script th:src="@{/vendor/bootstrap/js/bootstrap-datepicker.min.js}"></script>
+        <script th:src="@{/js/app/multi{msgjs}Send.js(msgjs=${msg})}"></script>
+    </th:block>
+</div>
+</html>

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.w3.org/1999/xhtml"
+
+      layout:decorator="layout/default_layout">
+
+<div layout:fragment="content">
+    <h1 class="h3 mb-1 text-gray-800">단일 알림톡 발송</h1>
+    <p class="mb-4">한 고객에게 메시지를 발송합니다.</p>
+
+    <div class="row">
+        <div class="col-md-12">
+            <!--            <div class="col-lg-6">-->
+            <div class="card position-relative">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">메시지 작성</h6>
+                </div>
+                <div class="card-body">
+                    <div>
+                        <strong>템플릿 코드</strong>
+                        <select id="templateCode" class="custom-select">
+                            <option value="" disabled selected>템플릿 코드를 선택하세요.</option>
+                            <tr th:each="templateCode : ${templateCodes}">
+                                <option th:text="${templateCode.templateCode}">default</option>
+                            </tr>
+                        </select>
+                    </div>
+                    <br>
+
+                    <div>
+                        <strong>발송 일시</strong>
+                        <p>기본은 즉시 발송 입니다. 날짜를 선택하게 되면 선택한 시간으로 발송이 예약됩니다.</p>
+                        <input type="text" id="datePicker" class="form-control" >
+                        <input type="time" id="time" class="form-control" value="10:00" min="00:00:00" max="23:59:59">
+                    </div>
+                    <br>
+
+                    <div>
+                        <strong>메시지 내용</strong>
+                        <input type="text" class="form-control input-lg" id="msg" placeholder="내용을 입력하세요">
+                    </div>
+                    <br>
+
+                    <div>
+                        <strong>전화번호</strong>
+                        <input type="text" class="form-control" id="phoneNumber" placeholder="전화번호를 입력하세요">
+                    </div>
+                    <br>
+
+                    <div>
+                        <a href="/" role="button" class="btn btn-secondary">취소</a>
+                        <button type="button" class="btn btn-primary" id="btn-save">등록</button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!--custom 스크립트 -->
+    <th:block layout:fragment="script">
+        <link rel="stylesheet" th:href="@{/vendor/bootstrap/scss/bootstrap-datepicker.min.css}">
+        <script th:src="@{/vendor/bootstrap/js/bootstrap-datepicker.min.js}"></script>
+        <script th:src="@{/js/app/{msgjs}Send.js(msgjs=${msg})}"></script>
+    </th:block>
+</div>
+</html>
