@@ -13,7 +13,7 @@ import javax.persistence.*;
 @DynamicUpdate // update 시
 @Getter
 @NoArgsConstructor
-@Table(name = "imc_profile")
+//@Table(name = "imc_profile")
 @Entity //JPA의 어노테이션
 public class Profile extends BaseTimeEntity {
     @Id

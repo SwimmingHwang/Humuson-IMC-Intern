@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.humuson.call.ApiCall;
 import com.humuson.domain.msgs.AtMsgs;
 import com.humuson.dto.at.*;
+import com.humuson.service.AtMsgsJdbcService;
 import com.humuson.service.AtMsgsService;
 import com.humuson.service.CustomerService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -21,6 +22,7 @@ import java.util.List;
 public class AtMsgsApiController {
 
     private final AtMsgsService atMsgsService;
+    private final AtMsgsJdbcService atMsgsJdbcService;
     private final CustomerService customerService;
 
     @Operation(summary="알림톡 생성", description = "알림톡 메시지 레코드를 DB에 insert & Server API로 데이터 전송")
@@ -62,7 +64,8 @@ public class AtMsgsApiController {
         log.info("statusCode :"+statusCode);
 
         if (statusCode.equals("200")){
-            atMsgsService.saveAllList(requestDto);
+//            atMsgsService.saveAllList(requestDto);
+            atMsgsJdbcService.saveAllList(requestDto);
         }
         return statusCode;
     }

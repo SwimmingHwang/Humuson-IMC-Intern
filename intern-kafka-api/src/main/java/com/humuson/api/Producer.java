@@ -1,5 +1,6 @@
 package com.humuson.api;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.producer.*;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.slf4j.Logger;
@@ -9,10 +10,11 @@ import org.springframework.stereotype.Component;
 
 import java.util.Properties;
 
+@Slf4j
 @Component
 public class Producer {
 
-    private static final Logger logger = LoggerFactory.getLogger(Producer.class);
+//    private static final Logger logger = LoggerFactory.getLogger(Producer.class);
 
     private static String AT_TOPIC_NAME;
     private static String MT_TOPIC_NAME;
@@ -56,10 +58,10 @@ public class Producer {
 
             producer.send(record);
 
-            logger.info("Send to " + topicName + " | data : " + data);
+            log.info("Send to " + topicName + " | data : " + data);
             stringStatusCode = "200";
         } catch (Exception e) {
-            logger.error(e.getMessage(),e);
+            log.info(e.getMessage(),e);
             stringStatusCode = "9000";
         } finally{
             producer.flush();
