@@ -17,7 +17,7 @@ public class UserController {
 
     @GetMapping("/")
     public String dashboard() {
-        return "redirect:/admin";
+        return "admin/dashboard";
     }
 
     // 회원가입 페이지
@@ -30,7 +30,7 @@ public class UserController {
     @PostMapping("/user/sign-up")
     public String execSignup(UserDto userDto) {
         userService.saveAdminUser(userDto);
-        return "redirect:/user/login";
+        return "admin/dashboard";
     }
 
     // 로그인 페이지
@@ -50,10 +50,10 @@ public class UserController {
     }
 
     // 로그인 결과 페이지
-    @GetMapping("/user/login/result")
-    public String dispLoginResult() {
-        return "redirect:/admin";
-    }
+//    @GetMapping("/user/login/result")
+//    public String dispLoginResult() {
+//        return "redirect:/admin";
+//    }
 
     // 로그아웃 결과 페이지
     @GetMapping("/user/logout/result")

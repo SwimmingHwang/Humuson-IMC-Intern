@@ -9,6 +9,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
@@ -38,7 +39,9 @@ class AdminSecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
             .antMatchers("/user/**").permitAll()
             .antMatchers("/admin/**").hasRole("ADMIN")
-            .antMatchers("/**").authenticated()
+            .antMatchers("/monitor/**").permitAll() // acturator의 endpoint에 모두 접근하게 허용
+            .antMatchers("/sba/**").permitAll()
+            .anyRequest().hasRole("ADMIN")
         ;
         http.formLogin()
             .loginPage("/user/login")
@@ -50,22 +53,26 @@ class AdminSecurityConfig extends WebSecurityConfigurerAdapter {
         http.logout()
             .logoutRequestMatcher(new AntPathRequestMatcher("/user/logout"))
             .logoutSuccessUrl("/user/logout/result")
-            .invalidateHttpSession(true)
+            .invalidateHttpSession(true) // 로그아웃 시 세션 제거
+//            .deleteCookies("JSESSIONID") // 쿠키 제거
+//            .clearAuthentication(true)  // 권한 정보 제거
+//            .permitAll()
         ;
         http.exceptionHandling()
             .accessDeniedPage("/user/denied")
         ;
         http.httpBasic()
-            .disable()
+//            .disable()
         ;
         http.headers() // 기본 보안 암호 사용 제거
             .httpStrictTransportSecurity()
             .disable()
         ;
-        http.sessionManagement()
+//        http.sessionManagement()
 //            .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-            .maximumSessions(1); // 세션 1개만 유지
-        ;
+//            .maximumSessions(1) // 세션 1개만 유지
+//            .maxSessionsPreventsLogin(true); // 동시 접속 세션수 제한
+//        ;
     }
 
     @Override

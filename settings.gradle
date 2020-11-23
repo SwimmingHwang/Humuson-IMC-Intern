@@ -2,11 +2,11 @@ rootProject.name = 'imc'
 
 include 'intern-web'
 include 'intern-web-common'
-//include 'intern-batch'
 include 'intern-admin'
-//include 'intern-producer-batch'
+include 'intern-producer-batch'
 include 'intern-consumer-client'
 include 'intern-consumer-agent'
 include 'intern-kafka-api'
 include 'intern-agent-common'
+include 'intern-springboot-admin'
 

@@ -40,17 +40,12 @@ public class UserController {
     @PostMapping("/user/login")
     public String execLogin(UserDto userDto) {
         if(userDto.getAuthority().equals(Role.MEMBER.getValue())) {
-            return "redirect:/member";
+            return "member/member-page";
         } else {
             return "redirect:/user/login";
         }
     }
 
-    @Operation(summary="로그인 결과 페이지")
-    @GetMapping("/user/login/result")
-    public String dispLoginResult() {
-        return "redirect:/member";
-    }
 
     @Operation(summary="로그아웃 결과 페이지")
     @GetMapping("/user/logout/result")

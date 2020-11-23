@@ -16,7 +16,7 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
-        request.getSession().setMaxInactiveInterval(60*60); // 세션 유지 시간 설정
+        request.getSession().setMaxInactiveInterval(60*60);
 
         if (auth.getAuthorities().contains(new SimpleGrantedAuthority(Role.MEMBER.getValue()))) {
             response.sendRedirect("/");

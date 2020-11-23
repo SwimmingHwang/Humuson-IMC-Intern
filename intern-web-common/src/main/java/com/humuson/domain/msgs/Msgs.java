@@ -24,34 +24,12 @@ public class Msgs {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-
-    @NotNull
-    @ColumnDefault("0")
     private String status;
-
-    @NotNull
-    @ColumnDefault("0")
     private String priority;
-
-    @NotNull
-    @ColumnDefault("1999-99-99")
     private String reservedDate;
-
-    @NotNull
-    @ColumnDefault("0")
     private String senderKey;
-
-    @NotNull
-    @ColumnDefault("0")
     private String phoneNumber;
-
-    //    private String appUserId;
-    @NotNull
-    @ColumnDefault("0")
     private String templateCode;
-
-    @Column(name = "MESSAGE")
-    @ColumnDefault("0")
     private String msg; // 메시지 내용
 
 

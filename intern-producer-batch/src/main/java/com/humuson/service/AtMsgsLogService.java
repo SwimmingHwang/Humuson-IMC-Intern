@@ -1,6 +1,7 @@
 package com.humuson.service;
-import com.humuson.domain.msgs.AtMsgsLog;
-import com.humuson.domain.msgs.AtMsgsLogRepository;
+
+import com.humuson.domain.entity.AtMsgsLog;
+import com.humuson.domain.repository.AtMsgsLogRepository;
 import com.humuson.dto.AtMsgsLogListDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
