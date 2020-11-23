@@ -40,8 +40,8 @@ public class Customer {
         this.userId = userId;
         this.name = name;
         this.phoneNumber = phoneNumber;
-        this.var1 = this.var1 == null? "" : this.var1; // 결과 받는 URL
-        this.var2 = this.var2 == null? "" : this.var2; // 결과 받는 URL
-        this.var3 = this.var3 == null? "" : this.var3; // 결과 받는 URL
+        this.var1 = var1 == null? "" : var1; // 결과 받는 URL
+        this.var2 = var2 == null? "" : var2; // 결과 받는 URL
+        this.var3 = var3 == null? "" : var3; // 결과 받는 URL
     }
 }
