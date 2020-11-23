@@ -44,8 +44,9 @@ public class AtMsgs {
 
 
     @Builder // 해당 클래스의 빌더 패턴 클래스를 생성
-    public AtMsgs(String status, String priority, String reservedDate, String senderKey,
+    public AtMsgs(Integer id, String status, String priority, String reservedDate, String senderKey,
                   String phoneNumber, String templateCode, String msg, String etc1){
+        this.id = id;
         this.status = status;
         this.priority = priority;
         this.reservedDate = reservedDate;

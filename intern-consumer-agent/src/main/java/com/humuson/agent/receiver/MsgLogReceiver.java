@@ -7,11 +7,18 @@ import com.humuson.agent.dto.MtMsgsSaveRequestDto;
 import com.humuson.agent.service.AtMsgsService;
 import com.humuson.agent.service.FtMsgsService;
 import com.humuson.agent.service.MtMsgsService;
+import com.humuson.agent.utiliy.ApiCall;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPut;
+import org.apache.http.entity.StringEntity;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Service;
+
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -23,7 +30,7 @@ public class MsgLogReceiver {
     private final MtMsgsService mtMsgsService;
 
     @KafkaListener(topics = "${kafka.at.topic.name}", groupId = "${kafka.at.topic.group.name}")
-    public void atLoglistenr(@Payload String message) {
+    public void atLoglistenr(@Payload String message) throws IOException {
         log.info("At Topic Listner : {}", message);
         Gson gson = new Gson();
         AtMsgsSaveRequestDto atMsgstDto = null;
@@ -32,7 +39,12 @@ public class MsgLogReceiver {
         } catch (Exception e) {
             log.info("it is not json format");
         }
-        if(atMsgstDto != null) atMsgsService.save(atMsgstDto);
+        if(atMsgstDto != null) {
+            atMsgsService.save(atMsgstDto); // agent DB에 atMsgs 저장
+//            atMsgstDto.setStatus();
+//            String status = ApiCall.put("http://localhost:8080/api/v1/at-msgs/" + atMsgstDto.getId().toString(), "3"); // client DB에 status 바꾸는 api 호출
+//            log.info("at msg status change : {}", status);
+        }
     }
 
     @KafkaListener(topics = "${kafka.ft.topic.name}", groupId = "${kafka.ft.topic.group.name}")

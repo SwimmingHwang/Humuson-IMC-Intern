@@ -17,7 +17,6 @@ public class AgentConsumerApplication {
     }
 
     @Bean
-    @ConfigurationProperties("kafka.health")
     public KafkaHealthProperties kafkaHealthProperties() {
         return new KafkaHealthProperties();
     }

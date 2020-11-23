@@ -17,26 +17,31 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class AtMsgsSaveRequestDto {
+    private Integer id;
     private String msg;
     private String phoneNumber;
     private String templateCode;
     private String reservedDate;
+    private String status;
 
 
     @Builder
-    public AtMsgsSaveRequestDto(String msg, String phoneNumber, String templateCode, String reservedDate) {
+    public AtMsgsSaveRequestDto(Integer id, String msg, String phoneNumber, String templateCode, String reservedDate, String status) {
         this.msg = msg;
         this.phoneNumber = phoneNumber;
         this.templateCode = templateCode;
         this.reservedDate = reservedDate;
+        this.status = status;
     }
 
     public AtMsgs toEntity() {
         return AtMsgs.builder()
+                .id(id)
                 .msg(msg)
                 .phoneNumber(phoneNumber)
                 .templateCode(templateCode)
                 .reservedDate(reservedDate)
+                .status(status)
                 .build();
     }
 
@@ -47,6 +52,7 @@ public class AtMsgsSaveRequestDto {
                 ", phone_number:" + phoneNumber +
                 ", template_code:" + templateCode +
                 ", reserved_date:" + reservedDate +
+                ", status:" + status +
                 "}";
     }
 }

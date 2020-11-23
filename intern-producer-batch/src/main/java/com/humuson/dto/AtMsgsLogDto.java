@@ -9,7 +9,7 @@ public class AtMsgsLogDto {
     private String status;
     private String priority;
     private String reserved_date;
-    private String senderkey;
+    private String sender_key;
     private String phone_number;
     private String template_code;
     private String message;
@@ -22,7 +22,7 @@ public class AtMsgsLogDto {
         this.status = entity.getStatus();
         this.priority = entity.getPriority();
         this.reserved_date = entity.getReserved_date();
-        this.senderkey = entity.getSenderkey();
+        this.sender_key = entity.getSender_key();
         this.phone_number = entity.getPhone_number();
         this.template_code = entity.getTemplate_code();
         this.message = entity.getMessage();

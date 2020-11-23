@@ -20,7 +20,7 @@ public class AtMsgsLogService {
     @Transactional(readOnly = true)
     public List<AtMsgsLogListDto> findAllByEtc1(String status) {
         return atMsgsLogRepository.findAll().stream()
-                .filter(atMsgsLog -> atMsgsLog.getEtc1().equals("0"))
+                .filter(atMsgsLog -> atMsgsLog.getEtc1().equals(status))
                 .map(AtMsgsLogListDto::new)
                 .collect(Collectors.toList());
     }

@@ -23,7 +23,7 @@ public class KafkaReceiveConfig {
     private String bootstrapServers;
 
     @Value("${kafka.consumer.group.id}")
-    private String consumer_groupid;
+    private String consumerGroupid;
 
     @Bean
     public Map<String, Object> consumerConfigs() {
@@ -31,8 +31,16 @@ public class KafkaReceiveConfig {
         props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
         props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
         props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
-        props.put(ConsumerConfig.GROUP_ID_CONFIG, consumer_groupid);
+        props.put(ConsumerConfig.GROUP_ID_CONFIG, consumerGroupid);
         props.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
+
+//        props.put(ConsumerConfig.SESSION_TIMEOUT_MS_CONFIG, 15000);
+        props.put(ConsumerConfig.MAX_POLL_RECORDS_CONFIG, 2);
+//        props.put(ConsumerConfig.FETCH_MIN_BYTES_CONFIG, 22 * 1024 * 1024);
+//        props.put(ConsumerConfig.FETCH_MAX_BYTES_CONFIG, 50 * 1024 * 1024);
+//        props.put(ConsumerConfig.FETCH_MAX_WAIT_MS_CONFIG, 500);
+//        props.put(ConsumerConfig.MAX_PARTITION_FETCH_BYTES_CONFIG, 50 * 1024 * 1024);
+
         return props;
     }
 
@@ -45,6 +53,7 @@ public class KafkaReceiveConfig {
     public KafkaListenerContainerFactory<ConcurrentMessageListenerContainer<String, String>> kafkaListenerContainerFactory() {
         ConcurrentKafkaListenerContainerFactory<String, String> factory = new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConsumerFactory(consumerFactory());
+        factory.setBatchListener(true);
         return factory;
     }
 

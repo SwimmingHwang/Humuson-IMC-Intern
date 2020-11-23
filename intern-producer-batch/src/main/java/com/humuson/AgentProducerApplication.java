@@ -6,7 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
-@EnableBatchProcessing // 배치 기능 활성화
+//@EnableBatchProcessing // 배치 기능 활성화
 @EnableScheduling // 스케쥴러 기능 활성화
 @PropertySource("classpath:kafka.properties")
 @SpringBootApplication

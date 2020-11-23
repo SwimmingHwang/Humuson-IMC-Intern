@@ -3,15 +3,14 @@ package com.humuson.domain.entity;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import javax.persistence.*;
 
 @Getter
 @NoArgsConstructor
-@Table(name = "imc_at_biz_msg_log")
+@Table(name = "imc_ft_biz_msg_log")
 @Entity
-public class AtMsgsLog {
+public class FtMsgsLog {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -20,20 +19,18 @@ public class AtMsgsLog {
     private String reserved_date;
     private String sender_key;
     private String phone_number;
-    private String template_code;
     private String message;
     private String etc1;
     private String etc2;
     private String etc3;
 
     @Builder
-    public AtMsgsLog(String status, String priority, String reserved_date, String sender_key, String phone_number, String template_code, String message, String etc1, String etc2, String etc3) {
+    public FtMsgsLog(String status, String priority, String reserved_date, String sender_key, String phone_number, String message, String etc1, String etc2, String etc3) {
         this.status = status;
         this.priority = priority;
         this.reserved_date = reserved_date;
         this.sender_key = sender_key;
         this.phone_number = phone_number;
-        this.template_code = template_code;
         this.message = message;
         this.etc1 = etc1;
         this.etc2 = etc2;
