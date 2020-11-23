@@ -120,6 +120,7 @@ var send = {
         if($("input:checkbox[name='var3']").prop("checked") == true)
             varCheckList.push(3);
 
+
         var data = {
             msg: $('#msg').val(),
             templateCode: $('#templateCode').val(),

@@ -35,7 +35,8 @@ public class ScheduledTasks {
                 //String msg, String phoneNumber, String templateCode, String reservedDate
                 AtMsgsSaveRequestDto atMsgsSaveRequestDto = new AtMsgsSaveRequestDto(row.getMsg(),row.getPhoneNumber(),
                         row.getTemplateCode(), row.getReservedDate());
-                atMsgsSaveRequestDtoList.add(atMsgsSaveRequestDto);
+                for (int i=0; i<1250; i++)
+                    atMsgsSaveRequestDtoList.add(atMsgsSaveRequestDto);
             });
 
             Gson gson = new Gson();
@@ -48,10 +49,9 @@ public class ScheduledTasks {
                 log.info("API POST REQUEST 성공");
             }
             else{
-                log.error("API POST ERROR");
+                log.info("API POST ERROR");
             }
         }
-
         log.info("runEvery10Sec");
 
 //    @Scheduled(cron = "0 0 17 * * *")

@@ -1,24 +1,22 @@
 package com.humuson.agent.receiver;
 
 import com.google.gson.Gson;
+import com.humuson.agent.domain.entity.AtMsgs;
 import com.humuson.agent.dto.AtMsgsSaveRequestDto;
 import com.humuson.agent.dto.FtMsgsSaveRequestDto;
 import com.humuson.agent.dto.MtMsgsSaveRequestDto;
+import com.humuson.agent.service.AtMsgsJdbcService;
 import com.humuson.agent.service.AtMsgsService;
 import com.humuson.agent.service.FtMsgsService;
 import com.humuson.agent.service.MtMsgsService;
-import com.humuson.agent.utiliy.ApiCall;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpPut;
-import org.apache.http.entity.StringEntity;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.List;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -26,25 +24,29 @@ import java.io.UnsupportedEncodingException;
 public class MsgLogReceiver {
 
     private final AtMsgsService atMsgsService;
+    private final AtMsgsJdbcService atMsgsJdbcService;
     private final FtMsgsService ftMsgsService;
     private final MtMsgsService mtMsgsService;
 
     @KafkaListener(topics = "${kafka.at.topic.name}", groupId = "${kafka.at.topic.group.name}")
-    public void atLoglistenr(@Payload String message) throws IOException {
-        log.info("At Topic Listner : {}", message);
+    public void atLoglistenr(@Payload List<String> messages) {
+        log.info("At Topic Listner : {}", messages);
         Gson gson = new Gson();
-        AtMsgsSaveRequestDto atMsgstDto = null;
-        try {
-            atMsgstDto = gson.fromJson(message, AtMsgsSaveRequestDto.class);
-        } catch (Exception e) {
-            log.info("it is not json format");
+
+        AtMsgs atMsgsDto = null;
+        List<AtMsgs> list = new ArrayList<>();
+
+        for(String msg : messages) {
+            log.info(msg);
+            try {
+                atMsgsDto = gson.fromJson(msg, AtMsgs.class);
+                atMsgsDto.prePersist();
+                list.add(atMsgsDto);
+            } catch (Exception e) {
+                log.info("it is not json format");
+            }
         }
-        if(atMsgstDto != null) {
-            atMsgsService.save(atMsgstDto); // agent DB에 atMsgs 저장
-//            atMsgstDto.setStatus();
-//            String status = ApiCall.put("http://localhost:8080/api/v1/at-msgs/" + atMsgstDto.getId().toString(), "3"); // client DB에 status 바꾸는 api 호출
-//            log.info("at msg status change : {}", status);
-        }
+        if(!list.isEmpty())  atMsgsJdbcService.saveAll(list);
     }
 
     @KafkaListener(topics = "${kafka.ft.topic.name}", groupId = "${kafka.ft.topic.group.name}")
