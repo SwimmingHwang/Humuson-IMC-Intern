@@ -90,20 +90,10 @@ project(':intern-admin') {
         compile('org.springframework.boot:spring-boot-starter-actuator')
         // springboot admin - client
         compile('de.codecentric:spring-boot-admin-starter-client:2.1.0')
+
+        compile('org.python:jython-slim:2.7.2')
     }
 }
-
-//project(':intern-producer-batch') {
-//    dependencies {
-//        compile('org.springframework.boot:spring-boot-starter-web')
-//        compile('org.springframework.kafka:spring-kafka')
-//        //Spring Data JPA 적용
-//        compile('org.springframework.boot:spring-boot-starter-data-jpa')
-//        compile('com.h2database:h2')
-//        compile("mysql:mysql-connector-java")
-//        compile('org.springframework.boot:spring-boot-starter-batch')
-//    }
-//}
 
 project(':intern-consumer-client') {
     dependencies {
@@ -152,10 +142,6 @@ project(':intern-kafka-api') {
 }
 
 
-
-
-
-
 project(':intern-agent-common') {
     bootJar { enabled = false }
     jar { enabled = true }
@@ -172,17 +158,38 @@ project(':intern-agent-common') {
 project(':intern-consumer-agent') {
     dependencies {
         compile project(':intern-agent-common')
-
+        compile('org.springframework.boot:spring-boot-starter-web')
         compile('org.springframework.kafka:spring-kafka')
-        compile("org.springframework.boot:spring-boot-starter-jdbc")
         compile("com.google.code.gson:gson:2.8.6")
+        // actuator
+        compile('org.springframework.boot:spring-boot-starter-actuator')
+        // springboot admin - client
+        compile('de.codecentric:spring-boot-admin-starter-client:2.1.0')
+        compile("com.google.code.gson:gson:2.8.6")
+        // kafka health check
+        compile('com.deviceinsight.kafka:kafka-health-check:1.2.0')
+    }
+}
+
+project(':intern-producer-batch') {
+    dependencies {
+        compile('org.springframework.boot:spring-boot-starter-web')
+        compile('org.springframework.kafka:spring-kafka')
+        compile('org.springframework.boot:spring-boot-starter-batch')
+
+        //Spring Data JPA 적용
+        compile('org.springframework.boot:spring-boot-starter-data-jpa')
+        compile('com.h2database:h2')
+        compile("mysql:mysql-connector-java")
 
         // actuator
         compile('org.springframework.boot:spring-boot-starter-actuator')
         // springboot admin - client
         compile('de.codecentric:spring-boot-admin-starter-client:2.1.0')
+        compile("com.google.code.gson:gson:2.8.6")
     }
 }
+
 
 project(':intern-springboot-admin') {
     dependencies {

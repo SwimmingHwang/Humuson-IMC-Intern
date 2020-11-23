@@ -1,5 +1,6 @@
 package com.humuson.config;
 
+import de.codecentric.boot.admin.server.config.AdminServerNotifierAutoConfiguration;
 import de.codecentric.boot.admin.server.config.AdminServerProperties;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -8,13 +9,15 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 
+import java.util.UUID;
+
 @Configuration
 @EnableWebSecurity
 public class SBAConfig extends WebSecurityConfigurerAdapter {
 
     private final AdminServerProperties adminServer;
 
-    public SBAConfig(AdminServerProperties adminServer) {
+    public SBAConfig(AdminServerProperties adminServer, AdminServerNotifierAutoConfiguration adminServerNotifierAutoConfiguration) {
         this.adminServer = adminServer;
     }
 
@@ -27,9 +30,10 @@ public class SBAConfig extends WebSecurityConfigurerAdapter {
         successHandler.setDefaultTargetUrl(adminContextPath + "/");
 
         http.authorizeRequests()
-                .antMatchers(adminContextPath + "/assets/**").permitAll()
-                .antMatchers(adminContextPath + "/login").permitAll()
-                .anyRequest().authenticated()
+                .anyRequest().permitAll()
+//                .antMatchers(adminContextPath + "/assets/**").permitAll()
+//                .antMatchers(adminContextPath + "/login").permitAll()
+//                .anyRequest().authenticated()
 //                .anyRequest().hasRole("ADMIN")
                 .and()
                 .formLogin().loginPage(adminContextPath + "/login").successHandler(successHandler)
@@ -43,7 +47,13 @@ public class SBAConfig extends WebSecurityConfigurerAdapter {
                 .ignoringAntMatchers(
                         adminContextPath + "/instances",
                         adminContextPath + "/monitor/**"
-                );
+                )
+                .and()
+                .rememberMe()
+                .key(UUID.randomUUID().toString())
+                .tokenValiditySeconds(1209600)
+        ;
+
     }
 
 }

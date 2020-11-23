@@ -1,7 +1,8 @@
 package com.humuson.api.controller;
 
 import com.google.gson.Gson;
-import com.humuson.agent.domain.entity.AtMsgs;
+import com.humuson.agent.domain.entity
+        .AtMsgs;
 import com.humuson.api.Producer;
 import lombok.Getter;
 import lombok.Setter;

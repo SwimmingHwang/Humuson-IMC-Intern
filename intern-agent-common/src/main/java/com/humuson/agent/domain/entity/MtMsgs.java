@@ -1,0 +1,65 @@
+package com.humuson.agent.domain.entity;
+
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
+
+import javax.persistence.*;
+
+@DynamicInsert // insert 시 null인 필드 제외
+@DynamicUpdate // update 시
+@Getter
+@NoArgsConstructor
+@Table(name = "imc_mt_msg")
+@Entity //JPA의 어노테이션
+public class MtMsgs {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+    private String status;
+    private String priority;
+    private String reservedDate;
+    private String phoneNumber;
+    private String callback;
+    private String mtType;
+    private String adFlag; //CHAR(1)
+    @Column(name = "MESSAGE")
+    private String msg; // 메시지 내용
+
+    @Builder // 해당 클래스의 빌더 패턴 클래스를 생성
+    public MtMsgs(String status, String priority, String reservedDate, String callback,
+                  String phoneNumber, String mtType, String adFlag, String msg){
+        this.status = status;
+        this.priority = priority;
+        this.reservedDate = reservedDate;
+        this.callback = callback;
+        this.phoneNumber = phoneNumber;
+        this.mtType = mtType;
+        this.adFlag = adFlag;
+        this.msg = msg;
+    }
+
+    public void update(String msg){
+        this.msg = msg;
+    }
+    /**
+     * insert 되기전 (persist 되기전) 실행된다.
+     * */
+    @PrePersist
+    public void prePersist() {
+
+        this.status = this.status== null ? "1" : this.status;
+        this.priority = this.priority== null ? "N" : this.priority;
+        this.reservedDate = this.reservedDate== null ? "reservedDate" : this.reservedDate;
+        this.phoneNumber = this.phoneNumber== null ? "phonenumber" : this.phoneNumber;
+        this.callback = this.callback == null ? "01065362547" : this.callback;
+        this.mtType = this.mtType== null ? "SM" : this.mtType; // MT 상품 타입 (SM-SMS, LM-LMS)
+        this.msg = this.msg== null ? "msg" : this.msg;
+        this.adFlag = this.adFlag == null ? "N" : this.adFlag;
+
+    }
+
+}

@@ -33,15 +33,15 @@ class ClientSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-//        http.authorizeRequests().antMatchers("/**").permitAll();
-        http.authorizeRequests()
-            .antMatchers("/user/**").permitAll()
-            //member 권한
-            .antMatchers("/member/**").hasRole("MEMBER")
-            .antMatchers("/monitor/**").permitAll()
-            .antMatchers("/sba/**").permitAll()
-            .anyRequest().authenticated()
-        ;
+        http.authorizeRequests().antMatchers("/**").permitAll();
+//        http.authorizeRequests()
+//            .antMatchers("/user/**").permitAll()
+//            //member 권한
+//            .antMatchers("/member/**").hasRole("MEMBER")
+//            .antMatchers("/monitor/**").permitAll()
+//            .antMatchers("/sba/**").permitAll()
+//            .anyRequest().authenticated()
+//        ;
         http.formLogin()
             .loginPage("/user/login")
             .usernameParameter("email").passwordParameter("password") // id, pwd param 변경

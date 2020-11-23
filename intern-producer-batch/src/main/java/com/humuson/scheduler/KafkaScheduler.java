@@ -1,4 +1,4 @@
-package com.humuson.controller;
+package com.humuson.scheduler;
 
 import com.humuson.dto.AtMsgsLogListDto;
 import com.humuson.service.AtMsgsLogService;
@@ -12,12 +12,10 @@ import java.util.List;
 
 @Slf4j
 @RequiredArgsConstructor
-public class KafkaController {
+public class KafkaScheduler {
 
-    private static final DateTimeFormatter fmt = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-
-    private final AtMsgsLogService atMsgsLogService;
     private final ProducerService producerSerivce;
+    private final AtMsgsLogService atMsgsLogService;
 
     // Agent DB 에서 imc_at_biz_msg_log 데이터 가져와!
     @Scheduled(cron = "*/10 * * * * *") // 10초에 한번 실행
@@ -26,6 +24,9 @@ public class KafkaController {
         List<AtMsgsLogListDto> atMsgsLogList = atMsgsLogService.findAllByEtc1("0");
         if(atMsgsLogList.size() != 0) {
             log.info("=============etc1 0 인거 있다============= ");
+            
+            // 아래 두 서비스 배치 처리
+            
             // kafka producer 생성하여 토픽에 전달
             producerSerivce.sendatMsgsLogList(atMsgsLogList);
             // 토픽에 전달된 데이터 상태 변경
