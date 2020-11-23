@@ -146,6 +146,7 @@ project(':intern-kafka-api') {
         compile('org.springframework.boot:spring-boot-starter-actuator')
         // springboot admin - client
         compile('de.codecentric:spring-boot-admin-starter-client:2.1.0')
+        compile('org.springframework.kafka:spring-kafka') // 이거 추가
     }
 }
 
