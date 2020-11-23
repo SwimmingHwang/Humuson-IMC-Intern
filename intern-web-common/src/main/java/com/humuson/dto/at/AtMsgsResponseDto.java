@@ -11,11 +11,13 @@ public class AtMsgsResponseDto {
     private Integer id;
     private String msg;
     private String phoneNumber;
+    private String templateCode;
 
     public AtMsgsResponseDto(AtMsgs entity) {
         this.id = entity.getId();
         this.msg = entity.getMsg();
         this.phoneNumber = entity.getPhoneNumber();
+        this.templateCode = entity.getTemplateCode();
     }
 
 

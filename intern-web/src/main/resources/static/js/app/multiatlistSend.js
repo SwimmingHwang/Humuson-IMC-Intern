@@ -136,28 +136,30 @@ var send = {
                 //데이터를 전송하기 전에 헤더에 csrf값을 설정한다
                 xhr.setRequestHeader(csrfHeader, csrfToken);
             },
-        }).done(function (stringStatusCode) {
-            if (stringStatusCode =="200") {
+        }).done(function () {
+            // TODO : 예약후 시간되면 post로 바껴서 여기서 서버 예외가 발생함은 알 수 없음.
                 alert('발송 예약이 완료되었습니다.');
                 window.location.href = '/send/at-send';
-            }
-            else {
-                var error = "";
-                if (stringStatusCode == "9000"){
-                    error = " 9000: kafka 서버 예외 발생";
-                }
-                else if(stringStatusCode == "4000"){
-                    error = " 4000: API Server Connection Error";
-
-                }
-                else {
-                    error = stringStatusCode;
-                }
-                alert('문제가 발생했습니다. 다시 시도해 주세요.\nerror code'+error);
-            }
-        }).fail(function (data, textStatus, errorThrown) {
-            alert(JSON.stringify('문제가 발생했습니다. 다시 시도해 주세요.'+
-                data+textStatus+errorThrown));
+            // if (stringStatusCode =="200") {
+            //     alert('발송 예약이 완료되었습니다.');
+            //     window.location.href = '/send/at-send';
+            // }
+            // else {
+            //     var error = "";
+            //     if (stringStatusCode == "9000"){
+            //         error = " 9000: kafka 서버 예외 발생";
+            //     }
+            //     else if(stringStatusCode == "4000"){
+            //         error = " 4000: API Server Connection Error";
+            //
+            //     }
+            //     else {
+            //         error = stringStatusCode;
+            //     }
+            //     alert('문제가 발생했습니다. 다시 시도해 주세요.\nerror code'+error);
+            // }
+        }).fail(function (error) {
+            alert(JSON.stringify(error));
         });
     },
     update: function () {

@@ -74,6 +74,10 @@ project(':intern-web') {
         compile('org.springdoc:springdoc-openapi-ui:1.5.0')
         compile("com.google.code.gson:gson:2.8.6")
 
+        // scheduler
+        compile('org.springframework.boot:spring-boot-starter-quartz')
+
+
         testCompile('org.springframework.boot:spring-boot-starter-test') // static debug 용
     }
 }

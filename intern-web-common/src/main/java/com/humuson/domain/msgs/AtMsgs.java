@@ -54,6 +54,9 @@ public class AtMsgs {
     public void update(String msg){
         this.msg = msg;
     }
+    public void updateStatus(String status){
+        this.status=status;
+    }
     /**
      * insert 되기전 (persist 되기전) 실행된다.
      * */

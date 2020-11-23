@@ -49,6 +49,13 @@ public class AtMsgsService {
 
         return id;
     }
+    @Transactional
+    public Integer updateStatus(Integer id, String status){
+        AtMsgs atMsgsId = atMsgsRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("해당 사용자가 없습니다. id=" + id));
+        atMsgsId.updateStatus(status);
+        return id;
+    }
 
     @Transactional
     public void delete (Integer id) {
@@ -77,5 +84,9 @@ public class AtMsgsService {
     public List<AtMsgs> findAll() {
         // repo에서 넘어온 stream을 map을 통해 dto로 변환해서 리스트로 반환
         return atMsgsRepository.findAll();
+    }
+    @Transactional(readOnly = true)
+    public List<AtMsgs> findAllByReservedDate(){
+        return atMsgsRepository.findAllByReservedDate();
     }
 }
