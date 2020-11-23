@@ -5,58 +5,80 @@
 
 <div layout:fragment="content">
 
+    <!-- Begin Page Content -->
+    <div class="container-fluid">
 
-<!-- Page Heading -->
-<h1 class="h3 mb-2 text-gray-800" th:text="${title}">Title</h1>
-<p class="mb-4">메시지 상태가
-    1: 발송 예약 완료
-    2: 발송 대기
-    3: 발송 완료
-    입니다. 이미 발송 시간이 지난 메시지(상태:2 or 3)는 수정이 불가합니다.</p>
+        <!-- Page Heading -->
+        <h1 class="h3 mb-2 text-gray-800" th:text="${title}">Title</h1>
+        <p class="mb-4"> 메시지 내용을 클릭하면 수정할 수 있습니다.
+            단, 이미 발송 시간이 지난 메시지(상태:2 or 3)는 수정이 불가합니다.
+            메시지 상태는    1: 발송 예약 완료    2: 발송 대기    3: 발송 완료    입니다.</p>
 
-<!-- DataTales Example -->
-<div class="card shadow mb-4">
-    <div class="card-header py-3">
-        <h6 class="m-0 font-weight-bold text-primary">발송 예약 내역입니다.</h6>
-    </div>
+        <!-- DataTales Example -->
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">발송 이력 조회 테이블</h6>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <thead>
+                        <tr>
+                            <th>번호</th>
+                            <th>발송 일시</th>
+                            <th>메세지 내용</th>
+                            <th>전화번호</th>
+                            <th>템플릿 코드</th>
+                            <th>메시지 상태</th>
+                        </tr>
+                        </thead>
+                        <tfoot>
+                        <tr>
+                            <th>번호</th>
+                            <th>발송 일시</th>
+                            <th>메세지 내용</th>
+                            <th>전화번호</th>
+                            <th>템플릿 코드</th>
+                            <th>메시지 상태</th>
+                        </tr>
+                        </tfoot>
+                        <tbody>
+                        <tr  th:each="msg : ${msgs}">
+                            <td class="" th:text="${msg.id}">default</td>
+                            <td th:text="${msg.reservedDate}">default</td>
+                            <td th:if="${msg.status} == 1 "><a th:href="@{/send/msgs/update/{sbj}/{id}(sbj=${msgSbj},id=${msg.id})}" th:text="${msg.msg}">default<</a>/td>
+                            <td th:if="${msg.status} != 1 "><a th:text="${msg.msg}">default</a></td>
+                            <td th:text="${msg.phoneNumber}">default</td>
+                            <td th:text="${msg.templateCode}">default</td>
+                            <td class="sorting_1" th:text="${msg.status}">default</td>
+                        </tr>
 
-
-    <div class="card-body">
-        <div class="table-responsive">
-
-            <table class="table table-bordered dataTable" id="dataTable" width="100%" cellspacing="0" role="grid" aria-describedby="dataTable_info">
-                <!-- 기존 -->
-                <!--<table class="table table-horizontal table-bordered">-->
-                <thead class="thead-strong">
-                <tr role ="row">
-                    <th>번호</th>
-                    <th>발송 일시</th>
-                    <th>메세지 내용</th>
-                    <th>전화번호</th>
-                    <th>템플릿 코드</th>
-<!--                     TODO  log 결과 받으면 상태 업데이트 해줘야함-->
-                    <th class="sorting_asc" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Salary: activate to sort column descending" style="width: 67px;" aria-sort="ascending">메시지 상태</th>
-                </tr>
-
-
-
-                </thead>
-                <tbody id="tbody">
-                <tr th:each="msg : ${msgs}">
-                    <td th:text="${msg.id}">default</td>
-                    <td th:text="${msg.reservedDate}">default</td>
-                    <td th:if="${msg.status} == 1 "><a th:href="@{/send/msgs/update/{sbj}/{id}(sbj=${msgSbj},id=${msg.id})}" th:text="${msg.msg}">default<</a>/td>
-                    <td th:if="${msg.status} != 1 "><a th:text="${msg.msg}">default</a></td>
-                    <td th:text="${msg.phoneNumber}">default</td>
-                    <td th:text="${msg.templateCode}">default</td>
-                    <td th:text="${msg.status}">default</td>
-                </tr>
-                </tbody>
-            </table>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
-    </div>
-</div>
 
+    </div>
+    <!-- /.container-fluid -->
+
+
+    <!-- Bootstrap core JavaScript-->
+    <script  th:src="@{/vendor/jquery/jquery.min.js}"></script>
+    <script  th:src="@{/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script  th:src="@{/vendor/jquery-easing/jquery.easing.min.js}"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script  th:src="@{/js/common/sb-admin-2.min.js}"></script>
+
+    <!-- Page level plugins -->
+    <script  th:src="@{/vendor/datatables/jquery.dataTables.min.js}"></script>
+    <script  th:src="@{/vendor/datatables/dataTables.bootstrap4.min.js}"></script>
+
+    <!-- Page level custom scripts -->
+    <script  th:src="@{/js/common/demo/datatables-demo.js}"></script>
 
 </div>
 </html>
