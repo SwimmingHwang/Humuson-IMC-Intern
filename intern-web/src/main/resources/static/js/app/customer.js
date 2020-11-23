@@ -29,6 +29,8 @@ var send = {
             var3 : $('#var3').val()
         };
 
+
+
         $.ajax({
             type: 'POST',
             url: '/api/v1/customer',
