@@ -110,7 +110,7 @@ public class Producer {
                 ProducerRecord<String, String> record = new ProducerRecord<>(topicName, data);
 
                 producer.send(record);
-                logger.debug("Send to " + topicName + " | data : " + data);
+//                logger.debug("Send to " + topicName + " | data : " + data);
                 log.info("Send to " + topicName + " | data : " + data);
                 stringStatusCode = "200";
             } catch (Exception e) {

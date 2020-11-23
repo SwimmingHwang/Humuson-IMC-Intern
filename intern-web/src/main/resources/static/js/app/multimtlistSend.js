@@ -27,7 +27,9 @@ var send = {
         $('#btn-delete').on('click', function () {
             _this.delete();
         });
-
+        $('#btn-applyVars').on('click', function () {
+            _this.applyVars();
+        });
         $('#upload').on('click',function(){
             _this.uploadFile();
         })
