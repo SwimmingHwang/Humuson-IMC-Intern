@@ -1,11 +1,13 @@
-package com.humuson.agent.dto;
+package com.humuson.dto.report;
 
-import com.humuson.agent.domain.entity.AtReport;
+import com.humuson.domain.msgs.AtMsgs;
+import com.humuson.domain.report.AtReport;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
+
 @NoArgsConstructor
 public class AtReportDto {
     private String status;
@@ -25,6 +27,29 @@ public class AtReportDto {
     private String arrival_date;
     private String etc1;
     private String etc2;
+
+
+    public AtReport toEntity() {
+        return AtReport.builder()
+                .status(status)
+                .priority(priority)
+                .reserved_date(reserved_date)
+                .sender_key(sender_key)
+                .phone_number(phone_number)
+                .template_code(template_code)
+                .message(message)
+                .request_uid(request_uid)
+                .request_date(request_date)
+                .response_date(response_date)
+                .response_code(response_code)
+                .report_type(report_type)
+                .report_date(report_date)
+                .report_code(report_code)
+                .arrival_date(arrival_date)
+                .etc1(etc1)
+                .etc2(etc2)
+                .build();
+    }
 
     @Builder
     public AtReportDto(AtReport entity) {
@@ -49,7 +74,7 @@ public class AtReportDto {
 
     @Override
     public String toString() {
-        return "AtReport {" +
+        return "AtReportDto {" +
                 " status:" + status +
                 ", priority:" + priority +
                 ", reserved_date:" + reserved_date +

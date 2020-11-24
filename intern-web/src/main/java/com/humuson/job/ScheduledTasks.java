@@ -37,7 +37,7 @@ public class ScheduledTasks {
                 atMsgsService.updateStatus(row.getId(), "2");
                 //String msg, String phoneNumber, String templateCode, String reservedDate
                 AtMsgsSaveRequestDto atMsgsSaveRequestDto = new AtMsgsSaveRequestDto(row.getMsg(),row.getPhoneNumber(),
-                        row.getTemplateCode(), row.getReservedDate());
+                        row.getTemplateCode(), row.getReservedDate(), row.getEtc1(), row.getEtc2());
 //                for (int i=0; i<12500; i++)
                 atMsgsSaveRequestDtoList.add(atMsgsSaveRequestDto);
             });

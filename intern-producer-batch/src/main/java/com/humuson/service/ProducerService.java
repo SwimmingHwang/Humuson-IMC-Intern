@@ -41,10 +41,11 @@ public class ProducerService {
 
         Gson gson = new Gson();
 
-        atReportList.stream().forEach((at) -> {
-//            String data = gson.toJson(at, atReportList.getClass());
-            ProducerRecord<String, String> record = new ProducerRecord(AT_REPORT_TOPIC_NAME, at.toString());
+        atReportList.forEach((at) -> {
+            String data = gson.toJson(at);
+            ProducerRecord<String, String> record = new ProducerRecord(AT_REPORT_TOPIC_NAME, data);
             producer.send(record);
+            log.info("send to topic {}", data);
         });
 
         producer.flush();

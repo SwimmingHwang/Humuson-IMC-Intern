@@ -1,17 +1,20 @@
-package com.humuson.call;
+package com.humuson.utility;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpPut;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.BasicResponseHandler;
+import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
-
-import lombok.extern.slf4j.Slf4j;
+import org.apache.http.impl.client.HttpClients;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -95,4 +98,34 @@ public class ApiCall {
         }
     }
 
+    public static String put(String url, String message) throws IOException {
+        try (CloseableHttpClient httpclient = HttpClients.createDefault()) {
+            HttpPut httpPut = new HttpPut(url);
+            httpPut.setHeader("Accept", "application/json");
+            httpPut.setHeader("Content-type", "application/json");
+
+            StringEntity stringEntity = new StringEntity(message);
+            httpPut.setEntity(stringEntity);
+
+            System.out.println("Executing request " + httpPut.getRequestLine());
+
+            HttpResponse response = httpclient.execute(httpPut);
+
+            System.out.println("response.getEntity() : " + response.getEntity());
+
+            //Response 출력
+            if (response.getStatusLine().getStatusCode() == 200) {
+                ResponseHandler<String> handler = new BasicResponseHandler();
+                String body = handler.handleResponse(response);
+                System.out.println("response handler body is " + body);
+                return "200";
+            } else {
+                System.out.println("response is error : " + response.getStatusLine().getStatusCode());
+                return response.getStatusLine().getStatusCode()+"";
+            }
+        } catch (Exception e){
+            System.err.println(e.toString());
+            return "9000";
+        }
+    }
 }

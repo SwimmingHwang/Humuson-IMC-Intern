@@ -47,7 +47,7 @@ public class MultiAtMsgsSaveListRequestDto {
                 msgCopied = msgCopied.replace("#{변수3}", customer.getVar3()== null? "" : customer.getVar3());
             }
             AtMsgs atMsg = new AtMsgs(null,null,reservedDate,null,
-                    "82"+customer.getPhoneNumber().substring(1),templateCode,msgCopied,null);
+                    "82"+customer.getPhoneNumber().substring(1),templateCode,msgCopied,null,null);
             msgs.add(atMsg);
         }
         return msgs;

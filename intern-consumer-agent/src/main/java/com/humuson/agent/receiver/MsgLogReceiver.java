@@ -30,7 +30,7 @@ public class MsgLogReceiver {
 
     @KafkaListener(topics = "${kafka.at.topic.name}", groupId = "${kafka.at.topic.group.name}")
     public void atLoglistenr(@Payload List<String> messages) {
-        log.info("At Topic Listner : {}", messages);
+        log.info("At Topic Listener : {}", messages);
         Gson gson = new Gson();
 
         AtMsgs atMsgsDto = null;

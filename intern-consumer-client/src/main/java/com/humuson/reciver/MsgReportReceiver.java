@@ -1,19 +1,21 @@
 package com.humuson.reciver;
 
 import com.google.gson.Gson;
-import com.humuson.agent.dto.AtReportDto;
-import com.humuson.agent.dto.FtMsgsSaveRequestDto;
-import com.humuson.agent.dto.MtMsgsSaveRequestDto;
+import com.humuson.agent.domain.entity.AtMsgs;
+import com.humuson.agent.domain.entity.AtReport;
 import com.humuson.agent.service.AtMsgsJdbcService;
 import com.humuson.agent.service.AtMsgsService;
 import com.humuson.agent.service.FtMsgsService;
 import com.humuson.agent.service.MtMsgsService;
+import com.humuson.utility.ApiCall;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
@@ -27,21 +29,13 @@ public class MsgReportReceiver {
     private final MtMsgsService mtMsgsService;
 
     @KafkaListener(topics = "${kafka.at.report.topic.name}", groupId = "${kafka.at.report.topic.group.name}")
-    public void atLoglistenr(@Payload List<String> messages) {
-        log.info("At Topic Listner : {}", messages.toString());
-        Gson gson = new Gson();
+    public void atReportlistenr(@Payload List<String> messages) throws IOException {
+        log.info("At Report Topic Listener : {}", messages);
 
-        for(AtReportDto url : urlList) {
-            log.info(url.toString());
-            try {
-                atMsgsDto = gson.fromJson(msg, AtReportListDto.class);
-                atMsgsDto.prePersist();
-                list.add(atMsgsDto);
-            } catch (Exception e) {
-                log.info("it is not json format");
-            }
-        }
-        if(!list.isEmpty())  atMsgsJdbcService.saveAll(list);
+        messages.forEach(message -> {
+            ApiCall.post("http://localhost:8080/api/v1/report", message);
+        });
+
     }
 
 //    @KafkaListener(topics = "${kafka.ft.topic.name}", groupId = "${kafka.ft.topic.group.name}")
