@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
@@ -85,41 +86,56 @@ public class Producer {
         // TODO : 데이터 유효성 검사하는 로직 추가할 것.
 
         KafkaProducerConfig kafkaProducerConfig = new KafkaProducerConfig();
+
+
         logger.debug("BATCH PRODUCE");
         logger.info("BATCH PRODUCE");
 
-
-        KafkaProducer<String, String> producer = new KafkaProducer<>(kafkaProducerConfig.senderProps());
+        KafkaProducer<String, String> producer = new KafkaProducer<String, String>(kafkaProducerConfig.senderProps());
 
         String topicName = "";
-        if (topicIdx==0){
+        if (topicIdx==0)
             topicName = AT_TOPIC_NAME;
-        }
-        else if (topicIdx == 1){
+        else if (topicIdx == 1)
             topicName = MT_TOPIC_NAME;
-        }
 
-        String stringStatusCode = "";
         Gson gson = new Gson();
 
+        List<ProducerRecord<String, String>> produceFailList = new ArrayList<>();
+
         for (AtMsgsSaveRequestDto atMsgsSaveRequestDto : atMsgsSaveRequestDtos) {
+            String reqDataJson = gson.toJson(atMsgsSaveRequestDto);
+
+            String data = reqDataJson + "";
+            ProducerRecord<String, String> record = new ProducerRecord<>(topicName, data);
             try {
-                String reqDataJson = gson.toJson(atMsgsSaveRequestDto);
-
-                String data = reqDataJson + "";
-                ProducerRecord<String, String> record = new ProducerRecord<>(topicName, data);
-
                 producer.send(record);
-//                logger.debug("Send to " + topicName + " | data : " + data);
                 log.info("Send to " + topicName + " | data : " + data);
-                stringStatusCode = "200";
             } catch (Exception e) {
+                produceFailList.add(record);
                 log.info(e.getMessage(), e);
-                stringStatusCode = "9000";
             }
         }
+
+        // 실패한 메시지들 재전송
+        log.info("Number of Producer Fail Record :" + produceFailList.size());
+        try {
+                for(ProducerRecord<String, String> failRecode : produceFailList)
+                    producer.send(failRecode);
+        } catch(Exception e){
+                log.info(e.getMessage(), e);
+        }
+
         producer.flush();
         producer.close();
+
+        String stringStatusCode = "";
+
+        if(produceFailList.isEmpty())
+            stringStatusCode = "200";
+        else
+            stringStatusCode = "9000";
+
         return stringStatusCode;
     }
 }

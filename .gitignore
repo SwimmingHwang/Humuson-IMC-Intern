@@ -35,3 +35,5 @@ out/
 
 ### VS Code ###
 .vscode/
+application.home_IS_UNDEFINED
+RUNNING_PID

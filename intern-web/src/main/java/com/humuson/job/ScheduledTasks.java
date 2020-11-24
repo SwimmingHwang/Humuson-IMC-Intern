@@ -10,6 +10,7 @@ import com.humuson.service.AtMsgsService;
 import com.humuson.service.CustomerService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -24,19 +25,21 @@ public class ScheduledTasks {
     private final AtMsgsService atMsgsService;
     private final CustomerService customerService;
 
-    @Scheduled(fixedDelay = 10000)
+    @Async
+    @Scheduled(initialDelay = 1000, fixedRate  = 10000)
     public void updateStatusrunEvery10Sec(){
 
         List<AtMsgs> atMsgsList = atMsgsService.findAllByReservedDate();
         List<AtMsgsSaveRequestDto> atMsgsSaveRequestDtoList= new ArrayList<>();
         if (!atMsgsList.isEmpty()){
             atMsgsList.forEach(row ->{
+                // TODO : update batch로 작성할 것
                 atMsgsService.updateStatus(row.getId(), "2");
                 //String msg, String phoneNumber, String templateCode, String reservedDate
                 AtMsgsSaveRequestDto atMsgsSaveRequestDto = new AtMsgsSaveRequestDto(row.getMsg(),row.getPhoneNumber(),
-                        row.getTemplateCode(), row.getReservedDate(), row.getEtc1(), row.getEtc2());
-                for (int i=0; i<1250; i++)
-                    atMsgsSaveRequestDtoList.add(atMsgsSaveRequestDto);
+                        row.getTemplateCode(), row.getReservedDate());
+//                for (int i=0; i<12500; i++)
+                atMsgsSaveRequestDtoList.add(atMsgsSaveRequestDto);
             });
 
             Gson gson = new Gson();
@@ -54,9 +57,5 @@ public class ScheduledTasks {
         }
         log.info("runEvery10Sec");
 
-//    @Scheduled(cron = "0 0 17 * * *")
-//    public void runAt9EveryDay(){
-//        log.info("runAt17EveryDay");
-//    }
     }
 }
