@@ -59,7 +59,7 @@ public class KafkaProducerConfig {
         props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
         props.put(ProducerConfig.BATCH_SIZE_CONFIG, 10000);
         props.put(ProducerConfig.LINGER_MS_CONFIG, 200);
-        props.put(ProducerConfig.MAX_REQUEST_SIZE_CONFIG, 22 * 1024 * 1024);
+        props.put(ProducerConfig.MAX_REQUEST_SIZE_CONFIG, 22 * 1024 * 1024); // 22 Mbyte
         props.put(ProducerConfig.PARTITIONER_CLASS_CONFIG, SimplePartitional.class);
         return props;
     }
