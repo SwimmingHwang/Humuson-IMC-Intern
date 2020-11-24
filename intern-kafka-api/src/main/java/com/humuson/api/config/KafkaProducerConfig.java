@@ -29,23 +29,6 @@ public class KafkaProducerConfig {
 
     private static final Logger logger = LoggerFactory.getLogger(com.humuson.api.Producer.class);
 
-    private static String AT_TOPIC_NAME;
-    private static String MT_TOPIC_NAME;
-    private static String BOOTSTRAP_SERVERS;
-
-    @Value("${kafka.bootstrap.address}")
-    public void setBootstrapServers(String address) {
-        BOOTSTRAP_SERVERS = address;
-    }
-    @Value("${kafka.at.topic.name}")
-    public void setTopicAtName(String topicName){
-        AT_TOPIC_NAME = topicName;
-    }
-    @Value("${kafka.mt.topic.name}")
-    public void setTopicMtName(String topicName){
-        MT_TOPIC_NAME = topicName;
-    }
-
     @Bean
     public ProducerFactory<String, byte[]> producerFactory() {
         return new DefaultKafkaProducerFactory<>(senderProps());
@@ -53,13 +36,21 @@ public class KafkaProducerConfig {
 
     public Map<String, Object> senderProps() {
         Map<String, Object> props = new HashMap<>();
-
-        props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, BOOTSTRAP_SERVERS);
+        // TODO : 값 박지 말 것.
+        props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
         props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
         props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
-        props.put(ProducerConfig.BATCH_SIZE_CONFIG, 10000);
+        // batch.size: 같은 파티션으로 보내는 여러 데이터를 함께 배치로 보내기 위한 사이즈. 정의된 크기보다 큰 데이터는 배치를 시도하지 않음.
+        // (bytes, default: 16384, 16KB)
+        props.put(ProducerConfig.BATCH_SIZE_CONFIG, 20000); //20 Kbyte
+        // 일괄 처리 지연에 대한 상한
         props.put(ProducerConfig.LINGER_MS_CONFIG, 200);
+        //max.request.size: 프로듀서가 보낼 수 있는 최대 메시지 사이즈. (default: 1MB)
         props.put(ProducerConfig.MAX_REQUEST_SIZE_CONFIG, 22 * 1024 * 1024); // 22 Mbyte
+        // 메시지 전송이 실패했을시 예외를 발생시키기전 재전송 시도 값
+        props.put(ProducerConfig.RETRIES_CONFIG, 1);
+        // 프로듀서가 전송한 메시지 카프카가 잘 받은걸로 처리하는 기준
+        props.put(ProducerConfig.ACKS_CONFIG, "all"); //all 느림 : leader follwer모두 받았는지 확인
         props.put(ProducerConfig.PARTITIONER_CLASS_CONFIG, SimplePartitional.class);
         return props;
     }

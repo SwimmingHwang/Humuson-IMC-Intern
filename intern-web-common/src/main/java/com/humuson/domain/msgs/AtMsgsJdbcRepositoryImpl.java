@@ -35,7 +35,7 @@ public class AtMsgsJdbcRepositoryImpl implements AtMsgsJdbcRepository{
         if (!subItems.isEmpty()) {
             batchCount = batchInsert(batchSize, batchCount, subItems);
         }
-        log.info("batchCount: " + batchCount);
+        log.info("DB Save all batchCount: " + batchCount);
 
     }
 
