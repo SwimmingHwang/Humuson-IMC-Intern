@@ -35,4 +35,10 @@ public class AtMsgsJdbcService {
         List<AtMsgs> atMsgs = requestDto.toEntity(customerRepository.findAll());
         atMsgsJdbcRepository.saveAll(atMsgs);
     }
+
+    @Transactional
+    public void updateAllStatus(List<Integer> idList) {
+        // id list 에 있는 모든 상태 3으로 변경
+        atMsgsJdbcRepository.updateAllStatus(idList);
+    }
 }

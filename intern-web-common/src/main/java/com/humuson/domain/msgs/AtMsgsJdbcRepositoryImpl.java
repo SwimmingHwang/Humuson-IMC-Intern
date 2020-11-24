@@ -66,5 +66,38 @@ public class AtMsgsJdbcRepositoryImpl implements AtMsgsJdbcRepository{
         return batchCount;
     }
 
+    @Override
+    public void updateAllStatus(List<Integer> idList) {
+        int batchCount = 0;
+        List<Integer> subItems = new ArrayList<>();
+        for (int i = 0; i < idList.size(); i++) {
+            subItems.add(idList.get(i));
+            if ((i + 1) % batchSize == 0) {
+                batchCount = batchStatusUpdate(batchSize, batchCount, subItems);
+            }
+        }
+        if (!subItems.isEmpty()) {
+            batchCount = batchStatusUpdate(batchSize, batchCount, subItems);
+        }
+        log.info("batchCount: " + batchCount);
+    }
+
+    private int batchStatusUpdate(int batchSize, int batchCount, List<Integer> idList) {
+        jdbcTemplate.batchUpdate("UPDATE imc_at SET `status`=`3` WHERE STATUS=`2` AND ETC2=?",
+                new BatchPreparedStatementSetter() {
+                    // TODO 직접 insert 하기 때문에 default값 재설정 필요
+                    @Override
+                    public void setValues(PreparedStatement ps, int i) throws SQLException {
+                        ps.setInt(1, idList.get(i));
+                    }
+                    @Override
+                    public int getBatchSize() {
+                        return idList.size();
+                    }
+                });
+        idList.clear();
+        batchCount++;
+        return batchCount;
+    }
 
 }

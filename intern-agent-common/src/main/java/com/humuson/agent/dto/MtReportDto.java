@@ -1,9 +1,9 @@
-package com.humuson.dto;
+package com.humuson.agent.dto;
 
 import lombok.Getter;
 
 @Getter
-public class MtMsgsLogListDto {
+public class MtReportDto {
     private Long id;
     private String status;
     private String priority;
@@ -17,8 +17,8 @@ public class MtMsgsLogListDto {
     private String etc2;
     private String etc3;
 
-    public MtMsgsLogListDto(String status, String priority, String reserved_date, String callback,
-                     String phone_number, String mt_type, String ad_flag, String msg, String etc1, String etc2, String etc3){
+    public MtReportDto(String status, String priority, String reserved_date, String callback,
+                       String phone_number, String mt_type, String ad_flag, String msg, String etc1, String etc2, String etc3){
         this.status = status;
         this.priority = priority;
         this.reserved_date = reserved_date;

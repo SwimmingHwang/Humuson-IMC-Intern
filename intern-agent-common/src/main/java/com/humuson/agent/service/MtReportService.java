@@ -1,19 +1,17 @@
-package com.humuson.service;
+package com.humuson.agent.service;
 
-import com.humuson.domain.entity.MtMsgsLog;
-import com.humuson.domain.repository.MtMsgsLogRepository;
-import com.humuson.dto.MtMsgsLogListDto;
+import com.humuson.agent.domain.entity.MtReport;
+import com.humuson.agent.domain.repository.MtReportRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
-public class MtMsgsLogService {
-    private final MtMsgsLogRepository mtMsgsLogRepository;
+public class MtReportService {
+    private final MtReportRepository mtMsgsLogRepository;
 
 //    @Transactional(readOnly = true)
 //    public List<MtMsgsLogListDto> findAllByEtc1(String status) {
@@ -24,13 +22,13 @@ public class MtMsgsLogService {
 //    }
 
     @Transactional(readOnly = true)
-    public List<MtMsgsLog> findAll() {
+    public List<MtReport> findAll() {
         return mtMsgsLogRepository.findAll();
     }
 
     @Transactional
     public void saveEtc1Status(Long id) {
-        MtMsgsLog at = mtMsgsLogRepository.findById(id)
+        MtReport at = mtMsgsLogRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("해당 사용자가 없습니다. id=" + id));
         at.setEtc1Status("1");
         mtMsgsLogRepository.save(at);

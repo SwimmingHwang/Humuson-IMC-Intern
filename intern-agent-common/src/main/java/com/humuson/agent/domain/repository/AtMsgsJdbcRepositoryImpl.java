@@ -35,7 +35,6 @@ public class AtMsgsJdbcRepositoryImpl implements AtMsgsJdbcRepository {
             batchCount = batchInsert(batchSize, batchCount, subItems);
         }
         log.info("batchCount: " + batchCount);
-
     }
 
     private int batchInsert(int batchSize, int batchCount, List<AtMsgs> atMsgs) {

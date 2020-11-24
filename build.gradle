@@ -103,7 +103,7 @@ project(':intern-admin') {
         // springboot admin - client
         compile('de.codecentric:spring-boot-admin-starter-client:2.1.0')
 
-        compile('org.python:jython-slim:2.7.2')
+//        compile('org.springdoc:springdoc-openapi-ui:1.5.0')
     }
 }
 
@@ -114,11 +114,12 @@ project(':intern-consumer-client') {
         compile('org.springframework.kafka:spring-kafka')
 
         compile("com.google.code.gson:gson:2.8.6")
-
+        compile('org.apache.httpcomponents:httpclient:4.5.13')
         // actuator
         compile('org.springframework.boot:spring-boot-starter-actuator')
         // springboot admin - client
         compile('de.codecentric:spring-boot-admin-starter-client:2.1.0')
+
     }
 }
 
@@ -183,14 +184,11 @@ project(':intern-consumer-agent') {
 
 project(':intern-producer-batch') {
     dependencies {
+        compile project(':intern-agent-common')
+
         compile('org.springframework.boot:spring-boot-starter-web')
         compile('org.springframework.kafka:spring-kafka')
         compile('org.springframework.boot:spring-boot-starter-batch')
-
-        //Spring Data JPA 적용
-        compile('org.springframework.boot:spring-boot-starter-data-jpa')
-        compile('com.h2database:h2')
-        compile("mysql:mysql-connector-java")
 
         // actuator
         compile('org.springframework.boot:spring-boot-starter-actuator')

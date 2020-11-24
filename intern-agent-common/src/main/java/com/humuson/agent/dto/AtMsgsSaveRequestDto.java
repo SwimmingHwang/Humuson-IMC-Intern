@@ -17,7 +17,6 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class AtMsgsSaveRequestDto {
-    private Integer id;
     private String msg;
     private String phoneNumber;
     private String templateCode;
@@ -26,7 +25,7 @@ public class AtMsgsSaveRequestDto {
 
 
     @Builder
-    public AtMsgsSaveRequestDto(Integer id, String msg, String phoneNumber, String templateCode, String reservedDate, String status) {
+    public AtMsgsSaveRequestDto(String msg, String phoneNumber, String templateCode, String reservedDate, String status) {
         this.msg = msg;
         this.phoneNumber = phoneNumber;
         this.templateCode = templateCode;
@@ -36,7 +35,6 @@ public class AtMsgsSaveRequestDto {
 
     public AtMsgs toEntity() {
         return AtMsgs.builder()
-                .id(id)
                 .msg(msg)
                 .phoneNumber(phoneNumber)
                 .templateCode(templateCode)
