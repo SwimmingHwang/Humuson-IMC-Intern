@@ -71,8 +71,8 @@ class ClientSecurityConfig extends WebSecurityConfigurerAdapter {
 //        http.sessionManagement()
 //            .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 //        ;
-        http.csrf()
-            .disable();
+//        http.csrf()
+//            .disable();
     }
 
     @Override

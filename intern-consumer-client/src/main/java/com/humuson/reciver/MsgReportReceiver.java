@@ -29,11 +29,16 @@ public class MsgReportReceiver {
     private final MtMsgsService mtMsgsService;
 
     @KafkaListener(topics = "${kafka.at.report.topic.name}", groupId = "${kafka.at.report.topic.group.name}")
-    public void atReportlistenr(@Payload List<String> messages) throws IOException {
+    public void atReportlistenr(@Payload List<String> messages) {
         log.info("At Report Topic Listener : {}", messages);
 
+        Gson gson = new Gson();
         messages.forEach(message -> {
-            ApiCall.post("http://localhost:8080/api/v1/report", message);
+            log.info("messager : {}", message);
+            AtReport atReport = gson.fromJson(message, AtReport.class);
+            log.info("url : {}", atReport.getEtc2());
+            String status = ApiCall.put(atReport.getEtc2(), message);
+            log.info("status is {}", status);
         });
 
     }

@@ -45,7 +45,7 @@ public class AtMsgsSaveRequestDto {
                 .build();
     }
 
-    @Override
+    /*@Override
     public String toString() {
         return "AtMsgs {" +
                 ", reserved_dat:" + reservedDate +
@@ -55,5 +55,5 @@ public class AtMsgsSaveRequestDto {
                 ", etc1:" + etc1 +
                 ", etc2:" + etc2 +
                 "}";
-    }
+    }*/
 }

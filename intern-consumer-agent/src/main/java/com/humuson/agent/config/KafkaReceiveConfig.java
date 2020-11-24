@@ -17,7 +17,8 @@ import java.util.Map;
 
 @EnableKafka
 @Configuration
-public class KafkaReceiveConfig {
+public class
+KafkaReceiveConfig {
 
     @Value("${kafka.bootstrap.address}")
     private String bootstrapServers;

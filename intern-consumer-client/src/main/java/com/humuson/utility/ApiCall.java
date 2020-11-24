@@ -3,6 +3,7 @@ package com.humuson.utility;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
+import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.methods.HttpPost;
@@ -12,6 +13,7 @@ import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.client.HttpClients;
+import org.apache.http.util.EntityUtils;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -98,34 +100,47 @@ public class ApiCall {
         }
     }
 
-    public static String put(String url, String message) throws IOException {
+    public static String put(String url, String jsonMessage) {
         try (CloseableHttpClient httpclient = HttpClients.createDefault()) {
             HttpPut httpPut = new HttpPut(url);
             httpPut.setHeader("Accept", "application/json");
-            httpPut.setHeader("Content-type", "application/json");
+            httpPut.setHeader("Content-Type", "application/json; charset=utf-8");
 
-            StringEntity stringEntity = new StringEntity(message);
+            StringEntity stringEntity = new StringEntity(jsonMessage);
             httpPut.setEntity(stringEntity);
 
-            System.out.println("Executing request " + httpPut.getRequestLine());
+            log.info("Executing request " + httpPut.getRequestLine());
 
-            HttpResponse response = httpclient.execute(httpPut);
+            String status = httpclient.execute(httpPut, new ResponseHandler<String>() {
+                @Override
+                public String handleResponse(HttpResponse response) throws ClientProtocolException, IOException {
+                    int status = response.getStatusLine().getStatusCode();
+                    if (status >= 200 && status < 300) {
+                        HttpEntity entity = response.getEntity();
+                        return entity != null ? EntityUtils.toString(entity) : null;
+                    } else {
+                        throw new ClientProtocolException("Unexpected response status: " + status);
+                    }
+                }
+            });
+            log.info("status : {}" + status);
+            return status;
 
-            System.out.println("response.getEntity() : " + response.getEntity());
 
             //Response 출력
-            if (response.getStatusLine().getStatusCode() == 200) {
-                ResponseHandler<String> handler = new BasicResponseHandler();
-                String body = handler.handleResponse(response);
-                System.out.println("response handler body is " + body);
-                return "200";
-            } else {
-                System.out.println("response is error : " + response.getStatusLine().getStatusCode());
-                return response.getStatusLine().getStatusCode()+"";
-            }
+//            if (response.getStatusLine().getStatusCode() == 200) {
+//                ResponseHandler<String> handler = new BasicResponseHandler();
+//                String body = handler.handleResponse(response);
+//                log.info("response handler body is " + body);
+//                return "200";
+//            } else {
+//                System.out.println("response is error : " + response.getStatusLine().getStatusCode());
+//                return response.getStatusLine().getStatusCode()+"";
+//            }
         } catch (Exception e){
-            System.err.println(e.toString());
+            log.error(e.toString());
             return "9000";
         }
     }
+
 }

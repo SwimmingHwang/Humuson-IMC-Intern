@@ -28,6 +28,8 @@ public class AtMsgsApiController {
 //    @Operation(summary="알림톡 생성", description = "알림톡 메시지 레코드를 DB에 insert & Server API로 데이터 전송")
     @PostMapping("/api/v1/at-msgs")
     public String save(@RequestBody AtMsgsSaveRequestDto requestDto) {
+        // TODO : url 끝에 id 추가 어떻게 해야 할까?
+        // atMsgsService.updateEtc2(requestDto);
         Gson gson = new Gson();
         String reqData = gson.toJson(requestDto);
         log.info("Request Data : " + reqData);
