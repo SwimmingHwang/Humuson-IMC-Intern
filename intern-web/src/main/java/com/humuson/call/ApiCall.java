@@ -66,11 +66,14 @@ public class ApiCall {
             //postRequest.addHeader("Authorization", token); // token 이용시
 
             HttpEntity entity = new StringEntity(jsonMessage, "UTF-8");
+            log.info("엔터티 byte 크기 확인 : " + entity.getContentLength()); // 77
+
+
             postRequest.setEntity(entity); //json 메시지 입력
             HttpResponse response = client.execute(postRequest);
 
             //TODO : response 확인하기
-            log.info("response.getEntity() : " + response.getEntity());
+//            log.info("response.getEntity() : " + response.getEntity());
 
             //Response 출력
             if (response.getStatusLine().getStatusCode() == 200) {

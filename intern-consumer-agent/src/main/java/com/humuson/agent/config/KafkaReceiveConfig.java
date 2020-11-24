@@ -36,8 +36,8 @@ public class KafkaReceiveConfig {
 
         props.put(ConsumerConfig.SESSION_TIMEOUT_MS_CONFIG, 15000);
         props.put(ConsumerConfig.MAX_POLL_RECORDS_CONFIG, 10000);
-        props.put(ConsumerConfig.FETCH_MIN_BYTES_CONFIG, 20 * 1024 * 1024);
-//        props.put(ConsumerConfig.FETCH_MAX_BYTES_CONFIG, 20 * 1024 * 1024);
+//        props.put(ConsumerConfig.FETCH_MIN_BYTES_CONFIG, 20 * 1024 * 1024); // 한 건 만 consume할수도 있어서 제외함.
+        props.put(ConsumerConfig.FETCH_MAX_BYTES_CONFIG, 50 * 1024 * 1024);
         props.put(ConsumerConfig.FETCH_MAX_WAIT_MS_CONFIG, 500);
         props.put(ConsumerConfig.MAX_PARTITION_FETCH_BYTES_CONFIG, 50 * 1024 * 1024);
 
