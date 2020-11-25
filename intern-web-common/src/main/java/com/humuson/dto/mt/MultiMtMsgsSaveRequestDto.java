@@ -18,7 +18,8 @@ public class MultiMtMsgsSaveRequestDto {
     private String mtType;
     private List<List<String>> customerList;
     private List<Integer> varCheckList;
-
+    private String etc1;
+    private String etc2;
 
     @Builder
     public MultiMtMsgsSaveRequestDto(String msg, String reservedDate, String adFlag, String status, String callback,
@@ -32,7 +33,8 @@ public class MultiMtMsgsSaveRequestDto {
         this.mtType = mtType;
         this.customerList = customerList;
         this.varCheckList = varCheckList;
-
+        this.etc1 = etc1;
+        this.etc2 = etc2;
     }
 
     public List<MtMsgs> toEntity() {
@@ -50,7 +52,7 @@ public class MultiMtMsgsSaveRequestDto {
                 msgCopied = msgCopied.replace("#{변수3}",li.get(6));
             }
 
-            MtMsgs mtMsg = new MtMsgs(status,priority,reservedDate,callback, li.get(3), mtType, adFlag, msgCopied );
+            MtMsgs mtMsg = new MtMsgs(status,priority,reservedDate,callback, li.get(3), mtType, adFlag, msgCopied, etc1, etc2);
             msgs.add(mtMsg);
         }
         return msgs;

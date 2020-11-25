@@ -28,36 +28,31 @@ public class AtMsgsApiController {
     @Operation(summary="알림톡 생성", description = "알림톡 메시지 레코드를 DB에 insert & Server API로 데이터 전송")
     @PostMapping("/api/v1/at-msgs")
     public String save(@RequestBody AtMsgsSaveRequestDto requestDto) {
-        Gson gson = new Gson();
-        String reqData = gson.toJson(requestDto);
-        log.info("Request Data : " + reqData);
-        String statusCode = ApiCall.post("http://localhost:8082/api/at-msg",reqData);
-        log.info("statusCode :"+statusCode);
-        if (statusCode.equals("200")){
+        try{
             atMsgsService.save(requestDto);
+        } catch(Exception e){
+            log.info("ERROR : DB INSERT ERROR"); return "300";
         }
-        return statusCode;
+        return "200";
     }
     @Operation(summary="알림톡 생성(파일로)", description = "알림톡 메시지 레코드들(파일로 읽은)을 DB에 insert & Server API로 데이터 전송")
     @PostMapping(value = "/api/v1/multi-at-msgs",produces = "application/json; charset=utf8")
     public String saveAll(@RequestBody MultiAtMsgsSaveRequestDto requestDto) {
-        Gson gson = new Gson();
-        List<AtMsgs> atMsgs = requestDto.toEntity();
-        String reqData = gson.toJson(atMsgs);
-        log.info("Request Data : " +reqData);
-        String statusCode = ApiCall.post("http://localhost:8082/api/at-msgs",reqData);
-        log.info("statusCode :"+statusCode);
-
-        if (statusCode.equals("200")){
+        try{
             atMsgsService.saveAll(requestDto);
+        } catch(Exception e){
+            log.info("ERROR : DB INSERT ERROR"); return "300";
         }
-        return statusCode;
+        return "200";
     }
     @Operation(summary="알림톡 생성(주소록으로)", description = "알림톡 메시지 레코드들(고객 주소록 참조한)을 DB에 insert & Server API로 데이터 전송")
     @PostMapping("/api/v1/multi-at-msgs/list")
     public String saveAllList(@RequestBody MultiAtMsgsSaveListRequestDto requestDto) {
-        List<AtMsgs> atMsgs = requestDto.toEntity(customerService.findAll());
-        atMsgsJdbcService.saveAllList(requestDto);
+        try{
+            atMsgsJdbcService.saveAllList(requestDto);
+        } catch(Exception e){
+            log.info("ERROR : DB INSERT ERROR"); return "300";
+        }
         return "200";
     }
     @Operation(summary="알림톡 수정", description = "알림톡 메시지 레코드 수정")

@@ -16,10 +16,13 @@ public class MultiMtMsgsSaveListRequestDto {
     private String priority;
     private String mtType;
     private List<Integer> varCheckList;
+    private String etc1;
+    private String etc2;
+
 
     @Builder
     public MultiMtMsgsSaveListRequestDto(String msg, String reservedDate, String adFlag, String callback, String status,
-                                         String priority, String mtType, List<Integer> varCheckList) {
+                                         String priority, String mtType, List<Integer> varCheckList, String etc1, String etc2) {
         this.msg = msg;
         this.reservedDate = reservedDate;
         this.adFlag = adFlag;
@@ -28,6 +31,8 @@ public class MultiMtMsgsSaveListRequestDto {
         this.priority = priority;
         this.mtType = mtType;
         this.varCheckList = varCheckList;
+        this.etc1 = etc1;
+        this.etc2 = etc2;
 
     }
 
@@ -46,8 +51,8 @@ public class MultiMtMsgsSaveListRequestDto {
             if (varCheckList.contains(3)==true){
                 msgCopied = msgCopied.replace("#{변수3}", customer.getVar3()== null? "" : customer.getVar3());
             }
-            MtMsgs mtMsg = new MtMsgs(status,priority,reservedDate,callback,
-                    "82"+customer.getPhoneNumber().substring(1), mtType, adFlag, msgCopied );
+            MtMsgs mtMsg = new MtMsgs(status, priority, reservedDate, callback,
+                    "82"+customer.getPhoneNumber().substring(1), mtType, adFlag, msgCopied, etc1, etc2 );
             msgs.add(mtMsg);
         }
         return msgs;

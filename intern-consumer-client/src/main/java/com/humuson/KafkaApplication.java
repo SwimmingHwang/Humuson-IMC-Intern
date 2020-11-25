@@ -7,6 +7,7 @@ import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.kafka.annotation.EnableKafka;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,6 +19,7 @@ import java.util.Properties;
 @Slf4j
 @PropertySource("classpath:kafka.properties")
 //@RestController
+@SpringBootApplication
 public class KafkaApplication {
 
 

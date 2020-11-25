@@ -12,12 +12,14 @@ public class AtMsgsResponseDto {
     private String msg;
     private String phoneNumber;
     private String templateCode;
+    private String reservedDate;
 
     public AtMsgsResponseDto(AtMsgs entity) {
         this.id = entity.getId();
         this.msg = entity.getMsg();
         this.phoneNumber = entity.getPhoneNumber();
         this.templateCode = entity.getTemplateCode();
+        this.reservedDate = entity.getReservedDate();
     }
 
 

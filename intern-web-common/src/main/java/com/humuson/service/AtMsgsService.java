@@ -11,12 +11,13 @@ import com.humuson.domain.msgs.AtMsgs;
 import com.humuson.domain.msgs.AtMsgsRepository;
 import com.humuson.dto.at.*;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
-
+@Slf4j
 @RequiredArgsConstructor// final이 선언된 모든 필드를 인자값으로하는 생성자를 생성해줌.
 @Service
 public class AtMsgsService {
@@ -45,7 +46,7 @@ public class AtMsgsService {
         AtMsgs atMsgs = atMsgsRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("해당 사용자가 없습니다. id=" + id));
 
-        atMsgs.update(requestDto.getMsg());
+        atMsgs.update(requestDto.getReservedDate(), requestDto.getMsg(),requestDto.getPhoneNumber(), requestDto.getTemplateCode());
 
         return id;
     }
@@ -53,6 +54,7 @@ public class AtMsgsService {
     public Integer updateStatus(Integer id, String status){
         AtMsgs atMsgsId = atMsgsRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("해당 사용자가 없습니다. id=" + id));
+        log.info("id:" + id + "status updated");
         atMsgsId.updateStatus(status);
         return id;
     }

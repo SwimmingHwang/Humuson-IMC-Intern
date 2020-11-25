@@ -50,10 +50,14 @@ public class AtMsgs {
         this.etc1 = this.etc1 == null? "0" : etc1; // 결과 받는 URL
 
     }
-
-    public void update(String msg){
+    // 예약메시지 수정
+    public void update(String reservedDate, String msg, String phoneNumber, String templateCode){
+        this.reservedDate = reservedDate;
         this.msg = msg;
+        this.phoneNumber = phoneNumber;
+        this.templateCode = templateCode;
     }
+    // 예약시간 되었을 때 상태 업데이트
     public void updateStatus(String status){
         this.status=status;
     }

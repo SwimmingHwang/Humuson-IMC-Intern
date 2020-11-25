@@ -31,23 +31,36 @@ public class MtMsgs {
     private String adFlag; //CHAR(1)
     @Column(name = "MESSAGE")
     private String msg; // 메시지 내용
+    private String etc1;
+    private String etc2;
+
 
     @Builder // 해당 클래스의 빌더 패턴 클래스를 생성
     public MtMsgs(String status, String priority, String reservedDate, String callback,
-                  String phoneNumber, String mtType, String adFlag, String msg){
-        this.status = status;
-        this.priority = priority;
+                  String phoneNumber, String mtType, String adFlag, String msg, String etc1, String etc2){
+        this.status = status== null ? "1" : status;
+        this.priority = priority== null ? "N" : priority; // S-Slow, N-Normal, F-Fast
         this.reservedDate = reservedDate;
         this.callback = callback;
         this.phoneNumber = phoneNumber;
         this.mtType = mtType;
-        this.adFlag = adFlag;
+        this.adFlag = adFlag == null? "N" : adFlag;
         this.msg = msg;
+        this.etc1 = etc1 == null? "0" : etc1;
+        this.etc2 = etc2 == null ? "http://localhost:8080/api/v1/at-report" : etc2;
     }
 
-    public void update(String msg){
+    public void update(String reservedDate, String mtType, String callback, String msg , String phoneNumber){
+        this.reservedDate = reservedDate;
+        this.mtType = mtType;
+        this.callback = callback;
         this.msg = msg;
+        this.phoneNumber = phoneNumber;
+}
+    public void updateStatus(String status){
+        this.status=status;
     }
+
     /**
      * insert 되기전 (persist 되기전) 실행된다.
      * */
@@ -58,11 +71,10 @@ public class MtMsgs {
         this.priority = this.priority== null ? "N" : this.priority;
         this.reservedDate = this.reservedDate== null ? "reservedDate" : this.reservedDate;
         this.phoneNumber = this.phoneNumber== null ? "phonenumber" : this.phoneNumber;
-        this.callback = this.callback == null ? "01065362547" : this.callback;
-        this.mtType = this.mtType== null ? "SM" : this.mtType; // MT 상품 타입 (SM-SMS, LM-LMS)
-        this.msg = this.msg== null ? "msg" : this.msg;
+        this.callback = this.callback == null ? "010callback" : this.callback;
+        this.mtType = this.mtType== null ? "MM" : this.mtType; // MT 상품 타입 (SM-SMS, LM-LMS)
+        this.msg = this.msg== null ? "NULL MESSAGE" : this.msg;
         this.adFlag = this.adFlag == null ? "N" : this.adFlag;
-
     }
 
 }

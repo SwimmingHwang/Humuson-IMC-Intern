@@ -169,13 +169,6 @@ var send = {
     save: function () {
         var csrfHeader = $("meta[name='_csrf_header']").attr("content");
         var csrfToken = $("meta[name='_csrf']").attr("content");
-        var aF = "";
-        if($("input:checkbox[name='adFlag']").prop("checked") == true){
-            aF = "Y";
-        }
-        else{
-            aF = null;
-        }
 
         var varCheckList = [];
 
@@ -186,14 +179,42 @@ var send = {
         if($("input:checkbox[name='var3']").prop("checked") == true)
             varCheckList.push(3);
 
+        var mtType = $('#mtType').val();
+        var callback= $('#callback').val();
+        var msg = $('#msg').val();
+
+        if(mtType==null) {
+            alert("메시지 유형을 선택해 주세요.");
+            return;
+        }
+        if(callback===""){
+            alert("발신 번호를 입력해 주세요.");
+            return;
+        }
+        if(msg===""){
+            alert("메시지 내용을 입력해 주세요.");
+            return;
+        }
+        if(customerList.length===0){
+            alert("연락처를 업로드해 주세요.");
+            return;
+        }
+
+        var aF = "";
+        if($("input:checkbox[name='adFlag']").prop("checked") == true){
+            aF = "Y";
+        }
+        else{
+            aF = null;
+        }
+
         var data = {
-            msg: $('#msg').val(),
-            phoneNumber: $('#phoneNumber').val(),
+            mtType : mtType,
             adFlag : aF,
-            mtType : $('#mtType').val(),
-            customerList: customerList,
             reservedDate :  $('#datePicker').val()+$('#time').val().toString().replace(/:/gi,"")+"00",
-            callback : $('#callback').val(),
+            callback : callback,
+            msg: msg,
+            customerList: customerList,
             varCheckList : varCheckList,
         };
 
@@ -210,7 +231,7 @@ var send = {
         }).done(function (stringStatusCode) {
             if (stringStatusCode =="200") {
                 alert('발송 예약이 완료되었습니다.');
-                window.location.href = '/send/at-send';
+                window.location.href = '/send/mt-send';
             }
             else {
                 var error = "";

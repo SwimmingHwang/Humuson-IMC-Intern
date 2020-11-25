@@ -6,6 +6,7 @@
 * */
 
 package com.humuson.agent.dto;
+
 import com.humuson.agent.domain.entity.MtMsgs;
 import lombok.Builder;
 import lombok.Getter;

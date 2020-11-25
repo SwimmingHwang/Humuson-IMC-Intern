@@ -6,17 +6,20 @@
 
 package com.humuson.service;
 
+import com.humuson.domain.msgs.AtMsgs;
 import com.humuson.domain.repository.CustomerRepository;
 import com.humuson.domain.msgs.MtMsgs;
 import com.humuson.domain.msgs.MtMsgsRepository;
 import com.humuson.dto.mt.*;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Slf4j
 @RequiredArgsConstructor// final이 선언된 모든 필드를 인자값으로하는 생성자를 생성해줌.
 @Service
 public class MtMsgsService {
@@ -47,11 +50,19 @@ public class MtMsgsService {
         MtMsgs msgs = mtMsgsRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("해당 사용자가 없습니다. id=" + id));
 
-        msgs.update(requestDto.getMsg());
+        msgs.update(requestDto.getReservedDate(), requestDto.getMtType(), requestDto.getCallback(),
+                requestDto.getMsg(), requestDto.getPhoneNumber());
 
         return id;
     }
-
+    @Transactional
+    public Integer updateStatus(Integer id, String status){
+        MtMsgs mtMsgsId = mtMsgsRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("해당 사용자가 없습니다. id=" + id));
+        log.info("id:" + id + "status updated");
+        mtMsgsId.updateStatus(status);
+        return id;
+    }
     @Transactional
     public void delete (Integer id) {
         MtMsgs msgs = mtMsgsRepository.findById(id)
@@ -80,4 +91,10 @@ public class MtMsgsService {
         // repo에서 넘어온 stream을 map을 통해 dto로 변환해서 리스트로 반환
         return mtMsgsRepository.findAll();
     }
+    @Transactional(readOnly = true)
+    public List<MtMsgs> findAllByReservedDate(){
+        return mtMsgsRepository.findAllByReservedDate();
+    }
+
+
 }

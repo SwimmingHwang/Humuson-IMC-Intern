@@ -112,18 +112,32 @@ var send = {
         var csrfHeader =  $("meta[name='_csrf_header']").attr("content");
         var csrfToken = $("meta[name='_csrf']").attr("content");
 
-        var phoneNum = $('#phoneNumber').val();
-        phoneNum = phoneNum.substring(1);
-        // TODO : 국가번호 한국으로만 함
-        phoneNum = "82" +phoneNum;
+        var templateCode = $('#templateCode').val();
+        var msg = $('#msg').val();
+        var phoneNumber = $('#phoneNumber').val();
+
+        if(templateCode==null) {
+            alert("템플릿 코드를 선택해 주세요.");
+            return;
+        }
+        if(msg ===""){
+            alert("메시지 내용을 입력해 주세요.");
+            return;
+        }
+        if(phoneNumber ===""){
+            alert("전화번호를 입력해 주세요.");
+            return;
+        }
+
+        phoneNumber = phoneNumber.substring(1);
+        phoneNumber = "82" +phoneNumber;// TODO : 국가번호 한국으로만 함
 
         var data = {
-            msg: $('#msg').val(),
-            phoneNumber: phoneNum,
-            templateCode : $('#templateCode').val(),
+            msg: msg,
+            phoneNumber: phoneNumber,
+            templateCode : templateCode,
             reservedDate: $('#datePicker').val()+$('#time').val().toString().replace(/:/gi,"")+"00",
         };
-
 
         $.ajax({
             type: 'POST',
@@ -135,25 +149,12 @@ var send = {
                 //데이터를 전송하기 전에 헤더에 csrf값을 설정한다
                 xhr.setRequestHeader(csrfHeader, csrfToken);
             },
-        }).done(function (stringStatusCode) {
-            if (stringStatusCode =="200") {
-                alert('발송 예약이 완료되었습니다.');
-                window.location.href = '/send/at-send';
-            }
-            else {
-                var error = "";
-                if (stringStatusCode == "9000"){
-                    error = " 9000: ";
-                }
-                else {
-                    error = stringStatusCode;
-                }
-                alert('문제가 발생했습니다. 다시 시도해 주세요.\nerror code'+error);
-            }
-        }).fail(function (data, textStatus, errorThrown) {
-            alert(JSON.stringify('문제가 발생했습니다. 다시 시도해 주세요.'+
-            data+textStatus+errorThrown));
-
+        }).done(function () {
+            // TODO : 예약후 시간되면 post로 바껴서 여기서 서버 예외가 발생함은 알 수 없음.
+            alert('발송 예약이 완료되었습니다.');
+            window.location.href = '/send/at-send';
+        }).fail(function (error) {
+            alert(JSON.stringify(error));
         });
     },
     update : function () {

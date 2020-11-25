@@ -46,14 +46,6 @@ public class AtMsgs {
     @Builder // 해당 클래스의 빌더 패턴 클래스를 생성
     public AtMsgs(String status, String priority, String reservedDate, String senderKey,
                   String phoneNumber, String templateCode, String msg, String etc1){
-//        this.status = status;
-//        this.priority = priority;
-//        this.reservedDate = reservedDate;
-//        this.senderKey = senderKey;
-//        this.phoneNumber = phoneNumber;
-//        this.templateCode = templateCode;
-//        this.msg = msg;
-//        this.etc1 = etc1;
         this.status = status== null ? "1" : status;
         this.priority = priority== null ? "N" : priority; // S-Slow, N-Normal, F-Fast
         this.reservedDate = reservedDate== null ? "null" : reservedDate; // yyyyMMddhhmmss (hh:24h)

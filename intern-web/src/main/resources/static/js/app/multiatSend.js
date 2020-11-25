@@ -178,9 +178,25 @@ var send = {
         if($("input:checkbox[name='var3']").prop("checked") == true)
             varCheckList.push(3);
 
+        var templateCode = $('#templateCode').val();
+        var msg = $('#msg').val();
+
+        if(templateCode==null) {
+            alert("템플릿 코드를 선택해 주세요.");
+            return;
+        }
+        if(msg ===""){
+            alert("메시지 내용을 입력해 주세요.");
+            return;
+        }
+        if(customerList.length===0){
+            alert("연락처를 업로드해 주세요.")
+            return;
+        }
+
         var data = {
-            msg: $('#msg').val(),
-            templateCode: $('#templateCode').val(),
+            msg: msg,
+            templateCode : templateCode,
             reservedDate: $('#datePicker').val()+$('#time').val().toString().replace(/:/gi,"")+"00",
             customerList: customerList,
             varCheckList : varCheckList

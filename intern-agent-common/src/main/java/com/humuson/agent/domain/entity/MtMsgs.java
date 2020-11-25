@@ -31,10 +31,12 @@ public class MtMsgs {
     private String adFlag; //CHAR(1)
     @Column(name = "MESSAGE")
     private String msg; // 메시지 내용
+    private String etc1;
+    private String etc2;
 
     @Builder // 해당 클래스의 빌더 패턴 클래스를 생성
     public MtMsgs(String status, String priority, String reservedDate, String callback,
-                  String phoneNumber, String mtType, String adFlag, String msg){
+                  String phoneNumber, String mtType, String adFlag, String msg, String etc1, String etc2){
         this.status = status;
         this.priority = priority;
         this.reservedDate = reservedDate;
@@ -43,6 +45,8 @@ public class MtMsgs {
         this.mtType = mtType;
         this.adFlag = adFlag;
         this.msg = msg;
+        this.etc1 = etc1;
+        this.etc2 = etc2;
     }
 
     public void update(String msg){
