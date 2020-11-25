@@ -174,6 +174,7 @@ public class IndexController {
         AtMsgsResponseDto dto = atMsgsService.findById(id);
         model.addAttribute("msgSbj","at");
         model.addAttribute("msg", dto);
+        model.addAttribute("templateCodes",templateInfoService.findAll());
         return "page/msgs-update";
     }
     @Tag(name="발송 세부 페이지", description = "친구톡 수정 페이지 이동")
@@ -192,6 +193,7 @@ public class IndexController {
         MtMsgsResponseDto dto = mtMsgsService.findById(id);
         model.addAttribute("msgSbj","mt");
         model.addAttribute("msg", dto);
+        model.addAttribute("msgs", mtMsgsService.findAll());
 
         return "page/mtmsgs-update";
     }

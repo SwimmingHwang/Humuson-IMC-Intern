@@ -13,6 +13,7 @@ public class MtMsgsResponseDto {
     private String phoneNumber;
     private String reservedDate;
     private String mtType;
+    private String callback;
 
     public MtMsgsResponseDto(MtMsgs entity) {
         this.id = entity.getId();
@@ -20,5 +21,6 @@ public class MtMsgsResponseDto {
         this.phoneNumber = entity.getPhoneNumber();
         this.reservedDate = entity.getReservedDate();
         this.mtType = entity.getMtType();
+        this.callback = entity.getCallback();
     }
 }

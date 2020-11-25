@@ -141,8 +141,29 @@ var send = {
         });
     },
     update : function () {
+        var csrfHeader =  $("meta[name='_csrf_header']").attr("content");
+        var csrfToken = $("meta[name='_csrf']").attr("content");
+
+        var mtType = $('#mtType').val();
+        var callback= $('#callback').val();
+        var msg = $('#msg').val();
+        var phoneNumber = $('#phoneNumber').val();
+
+        var aF = "";
+        if($("input:checkbox[name='adFlag']").prop("checked") == true){
+            aF = "Y";
+        }
+        else{
+            aF = null;
+        }
+
         var data = {
-            msg: $('#msg').val(),
+            mtType : mtType,
+            adFlag : aF,
+            reservedDate :  $('#datePicker').val()+$('#time').val().toString().replace(/:/gi,"")+"00",
+            callback : callback,
+            msg: msg,
+            phoneNumber: phoneNumber,
         };
 
         var id = $('#id').val();
@@ -152,25 +173,36 @@ var send = {
             url: '/api/v1/mt-msgs/'+id,
             dataType: 'json',
             contentType:'application/json; charset=utf-8',
-            data: JSON.stringify(data)
+            data: JSON.stringify(data),
+            beforeSend : function(xhr) {
+                //데이터를 전송하기 전에 헤더에 csrf값을 설정한다
+                xhr.setRequestHeader(csrfHeader, csrfToken);
+            },
         }).done(function() {
-            alert('글이 수정되었습니다.');
-            window.location.href = '/';
+            alert('수정되었습니다.');
+            window.location.href = '/send/mt-record';
         }).fail(function (error) {
             alert(JSON.stringify(error));
         });
     },
     delete : function () {
+        var csrfHeader =  $("meta[name='_csrf_header']").attr("content");
+        var csrfToken = $("meta[name='_csrf']").attr("content");
+
         var id = $('#id').val();
 
         $.ajax({
             type: 'DELETE',
             url: '/api/v1/mt-msgs/'+id,
             dataType: 'json',
-            contentType:'application/json; charset=utf-8'
+            contentType:'application/json; charset=utf-8',
+            beforeSend : function(xhr) {
+                //데이터를 전송하기 전에 헤더에 csrf값을 설정한다
+                xhr.setRequestHeader(csrfHeader, csrfToken);
+            },
         }).done(function() {
-            alert('글이 삭제되었습니다.');
-            window.location.href = '/';
+            alert('삭제되었습니다.');
+            window.location.href = '/send/mt-record';
         }).fail(function (error) {
             alert(JSON.stringify(error));
         });

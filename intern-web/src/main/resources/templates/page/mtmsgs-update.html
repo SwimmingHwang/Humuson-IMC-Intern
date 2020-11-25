@@ -4,7 +4,7 @@
       layout:decorator="layout/default_layout">
 <div layout:fragment="content">
 
-<h1 class="h3 mb-1 text-gray-800">예약 메시지 조회</h1>
+<h1 class="h3 mb-1 text-gray-800">예약 메시지 수정</h1>
 <p class="mb-4">발송 예약한 메시지를 조회하는 페이지 입니다. 이미 발송 시간이 지난 메시지는 수정이 불가합니다.</p>
 <div class="col-md-12">
     <form>
@@ -12,21 +12,49 @@
             <label for="msg">번호</label>
             <input type="text" class="form-control" id="id" th:value="${msg.id}" readonly>
         </div>
-        <div class="form-group">
-            <label for="reservedDate"> 발송 일시 </label>
-            <input type="text" class="form-control" id="reservedDate" th:value="${msg.reservedDate}" >
+
+        <div>
+            <strong>메시지 유형</strong>
+            <select id="mtType" class="custom-select" th:value="${msg.mtType}">
+                <option disabled selected th:text="${msg.mtType}"></option>
+                <option th:text="SM" th:selected="${msg.mtType}=='SM'" >default</option>
+                <option th:text="LM" th:selected="${msg.mtType}=='SM'" >default</option>
+            </select>
         </div>
-        <div class="form-group">
-            <label for="msg">메세지 내용</label>
-            <input type="text" class="form-control" id="msg" th:value="${msg.msg}">
+        <br>
+
+        <div>
+            <strong>광고 문구 표시 여부</strong>
+            <input id="adFlag" type="checkbox" name="adFlag" value="Y" >
         </div>
+        <br>
+
+
+        <div>
+            <strong>발송 일시</strong>
+            <p>수정 전 발송 일시</p>
+            <input type="text" class="form-control" id="reservedDate" th:value="${msg.reservedDate}" readonly>
+            <p>수정 후 발송 일시</p>
+            <input type="text" id="datePicker" class="form-control" >
+            <input type="time" id="time" class="form-control" value="10:00" min="00:00:00" max="23:59:59">
+        </div>
+        <br>
+
+        <div>
+            <strong>발신번호</strong>
+            <input type="text" class="form-control" id="callback" th:value="${msg.callback}" th:placeholder="${msg.callback}">
+        </div>
+        <br>
+
+        <div>
+            <strong>메시지 내용</strong>
+            <input type="text" class="form-control" id="msg" th:value="${msg.msg}" th:placeholder="${msg.msg}">
+        </div>
+        <br>
+
         <div class="form-group">
             <label for="phoneNumber"> 전화번호 </label>
-            <input type="text" class="form-control" id="phoneNumber" th:value="${msg.phoneNumber}" >
-        </div>
-        <div class="form-group">
-            <label for="templateCode"> 메시지 유형 </label>
-            <input type="text" class="form-control" id="templateCode" th:value="${msg.mtType}" >
+            <input type="text" class="form-control" id="phoneNumber" th:value="${msg.phoneNumber}" th:placeholder="${msg.phoneNumber}" >
         </div>
 
 
@@ -35,11 +63,11 @@
     <button type="button" class="btn btn-primary" id="btn-update">수정 완료</button>
     <button type="button" class="btn btn-danger" id="btn-delete">삭제</button>
 </div>
-<!--custom 스크립트 -->
-<th:block layout:fragment="script">
-    <script th:src="@{/js/app/{msgjs}Send.js(msgjs=${msgSbj})}"></script>
-</th:block>
+    <!--custom 스크립트 -->
+    <th:block layout:fragment="script">
+        <link rel="stylesheet" th:href="@{/vendor/bootstrap/scss/bootstrap-datepicker.min.css}">
+        <script th:src="@{/vendor/bootstrap/js/bootstrap-datepicker.min.js}"></script>
+        <script th:src="@{/js/app/{msgjs}Send.js(msgjs=${msgSbj})}"></script>
+    </th:block>
 </div>
-
-
 </html>

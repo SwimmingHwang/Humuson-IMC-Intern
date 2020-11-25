@@ -164,13 +164,13 @@ var send = {
         var phoneNum = $('#phoneNumber').val();
         phoneNum = phoneNum.substring(1);
         // TODO : 국가번호 한국으로만 함
-        phoneNum = "82" +phoneNum;
+        phoneNum = "8" +phoneNum;
 
         var data = {
             msg: $('#msg').val(),
             phoneNumber: phoneNum,
             templateCode : $('#templateCode').val(),
-            reservedDate: $('#reservedDate').val()
+            reservedDate: $('#datePicker').val()+$('#time').val().toString().replace(/:/gi,"")+"00",
         };
 
         var id = $('#id').val();
@@ -186,7 +186,7 @@ var send = {
                 xhr.setRequestHeader(csrfHeader, csrfToken);
             }
         }).done(function() {
-            alert('글이 수정되었습니다.');
+            alert('수정되었습니다.');
             window.location.href = '/send/at-record';
         }).fail(function (error) {
             alert(JSON.stringify(error));
@@ -208,7 +208,7 @@ var send = {
                 xhr.setRequestHeader(csrfHeader, csrfToken);
             }
         }).done(function() {
-            alert('글이 삭제되었습니다.');
+            alert('삭제되었습니다.');
             window.location.href = '/send/at-record';
         }).fail(function (error) {
             alert(JSON.stringify(error));

@@ -50,7 +50,8 @@
                             <td th:text="${msg.reservedDate}">default</td>
                             <td th:text="${msg.mtType}">default</td>
                             <td th:text="${msg.callback}">default</td>
-                            <td ><a th:href="@{/send/msgs/update/{sbj}/{id}(sbj=${msgSbj},id=${msg.id})}" th:text="${msg.msg}">default</a></td>
+                            <td th:if="${msg.status} == 1 "><a th:href="@{/send/msgs/update/{sbj}/{id}(sbj=${msgSbj},id=${msg.id})}" th:text="${msg.msg}">default</a></td>
+                            <td th:if="${msg.status} != 1 "><a th:text="${msg.msg}">default</a></td>
                             <td th:text="${msg.phoneNumber}">default</td>
                             <td th:text="${msg.status}">default</td>
                         </tr>

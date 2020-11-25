@@ -75,6 +75,8 @@ public class ScheduledTasks {
                     log.info("API POST ERROR");
                 }
             }
+
+
             if (!mtMsgsList.isEmpty()){
                 log.info("스케쥴러 : MT Update 시작");
 
