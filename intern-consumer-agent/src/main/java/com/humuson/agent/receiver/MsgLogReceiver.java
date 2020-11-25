@@ -50,13 +50,11 @@ public class MsgLogReceiver {
                 atReportSaveRequestDto.setEtc2(atMsgsSaveRequestDto.getEtc2());
 
                 list.add(atReportSaveRequestDto);
-                log.info("리스트 저장 완료");
             } catch (Exception e) {
                 log.info("AtMsgsSaveRequestDto -> AtReportSaveRequestDto error");
             }
         }
         if(!list.isEmpty())  {
-            log.info("모두 저장해!!");
             atReportJdbcService.saveAll(list);
         }
     }
