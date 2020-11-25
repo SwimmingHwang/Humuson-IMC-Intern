@@ -47,18 +47,12 @@ public class ScheduledTasks {
             log.info("스케쥴러 : mtMsgsList"+atMsgsList);
 
             if (!atMsgsList.isEmpty()){
-                log.info("스케쥴러 : AT Update 시작");
 
                 atMsgsList.forEach(row ->{
-                    // TODO : update batch로 작성할 것
-                    log.info("스케쥴러 : AT Update 진행중");
-                    atMsgsService.updateStatus(row.getId(), "2");
-                    //String msg, String phoneNumber, String templateCode, String reservedDate
                     AtMsgsSaveRequestDto atMsgsSaveRequestDto = new AtMsgsSaveRequestDto(row.getMsg(),row.getPhoneNumber(),
                             row.getTemplateCode(), row.getReservedDate());
                     //    for (int i=0; i<12500; i++) //10만건 테스트용
                     atMsgsSaveRequestDtoList.add(atMsgsSaveRequestDto);
-
                 });
                 log.info("스케쥴러 : AT Update 끝");
 
@@ -70,6 +64,15 @@ public class ScheduledTasks {
 
                 if (statusCode.equals("200")){
                     log.info("API POST REQUEST 성공");
+
+                    log.info("스케쥴러 : AT Update 시작");
+
+                    // 성공했으면  status update 2
+                    atMsgsList.forEach(row ->{
+                        // TODO : update batch로 작성할 것
+                        log.info("스케쥴러 : AT Update 진행중");
+                        atMsgsService.updateStatus(row.getId(), "2");
+                    });
                 }
                 else{
                     log.info("API POST ERROR");
