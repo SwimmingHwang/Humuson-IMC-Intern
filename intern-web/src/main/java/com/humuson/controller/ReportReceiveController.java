@@ -41,8 +41,8 @@ public class ReportReceiveController {
         atMsgsService.updateStatus(id, "3");
         // at report 저장
         Gson gson = new Gson();
-        AtReportDto atReportDto = gson.fromJson(message, AtReportDto.class);
-        atReportService.save(atReportDto);
+        AtReport atReport = gson.fromJson(message, AtReport.class);
+        atReportService.save(atReport);
     }
 
 

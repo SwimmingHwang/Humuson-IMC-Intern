@@ -35,10 +35,12 @@ public class ScheduledTasks {
             atMsgsList.forEach(row ->{
                 // TODO : update batch로 작성할 것
                 atMsgsService.updateStatus(row.getId(), "2");
+//                atMsgsService.updateStatusAndEtc2(row.getId(),"2");
                 //String msg, String phoneNumber, String templateCode, String reservedDate
-                AtMsgsSaveRequestDto atMsgsSaveRequestDto = new AtMsgsSaveRequestDto(row.getId(),row.getMsg(),row.getPhoneNumber(),
-                        row.getTemplateCode(), row.getReservedDate(), row.getEtc1(), row.getEtc2());
+                AtMsgsSaveRequestDto atMsgsSaveRequestDto = new AtMsgsSaveRequestDto(row.getMsg(),row.getPhoneNumber(),
+                        row.getTemplateCode(), row.getReservedDate(), row.getSenderKey(), row.getEtc1(), row.getEtc2()+row.getId());
 //                for (int i=0; i<12500; i++)
+                log.info("message is : {}", row.getEtc2());
                 atMsgsSaveRequestDtoList.add(atMsgsSaveRequestDto);
             });
 

@@ -2,6 +2,7 @@ package com.humuson.service;
 
 import com.google.gson.Gson;
 import com.humuson.agent.dto.AtReportDto;
+import com.humuson.agent.dto.AtReportSaveRequestDto;
 import com.humuson.agent.dto.FtReportListDto;
 import com.humuson.agent.dto.MtReportListDto;
 import com.humuson.config.KafkaProducerConfig;
@@ -37,7 +38,7 @@ public class ProducerService {
 
     private final KafkaProducerConfig kafkaProducerConfig;
 
-    public void sendAtReportList(List<AtReportDto> atReportList) {
+    public void sendAtReportList(List<AtReportSaveRequestDto> atReportList) {
 
         KafkaProducer<String, String> producer = new KafkaProducer<>(kafkaProducerConfig.senderProps());
 

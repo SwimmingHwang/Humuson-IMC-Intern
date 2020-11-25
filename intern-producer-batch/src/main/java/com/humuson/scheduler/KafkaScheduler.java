@@ -1,6 +1,7 @@
 package com.humuson.scheduler;
 
 import com.humuson.agent.dto.AtReportDto;
+import com.humuson.agent.dto.AtReportSaveRequestDto;
 import com.humuson.agent.service.AtReportService;
 import com.humuson.agent.service.FtReportService;
 import com.humuson.agent.service.MtReportService;
@@ -26,7 +27,7 @@ public class KafkaScheduler {
     @Scheduled(cron = "*/10 * * * * *") // 10초에 한번 실행
     public void atReportSchedule() {
         log.info("=============at report 스케쥴러 작동중============= ");
-        List<AtReportDto> atReportList = atReportService.findAllByEtc1("0");
+        List<AtReportSaveRequestDto> atReportList = atReportService.findAllByEtc1("0");
         if(atReportList.size() != 0) {
             log.info("=============at report etc1 0 인거 있다============= ");
 

@@ -33,8 +33,7 @@ public class AtReport {
     private String etc2;
 
     @Builder
-    public AtReport(Long id, String status, String priority, String reserved_date, String sender_key, String phone_number, String template_code, String message, String request_uid, String request_date, String response_date, String response_code, String report_type, String report_date, String report_code, String arrival_date, String etc1, String etc2) {
-        this.id = id;
+    public AtReport(String status, String priority, String reserved_date, String sender_key, String phone_number, String template_code, String message, String request_uid, String request_date, String response_date, String response_code, String report_type, String report_date, String report_code, String arrival_date, String etc1, String etc2) {
         this.status = status;
         this.priority = priority;
         this.reserved_date = reserved_date;

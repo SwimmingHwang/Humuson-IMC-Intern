@@ -57,6 +57,15 @@ public class AtMsgsService {
         return id;
     }
 
+//    @Transactional
+//    public Integer updateStatusAndEtc2(Integer id, String status){
+//        AtMsgs atMsgsId = atMsgsRepository.findById(id)
+//                .orElseThrow(() -> new IllegalArgumentException("해당 사용자가 없습니다. id=" + id));
+//        atMsgsId.updateStatus(status);
+//        atMsgsId.updateEtc2(atMsgsId.getEtc2() + id.toString());
+//        return id;
+//    }
+
     @Transactional
     public void delete (Integer id) {
         AtMsgs atMsgs = atMsgsRepository.findById(id)

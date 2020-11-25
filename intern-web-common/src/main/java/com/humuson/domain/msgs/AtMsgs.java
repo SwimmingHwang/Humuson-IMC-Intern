@@ -49,7 +49,7 @@ public class AtMsgs {
         this.templateCode = templateCode;
         this.msg = msg;
         this.etc1 = this.etc1 == null? "0" : etc1;
-        this.etc2 = this.etc2 == null ? "http://localhost:8080/api/v1/at-report" : etc2;
+        this.etc2 = this.etc2 == null ? "http://localhost:8080/api/v1/at-report/" : etc2;
     }
 
     public void update(String msg){
@@ -57,6 +57,9 @@ public class AtMsgs {
     }
     public void updateStatus(String status){
         this.status=status;
+    }
+    public void updateEtc2(String status){
+        this.etc2 = etc2;
     }
     /**
      * insert 되기전 (persist 되기전) 실행된다.
@@ -71,7 +74,7 @@ public class AtMsgs {
         this.templateCode = this.templateCode== null ? "null" : this.templateCode;
         this.msg = this.msg== null ? "NULL MESSAGE" : this.msg;
         this.etc1 = this.etc1 == null? "0" : this.etc1;
-        this.etc2 = this.etc2 == null ? "http://localhost:8080/api/v1/at-report" : this.etc2;
+        this.etc2 = this.etc2 == null ? "http://localhost:8080/api/v1/at-report/" : this.etc2;
     }
     public static String getCurrentTimeStamp() {
         SimpleDateFormat sdfDate = new SimpleDateFormat("yyyyMMddHHmmss");//dd/MM/yyyy

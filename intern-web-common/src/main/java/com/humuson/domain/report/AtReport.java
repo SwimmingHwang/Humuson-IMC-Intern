@@ -1,5 +1,6 @@
 package com.humuson.domain.report;
 
+import com.humuson.domain.msgs.AtMsgs;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

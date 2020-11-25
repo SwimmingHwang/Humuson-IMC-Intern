@@ -42,7 +42,7 @@ public class AtMsgsJdbcRepositoryImpl implements AtMsgsJdbcRepository{
     private int batchInsert(int batchSize, int batchCount, List<AtMsgs> atMsgs) {
 
         jdbcTemplate.batchUpdate("INSERT INTO imc_at (`status`,`priority`,`reserved_date`,`sender_key`, " +
-                        "`template_code`, `etc1`,`message`, `phone_number`) VALUES (?, ?,?,?,?,?,?,?)",
+                        "`template_code`,`message`, `phone_number`, `etc1`, `etc2`) VALUES (?,?,?,?,?,?,?,?,?)",
                 new BatchPreparedStatementSetter() {
             // TODO 직접 insert 하기 때문에 default값 재설정 필요
                     @Override
@@ -52,9 +52,10 @@ public class AtMsgsJdbcRepositoryImpl implements AtMsgsJdbcRepository{
                         ps.setString(3, atMsgs.get(i).getReservedDate());
                         ps.setString(4, atMsgs.get(i).getSenderKey());
                         ps.setString(5, atMsgs.get(i).getTemplateCode());
-                        ps.setString(6, atMsgs.get(i).getEtc1());
-                        ps.setString(7, atMsgs.get(i).getMsg());
-                        ps.setString(8, atMsgs.get(i).getPhoneNumber());
+                        ps.setString(6, atMsgs.get(i).getMsg());
+                        ps.setString(7, atMsgs.get(i).getPhoneNumber());
+                        ps.setString(8, atMsgs.get(i).getEtc1());
+                        ps.setString(9, atMsgs.get(i).getEtc2());
                     }
                     @Override
                     public int getBatchSize() {

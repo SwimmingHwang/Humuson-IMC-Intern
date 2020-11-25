@@ -29,16 +29,13 @@ public class AtMsgsApiController {
     @PostMapping("/api/v1/at-msgs")
     public String save(@RequestBody AtMsgsSaveRequestDto requestDto) {
         // TODO : url 끝에 id 추가 어떻게 해야 할까?
-        // atMsgsService.updateEtc2(requestDto);
-        Gson gson = new Gson();
-        String reqData = gson.toJson(requestDto);
-        log.info("Request Data : " + reqData);
-        String statusCode = ApiCall.post("http://localhost:8082/api/at-msg",reqData);
-        log.info("statusCode :"+statusCode);
-        if (statusCode.equals("200")){
+        try{
             atMsgsService.save(requestDto);
+        } catch(Exception e){
+            log.info("ERROR : DB INSERT ERROR"); return "300";
         }
-        return statusCode;
+//        return statusCode;
+        return "200";
     }
 //    @Operation(summary="알림톡 생성(파일로)", description = "알림톡 메시지 레코드들(파일로 읽은)을 DB에 insert & Server API로 데이터 전송")
     @PostMapping(value = "/api/v1/multi-at-msgs",produces = "application/json; charset=utf8")

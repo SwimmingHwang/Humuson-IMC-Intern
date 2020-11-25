@@ -3,6 +3,7 @@ package com.humuson.reciver;
 import com.google.gson.Gson;
 import com.humuson.agent.domain.entity.AtMsgs;
 import com.humuson.agent.domain.entity.AtReport;
+import com.humuson.agent.dto.AtReportSaveRequestDto;
 import com.humuson.agent.service.AtMsgsJdbcService;
 import com.humuson.agent.service.AtMsgsService;
 import com.humuson.agent.service.FtMsgsService;
@@ -35,7 +36,7 @@ public class MsgReportReceiver {
         Gson gson = new Gson();
         messages.forEach(message -> {
             log.info("messager : {}", message);
-            AtReport atReport = gson.fromJson(message, AtReport.class);
+            AtReportSaveRequestDto atReport = gson.fromJson(message, AtReportSaveRequestDto.class);
             log.info("url : {}", atReport.getEtc2());
             String status = ApiCall.put(atReport.getEtc2(), message);
             log.info("status is {}", status);

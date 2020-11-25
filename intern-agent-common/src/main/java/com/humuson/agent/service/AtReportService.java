@@ -3,6 +3,7 @@ package com.humuson.agent.service;
 import com.humuson.agent.domain.entity.AtReport;
 import com.humuson.agent.domain.repository.AtReportRepository;
 import com.humuson.agent.dto.AtReportDto;
+import com.humuson.agent.dto.AtReportSaveRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,10 +19,10 @@ public class AtReportService {
 
     // etc1가 0 -> 옮겨지지 않은 데이터만 뽑음
     @Transactional(readOnly = true)
-    public List<AtReportDto> findAllByEtc1(String status) {
+    public List<AtReportSaveRequestDto> findAllByEtc1(String status) {
         return atReportRepository.findAll().stream()
                 .filter(atReport -> atReport.getEtc1().equals(status))
-                .map(AtReportDto::new)
+                .map(AtReportSaveRequestDto::new)
                 .collect(Collectors.toList());
     }
 
