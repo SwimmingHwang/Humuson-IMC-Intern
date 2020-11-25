@@ -58,18 +58,18 @@ public class MsgLogReceiver {
         }
     }
 
-    @KafkaListener(topics = "${kafka.ft.topic.name}", groupId = "${kafka.ft.topic.group.name}")
-    public void ftLoglistenr(@Payload String message) {
-        log.info("Ft Topic Listner : {}", message);
-        Gson gson = new Gson();
-        FtMsgsSaveRequestDto ftMsgstDto = null;
-        try {
-            ftMsgstDto = new Gson().fromJson(message, FtMsgsSaveRequestDto.class);
-        } catch (Exception e) {
-            log.info("it is not json format");
-        }
-        if(ftMsgstDto != null) ftMsgsService.save(ftMsgstDto);
-    }
+//    @KafkaListener(topics = "${kafka.ft.topic.name}", groupId = "${kafka.ft.topic.group.name}")
+//    public void ftLoglistenr(@Payload String message) {
+//        log.info("Ft Topic Listner : {}", message);
+//        Gson gson = new Gson();
+//        FtMsgsSaveRequestDto ftMsgstDto = null;
+//        try {
+//            ftMsgstDto = new Gson().fromJson(message, FtMsgsSaveRequestDto.class);
+//        } catch (Exception e) {
+//            log.info("it is not json format");
+//        }
+//        if(ftMsgstDto != null) ftMsgsService.save(ftMsgstDto);
+//    }
 
     @KafkaListener(topics = "${kafka.mt.topic.name}", groupId = "${kafka.mt.topic.group.name}")
     public void mtLoglistenr(@Payload List<String> messages) {
@@ -89,8 +89,6 @@ public class MsgLogReceiver {
             }
         }
         if(!list.isEmpty())  mtMsgsJdbcService.saveAll(list);
-
-
     }
 
 

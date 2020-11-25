@@ -25,11 +25,10 @@ public class MtReport {
     private String message;
     private String etc1;
     private String etc2;
-    private String etc3;
 
     @Builder
     public MtReport(String status, String priority, String reserved_date, String callback,
-                    String phone_number, String mt_type, String ad_flag, String msg, String etc1, String etc2, String etc3){
+                    String phone_number, String mt_type, String ad_flag, String msg, String etc1, String etc2){
         this.status = status;
         this.priority = priority;
         this.reserved_date = reserved_date;
@@ -40,7 +39,6 @@ public class MtReport {
         this.message = msg;
         this.etc1 = etc1;
         this.etc2 = etc2;
-        this.etc3 = etc3;
     }
 
     public void setEtc1Status(String etc1) {
