@@ -4,4 +4,5 @@ import java.util.List;
 
 public interface AtMsgsJdbcRepository{
     void saveAll(List<AtMsgs> atMsgs);
+    void updateAllStatus(List<Integer> idList);
 }

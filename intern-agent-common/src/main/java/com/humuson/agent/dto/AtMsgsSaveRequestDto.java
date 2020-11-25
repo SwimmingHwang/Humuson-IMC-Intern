@@ -21,14 +21,19 @@ public class AtMsgsSaveRequestDto {
     private String phoneNumber;
     private String templateCode;
     private String reservedDate;
-
+    private String senderKey;
+    private String etc1;
+    private String etc2;
 
     @Builder
-    public AtMsgsSaveRequestDto(String msg, String phoneNumber, String templateCode, String reservedDate) {
+    public AtMsgsSaveRequestDto(String msg, String phoneNumber, String templateCode, String reservedDate, String senderKey, String etc1, String etc2) {
         this.msg = msg;
         this.phoneNumber = phoneNumber;
         this.templateCode = templateCode;
         this.reservedDate = reservedDate;
+        this.senderKey = senderKey;
+        this.etc1 = etc1;
+        this.etc2 = etc2;
     }
 
     public AtMsgs toEntity() {
@@ -37,16 +42,21 @@ public class AtMsgsSaveRequestDto {
                 .phoneNumber(phoneNumber)
                 .templateCode(templateCode)
                 .reservedDate(reservedDate)
+                .senderKey(senderKey)
+                .etc1(etc1)
+                .etc2(etc2)
                 .build();
     }
 
-    @Override
+    /*@Override
     public String toString() {
         return "AtMsgs {" +
-                " message:" + msg +
+                ", reserved_dat:" + reservedDate +
                 ", phone_number:" + phoneNumber +
                 ", template_code:" + templateCode +
-                ", reserved_date:" + reservedDate +
+                ", message:" + msg +
+                ", etc1:" + etc1 +
+                ", etc2:" + etc2 +
                 "}";
-    }
+    }*/
 }

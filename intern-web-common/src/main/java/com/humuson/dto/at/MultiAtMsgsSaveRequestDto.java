@@ -47,7 +47,7 @@ public class MultiAtMsgsSaveRequestDto {
             }
 
             AtMsgs atMsg = new AtMsgs(null,null,reservedDate,null, li.get(3),
-                    templateCode, msgCopied,null);
+                    templateCode, msgCopied,null,null);
             msgs.add(atMsg);
         }
         return msgs;

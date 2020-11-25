@@ -42,10 +42,13 @@ public class AtMsgs {
     @Column(name="etc1")
     private String etc1;
 
+    @Column(name="etc2")
+    private String etc2;
+
 
     @Builder // 해당 클래스의 빌더 패턴 클래스를 생성
     public AtMsgs(String status, String priority, String reservedDate, String senderKey,
-                  String phoneNumber, String templateCode, String msg, String etc1){
+                  String phoneNumber, String templateCode, String msg, String etc1, String etc2){
         this.status = status== null ? "1" : status;
         this.priority = priority== null ? "N" : priority; // S-Slow, N-Normal, F-Fast
         this.reservedDate = reservedDate== null ? "null" : reservedDate; // yyyyMMddhhmmss (hh:24h)
@@ -54,6 +57,7 @@ public class AtMsgs {
         this.templateCode = templateCode== null ? "null" : templateCode;
         this.msg = msg== null ? "NULL MESSAGE" : msg;
         this.etc1 = etc1 == null? "0" : etc1;
+        this.etc2 = etc2;
     }
 
     @PrePersist
@@ -66,6 +70,7 @@ public class AtMsgs {
         this.templateCode = this.templateCode== null ? "null" : this.templateCode;
         this.msg = this.msg== null ? "NULL MESSAGE" : this.msg;
         this.etc1 = this.etc1 == null? "0" : this.etc1;
+        this.etc2 = etc2;
     }
 
 }

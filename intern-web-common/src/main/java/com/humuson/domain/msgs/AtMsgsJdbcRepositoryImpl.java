@@ -42,7 +42,7 @@ public class AtMsgsJdbcRepositoryImpl implements AtMsgsJdbcRepository{
     private int batchInsert(int batchSize, int batchCount, List<AtMsgs> atMsgs) {
 
         jdbcTemplate.batchUpdate("INSERT INTO imc_at (`status`,`priority`,`reserved_date`,`sender_key`, " +
-                        "`template_code`, `etc1`,`message`, `phone_number`) VALUES (?, ?,?,?,?,?,?,?)",
+                        "`template_code`,`message`, `phone_number`, `etc1`, `etc2`) VALUES (?,?,?,?,?,?,?,?,?)",
                 new BatchPreparedStatementSetter() {
             // TODO 직접 insert 하기 때문에 default값 재설정 필요
                     @Override
@@ -52,9 +52,10 @@ public class AtMsgsJdbcRepositoryImpl implements AtMsgsJdbcRepository{
                         ps.setString(3, atMsgs.get(i).getReservedDate());
                         ps.setString(4, atMsgs.get(i).getSenderKey());
                         ps.setString(5, atMsgs.get(i).getTemplateCode());
-                        ps.setString(6, atMsgs.get(i).getEtc1());
-                        ps.setString(7, atMsgs.get(i).getMsg());
-                        ps.setString(8, atMsgs.get(i).getPhoneNumber());
+                        ps.setString(6, atMsgs.get(i).getMsg());
+                        ps.setString(7, atMsgs.get(i).getPhoneNumber());
+                        ps.setString(8, atMsgs.get(i).getEtc1());
+                        ps.setString(9, atMsgs.get(i).getEtc2());
                     }
                     @Override
                     public int getBatchSize() {
@@ -66,5 +67,38 @@ public class AtMsgsJdbcRepositoryImpl implements AtMsgsJdbcRepository{
         return batchCount;
     }
 
+    @Override
+    public void updateAllStatus(List<Integer> idList) {
+        int batchCount = 0;
+        List<Integer> subItems = new ArrayList<>();
+        for (int i = 0; i < idList.size(); i++) {
+            subItems.add(idList.get(i));
+            if ((i + 1) % batchSize == 0) {
+                batchCount = batchStatusUpdate(batchSize, batchCount, subItems);
+            }
+        }
+        if (!subItems.isEmpty()) {
+            batchCount = batchStatusUpdate(batchSize, batchCount, subItems);
+        }
+        log.info("batchCount: " + batchCount);
+    }
+
+    private int batchStatusUpdate(int batchSize, int batchCount, List<Integer> idList) {
+        jdbcTemplate.batchUpdate("UPDATE imc_at SET `status`=`3` WHERE STATUS=`2` AND ETC2=?",
+                new BatchPreparedStatementSetter() {
+                    // TODO 직접 insert 하기 때문에 default값 재설정 필요
+                    @Override
+                    public void setValues(PreparedStatement ps, int i) throws SQLException {
+                        ps.setInt(1, idList.get(i));
+                    }
+                    @Override
+                    public int getBatchSize() {
+                        return idList.size();
+                    }
+                });
+        idList.clear();
+        batchCount++;
+        return batchCount;
+    }
 
 }

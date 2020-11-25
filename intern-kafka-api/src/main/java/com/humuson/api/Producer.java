@@ -6,8 +6,6 @@ import com.humuson.agent.dto.MtMsgsSaveRequestDto;
 import com.humuson.api.config.KafkaProducerConfig;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.producer.*;
-import org.apache.kafka.clients.producer.internals.DefaultPartitioner;
-import org.apache.kafka.common.PartitionInfo;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

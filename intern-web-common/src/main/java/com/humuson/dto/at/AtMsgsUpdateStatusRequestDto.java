@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 public class AtMsgsUpdateStatusRequestDto {
     private String status;
 
-
     @Builder
     public AtMsgsUpdateStatusRequestDto(String status) {
         this.status = status;

@@ -1,9 +1,9 @@
 package com.humuson.agent.receiver;
 
 import com.google.gson.Gson;
-import com.humuson.agent.domain.entity.AtMsgs;
 import com.humuson.agent.domain.entity.MtMsgs;
 import com.humuson.agent.dto.AtMsgsSaveRequestDto;
+import com.humuson.agent.dto.AtReportSaveRequestDto;
 import com.humuson.agent.dto.FtMsgsSaveRequestDto;
 import com.humuson.agent.dto.MtMsgsSaveRequestDto;
 import com.humuson.agent.service.*;
@@ -22,30 +22,43 @@ import java.util.List;
 public class MsgLogReceiver {
 
     private final AtMsgsService atMsgsService;
-    private final AtMsgsJdbcService atMsgsJdbcService;
+    private final AtReportJdbcService atReportJdbcService;
     private final FtMsgsService ftMsgsService;
     private final MtMsgsService mtMsgsService;
     private final MtMsgsJdbcService mtMsgsJdbcService;
 
     @KafkaListener(topics = "${kafka.at.topic.name}", groupId = "${kafka.at.topic.group.name}")
     public void atLoglistenr(@Payload List<String> messages) {
-        log.info("At Topic Listner : {}", messages);
+        log.info("At Topic Listener : {}", messages);
         Gson gson = new Gson();
 
-        AtMsgs atMsgsDto = null;
-        List<AtMsgs> list = new ArrayList<>();
+        AtMsgsSaveRequestDto atMsgsSaveRequestDto = null;
+        List<AtReportSaveRequestDto> list = new ArrayList<>();
 
         for(String msg : messages) {
             log.info(msg);
             try {
-                atMsgsDto = gson.fromJson(msg, AtMsgs.class);
-                atMsgsDto.prePersist();
-                list.add(atMsgsDto);
+                atMsgsSaveRequestDto = gson.fromJson(msg, AtMsgsSaveRequestDto.class);
+
+                AtReportSaveRequestDto atReportSaveRequestDto = new AtReportSaveRequestDto();
+                atReportSaveRequestDto.setTemplate_code(atMsgsSaveRequestDto.getTemplateCode());
+                atReportSaveRequestDto.setReserved_date(atMsgsSaveRequestDto.getReservedDate());
+                atReportSaveRequestDto.setPhone_number(atMsgsSaveRequestDto.getPhoneNumber());
+                atReportSaveRequestDto.setMessage(atMsgsSaveRequestDto.getMsg());
+                atReportSaveRequestDto.setSender_key(atMsgsSaveRequestDto.getMsg());
+                atReportSaveRequestDto.setEtc1(atMsgsSaveRequestDto.getEtc1());
+                atReportSaveRequestDto.setEtc2(atMsgsSaveRequestDto.getEtc2());
+
+                list.add(atReportSaveRequestDto);
+                log.info("리스트 저장 완료");
             } catch (Exception e) {
-                log.info("it is not json format");
+                log.info("AtMsgsSaveRequestDto -> AtReportSaveRequestDto error");
             }
         }
-        if(!list.isEmpty())  atMsgsJdbcService.saveAll(list);
+        if(!list.isEmpty())  {
+            log.info("모두 저장해!!");
+            atReportJdbcService.saveAll(list);
+        }
     }
 
     @KafkaListener(topics = "${kafka.ft.topic.name}", groupId = "${kafka.ft.topic.group.name}")

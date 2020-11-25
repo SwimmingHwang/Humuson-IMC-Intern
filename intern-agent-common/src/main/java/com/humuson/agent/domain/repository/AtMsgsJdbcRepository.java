@@ -1,9 +1,9 @@
 package com.humuson.agent.domain.repository;
 
-import com.humuson.agent.domain.entity.AtMsgs;
+import com.humuson.agent.dto.AtMsgsSaveRequestDto;
 
 import java.util.List;
 
-public interface AtMsgsJdbcRepository{
-    void saveAll(List<AtMsgs> atMsgs);
+public interface AtMsgsJdbcRepository {
+    void saveAll(List<AtMsgsSaveRequestDto> atMsgsSaveRequestDtos);
 }
