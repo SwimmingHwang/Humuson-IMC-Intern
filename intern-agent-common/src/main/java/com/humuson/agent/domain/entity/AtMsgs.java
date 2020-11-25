@@ -16,7 +16,7 @@ public class AtMsgs {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     @Column(name="status")
     private String status;

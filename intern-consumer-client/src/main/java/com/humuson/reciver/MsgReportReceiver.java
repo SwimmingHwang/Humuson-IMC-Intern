@@ -40,6 +40,7 @@ public class MsgReportReceiver {
             log.info("url : {}", atReport.getEtc2());
             String status = ApiCall.put(atReport.getEtc2(), message);
             log.info("status is {}", status);
+//            ApiCall.get(atReport.getEtc2());
         });
 
     }

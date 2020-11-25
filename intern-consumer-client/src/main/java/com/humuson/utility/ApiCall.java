@@ -104,6 +104,7 @@ public class ApiCall {
         try (CloseableHttpClient httpclient = HttpClients.createDefault()) {
             HttpPut httpPut = new HttpPut(url);
             httpPut.setHeader("Accept", "application/json");
+            httpPut.setHeader("Connection", "keep-alive");
             httpPut.setHeader("Content-Type", "application/json; charset=utf-8");
 
             StringEntity stringEntity = new StringEntity(jsonMessage, "UTF-8");
@@ -111,32 +112,17 @@ public class ApiCall {
 
             log.info("Executing request " + httpPut.getRequestLine());
 
-            String status = httpclient.execute(httpPut, new ResponseHandler<String>() {
-                @Override
-                public String handleResponse(HttpResponse response) throws ClientProtocolException, IOException {
-                    int status = response.getStatusLine().getStatusCode();
-                    if (status >= 200 && status < 300) {
-                        HttpEntity entity = response.getEntity();
-                        return entity != null ? EntityUtils.toString(entity) : null;
-                    } else {
-                        throw new ClientProtocolException("Unexpected response status: " + status);
-                    }
+            String status = httpclient.execute(httpPut, response -> {
+                int status1 = response.getStatusLine().getStatusCode();
+                if (status1 >= 200 && status1 < 300) {
+                    HttpEntity entity = response.getEntity();
+                    return entity != null ? EntityUtils.toString(entity) : null;
+                } else {
+                    throw new ClientProtocolException("Unexpected response status: " + status1);
                 }
             });
             log.info("status : {}" + status);
             return status;
-
-
-            //Response 출력
-//            if (response.getStatusLine().getStatusCode() == 200) {
-//                ResponseHandler<String> handler = new BasicResponseHandler();
-//                String body = handler.handleResponse(response);
-//                log.info("response handler body is " + body);
-//                return "200";
-//            } else {
-//                System.out.println("response is error : " + response.getStatusLine().getStatusCode());
-//                return response.getStatusLine().getStatusCode()+"";
-//            }
         } catch (Exception e){
             log.error(e.toString());
             return "9000";
