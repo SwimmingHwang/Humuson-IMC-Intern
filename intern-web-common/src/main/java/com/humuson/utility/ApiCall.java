@@ -1,5 +1,6 @@
 package com.humuson.utility;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.ResponseHandler;
@@ -13,8 +14,9 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+@Slf4j
 public class ApiCall {
-    public static void get(String strUrl) {
+    public static String getData(String strUrl) {
         try {
             URL url = new URL(strUrl);
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
@@ -24,11 +26,12 @@ public class ApiCall {
 
             con.setRequestMethod("GET");
 
-
-
 //URLConnection에 대한 doOutput 필드값을 지정된 값으로 설정한다. URL 연결은 입출력에 사용될 수 있다. URL 연결을 출력용으로 사용하려는 경우 DoOutput 플래그를 true로 설정하고, 그렇지 않은 경우는 false로 설정해야 한다. 기본값은 false이다.
 
             con.setDoOutput(false);
+            String header = con.getHeaderFields().toString();
+            log.info("HEADER : " + header);
+
 
             StringBuilder sb = new StringBuilder();
             if (con.getResponseCode() == HttpURLConnection.HTTP_OK) {
@@ -40,15 +43,56 @@ public class ApiCall {
                     sb.append(line).append("\n");
                 }
                 br.close();
-                System.out.println("" + sb.toString());
+                log.info("TOKEN SBSBSB" + sb.toString());
+                System.out.println("TOKEN SBSBSB" + sb.toString());
+//                return sb.toString();
+                return header;
+
             } else {
                 System.out.println(con.getResponseMessage());
+                return "TOKEN Respose error";
             }
 
         } catch (Exception e) {
             System.err.println(e.toString());
+            return "TOKEN Response 예외발생";
+
         }
     }
+
+//    public static void get(String strUrl) {
+//        try {
+//            URL url = new URL(strUrl);
+//            HttpURLConnection con = (HttpURLConnection) url.openConnection();
+//            con.setConnectTimeout(5000); //서버에 연결되는 Timeout 시간 설정
+//            con.setReadTimeout(5000); // InputStream 읽어 오는 Timeout 시간 설정
+////            con.addRequestProperty("x-api-key", RestTestCommon.API_KEY); //key값 설정
+//
+//            con.setRequestMethod("GET");
+//
+////URLConnection에 대한 doOutput 필드값을 지정된 값으로 설정한다. URL 연결은 입출력에 사용될 수 있다. URL 연결을 출력용으로 사용하려는 경우 DoOutput 플래그를 true로 설정하고, 그렇지 않은 경우는 false로 설정해야 한다. 기본값은 false이다.
+//
+//            con.setDoOutput(false);
+//
+//            StringBuilder sb = new StringBuilder();
+//            if (con.getResponseCode() == HttpURLConnection.HTTP_OK) {
+//                //Stream을 처리해줘야 하는 귀찮음이 있음.
+//                BufferedReader br = new BufferedReader(
+//                        new InputStreamReader(con.getInputStream(), "utf-8"));
+//                String line;
+//                while ((line = br.readLine()) != null) {
+//                    sb.append(line).append("\n");
+//                }
+//                br.close();
+//                System.out.println("" + sb.toString());
+//            } else {
+//                System.out.println(con.getResponseMessage());
+//            }
+//
+//        } catch (Exception e) {
+//            System.err.println(e.toString());
+//        }
+//    }
 
     //    출처: https://digitalbourgeois.tistory.com/58 [IT 글자국]
     /*

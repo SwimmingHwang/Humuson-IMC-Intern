@@ -8,7 +8,7 @@ import com.humuson.agent.service.AtMsgsJdbcService;
 import com.humuson.agent.service.AtMsgsService;
 import com.humuson.agent.service.FtMsgsService;
 import com.humuson.agent.service.MtMsgsService;
-import com.humuson.utility.ApiCall;
+import com.humuson.utility.ApiCallCC;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.annotation.KafkaListener;
@@ -38,7 +38,12 @@ public class MsgReportReceiver {
             log.info("messager : {}", message);
             AtReportSaveRequestDto atReport = gson.fromJson(message, AtReportSaveRequestDto.class);
             log.info("url : {}", atReport.getEtc2());
-            String status = ApiCall.put(atReport.getEtc2(), message);
+            String status = null;
+            try {
+                status = ApiCallCC.put(atReport.getEtc2(), message);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             log.info("status is {}", status);
         });
 

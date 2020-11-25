@@ -1,7 +1,6 @@
 package com.humuson.agent.domain.repository;
 
 import com.humuson.agent.dto.AtMsgsSaveRequestDto;
-import com.humuson.agent.dto.AtReportSaveRequestDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;

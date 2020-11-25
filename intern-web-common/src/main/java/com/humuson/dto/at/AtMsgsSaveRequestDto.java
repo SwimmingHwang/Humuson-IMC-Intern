@@ -24,6 +24,7 @@ public class AtMsgsSaveRequestDto {
     private String senderKey;
     private String etc1;
     private String etc2;
+    private Integer id;
 
     @Builder
     public AtMsgsSaveRequestDto(String msg, String phoneNumber, String templateCode, String reservedDate, String senderKey, String etc1, String etc2) {

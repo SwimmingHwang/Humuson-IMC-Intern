@@ -84,7 +84,7 @@ project(':intern-web') {
         compile('de.codecentric:spring-boot-admin-starter-client:2.1.0')
 
         testCompile('org.springframework.boot:spring-boot-starter-test') // static debug 용
-
+        compile group: 'org.jsoup', name: 'jsoup', version: '1.11.3'
 
     }
 }

@@ -30,6 +30,12 @@ public class IndexController {
     public String index() {
         return "index";
     }
+
+    @GetMapping("/home")
+    public String home() {
+        return "page/home";
+    }
+
 //    @Operation(hidden = true)
     @GetMapping("/send")
     public String send(Model model){// 서버 템플릿 엔진에서 사용할 수 있는 객체 저장
@@ -226,7 +232,6 @@ public class IndexController {
     /*
     * Profile
     * */
-
 
 
 }
