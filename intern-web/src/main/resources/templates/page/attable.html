@@ -11,7 +11,7 @@
         <!-- Page Heading -->
         <h1 class="h3 mb-2 text-gray-800" th:text="${title}">Title</h1>
         <p class="mb-4"> 메시지 내용을 클릭하면 수정할 수 있습니다.
-            단, 이미 발송 시간이 지난 메시지(상태:2 or 3)는 수정이 불가합니다.
+            단, 이미 발송 시간이 지난 메시지(상태:2 or 3)는 수정이 불가합니다.<br>
             메시지 상태는    1: 발송 예약 완료    2: 발송 대기    3: 발송 완료    입니다.</p>
 
         <!-- DataTales Example -->
@@ -46,7 +46,7 @@
                         <tr  th:each="msg : ${msgs}">
                             <td class="" th:text="${msg.id}">default</td>
                             <td th:text="${msg.reservedDate}">default</td>
-                            <td th:if="${msg.status} == 1 "><a th:href="@{/send/msgs/update/{sbj}/{id}(sbj=${msgSbj},id=${msg.id})}" th:text="${msg.msg}">default<</a>/td>
+                            <td th:if="${msg.status} == 1 "><a th:href="@{/send/msgs/update/{sbj}/{id}(sbj=${msgSbj},id=${msg.id})}" th:text="${msg.msg}">default</a></td>
                             <td th:if="${msg.status} != 1 "><a th:text="${msg.msg}">default</a></td>
                             <td th:text="${msg.phoneNumber}">default</td>
                             <td th:text="${msg.templateCode}">default</td>

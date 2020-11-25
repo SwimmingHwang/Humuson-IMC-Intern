@@ -67,6 +67,17 @@
                                     <span class="text">Open</span>
                                     </div>
                                 </a>
+                                <div th:if="${#strings.contains(msg,'list')}" style ="display:none" >
+                                    순서/아이디/이름/전화번호/변수1/변수2/변수3 순으로 이루어져 있으며 행은 엔터(줄바꿈)로 구분합니다.<br>
+                                    csv파일 예시) 1,sy1229,황수영,01065362547,20세,밀크티,립밤<br>
+                                    txt파일 예시) 1 sy1229 황수영 01065362547 20세 밀크티 립밤<br>
+                                </div>
+                                <div th:unless="${#strings.contains(msg,'list')}" >
+                                    순서/아이디/이름/전화번호/변수1/변수2/변수3 순으로 이루어져 있으며 행은 엔터(줄바꿈)로 구분합니다.<br>
+                                    csv파일 예시) 1,sy1229,황수영,01065362547,20세,밀크티,립밤<br>
+                                    txt파일 예시) 1 sy1229 황수영 01065362547 20세 밀크티 립밤<br>
+                                </div>
+
                             </label>
                             <br>
 

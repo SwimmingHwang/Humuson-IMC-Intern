@@ -23,7 +23,7 @@ public class MtMsgsSaveRequestDto {
     private String callback;
 
     @Builder
-    public MtMsgsSaveRequestDto(String msg, String phoneNumber, String adFlag, String callback, String mtType, String reservedDate) {
+    public MtMsgsSaveRequestDto(String msg, String phoneNumber, String adFlag, String mtType, String reservedDate, String callback) {
         this.msg = msg;
         this.phoneNumber = phoneNumber;
         this.adFlag = adFlag;

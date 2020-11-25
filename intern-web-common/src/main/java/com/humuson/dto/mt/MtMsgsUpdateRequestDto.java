@@ -7,12 +7,20 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 public class MtMsgsUpdateRequestDto {
+    private String reservedDate;
+    private String mtType;
+    private String callback;
     private String msg;
     private String phoneNumber;
+    private String adFlag;
 
     @Builder
-    public MtMsgsUpdateRequestDto(String msg, String phoneNumber) {
+    public MtMsgsUpdateRequestDto(String reservedDate, String mtType, String callback, String msg, String phoneNumber, String adFlag) {
+        this.reservedDate = reservedDate;
+        this.mtType = mtType;
+        this.callback = callback;
         this.msg = msg;
         this.phoneNumber = phoneNumber;
+        this.adFlag = adFlag;
     }
 }

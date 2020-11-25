@@ -9,20 +9,26 @@
 <div class="col-md-12">
     <form>
         <div class="form-group">
-            <strong>번호</strong>
+            <label for="msg">번호</label>
             <input type="text" class="form-control" id="id" th:value="${msg.id}" readonly>
         </div>
 
         <div>
-            <strong>템플릿 코드</strong>
-            <select id="templateCode" class="custom-select" th:value="${msg.templateCode}">
-                <option  disabled selected th:text="${msg.templateCode}"></option>
-                <tr th:each="templateCode : ${templateCodes}">
-                    <option th:text="${templateCode.templateCode}" th:selected="${msg.templateCode==templateCode.templateCode}">default</option>
-                </tr>
+            <strong>메시지 유형</strong>
+            <select id="mtType" class="custom-select" th:value="${msg.mtType}">
+                <option disabled selected th:text="${msg.mtType}"></option>
+                <option th:text="SM" th:selected="${msg.mtType}=='SM'" >default</option>
+                <option th:text="LM" th:selected="${msg.mtType}=='SM'" >default</option>
             </select>
         </div>
         <br>
+
+        <div>
+            <strong>광고 문구 표시 여부</strong>
+            <input id="adFlag" type="checkbox" name="adFlag" value="Y" >
+        </div>
+        <br>
+
 
         <div>
             <strong>발송 일시</strong>
@@ -35,23 +41,28 @@
         <br>
 
         <div>
-            <strong>메시지 내용</strong>
-            <input type="text" class="form-control input-lg" id="msg" th:value="${msg.msg}" th:placeholder="${msg.msg}">
+            <strong>발신번호</strong>
+            <input type="text" class="form-control" id="callback" th:value="${msg.callback}" th:placeholder="${msg.callback}">
         </div>
         <br>
 
         <div>
-            <strong>전화번호</strong>
-            <input type="text" class="form-control" id="phoneNumber" th:value="${msg.phoneNumber}" th:placeholder="${msg.phoneNumber}">
+            <strong>메시지 내용</strong>
+            <input type="text" class="form-control" id="msg" th:value="${msg.msg}" th:placeholder="${msg.msg}">
         </div>
         <br>
+
+        <div class="form-group">
+            <label for="phoneNumber"> 전화번호 </label>
+            <input type="text" class="form-control" id="phoneNumber" th:value="${msg.phoneNumber}" th:placeholder="${msg.phoneNumber}" >
+        </div>
+
 
     </form>
     <a th:href="@{/send/{msgjs}-record(msgjs=${msgSbj})}" role="button" class="btn btn-secondary">취소</a>
     <button type="button" class="btn btn-primary" id="btn-update">수정 완료</button>
     <button type="button" class="btn btn-danger" id="btn-delete">삭제</button>
 </div>
-
     <!--custom 스크립트 -->
     <th:block layout:fragment="script">
         <link rel="stylesheet" th:href="@{/vendor/bootstrap/scss/bootstrap-datepicker.min.css}">
@@ -59,6 +70,4 @@
         <script th:src="@{/js/app/{msgjs}Send.js(msgjs=${msgSbj})}"></script>
     </th:block>
 </div>
-
-
 </html>

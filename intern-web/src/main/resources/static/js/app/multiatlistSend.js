@@ -120,12 +120,27 @@ var send = {
         if($("input:checkbox[name='var3']").prop("checked") == true)
             varCheckList.push(3);
 
+        var templateCode = $('#templateCode').val();
+        var msg = $('#msg').val();
+
+        if(templateCode==null) {
+            alert("템플릿 코드를 선택해 주세요.");
+            return;
+        }
+        if(msg ===""){
+            alert("메시지 내용을 입력해 주세요.");
+            return;
+        }
+        if ($('#dataTable tbody tr').length==0){
+            alert("고객주소록으로 이동하여 고객 정보를 먼저 추가해 주세요.");
+            return;
+        }
 
         var data = {
-            msg: $('#msg').val(),
-            templateCode: $('#templateCode').val(),
+            msg: msg,
+            templateCode : templateCode,
             reservedDate: $('#datePicker').val()+$('#time').val().toString().replace(/:/gi,"")+"00",
-            varCheckList : varCheckList,
+            varCheckList : varCheckList
         };
         $.ajax({
             type: 'POST',
@@ -141,24 +156,6 @@ var send = {
             // TODO : 예약후 시간되면 post로 바껴서 여기서 서버 예외가 발생함은 알 수 없음.
                 alert('발송 예약이 완료되었습니다.');
                 window.location.href = '/send/at-send';
-            // if (stringStatusCode =="200") {
-            //     alert('발송 예약이 완료되었습니다.');
-            //     window.location.href = '/send/at-send';
-            // }
-            // else {
-            //     var error = "";
-            //     if (stringStatusCode == "9000"){
-            //         error = " 9000: kafka 서버 예외 발생";
-            //     }
-            //     else if(stringStatusCode == "4000"){
-            //         error = " 4000: API Server Connection Error";
-            //
-            //     }
-            //     else {
-            //         error = stringStatusCode;
-            //     }
-            //     alert('문제가 발생했습니다. 다시 시도해 주세요.\nerror code'+error);
-            // }
         }).fail(function (error) {
             alert(JSON.stringify(error));
         });

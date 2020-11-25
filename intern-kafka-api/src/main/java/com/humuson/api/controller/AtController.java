@@ -1,7 +1,5 @@
 package com.humuson.api.controller;
 
-import com.google.gson.Gson;
-
 import com.humuson.agent.dto.AtMsgsSaveRequestDto;
 import com.humuson.api.Producer;
 import org.springframework.stereotype.Controller;
@@ -15,51 +13,11 @@ import java.util.List;
 public class AtController {
 
 //    @Operation(summary = "알림톡 Kafka로 전송")
-    @PostMapping(value = "/api/at-msg",produces = "application/json; charset=utf8")
-    @ResponseBody
-    public String apiAtMsg(@RequestBody AtMsgsSaveRequestDto requestDto) {
-//        log.info(requestDto.getMessage());
-        Gson gson = new Gson();
-        String reqJsonData = gson.toJson(requestDto);
-        log.info("API At Msg : " + reqJsonData);
-        String stringStatusCode = Producer.produce(reqJsonData,0);
-        log.info("IN AT CONTROLLER stringStatusCode : " + stringStatusCode);
-        return stringStatusCode;//200 or 9000
-    }
-//    @Operation(summary = "문자톡 리스트 Kafka로 전송")
-//    @PostMapping(value = "/api/at-msgs",produces = "application/json; charset=utf8")
-//    @ResponseBody
-//    public String apiAtMsgs(@RequestBody List<AtMsgsSaveRequestDto> requestDto) {
-//        log.info(requestDto.toString());
-//
-//        String stringStatusCode = "";
-//        Gson gson = new Gson();
-//        for (AtMsgsSaveRequestDto msg : requestDto) {
-//            String reqDataJson = gson.toJson(msg);
-//            log.info("API At Msgs : " + reqDataJson);
-//            stringStatusCode = Producer.produce(reqDataJson,0);
-//            log.info("IN AT CONTROLLER stringStatusCode : " + stringStatusCode);
-//        }
-//
-//        return stringStatusCode;//200 or 9000
-//    }
-
-//    @Operation(summary = "문자톡 리스트 Kafka로 전송")
     @PostMapping(value = "/api/at-msgs",produces = "application/json; charset=utf8")
     @ResponseBody
     public String apiAtMsgs(@RequestBody List<AtMsgsSaveRequestDto> requestDto) {
-//        log.info(requestDto.toString());
-
-//        Gson gson = new Gson();
-//        for (AtMsgsSaveRequestDto msg : requestDto) {
-//            String reqDataJson = gson.toJson(msg);
-//            log.info("API At Msgs : " + reqDataJson);
-//            stringStatusCode = Producer.produce(reqDataJson,0);
-//            log.info("IN AT CONTROLLER stringStatusCode : " + stringStatusCode);
-//        }
         String stringStatusCode = "";
-        stringStatusCode = Producer.batchProduce(requestDto,0);
-
+        stringStatusCode = Producer.batchAtProduce(requestDto);
         return stringStatusCode;//200 or 9000
     }
 }

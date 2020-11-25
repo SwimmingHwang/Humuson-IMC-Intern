@@ -1,6 +1,7 @@
 package com.humuson.agent.receiver;
 
 import com.google.gson.Gson;
+import com.humuson.agent.domain.entity.MtMsgs;
 import com.humuson.agent.dto.AtMsgsSaveRequestDto;
 import com.humuson.agent.dto.AtReportSaveRequestDto;
 import com.humuson.agent.dto.FtMsgsSaveRequestDto;
@@ -24,6 +25,7 @@ public class MsgLogReceiver {
     private final AtReportJdbcService atReportJdbcService;
     private final FtMsgsService ftMsgsService;
     private final MtMsgsService mtMsgsService;
+    private final MtMsgsJdbcService mtMsgsJdbcService;
 
     @KafkaListener(topics = "${kafka.at.topic.name}", groupId = "${kafka.at.topic.group.name}")
     public void atLoglistenr(@Payload List<String> messages) {
@@ -52,7 +54,6 @@ public class MsgLogReceiver {
             }
         }
         if(!list.isEmpty())  {
-            log.info("모두 저장해!!");
             atReportJdbcService.saveAll(list);
         }
     }
@@ -71,16 +72,27 @@ public class MsgLogReceiver {
     }
 
     @KafkaListener(topics = "${kafka.mt.topic.name}", groupId = "${kafka.mt.topic.group.name}")
-    public void mtLoglistenr(@Payload String message) {
+    public void mtLoglistenr(@Payload List<String> messages) {
+        log.info("Mt Topic Listner : {}", messages);
         Gson gson = new Gson();
-        MtMsgsSaveRequestDto mtMsgstDto = null;
-        log.info("Mt Topic Listner : {}", message);
-        try {
-            mtMsgstDto = new Gson().fromJson(message, MtMsgsSaveRequestDto.class);
-        } catch (Exception e) {
-            log.info("it is not json format");
+        MtMsgs mtMsgsDto = null;
+        List<MtMsgs> list = new ArrayList<>();
+
+        for(String msg : messages) {
+            log.info(msg);
+            try {
+                mtMsgsDto = gson.fromJson(msg, MtMsgs.class);
+                mtMsgsDto.prePersist();
+                list.add(mtMsgsDto);
+            } catch (Exception e) {
+                log.info("it is not json format");
+            }
         }
-        if(mtMsgstDto != null) mtMsgsService.save(mtMsgstDto);
+        if(!list.isEmpty())  mtMsgsJdbcService.saveAll(list);
+
+
     }
+
+
 
 }

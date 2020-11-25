@@ -2,6 +2,7 @@ package com.humuson.api;
 
 import com.google.gson.Gson;
 import com.humuson.agent.dto.AtMsgsSaveRequestDto;
+import com.humuson.agent.dto.MtMsgsSaveRequestDto;
 import com.humuson.api.config.KafkaProducerConfig;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.producer.*;
@@ -79,23 +80,17 @@ public class Producer {
     }
 
 
-    public static String batchProduce(List<AtMsgsSaveRequestDto> atMsgsSaveRequestDtos, int topicIdx) {
+    public static String batchAtProduce(List<AtMsgsSaveRequestDto> atMsgsSaveRequestDtos) {
         // TODO : String[] stream으로 처리할 것 .
         // TODO : 데이터 유효성 검사하는 로직 추가할 것.
 
         KafkaProducerConfig kafkaProducerConfig = new KafkaProducerConfig();
 
-
-        logger.debug("BATCH PRODUCE");
         logger.info("BATCH PRODUCE");
 
         KafkaProducer<String, String> producer = new KafkaProducer<String, String>(kafkaProducerConfig.senderProps());
 
-        String topicName = "";
-        if (topicIdx==0)
-            topicName = AT_TOPIC_NAME;
-        else if (topicIdx == 1)
-            topicName = MT_TOPIC_NAME;
+        String topicName = AT_TOPIC_NAME;
 
         Gson gson = new Gson();
 
@@ -136,5 +131,58 @@ public class Producer {
 
         return stringStatusCode;
     }
+
+    public static String batchMtProduce(List<MtMsgsSaveRequestDto> mtMsgsSaveRequestDtos) {
+        // TODO : String[] stream으로 처리할 것 .
+        // TODO : 데이터 유효성 검사하는 로직 추가할 것.
+
+        KafkaProducerConfig kafkaProducerConfig = new KafkaProducerConfig();
+
+        logger.info("BATCH PRODUCE");
+
+        KafkaProducer<String, String> producer = new KafkaProducer<String, String>(kafkaProducerConfig.senderProps());
+
+        String topicName = MT_TOPIC_NAME;
+
+        Gson gson = new Gson();
+
+        List<ProducerRecord<String, String>> produceFailList = new ArrayList<>();
+
+        for (MtMsgsSaveRequestDto mtMsgsSaveRequestDto : mtMsgsSaveRequestDtos) {
+            String reqDataJson = gson.toJson(mtMsgsSaveRequestDto);
+
+            String data = reqDataJson + "";
+            ProducerRecord<String, String> record = new ProducerRecord<>(topicName, data);
+            try {
+                producer.send(record);
+                log.info("Send to " + topicName + " | data : " + data);
+            } catch (Exception e) {
+                produceFailList.add(record);
+                log.info(e.getMessage(), e);
+            }
+        }
+
+        // 실패한 메시지들 재전송
+        log.info("Number of Producer Fail Record :" + produceFailList.size());
+        try {
+            for(ProducerRecord<String, String> failRecode : produceFailList)
+                producer.send(failRecode);
+        } catch(Exception e){
+            log.info(e.getMessage(), e);
+        }
+
+        producer.flush();
+        producer.close();
+
+        String stringStatusCode = "";
+
+        if(produceFailList.isEmpty())
+            stringStatusCode = "200";
+        else
+            stringStatusCode = "9000";
+
+        return stringStatusCode;
+    }
+
 }
 

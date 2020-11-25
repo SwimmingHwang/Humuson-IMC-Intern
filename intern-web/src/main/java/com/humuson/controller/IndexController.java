@@ -74,7 +74,7 @@ public class IndexController {
         model.addAttribute("title","알림톡 발송 예약 내역");
         model.addAttribute("msgSbj","at");
         model.addAttribute("msgs", atMsgsService.findAll());
-        return "page/table";
+        return "page/attable";
     }
 //    @Tag(name="결과 조회", description = "친구톡 레코드들 조회하는 페이지로 이동")
     @GetMapping("/send/ft-record")
@@ -82,7 +82,7 @@ public class IndexController {
         model.addAttribute("title","친구톡 발송 예약 내역");
         model.addAttribute("msgSbj","ft");
         model.addAttribute("msgs",ftMsgsService.findAll());
-        return "page/table";
+        return "page/attable";
     }
 //    @Tag(name="결과 조회", description = "문자톡 레코드들 조회하는 페이지로 이동")
     @GetMapping("/send/mt-record")
@@ -174,6 +174,7 @@ public class IndexController {
         AtMsgsResponseDto dto = atMsgsService.findById(id);
         model.addAttribute("msgSbj","at");
         model.addAttribute("msg", dto);
+        model.addAttribute("templateCodes",templateInfoService.findAll());
         return "page/msgs-update";
     }
 //    @Tag(name="발송 세부 페이지", description = "친구톡 수정 페이지 이동")
@@ -192,8 +193,9 @@ public class IndexController {
         MtMsgsResponseDto dto = mtMsgsService.findById(id);
         model.addAttribute("msgSbj","mt");
         model.addAttribute("msg", dto);
+        model.addAttribute("msgs", mtMsgsService.findAll());
 
-        return "page/msgs-update";
+        return "page/mtmsgs-update";
     }
 
     /*
