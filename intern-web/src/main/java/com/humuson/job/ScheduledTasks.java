@@ -54,7 +54,6 @@ public class ScheduledTasks {
                     //    for (int i=0; i<12500; i++) //10만건 테스트용
                     atMsgsSaveRequestDtoList.add(atMsgsSaveRequestDto);
                 });
-                log.info("스케쥴러 : AT Update 끝");
 
                 Gson gson = new Gson();
                 String reqData = gson.toJson(atMsgsSaveRequestDtoList);
@@ -73,6 +72,8 @@ public class ScheduledTasks {
                         log.info("스케쥴러 : AT Update 진행중");
                         atMsgsService.updateStatus(row.getId(), "2");
                     });
+                    log.info("스케쥴러 : AT Update 끝");
+
                 }
                 else{
                     log.info("API POST ERROR");
@@ -81,20 +82,13 @@ public class ScheduledTasks {
 
 
             if (!mtMsgsList.isEmpty()){
-                log.info("스케쥴러 : MT Update 시작");
 
                 mtMsgsList.forEach(row ->{
-                    // TODO : update batch로 작성할 것
-                    log.info("스케쥴러 : MT Update 진행중");
-                    mtMsgsService.updateStatus(row.getId(), "2");
-                    //String msg, String phoneNumber, String templateCode, String reservedDate
                     MtMsgsSaveRequestDto mtMsgsSaveRequestDto = new MtMsgsSaveRequestDto(row.getMsg(), row.getPhoneNumber(), row.getAdFlag(),
                             row.getMtType(), row.getReservedDate(), row.getCallback());
                     //    for (int i=0; i<12500; i++) //10만건 테스트용
                     mtMsgsSaveRequestDtoList.add(mtMsgsSaveRequestDto);
-
                 });
-                log.info("스케쥴러 : MT Update 끝");
 
                 Gson gson = new Gson();
                 String reqData = gson.toJson(mtMsgsSaveRequestDtoList);
@@ -104,6 +98,15 @@ public class ScheduledTasks {
 
                 if (statusCode.equals("200")){
                     log.info("API POST REQUEST 성공");
+
+                    log.info("스케쥴러 : MT Update 시작");
+
+                    mtMsgsList.forEach(row ->{
+                        // TODO : update batch로 작성할 것
+                        log.info("스케쥴러 : MT Update 진행중");
+                        mtMsgsService.updateStatus(row.getId(), "2");
+                    });
+                    log.info("스케쥴러 : MT Update 끝");
                 }
                 else{
                     log.info("API POST ERROR");
