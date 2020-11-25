@@ -50,7 +50,7 @@ public class ScheduledTasks {
 
                 atMsgsList.forEach(row ->{
                     AtMsgsSaveRequestDto atMsgsSaveRequestDto = new AtMsgsSaveRequestDto(row.getMsg(),row.getPhoneNumber(),
-                            row.getTemplateCode(), row.getReservedDate());
+                            row.getTemplateCode(), row.getReservedDate(), row.getSenderKey(), row.getEtc1(), row.getEtc2());
                     //    for (int i=0; i<12500; i++) //10만건 테스트용
                     atMsgsSaveRequestDtoList.add(atMsgsSaveRequestDto);
                 });
