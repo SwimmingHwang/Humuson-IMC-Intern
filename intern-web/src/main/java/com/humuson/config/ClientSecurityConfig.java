@@ -36,8 +36,9 @@ class ClientSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests().anyRequest().permitAll();
         http.authorizeRequests()
-                .antMatchers(HttpMethod.POST,"/**")
-                .permitAll();
+                .antMatchers(HttpMethod.POST,"/**").permitAll()
+                .antMatchers(HttpMethod.PUT,"/**").permitAll();
+
 //        http.authorizeRequests()
 //            .antMatchers("/user/**").permitAll()
 //            //member 권한

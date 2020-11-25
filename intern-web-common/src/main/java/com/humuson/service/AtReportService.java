@@ -2,7 +2,7 @@ package com.humuson.service;
 
 import com.humuson.domain.report.AtReport;
 import com.humuson.domain.report.AtReportRepository;
-import com.humuson.dto.report.AtReportDto;
+import com.humuson.dto.report.AtReportSaveRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,7 +14,7 @@ public class AtReportService {
     private final AtReportRepository atReportRepository;
 
     @Transactional
-    public Long save(AtReport atReport) {
-        return atReportRepository.save(atReport).getId(); // insert/update 쿼리 실행
+    public void save(AtReport atReport) {
+        atReportRepository.save(atReport);
     }
 }

@@ -106,7 +106,7 @@ public class ApiCall {
             httpPut.setHeader("Accept", "application/json");
             httpPut.setHeader("Content-Type", "application/json; charset=utf-8");
 
-            StringEntity stringEntity = new StringEntity(jsonMessage);
+            StringEntity stringEntity = new StringEntity(jsonMessage, "UTF-8");
             httpPut.setEntity(stringEntity);
 
             log.info("Executing request " + httpPut.getRequestLine());

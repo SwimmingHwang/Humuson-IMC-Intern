@@ -5,6 +5,7 @@ import com.humuson.domain.msgs.AtMsgs;
 import com.humuson.domain.report.AtReport;
 import com.humuson.domain.report.AtReportJdbcRepository;
 import com.humuson.dto.report.AtReportDto;
+import com.humuson.dto.report.AtReportSaveRequestDto;
 import com.humuson.service.AtMsgsJdbcService;
 import com.humuson.service.AtMsgsService;
 import com.humuson.service.AtReportService;
@@ -17,7 +18,7 @@ import java.util.List;
 
 //@Tag(name="알림톡 상태 수정", description = "알림톡의 상태를 수정합니다.")
 @RequiredArgsConstructor
-@Controller
+@RestController
 @Slf4j
 public class ReportReceiveController {
 
@@ -41,10 +42,8 @@ public class ReportReceiveController {
         atMsgsService.updateStatus(id, "3");
         // at report 저장
         Gson gson = new Gson();
-        AtReport atReport = gson.fromJson(message, AtReport.class);
+        AtReportSaveRequestDto atReportSaveRequestDto = gson.fromJson(message, AtReportSaveRequestDto.class);
+        AtReport atReport = atReportSaveRequestDto.toEntity();
         atReportService.save(atReport);
     }
-
-
-
 }
