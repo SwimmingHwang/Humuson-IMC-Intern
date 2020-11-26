@@ -1,5 +1,7 @@
 package com.humuson;
 
+import com.deviceinsight.kafka.health.KafkaConsumingHealthIndicator;
+import com.deviceinsight.kafka.health.KafkaHealthProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
@@ -8,6 +10,8 @@ import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.kafka.KafkaProperties;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.kafka.annotation.EnableKafka;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,5 +26,17 @@ import java.util.Properties;
 public class ClientConsumerApplication {
     public static void main(String[] args) {
         SpringApplication.run(ClientConsumerApplication.class, args);
+    }
+
+    @Bean
+    public KafkaHealthProperties kafkaHealthProperties() {
+        return new KafkaHealthProperties();
+    }
+
+    @Bean
+    public KafkaConsumingHealthIndicator kafkaConsumingHealthIndicator(KafkaHealthProperties kafkaProperties,
+                                                                       KafkaProperties processingProperties) {
+        return new KafkaConsumingHealthIndicator(kafkaProperties, processingProperties.buildConsumerProperties(),
+                processingProperties.buildProducerProperties());
     }
 }

@@ -16,16 +16,16 @@ public class AgentConsumerApplication {
         SpringApplication.run(AgentConsumerApplication.class, args);
     }
 
-//    @Bean
-//    public KafkaHealthProperties kafkaHealthProperties() {
-//        return new KafkaHealthProperties();
-//    }
-//
-//    @Bean
-//    public KafkaConsumingHealthIndicator kafkaConsumingHealthIndicator(KafkaHealthProperties kafkaProperties,
-//                                                                       KafkaProperties processingProperties) {
-//        return new KafkaConsumingHealthIndicator(kafkaProperties, processingProperties.buildConsumerProperties(),
-//                processingProperties.buildProducerProperties());
-//    }
+    @Bean
+    public KafkaHealthProperties kafkaHealthProperties() {
+        return new KafkaHealthProperties();
+    }
+
+    @Bean
+    public KafkaConsumingHealthIndicator kafkaConsumingHealthIndicator(KafkaHealthProperties kafkaProperties,
+                                                                       KafkaProperties processingProperties) {
+        return new KafkaConsumingHealthIndicator(kafkaProperties, processingProperties.buildConsumerProperties(),
+                processingProperties.buildProducerProperties());
+    }
 
 }
