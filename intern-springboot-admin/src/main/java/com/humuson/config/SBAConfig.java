@@ -30,10 +30,10 @@ public class SBAConfig extends WebSecurityConfigurerAdapter {
         successHandler.setDefaultTargetUrl(adminContextPath + "/");
 
         http.authorizeRequests()
-                .anyRequest().permitAll()
-//                .antMatchers(adminContextPath + "/assets/**").permitAll()
-//                .antMatchers(adminContextPath + "/login").permitAll()
-//                .anyRequest().authenticated()
+//                .anyRequest().permitAll()
+                .antMatchers(adminContextPath + "/assets/**").permitAll()
+                .antMatchers(adminContextPath + "/login").permitAll()
+                .anyRequest().authenticated()
 //                .anyRequest().hasRole("ADMIN")
                 .and()
                 .formLogin().loginPage(adminContextPath + "/login").successHandler(successHandler)

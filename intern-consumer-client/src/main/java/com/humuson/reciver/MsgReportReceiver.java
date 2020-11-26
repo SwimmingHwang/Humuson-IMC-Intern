@@ -48,6 +48,7 @@ public class MsgReportReceiver {
                 e.printStackTrace();
             }
             log.info("status is {}", status);
+//            ApiCall.get(atReport.getEtc2());
         });
 
     }
