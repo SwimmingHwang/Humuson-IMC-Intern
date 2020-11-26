@@ -37,3 +37,4 @@ out/
 .vscode/
 application.home_IS_UNDEFINED
 RUNNING_PID
+gradle

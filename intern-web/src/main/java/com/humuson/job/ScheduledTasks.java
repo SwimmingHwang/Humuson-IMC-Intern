@@ -73,7 +73,6 @@ public class ScheduledTasks {
                         atMsgsService.updateStatus(row.getId(), "2", true);
                     });
                     log.info("스케쥴러 : AT Update 끝");
-
                 }
                 else{
                     log.info("API POST ERROR");
