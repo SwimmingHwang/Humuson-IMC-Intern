@@ -12,16 +12,4 @@ public class ClientConsumerApplication {
     public static void main(String[] args) {
         SpringApplication.run(ClientConsumerApplication.class, args);
     }
-
-//    @Bean
-//    public KafkaHealthProperties kafkaHealthProperties() {
-//        return new KafkaHealthProperties();
-//    }
-//
-//    @Bean
-//    public KafkaConsumingHealthIndicator kafkaConsumingHealthIndicator(KafkaHealthProperties kafkaProperties,
-//                                                                       KafkaProperties processingProperties) {
-//        return new KafkaConsumingHealthIndicator(kafkaProperties, processingProperties.buildConsumerProperties(),
-//                processingProperties.buildProducerProperties());
-//    }
 }
