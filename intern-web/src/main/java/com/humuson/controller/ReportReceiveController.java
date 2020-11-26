@@ -34,7 +34,7 @@ public class ReportReceiveController {
         log.info("api called : {}");
         return "api-v1-report";
     }
-
+    // TODO : PutMapping 으로 바꿈
     @Operation(summary = "status update 3", description = "agent db에서 log 데이터를 받아와 상태를 업데이트 해줍니다.")
     @PostMapping("/api/v1/at-report/{id}")
     @ResponseBody

@@ -61,7 +61,11 @@ public class AtMsgs {
     // 예약시간 되었을 때 상태 업데이트
     public void updateStatus(String status){
         this.status=status;
-        this.etc2 = etc2+this.getId().toString();
+    }
+    public void updateStatus(String status, boolean isReport){
+        this.status=status;
+        if (isReport)
+            this.etc2 = etc2+this.getId().toString();
     }
     public void updateEtc2(String status){
         this.etc2 = etc2;

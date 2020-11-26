@@ -70,7 +70,7 @@ public class ScheduledTasks {
                     atMsgsList.forEach(row ->{
                         // TODO : update batch로 작성할 것
                         log.info("스케쥴러 : AT Update 진행중");
-                        atMsgsService.updateStatus(row.getId(), "2");
+                        atMsgsService.updateStatus(row.getId(), "2", true);
                     });
                     log.info("스케쥴러 : AT Update 끝");
 
