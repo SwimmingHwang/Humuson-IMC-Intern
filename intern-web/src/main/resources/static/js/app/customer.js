@@ -17,8 +17,8 @@ var send = {
         });
     },
     save : function () {
-        var csrfHeader = $("meta[name='_csrf_header']").attr("content");
-        var csrfToken = $("meta[name='_csrf']").attr("content");
+        // var csrfHeader = $("meta[name='_csrf_header']").attr("content");
+        // var csrfToken = $("meta[name='_csrf']").attr("content");
 
         var data = {
             userId: $('#userId').val(),
@@ -37,10 +37,10 @@ var send = {
             dataType: 'json',
             contentType: 'application/json; charset=utf-8',
             data: JSON.stringify(data),
-            beforeSend: function (xhr) {
-                //데이터를 전송하기 전에 헤더에 csrf값을 설정한다
-                xhr.setRequestHeader(csrfHeader, csrfToken);
-            },
+            // beforeSend: function (xhr) {
+            //     //데이터를 전송하기 전에 헤더에 csrf값을 설정한다
+            //     xhr.setRequestHeader(csrfHeader, csrfToken);
+            // },
         }).done(function () {
             alert('고객 정보가 추가되었습니다.');
             window.location.href = '/customer';
@@ -49,8 +49,8 @@ var send = {
         });
     },
     update : function () {
-        var csrfHeader = $("meta[name='_csrf_header']").attr("content");
-        var csrfToken = $("meta[name='_csrf']").attr("content");
+        // var csrfHeader = $("meta[name='_csrf_header']").attr("content");
+        // var csrfToken = $("meta[name='_csrf']").attr("content");
 
         var data = {
             userId: $('#userId').val(),
@@ -69,10 +69,10 @@ var send = {
             dataType: 'json',
             contentType:'application/json; charset=utf-8',
             data: JSON.stringify(data),
-            beforeSend: function (xhr) {
-                //데이터를 전송하기 전에 헤더에 csrf값을 설정한다
-                xhr.setRequestHeader(csrfHeader, csrfToken);
-            },
+            // beforeSend: function (xhr) {
+            //     //데이터를 전송하기 전에 헤더에 csrf값을 설정한다
+            //     xhr.setRequestHeader(csrfHeader, csrfToken);
+            // },
         }).done(function() {
             alert('고객정보가 수정되었습니다.');
             window.location.href = '/customer';
@@ -81,8 +81,8 @@ var send = {
         });
     },
     delete : function () {
-        var csrfHeader = $("meta[name='_csrf_header']").attr("content");
-        var csrfToken = $("meta[name='_csrf']").attr("content");
+        // var csrfHeader = $("meta[name='_csrf_header']").attr("content");
+        // var csrfToken = $("meta[name='_csrf']").attr("content");
 
         var id = $('#id').val();
 
@@ -91,10 +91,10 @@ var send = {
             url: '/api/v1/customer/'+id,
             dataType: 'json',
             contentType:'application/json; charset=utf-8',
-            beforeSend: function (xhr) {
-                //데이터를 전송하기 전에 헤더에 csrf값을 설정한다
-                xhr.setRequestHeader(csrfHeader, csrfToken);
-            },
+            // beforeSend: function (xhr) {
+            //     //데이터를 전송하기 전에 헤더에 csrf값을 설정한다
+            //     xhr.setRequestHeader(csrfHeader, csrfToken);
+            // },
         }).done(function() {
             alert('고객 정보가 삭제되었습니다.');
             window.location.href = '/customer';

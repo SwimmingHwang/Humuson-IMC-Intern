@@ -29,19 +29,16 @@ public class ReportReceiveController {
     private final AtMsgsJdbcService atMsgsJdbcService;
     private final AtReportJdbcRepository atReportJdbcRepository;
 
-//    @PostMapping("/api/v1/report")
-//    public void saveAllReport(@RequestBody String message) {
-//        log.info("api called : {}",message);
-//        Gson gson = new Gson();
-//        AtReportDto atReportDto = gson.fromJson(message, AtReportDto.class);
-//        atReportService.save(atReportDto);
-//        return "atReportDto.getEtc2();
-//    }
-
+    @GetMapping("/api/v1/report-test")
+    public String saveAllReport() {
+        log.info("api called : {}");
+        return "api-v1-report";
+    }
 
     @Operation(summary = "status update 3", description = "agent db에서 log 데이터를 받아와 상태를 업데이트 해줍니다.")
     @PostMapping("/api/v1/at-report/{id}")
-    public void updateStatus(@PathVariable Integer id, @RequestBody String message) {
+    @ResponseBody
+    public String updateStatus(@PathVariable Integer id, @RequestBody String message) {
         log.info("update {} status api called ", id);
         atMsgsService.updateStatus(id, "3");
         // at report 저장
@@ -51,6 +48,14 @@ public class ReportReceiveController {
         AtReport atReport = atReportSaveRequestDto.toEntity();
 
         atReportService.save(atReport);
-//        return "update 3 and report saved";
+        return "update 3 and report saved";
     }
+//    @PostMapping(value = "/api/at-msgs",produces = "application/json; charset=utf8")
+//    @ResponseBody
+//    public String apiAtMsgs(@RequestBody List<AtMsgsSaveRequestDto> requestDto) {
+//        String stringStatusCode = "";
+//        stringStatusCode = Producer.batchAtProduce(requestDto);
+//        return stringStatusCode;//200 or 9000
+//    }
+
 }

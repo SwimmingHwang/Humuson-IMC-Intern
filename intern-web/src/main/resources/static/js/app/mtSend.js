@@ -65,8 +65,8 @@ var send = {
         });
     },
     save : function () {
-        var csrfHeader =  $("meta[name='_csrf_header']").attr("content");
-        var csrfToken = $("meta[name='_csrf']").attr("content");
+        // var csrfHeader =  $("meta[name='_csrf_header']").attr("content");
+        // var csrfToken = $("meta[name='_csrf']").attr("content");
 
         var mtType = $('#mtType').val();
         var callback= $('#callback').val();
@@ -112,10 +112,10 @@ var send = {
             dataType: 'json',
             contentType: 'application/json; charset=utf-8',
             data: JSON.stringify(data),
-            beforeSend : function(xhr) {
-                //데이터를 전송하기 전에 헤더에 csrf값을 설정한다
-                xhr.setRequestHeader(csrfHeader, csrfToken);
-            },
+            // beforeSend : function(xhr) {
+            //     //데이터를 전송하기 전에 헤더에 csrf값을 설정한다
+            //     xhr.setRequestHeader(csrfHeader, csrfToken);
+            // },
         }).done(function (stringStatusCode) {
             if (stringStatusCode =="200") {
                 alert('발송 예약이 완료되었습니다.');
@@ -141,8 +141,8 @@ var send = {
         });
     },
     update : function () {
-        var csrfHeader =  $("meta[name='_csrf_header']").attr("content");
-        var csrfToken = $("meta[name='_csrf']").attr("content");
+        // var csrfHeader =  $("meta[name='_csrf_header']").attr("content");
+        // var csrfToken = $("meta[name='_csrf']").attr("content");
 
         var mtType = $('#mtType').val();
         var callback= $('#callback').val();
@@ -174,10 +174,10 @@ var send = {
             dataType: 'json',
             contentType:'application/json; charset=utf-8',
             data: JSON.stringify(data),
-            beforeSend : function(xhr) {
-                //데이터를 전송하기 전에 헤더에 csrf값을 설정한다
-                xhr.setRequestHeader(csrfHeader, csrfToken);
-            },
+            // beforeSend : function(xhr) {
+            //     //데이터를 전송하기 전에 헤더에 csrf값을 설정한다
+            //     xhr.setRequestHeader(csrfHeader, csrfToken);
+            // },
         }).done(function() {
             alert('수정되었습니다.');
             window.location.href = '/send/mt-record';
@@ -186,8 +186,8 @@ var send = {
         });
     },
     delete : function () {
-        var csrfHeader =  $("meta[name='_csrf_header']").attr("content");
-        var csrfToken = $("meta[name='_csrf']").attr("content");
+        // var csrfHeader =  $("meta[name='_csrf_header']").attr("content");
+        // var csrfToken = $("meta[name='_csrf']").attr("content");
 
         var id = $('#id').val();
 
@@ -196,10 +196,10 @@ var send = {
             url: '/api/v1/mt-msgs/'+id,
             dataType: 'json',
             contentType:'application/json; charset=utf-8',
-            beforeSend : function(xhr) {
-                //데이터를 전송하기 전에 헤더에 csrf값을 설정한다
-                xhr.setRequestHeader(csrfHeader, csrfToken);
-            },
+            // beforeSend : function(xhr) {
+            //     //데이터를 전송하기 전에 헤더에 csrf값을 설정한다
+            //     xhr.setRequestHeader(csrfHeader, csrfToken);
+            // },
         }).done(function() {
             alert('삭제되었습니다.');
             window.location.href = '/send/mt-record';

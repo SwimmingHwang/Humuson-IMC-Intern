@@ -38,6 +38,8 @@ class ClientSecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 .antMatchers(HttpMethod.POST,"/**").permitAll()
                 .antMatchers(HttpMethod.PUT,"/**").permitAll();
+        http.csrf()
+            .disable();
 //        http.authorizeRequests()
 //            .antMatchers("/user/**").permitAll()
 //            //member 권한
@@ -71,8 +73,7 @@ class ClientSecurityConfig extends WebSecurityConfigurerAdapter {
 //        http.sessionManagement()
 //            .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 //        ;
-//        http.csrf()
-//            .disable();
+
     }
 
     @Override

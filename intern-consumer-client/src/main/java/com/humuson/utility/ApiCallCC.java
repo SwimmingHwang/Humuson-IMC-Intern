@@ -63,6 +63,10 @@ public class ApiCallCC {
             postRequest.setHeader("Content-Type", "application/json; charset=utf-8");
             //postRequest.addHeader("x-api-key", RestTestCommon.API_KEY); //KEY 입력
             //postRequest.addHeader("Authorization", token); // token 이용시
+//            String getData = get("http://localhost:8080/api/v1/token");
+//            postRequest.setHeader("X-CSRF-TOKEN", getData);
+
+
 
             HttpEntity entity = new StringEntity(jsonMessage, "UTF-8");
             log.info("엔터티 byte 크기 확인 : " + entity.getContentLength()); // 77
@@ -93,24 +97,24 @@ public class ApiCallCC {
             return "4000"; // http 연결 에러
         }
     }
-
-    public static String put(String strUrl, String jsonMessage) throws Exception {
-
-        String getData = get("http://localhost:8080/api/v1/token");
-
-        URL url = new URL(strUrl);
-        HttpURLConnection httpCon = (HttpURLConnection) url.openConnection();
-        httpCon.setDoOutput(true);
-        httpCon.setRequestMethod("PUT");
-        httpCon.setRequestProperty("X-CSRF-TOKEN", getData);
-
-        OutputStreamWriter out = new OutputStreamWriter(
-                httpCon.getOutputStream());
-        out.write("Resource content");
-        out.close();
-        httpCon.getInputStream();
-        return "9000";
-    }
+//
+//    public static String put(String strUrl, String jsonMessage) throws Exception {
+//        // TODO 안됨
+//        String getData = get("http://localhost:8080/api/v1/token");
+//
+//        URL url = new URL(strUrl);
+//        HttpURLConnection httpCon = (HttpURLConnection) url.openConnection();
+//        httpCon.setDoOutput(true);
+//        httpCon.setRequestMethod("PUT");
+//        httpCon.setRequestProperty("X-CSRF-TOKEN", getData);
+//
+//        OutputStreamWriter out = new OutputStreamWriter(
+//                httpCon.getOutputStream());
+//        out.write("Resource content");
+//        out.close();
+//        httpCon.getInputStream();
+//        return "9000";
+//    }
 //        try (CloseableHttpClient httpclient = HttpClients.createDefault()) {
 //            HttpPut httpPut = new HttpPut(url);
 //            httpPut.setHeader("Accept", "application/json");

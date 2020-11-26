@@ -40,7 +40,7 @@ public class MsgReportReceiver {
             log.info("url : {}", atReport.getEtc2());
             String status = null;
             try {
-                status = ApiCallCC.put(atReport.getEtc2(), message);
+                status = ApiCallCC.post(atReport.getEtc2(), message);
             } catch (Exception e) {
                 e.printStackTrace();
             }
