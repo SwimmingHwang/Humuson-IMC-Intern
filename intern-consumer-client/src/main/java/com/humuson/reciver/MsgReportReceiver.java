@@ -4,6 +4,8 @@ import com.google.gson.Gson;
 import com.humuson.agent.domain.entity.AtMsgs;
 import com.humuson.agent.domain.entity.AtReport;
 import com.humuson.agent.dto.AtReportSaveRequestDto;
+import com.humuson.agent.dto.MtMsgsSaveRequestDto;
+import com.humuson.agent.dto.MtReportSaveRequestDto;
 import com.humuson.agent.service.AtMsgsJdbcService;
 import com.humuson.agent.service.AtMsgsService;
 import com.humuson.agent.service.FtMsgsService;
@@ -35,7 +37,8 @@ public class MsgReportReceiver {
 
         Gson gson = new Gson();
         messages.forEach(message -> {
-            log.info("messager : {}", message);
+            log.info("At Topic Listner : {}", message);
+
             AtReportSaveRequestDto atReport = gson.fromJson(message, AtReportSaveRequestDto.class);
             log.info("url : {}", atReport.getEtc2());
             String status = null;
@@ -49,30 +52,23 @@ public class MsgReportReceiver {
 
     }
 
-//    @KafkaListener(topics = "${kafka.ft.topic.name}", groupId = "${kafka.ft.topic.group.name}")
-//    public void ftLoglistenr(@Payload String message) {
-//        log.info("Ft Topic Listner : {}", message);
-//        Gson gson = new Gson();
-//        FtMsgsSaveRequestDto ftMsgstDto = null;
-//        try {
-//            ftMsgstDto = new Gson().fromJson(message, FtMsgsSaveRequestDto.class);
-//        } catch (Exception e) {
-//            log.info("it is not json format");
-//        }
-//        if(ftMsgstDto != null) ftMsgsService.save(ftMsgstDto);
-//    }
-//
-//    @KafkaListener(topics = "${kafka.mt.topic.name}", groupId = "${kafka.mt.topic.group.name}")
-//    public void mtLoglistenr(@Payload String message) {
-//        Gson gson = new Gson();
-//        MtMsgsSaveRequestDto mtMsgstDto = null;
-//        log.info("Mt Topic Listner : {}", message);
-//        try {
-//            mtMsgstDto = new Gson().fromJson(message, MtMsgsSaveRequestDto.class);
-//        } catch (Exception e) {
-//            log.info("it is not json format");
-//        }
-//        if(mtMsgstDto != null) mtMsgsService.save(mtMsgstDto);
-//    }
+    @KafkaListener(topics = "${kafka.mt.report.topic.name}", groupId = "${kafka.mt.report.topic.group.name}")
+    public void mtLoglistenr(@Payload List<String> messages) {
+        log.info("Mt Report Topic Listener : {}", messages);
 
+        Gson gson = new Gson();
+        messages.forEach(message -> {
+            log.info("Mt Topic Listner : {}", message);
+
+            MtReportSaveRequestDto mtReport = gson.fromJson(message, MtReportSaveRequestDto.class);
+            log.info("url : {}", mtReport.getEtc2());
+            String status = null;
+            try {
+                status = ApiCallCC.post(mtReport.getEtc2(), message);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            log.info("status is {}", status);
+        });
+    }
 }

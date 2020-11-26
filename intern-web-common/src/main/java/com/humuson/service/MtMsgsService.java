@@ -64,6 +64,15 @@ public class MtMsgsService {
         return id;
     }
     @Transactional
+    public Integer updateStatus(Integer id, String status, boolean isReport){
+        MtMsgs mtMsgsId = mtMsgsRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("해당 사용자가 없습니다. id=" + id));
+        log.info("id:" + id + "status updated");
+        if (isReport)
+            mtMsgsId.updateStatus(status, isReport);
+        return id;
+    }
+    @Transactional
     public void delete (Integer id) {
         MtMsgs msgs = mtMsgsRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("해당 사용자가 없습니다. id=" + id));

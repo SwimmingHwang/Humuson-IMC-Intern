@@ -85,7 +85,7 @@ public class ScheduledTasks {
 
                 mtMsgsList.forEach(row ->{
                     MtMsgsSaveRequestDto mtMsgsSaveRequestDto = new MtMsgsSaveRequestDto(row.getMsg(), row.getPhoneNumber(), row.getAdFlag(),
-                            row.getMtType(), row.getReservedDate(), row.getCallback());
+                            row.getMtType(), row.getReservedDate(), row.getCallback(), row.getEtc1(), row.getEtc2()+row.getId().toString());
                     //    for (int i=0; i<12500; i++) //10만건 테스트용
                     mtMsgsSaveRequestDtoList.add(mtMsgsSaveRequestDto);
                 });
@@ -104,7 +104,7 @@ public class ScheduledTasks {
                     mtMsgsList.forEach(row ->{
                         // TODO : update batch로 작성할 것
                         log.info("스케쥴러 : MT Update 진행중");
-                        mtMsgsService.updateStatus(row.getId(), "2");
+                        mtMsgsService.updateStatus(row.getId(), "2", true);
                     });
                     log.info("스케쥴러 : MT Update 끝");
                 }
