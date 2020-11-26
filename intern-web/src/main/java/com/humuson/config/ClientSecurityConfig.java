@@ -13,12 +13,6 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-import org.springframework.security.web.util.matcher.RegexRequestMatcher;
-import org.springframework.security.web.util.matcher.RequestMatcher;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
-
-import javax.servlet.http.HttpServletRequest;
-import java.util.regex.Pattern;
 
 @Configuration
 @EnableWebSecurity
@@ -40,19 +34,20 @@ class ClientSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests().anyRequest().permitAll();
+//        http.authorizeRequests().anyRequest().permitAll();
         http.authorizeRequests()
                 .antMatchers(HttpMethod.POST,"/**").permitAll()
                 .antMatchers(HttpMethod.PUT,"/**").permitAll();
-
-//        http.authorizeRequests()
-//            .antMatchers("/user/**").permitAll()
-//            //member 권한
-//            .antMatchers("/member/**").hasRole("MEMBER")
-//            .antMatchers("/monitor/**").permitAll()
-//            .antMatchers("/sba/**").permitAll()
-//            .anyRequest().authenticated()
-//        ;
+        http.csrf()
+            .disable();
+        http.authorizeRequests()
+            .antMatchers("/user/**").permitAll()
+            //member 권한
+            .antMatchers("/member/**").hasRole("MEMBER")
+            .antMatchers("/monitor/**").permitAll()
+            .antMatchers("/sba/**").permitAll()
+            .anyRequest().authenticated()
+        ;
         http.formLogin()
             .loginPage("/user/login")
             .usernameParameter("email").passwordParameter("password") // id, pwd param 변경
@@ -78,6 +73,7 @@ class ClientSecurityConfig extends WebSecurityConfigurerAdapter {
 //        http.sessionManagement()
 //            .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 //        ;
+
     }
 
     @Override

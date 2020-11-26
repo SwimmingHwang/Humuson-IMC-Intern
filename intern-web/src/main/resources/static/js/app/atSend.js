@@ -109,8 +109,8 @@ var send = {
     },
 
     save : function () {
-        var csrfHeader =  $("meta[name='_csrf_header']").attr("content");
-        var csrfToken = $("meta[name='_csrf']").attr("content");
+        // var csrfHeader =  $("meta[name='_csrf_header']").attr("content");
+        // var csrfToken = $("meta[name='_csrf']").attr("content");
 
         var templateCode = $('#templateCode').val();
         var msg = $('#msg').val();
@@ -145,10 +145,10 @@ var send = {
             dataType: 'json',
             contentType: 'application/json; charset=utf-8',
             data: JSON.stringify(data),
-            beforeSend : function(xhr) {
-                //데이터를 전송하기 전에 헤더에 csrf값을 설정한다
-                xhr.setRequestHeader(csrfHeader, csrfToken);
-            },
+            // beforeSend : function(xhr) {
+            //     //데이터를 전송하기 전에 헤더에 csrf값을 설정한다
+            //     xhr.setRequestHeader(csrfHeader, csrfToken);
+            // },
         }).done(function () {
             // TODO : 예약후 시간되면 post로 바껴서 여기서 서버 예외가 발생함은 알 수 없음.
             alert('발송 예약이 완료되었습니다.');
@@ -158,8 +158,8 @@ var send = {
         });
     },
     update : function () {
-        var csrfHeader =  $("meta[name='_csrf_header']").attr("content");
-        var csrfToken = $("meta[name='_csrf']").attr("content");
+        // var csrfHeader =  $("meta[name='_csrf_header']").attr("content");
+        // var csrfToken = $("meta[name='_csrf']").attr("content");
 
         var phoneNum = $('#phoneNumber').val();
         phoneNum = phoneNum.substring(1);
@@ -181,10 +181,10 @@ var send = {
             dataType: 'json',
             contentType:'application/json; charset=utf-8',
             data: JSON.stringify(data),
-            beforeSend : function(xhr) {
-                //데이터를 전송하기 전에 헤더에 csrf값을 설정한다
-                xhr.setRequestHeader(csrfHeader, csrfToken);
-            }
+            // beforeSend : function(xhr) {
+            //     데이터를 전송하기 전에 헤더에 csrf값을 설정한다
+                // xhr.setRequestHeader(csrfHeader, csrfToken);
+            // }
         }).done(function() {
             alert('수정되었습니다.');
             window.location.href = '/send/at-record';
@@ -193,8 +193,8 @@ var send = {
         });
     },
     delete : function () {
-        var csrfHeader =  $("meta[name='_csrf_header']").attr("content");
-        var csrfToken = $("meta[name='_csrf']").attr("content");
+        // var csrfHeader =  $("meta[name='_csrf_header']").attr("content");
+        // var csrfToken = $("meta[name='_csrf']").attr("content");
 
         var id = $('#id').val();
 
@@ -203,10 +203,10 @@ var send = {
             url: '/api/v1/at-msgs/'+id,
             dataType: 'json',
             contentType:'application/json; charset=utf-8',
-            beforeSend : function(xhr) {
+            // beforeSend : function(xhr) {
                 //데이터를 전송하기 전에 헤더에 csrf값을 설정한다
-                xhr.setRequestHeader(csrfHeader, csrfToken);
-            }
+                // xhr.setRequestHeader(csrfHeader, csrfToken);
+            // }
         }).done(function() {
             alert('삭제되었습니다.');
             window.location.href = '/send/at-record';

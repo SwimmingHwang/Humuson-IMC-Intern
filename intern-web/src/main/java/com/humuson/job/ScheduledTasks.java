@@ -50,7 +50,7 @@ public class ScheduledTasks {
 
                 atMsgsList.forEach(row ->{
                     AtMsgsSaveRequestDto atMsgsSaveRequestDto = new AtMsgsSaveRequestDto(row.getMsg(),row.getPhoneNumber(),
-                            row.getTemplateCode(), row.getReservedDate(), row.getSenderKey(), row.getEtc1(), row.getEtc2());
+                            row.getTemplateCode(), row.getReservedDate(), row.getSenderKey(), row.getEtc1(), row.getEtc2()+row.getId().toString());
                     //    for (int i=0; i<12500; i++) //10만건 테스트용
                     atMsgsSaveRequestDtoList.add(atMsgsSaveRequestDto);
                 });
@@ -70,7 +70,7 @@ public class ScheduledTasks {
                     atMsgsList.forEach(row ->{
                         // TODO : update batch로 작성할 것
                         log.info("스케쥴러 : AT Update 진행중");
-                        atMsgsService.updateStatus(row.getId(), "2");
+                        atMsgsService.updateStatus(row.getId(), "2", true);
                     });
                     log.info("스케쥴러 : AT Update 끝");
 

@@ -62,6 +62,11 @@ public class AtMsgs {
     public void updateStatus(String status){
         this.status=status;
     }
+    public void updateStatus(String status, boolean isReport){
+        this.status=status;
+        if (isReport)
+            this.etc2 = etc2+this.getId().toString();
+    }
     public void updateEtc2(String status){
         this.etc2 = etc2;
     }
