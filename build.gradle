@@ -73,7 +73,7 @@ project(':intern-web') {
         compile("com.google.code.gson:gson:2.8.6")
         compile('org.apache.httpcomponents:httpclient:4.5.13')
 
-//        compile('org.springdoc:springdoc-openapi-ui:1.5.0')
+        compile('org.springdoc:springdoc-openapi-ui:1.5.0')
         compile("com.google.code.gson:gson:2.8.6")
 
         // scheduler
@@ -102,7 +102,7 @@ project(':intern-admin') {
         // springboot admin - client
         compile('de.codecentric:spring-boot-admin-starter-client:2.1.0')
 
-//        compile('org.springdoc:springdoc-openapi-ui:1.5.0')
+        compile('org.springdoc:springdoc-openapi-ui:1.5.0')
     }
 }
 
@@ -137,7 +137,7 @@ project(':intern-kafka-api') {
         compile('org.springframework.boot:spring-boot-starter-web')
         compile("com.google.code.gson:gson:2.8.6")
 
-//        compile('org.springdoc:springdoc-openapi-ui:1.5.0')
+        compile('org.springdoc:springdoc-openapi-ui:1.5.0')
 
         //for producer
         compile('org.apache.kafka:kafka-clients:2.5.0')
@@ -146,7 +146,7 @@ project(':intern-kafka-api') {
 
         // actuator
         compile('org.springframework.boot:spring-boot-starter-actuator')
-        // springboot admin - client
+        // springboot admin - client`
         compile('de.codecentric:spring-boot-admin-starter-client:2.1.0')
         compile('org.springframework.kafka:spring-kafka') // 이거 추가
     }
