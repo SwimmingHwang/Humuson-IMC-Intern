@@ -1,7 +1,7 @@
 package com.humuson.scheduler;
 
-import com.humuson.agent.dto.AtReportDto;
 import com.humuson.agent.dto.AtReportSaveRequestDto;
+import com.humuson.agent.dto.MtReportSaveRequestDto;
 import com.humuson.agent.service.AtReportService;
 import com.humuson.agent.service.FtReportService;
 import com.humuson.agent.service.MtReportService;
@@ -21,7 +21,7 @@ public class KafkaScheduler {
     private final ProducerService producerSerivce;
     private final AtReportService atReportService;
     private final FtReportService ftMsgsLogService;
-    private final MtReportService mtMsgsLogService;
+    private final MtReportService mtReportService;
 
     // Agent DB 에서 imc_at_biz_msg_log 데이터 가져와!
     @Scheduled(cron = "*/10 * * * * *") // 10초에 한번 실행
@@ -58,23 +58,24 @@ public class KafkaScheduler {
 //        }
 //    }
 
-//    @Scheduled(cron = "*/10 * * * * *") // 10초에 한번 실행
-//    public void mtLogSchedule() {
-//        log.info("=============mt report 스케쥴러 작동중============= ");
-//        List<MtReportListDto> mtMsgsLogList = mtMsgsLogService.findAllByEtc1("0");
-//        if(mtMsgsLogList.size() != 0) {
-//            log.info("=============mt report etc1 0 인거 있다============= ");
-//
-//            // 아래 두 서비스 배치 처리
-//
-//            // kafka producer 생성하여 토픽에 전달
-//            producerSerivce.sendMtReportList(mtReportList);
-//            // 토픽에 전달된 데이터 상태 변경
-//            mtReportService.changeAllEtc1Status("0");
-//        } else {
-//            log.info("=============mt report etc1 0 인거 없다============= ");
-//        }
-//    }
+    @Scheduled(cron = "*/10 * * * * *") // 10초에 한번 실행
+    public void mtLogSchedule() {
+        log.info("=============mt report 스케쥴러 작동중============= ");
+        List<MtReportSaveRequestDto> mtReportList = mtReportService.findAllByEtc1("0");
+        if(mtReportList.size() != 0) {
+            log.info("=============mt report etc1 0 인거 있다============= ");
+            log.info(mtReportList.toString());
+
+            // 아래 두 서비스 배치 처리
+
+            // kafka producer 생성하여 토픽에 전달
+            producerSerivce.sendMtReportList(mtReportList);
+            // 토픽에 전달된 데이터 상태 변경
+            mtReportService.changeAllEtc1Status("0");
+        } else {
+            log.info("=============mt report etc1 0 인거 없다============= ");
+        }
+    }
 
 }
 

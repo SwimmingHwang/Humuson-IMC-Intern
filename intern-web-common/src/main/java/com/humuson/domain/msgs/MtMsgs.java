@@ -47,7 +47,7 @@ public class MtMsgs {
         this.adFlag = adFlag == null? "N" : adFlag;
         this.msg = msg;
         this.etc1 = etc1 == null? "0" : etc1;
-        this.etc2 = etc2 == null ? "http://localhost:8080/api/v1/at-report" : etc2;
+        this.etc2 = etc2 == null ? "http://localhost:8080/api/v1/mt-report/" : etc2;
     }
 
     public void update(String reservedDate, String mtType, String callback, String msg , String phoneNumber){
@@ -60,7 +60,11 @@ public class MtMsgs {
     public void updateStatus(String status){
         this.status=status;
     }
-
+    public void updateStatus(String status, boolean isReport){
+        this.status=status;
+        if (isReport)
+            this.etc2 = etc2+this.getId().toString();
+    }
     /**
      * insert 되기전 (persist 되기전) 실행된다.
      * */
@@ -75,6 +79,8 @@ public class MtMsgs {
         this.mtType = this.mtType== null ? "MM" : this.mtType; // MT 상품 타입 (SM-SMS, LM-LMS)
         this.msg = this.msg== null ? "NULL MESSAGE" : this.msg;
         this.adFlag = this.adFlag == null ? "N" : this.adFlag;
+        this.etc1 = this.etc1 == null? "0" : this.etc1;
+        this.etc2 = this.etc2 == null ? "http://localhost:8080/api/v1/mt-report/" : this.etc2;
     }
 
 }

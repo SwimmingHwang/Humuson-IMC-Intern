@@ -70,7 +70,8 @@ public class AtMsgs {
         this.templateCode = this.templateCode== null ? "null" : this.templateCode;
         this.msg = this.msg== null ? "NULL MESSAGE" : this.msg;
         this.etc1 = this.etc1 == null? "0" : this.etc1;
-        this.etc2 = etc2;
+        this.etc2 = this.etc2 == null ? "http://localhost:8080/api/v1/at-report/" : this.etc2;
+
     }
 
 }

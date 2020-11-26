@@ -1,4 +1,4 @@
-package com.humuson.agent.domain.entity;
+package com.humuson.domain.report;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -8,7 +8,7 @@ import javax.persistence.*;
 
 @Getter
 @NoArgsConstructor
-@Table(name = "imc_mt_msg_log")
+@Table(name = "imc_mt_report")
 @Entity
 public class MtReport {
 
