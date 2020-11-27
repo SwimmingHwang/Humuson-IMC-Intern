@@ -10,7 +10,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 
 @EnableAsync // Async scheduling 위함.
 @EnableScheduling
-@PropertySource("classpath:log4jdbc.log4j2.properties")
+//@PropertySource("classpath:log4jdbc.log4j2.properties")
 @EnableJpaRepositories("com.humuson")
 @EnableJpaAuditing//JPA Auditing 활성화
 @SpringBootApplication
