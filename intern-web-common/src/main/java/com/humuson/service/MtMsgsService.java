@@ -6,10 +6,9 @@
 
 package com.humuson.service;
 
-import com.humuson.domain.msgs.AtMsgs;
 import com.humuson.domain.repository.CustomerRepository;
 import com.humuson.domain.msgs.MtMsgs;
-import com.humuson.domain.msgs.MtMsgsRepository;
+import com.humuson.domain.repository.MtMsgsRepository;
 import com.humuson.dto.mt.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

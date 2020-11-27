@@ -3,6 +3,7 @@
  * */
 package com.humuson.domain.msgs;
 
+import com.humuson.domain.entity.AtCampaign;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -37,6 +38,9 @@ public class AtMsgs {
     private String etc1; // Agent DB에 전달되었는지 확인하는 status
     private String etc2; // 결과 받는 URL
 
+    @OneToOne
+    @JoinColumn(name="campaign_id", referencedColumnName = "id")
+    private AtCampaign atCampaign;
 
     @Builder // 해당 클래스의 빌더 패턴 클래스를 생성
     public AtMsgs(String status, String priority, String reservedDate, String senderKey,

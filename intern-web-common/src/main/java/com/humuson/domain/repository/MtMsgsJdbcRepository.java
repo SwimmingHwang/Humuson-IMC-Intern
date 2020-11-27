@@ -1,4 +1,6 @@
-package com.humuson.domain.msgs;
+package com.humuson.domain.repository;
+
+import com.humuson.domain.msgs.MtMsgs;
 
 import java.util.List;
 

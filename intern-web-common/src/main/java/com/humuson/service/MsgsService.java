@@ -7,7 +7,7 @@
 package com.humuson.service;
 
 import com.humuson.domain.msgs.Msgs;
-import com.humuson.domain.msgs.MsgsRepository;
+import com.humuson.domain.repository.MsgsRepository;
 import com.humuson.dto.msg.MsgsListResponseDto;
 import com.humuson.dto.msg.MsgsResponseDto;
 import com.humuson.dto.msg.MsgsSaveRequestDto;

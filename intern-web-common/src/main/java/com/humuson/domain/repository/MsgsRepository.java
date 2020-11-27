@@ -1,5 +1,6 @@
-package com.humuson.domain.msgs;
+package com.humuson.domain.repository;
 
+import com.humuson.domain.msgs.Msgs;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
