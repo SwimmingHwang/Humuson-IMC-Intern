@@ -1,9 +1,7 @@
 package com.humuson.service;
 
-import com.humuson.domain.report.AtReport;
-import com.humuson.domain.report.AtReportRepository;
 import com.humuson.domain.report.MtReport;
-import com.humuson.domain.report.MtReportRepository;
+import com.humuson.domain.repository.MtReportRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

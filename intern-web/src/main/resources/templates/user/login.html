@@ -18,30 +18,27 @@
                     <div class="card-body p-0">
                         <!-- Nested Row within Card Body -->
                         <div class="row">
-<!--                            <div class="col-lg-6 d-none d-lg-block bg-login-image"></div>-->
-                            <img class="col-lg-6 d-none d-lg-block" src="http://d3bro317a31qh1.cloudfront.net/humusonImage.png">
+                            <div class="col-lg-6 d-none d-lg-block bg-login-image"></div>
                             <div class="col-lg-6">
                                 <div class="p-5">
                                     <div class="text-center">
-                                        <h1 class="h4 text-gray-900 mb-4">Welcome</h1>
+                                        <h1 class="h4 text-gray-900 mb-4">Welcome Back!</h1>
                                     </div>
-                                    <form class="user" th:action="@{/user/login}" method="post">
-<!--                                    <form class="user">-->
+                                    <input id="iswrongPW" th:value="${iswrongPW}" type="hidden">
+                                    <form class="user" th:action="@{/user/login/pro}" method="post">
 <!--                                        <input-->
 <!--                                                type="hidden" th:name="${_csrf.parameterName}"-->
 <!--                                                th:value="${_csrf.token}" />-->
-                                        <span th:text="${valid_email}"></span>
+
                                         <div class="form-group">
                                             <input type="email" class="form-control form-control-user"
-                                                   id="email" name="email" aria-describedby="emailHelp"
+                                                   name="email" aria-describedby="emailHelp"
                                                    placeholder="Enter Email Address...">
                                         </div>
-                                        <span th:text="${valid_password}"></span>
                                         <div class="form-group">
                                             <input type="password" class="form-control form-control-user"
-                                                   id="password" name="password" placeholder="Password">
+                                                   name="password" placeholder="Password">
                                         </div>
-<!--                                        <button type="submit" id="sbt-login-save" class="btn btn-primary btn-user btn-block">-->
                                         <button type="submit" class="btn btn-primary btn-user btn-block">
                                             Login
                                         </button>
@@ -69,11 +66,7 @@
                         </div>
                     </div>
                 </div>
-                <th:block layout:fragment="script">
-                    <link rel="stylesheet" th:href="@{/vendor/bootstrap/scss/bootstrap-datepicker.min.css}">
-                    <script th:src="@{/vendor/bootstrap/js/bootstrap-datepicker.min.js}"></script>
-<!--                    <script th:src="@{/js/app/login.js}"></script>-->
-                </th:block>
+
             </div>
 
         </div>
@@ -81,5 +74,12 @@
     </div>
 
     </body>
+
+    <!--custom 스크립트 -->
+    <th:block layout:fragment="script">
+        <script  th:src="@{/vendor/jquery/jquery.min.js}"></script>
+        <script th:src="@{/js/app/wrongPW.js}"></script>
+    </th:block>
+
 </div>
 </html>

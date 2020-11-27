@@ -7,7 +7,7 @@
 package com.humuson.service;
 
 import com.humuson.domain.msgs.FtMsgs;
-import com.humuson.domain.msgs.FtMsgsRepository;
+import com.humuson.domain.repository.FtMsgsRepository;
 import com.humuson.dto.ft.FtMsgsListResponseDto;
 import com.humuson.dto.ft.FtMsgsResponseDto;
 import com.humuson.dto.ft.FtMsgsSaveRequestDto;

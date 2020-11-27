@@ -1,4 +1,6 @@
-package com.humuson.domain.report;
+package com.humuson.domain.repository;
+
+import com.humuson.domain.report.AtReport;
 
 import java.util.List;
 

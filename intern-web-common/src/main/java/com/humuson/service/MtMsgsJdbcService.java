@@ -3,12 +3,9 @@
 * */
 package com.humuson.service;
 
-import com.humuson.domain.msgs.AtMsgs;
-import com.humuson.domain.msgs.AtMsgsJdbcRepository;
 import com.humuson.domain.msgs.MtMsgs;
-import com.humuson.domain.msgs.MtMsgsJdbcRepository;
+import com.humuson.domain.repository.MtMsgsJdbcRepository;
 import com.humuson.domain.repository.CustomerRepository;
-import com.humuson.dto.at.MultiAtMsgsSaveListRequestDto;
 import com.humuson.dto.mt.MultiMtMsgsSaveListRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;

@@ -51,9 +51,9 @@ class ClientSecurityConfig extends WebSecurityConfigurerAdapter {
         http.formLogin()
             .loginPage("/user/login")
             .usernameParameter("email").passwordParameter("password") // id, pwd param 변경
-                .loginProcessingUrl("/user/login")
+                .loginProcessingUrl("/user/login/pro")
 //            .defaultSuccessUrl("/user/login/result")
-                .failureForwardUrl("/user/login?error")
+                .failureForwardUrl("/user/login/pro")
         ;
         http.logout()
             .logoutRequestMatcher(new AntPathRequestMatcher("/user/logout"))

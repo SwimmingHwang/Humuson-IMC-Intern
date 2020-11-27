@@ -1,8 +1,7 @@
 package com.humuson.service;
 
 import com.humuson.domain.msgs.AtMsgs;
-import com.humuson.domain.msgs.AtMsgsJdbcRepository;
-import com.humuson.domain.repository.CustomerRepository;
+import com.humuson.domain.repository.AtMsgsJdbcRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;

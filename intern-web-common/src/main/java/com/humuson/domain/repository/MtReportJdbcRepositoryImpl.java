@@ -1,5 +1,6 @@
-package com.humuson.domain.report;
+package com.humuson.domain.repository;
 
+import com.humuson.domain.report.MtReport;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
