@@ -1,6 +1,5 @@
 package com.humuson.domain.entity;
 
-import com.sun.istack.NotNull;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -8,6 +7,8 @@ import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
 
 @DynamicInsert // insert 시 null인 필드 제외
 @DynamicUpdate // update 시
@@ -21,22 +22,24 @@ public class User { // db layer 와 데이터 주고 받을 때 사용
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull
+    @Column(nullable = false)
+    @NotEmpty(message = "이름을 입력해 주세요.")
     private String username;
 
-    @NotNull
+    @Column(nullable = false, unique = true)
+    @Email
+    @NotEmpty(message = "이메일을 입력해 주세요.")
     private String email;
 
-    @NotNull
+    @Column(nullable = false)
+    @NotEmpty(message = "비밀번호를 입력해 주세요.")
     private String password;
 
-    @NotNull
+    @Column(nullable = false)
+    @NotEmpty(message = "핸드폰 번호를 입력해 주세요.")
     private String phoneNumber;
 
-    @NotNull
     private String authority;
-
-    @NotNull
     private Boolean status;
 
     @Builder

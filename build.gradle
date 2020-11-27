@@ -46,6 +46,7 @@ project(':intern-web-common') {
         compile('com.h2database:h2')
         compile("mysql:mysql-connector-java")
         compile("com.google.code.gson:gson:2.8.6")
+        compile('org.hibernate.validator:hibernate-validator')
 
         // spring secuirty 5
         compile('org.springframework.boot:spring-boot-starter-security')
@@ -86,7 +87,6 @@ project(':intern-web') {
 
         testCompile('org.springframework.boot:spring-boot-starter-test') // static debug 용
         compile group: 'org.jsoup', name: 'jsoup', version: '1.11.3'
-
     }
 }
 
