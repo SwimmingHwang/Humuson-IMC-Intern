@@ -7,10 +7,13 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
+@Slf4j
 @Tag(name="사용자", description = "사용자 정보를 관리합니다.")
 @RequiredArgsConstructor
 @Controller
@@ -38,8 +41,13 @@ public class UserController {
     }
 
     @Operation(summary="로그인 처리")
-    @PostMapping("/user/login")
-    public String execLogin(UserDto userDto) {
+    @PostMapping("/user/login/pro")
+    public String execLogin(UserDto userDto, Model model) {
+        // 로그인 실패시
+        if (userDto.getAuthority()==null){
+            model.addAttribute("iswrongPW","true");
+            return "user/login";
+        }
         if(userDto.getAuthority().equals(Role.MEMBER.getValue())) {
             return "member/member-page";
         } else {
