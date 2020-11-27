@@ -25,6 +25,12 @@ public class Customer {
     private String var2;
     private String var3;
 
+    @ManyToOne
+    @JoinColumns({
+            @JoinColumn(name="customer_group_id", referencedColumnName = "id")
+    })
+    private CustomerGroup customerGroup;
+
 
     public void update(String userId, String name, String phoneNumber, String var1, String var2, String var3) {
         this.userId = userId;
