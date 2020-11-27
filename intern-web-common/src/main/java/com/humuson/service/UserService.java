@@ -15,8 +15,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.validation.Errors;
-import org.springframework.validation.FieldError;
 
 import java.util.*;
 
@@ -73,4 +71,12 @@ public class UserService implements UserDetailsService {
         return authorities.stream().filter(o -> o.getAuthority().equals(Role.ADMIN.getValue())).findAny().isPresent();
     }
 
+    public boolean checkEmail(String email) {
+        try {
+            User user = userRepository.findByEmail(email).get();
+            return false;
+        } catch (Exception e) {
+            return true;
+        }
+    }
 }

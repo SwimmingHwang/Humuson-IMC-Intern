@@ -29,9 +29,17 @@ public class UserController {
 
     @Operation(summary="회원가입 처리")
     @PostMapping("/user/sign-up")
-    public String execSignup(UserDto userDto) {
-        userService.saveMemberUser(userDto);
-        return "redirect:/user/login";
+    public String execSignup(UserDto userDto, Model model) {
+        if(userService.checkEmail(userDto.getEmail())) {
+            userService.saveMemberUser(userDto);
+            return "redirect:/user/login";
+        } else {
+            model.addAttribute("email",userDto.getEmail());
+            model.addAttribute("phoneNumber",userDto.getPhoneNumber());
+            model.addAttribute("username",userDto.getUsername());
+            model.addAttribute("checkEmail", "true");
+            return "user/sign-up";
+        }
     }
 
     @Operation(summary="로그인 페이지")

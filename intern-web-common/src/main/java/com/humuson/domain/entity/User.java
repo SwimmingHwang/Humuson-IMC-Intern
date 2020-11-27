@@ -7,8 +7,6 @@ import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotEmpty;
 
 @DynamicInsert // insert 시 null인 필드 제외
 @DynamicUpdate // update 시
@@ -23,20 +21,15 @@ public class User { // db layer 와 데이터 주고 받을 때 사용
     private Long id;
 
     @Column(nullable = false)
-    @NotEmpty(message = "이름을 입력해 주세요.")
     private String username;
 
     @Column(nullable = false, unique = true)
-    @Email
-    @NotEmpty(message = "이메일을 입력해 주세요.")
     private String email;
 
     @Column(nullable = false)
-    @NotEmpty(message = "비밀번호를 입력해 주세요.")
     private String password;
 
     @Column(nullable = false)
-    @NotEmpty(message = "핸드폰 번호를 입력해 주세요.")
     private String phoneNumber;
 
     private String authority;
