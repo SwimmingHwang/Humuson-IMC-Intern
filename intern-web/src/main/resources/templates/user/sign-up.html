@@ -20,7 +20,7 @@
                                 <h1 class="h4 text-gray-900 mb-4">Create an Account!</h1>
                             </div>
                             <input id="checkEmail" th:value="${checkEmail}" type="hidden">
-                            <form class="user" th:action="@{/user/sign-up}" method="post" onsubmit="return signup.check()">
+                            <form class="user" th:action="@{/user/sign-up}" method="post" onsubmit="return signup.check();">
                                 <div class="form-group">
                                     <input type="text" class="form-control form-control-user" id="username"
                                            name="username" placeholder="UserName" th:value="${username}">

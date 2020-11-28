@@ -4,21 +4,12 @@ var signup = {
         if(checkEmail) {
             alert("존재하는 이메일 입니다.");
         }
-        // var _this = this;
-        //
-        // $('#sbt-singup-save').on('click', function () {
-        //     _this.check();
-        // });
-        // if($('#checkEmail').val()) {
-        //     alert("존재하는 이메일 입니다.");
-        // }
     },
     check: function () {
         var username = $('#username').val();
         var email = $('#email').val();
         var password = $('#password').val();
         var phoneNumber = $('#phoneNumber').val();
-        // var checkEmail = $('#checkEmail').val();
 
         if(username == "") {
             alert("성함을 입력해 주세요.");
@@ -35,11 +26,6 @@ var signup = {
                 alert("알맞은 이메일 형식이 아닙니다.");
                 $('#email').focus();
                 return false;
-            } else {
-                // if(_this.checkEmail) {
-                //     alert("존재하는 이메일 입니다.");
-                //     return false;
-                // }
             }
         }
         if(password == ""){

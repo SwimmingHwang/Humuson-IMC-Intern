@@ -1,15 +1,10 @@
-/*
-* send.js만의 스코프 지정
-* */
-
 var login = {
-    init: function () {
-        var _this = this;
-        $('#sbt-login-save').on('click', function () {
-            _this.check();
-        });
+    init : function () {
+        if($('#iswrongPW').val()){
+            alert("아이디 혹은 비밀번호가 틀렸습니다.")
+        }
     },
-    check: function () {
+    check : function() {
         var email = $('#email').val();
         var password = $('#password').val();
 
@@ -20,7 +15,7 @@ var login = {
         } else {
             var regExp = /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z\-]+/;
             if(!regExp.test(email)) {
-                alert("이메일 형식이 일치하지 않습니다.");
+                alert("알맞은 이메일 형식이 아닙니다.");
                 $('#email').focus();
                 return false;
             }
@@ -32,6 +27,5 @@ var login = {
         }
         return true;
     }
-};
-
+}
 login.init();
