@@ -1,9 +1,14 @@
-var singup = {
+var signup = {
     init : function () {
-        var _this = this;
-        $('#sbt-singup-save').on('click', function () {
-            _this.check();
-        });
+        var checkEmail = $('#checkEmail').val();
+        if(checkEmail) {
+            alert("존재하는 이메일 입니다.");
+        }
+        // var _this = this;
+        //
+        // $('#sbt-singup-save').on('click', function () {
+        //     _this.check();
+        // });
         // if($('#checkEmail').val()) {
         //     alert("존재하는 이메일 입니다.");
         // }
@@ -13,7 +18,7 @@ var singup = {
         var email = $('#email').val();
         var password = $('#password').val();
         var phoneNumber = $('#phoneNumber').val();
-        var checkEmail = $('#checkEmail').val();
+        // var checkEmail = $('#checkEmail').val();
 
         if(username == "") {
             alert("성함을 입력해 주세요.");
@@ -31,10 +36,10 @@ var singup = {
                 $('#email').focus();
                 return false;
             } else {
-                if(checkEmail) {
-                    alert("존재하는 이메일 입니다.");
-                    return false;
-                }
+                // if(_this.checkEmail) {
+                //     alert("존재하는 이메일 입니다.");
+                //     return false;
+                // }
             }
         }
         if(password == ""){
@@ -42,14 +47,18 @@ var singup = {
             $('#password').focus();
             return false;
         }
-        if(phoneNumber == ""){
+        if(phoneNumber == "") {
             alert("핸드폰 번호를 입력해 주세요.");
             $('#phoneNumber').focus();
-            return false;
+        } else {
+            var regExp =/(01[016789])([1-9]{1}[0-9]{2,3})([0-9]{4})$/;
+            if(!regExp.test(phoneNumber)){
+                alert("알맞은 휴대폰 번호 형식이 아닙니다.");
+                $('#phoneNumber').focus();
+                return false;
+            }
         }
-
         return true;
     }
-
 }
-singup.init();
+signup.init();

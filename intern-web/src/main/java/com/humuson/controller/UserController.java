@@ -32,6 +32,7 @@ public class UserController {
     public String execSignup(UserDto userDto, Model model) {
         if(userService.checkEmail(userDto.getEmail())) {
             userService.saveMemberUser(userDto);
+            model.addAttribute("checkEmail", "false");
             return "redirect:/user/login";
         } else {
             model.addAttribute("email",userDto.getEmail());
