@@ -7,17 +7,6 @@ layout에 있는 content fragment자리에 아래이 content fragment를 끼워�
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorator="layout/default_layout">
 
-
-<!-- send.html 고유 CSS 추가 -->
-<!--<th:block layout:fragment="css">-->
-<!--    <link rel="stylesheet" th:href="@{/css/common/sb-admin-2.min.css}">-->
-<!--</th:block>-->
-
-<!--&lt;!&ndash; send.html 고유 스크립트 추가 &ndash;&gt;-->
-<!--<th:block layout:fragment="script">-->
-<!--    <script th:src="@{/js/common/sb-admin-2.js}"></script>-->
-<!--</th:block>-->
-
 <div layout:fragment="content">
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
@@ -55,8 +44,6 @@ layout에 있는 content fragment자리에 아래이 content fragment를 끼워�
 
     </div>
     <!--  End of 발송 데이터 유형 버튼 -->
-</div>
-
 
 </div>
 </html>
