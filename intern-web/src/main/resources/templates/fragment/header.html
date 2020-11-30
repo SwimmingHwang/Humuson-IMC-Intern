@@ -3,7 +3,8 @@
       xmlns:th="http://www.thymeleaf.org">
 
 <!--headerFragment 선언-->
-<div th:fragment="headerFragment">
+<th:block th:fragment="headerFragment">
+<!--<div th:fragment="headerFragment">-->
     <!-- Page Wrapper -->
     <div id="wrapper">
 
@@ -61,7 +62,7 @@
                 <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">발송 이력 및 통계를 확인합니다.</h6>
-                        <a class="collapse-item" href="utilities-color.html">(X)전체</a>
+                        <a class="collapse-item" href="/">(X)전체</a>
                         <a class="collapse-item" href="/send/at-record">알림톡</a>
                         <a class="collapse-item" href="/send/ft-record">(X)친구톡</a>
                         <a class="collapse-item" href="/send/mt-record">문자 메시지</a>
@@ -71,18 +72,20 @@
 
             <!-- Divider -->
             <hr class="sidebar-divider">
+            <!-- Heading -->
             <div class="sidebar-heading">
                 고객 관리
             </div>
             <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseCustomer" aria-expanded="true" aria-controls="collapseTwo">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseCustomer" aria-expanded="true" aria-controls="collapseCustomer">
                     <i class="fas fa-fw fa-table"></i>
                     <span>고객 주소록</span>
                 </a>
-                <div id="collapseCustomer" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                <div id="collapseCustomer" class="collapse" aria-labelledby="headingCustomer" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">고객 주소록을 관리합니다.</h6>
-                        <a class="collapse-item" href="/customer">고객 정보 조회</a>
+                        <a class="collapse-item" href="/customer">고객 정보 관리</a>
+                        <a class="collapse-item" href="/customer/group">고객 그룹 관리</a>
                     </div>
                 </div>
             </li>
@@ -332,6 +335,6 @@
 
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
-
+</th:block>
 <!--headerFragment 선언 끝-->
 </html>

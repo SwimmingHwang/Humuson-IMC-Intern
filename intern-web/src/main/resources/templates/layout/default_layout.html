@@ -14,8 +14,7 @@ content의 경우 : layout:fragment="fragment명" 으로 등록 (content가 layo
         <title>IMC-Intern-Project</title>
         <!-- config fragment 사용 -->
         <th:block th:replace="fragment/configCss :: configCssFragment" ></th:block>
-        <th:block th:replace="fragment/configJs :: configJsFragment"></th:block>
-
+        <script th:src="@{/vendor/jquery/jquery.min.js}"></script>
     </head>
     
     <body id="page-top" class="sidebar-toggled">
@@ -27,6 +26,7 @@ content의 경우 : layout:fragment="fragment명" 으로 등록 (content가 layo
         -->
         <th:block layout:fragment="content"></th:block>
         <!-- footer fragment 사용 -->
+        <th:block th:replace="fragment/configJs :: configJsFragment"></th:block>
         <th:block th:replace="fragment/footer :: footerFragment"></th:block>
     </body>
 </html>
