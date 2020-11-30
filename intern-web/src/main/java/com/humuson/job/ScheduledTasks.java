@@ -31,26 +31,15 @@ public class ScheduledTasks {
     private final CustomerService customerService;
 
     @Async
-//    @Scheduled(initialDelay = 1000, fixedRate  = 10000)
+    @Scheduled(initialDelay = 1000, fixedRate  = 10000)
     public void updateStatusrunEvery10Sec(){
         try{
             log.info("스케쥴러 : 시작");
             List<AtMsgs> atMsgsList = null;
             List<MtMsgs> mtMsgsList = null;
 
-            try {
-                atMsgsList = atMsgsService.findAllByReservedDate();
-                if(atMsgsList.size() == 0) return;
-            } catch (Exception e) {
-                return;
-            }
-
-            try {
-                mtMsgsList = mtMsgsService.findAllByReservedDate();
-                if(mtMsgsList.size() == 0) return;
-            } catch (Exception e) {
-                return;
-            }
+            atMsgsList = atMsgsService.findAllByReservedDate();
+            mtMsgsList = mtMsgsService.findAllByReservedDate();
 
             log.info("스케쥴러 : select 완료");
 

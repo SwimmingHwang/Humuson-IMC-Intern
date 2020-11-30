@@ -90,11 +90,11 @@ public class KafkaConsumerConfig {
         RetryTemplate retryTemplate = new RetryTemplate();
 
         FixedBackOffPolicy fixedBackOffPolicy = new FixedBackOffPolicy();
-        fixedBackOffPolicy.setBackOffPeriod(5000); // 실패 시 다시 시작 시간 (10초)
+        fixedBackOffPolicy.setBackOffPeriod(10000); // 실패 시 다시 시작 시간 (10초)
         retryTemplate.setBackOffPolicy(fixedBackOffPolicy);
 
         SimpleRetryPolicy retryPolicy = new SimpleRetryPolicy();
-        retryPolicy.setMaxAttempts(1000); // 실패 시 1000번 다시 시도
+        retryPolicy.setMaxAttempts(720); // 실패 시 720 다시 시도 -> 2시간 지속
         retryTemplate.setRetryPolicy(retryPolicy);
 
         return retryTemplate;
