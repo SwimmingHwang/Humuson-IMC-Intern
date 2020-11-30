@@ -20,12 +20,12 @@ public class AtCampaign {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+    private String campName;
     private String reservedDate;
     private String senderKey;
     private long count;
     @Column(name = "MESSAGE")
     private String msg;
-
 
     @OneToOne
     @JoinColumns({
@@ -34,8 +34,9 @@ public class AtCampaign {
     private TemplateInfo templateInfo;
 
     @Builder
-    public AtCampaign(long id, String reservedDate, String senderKey, long count, String msg, TemplateInfo templateInfo) {
+    public AtCampaign(long id, String campName, String reservedDate, String senderKey, long count, String msg, TemplateInfo templateInfo) {
         this.id = id;
+        this.campName = campName;
         this.reservedDate = reservedDate;
         this.senderKey = senderKey;
         this.count = count;

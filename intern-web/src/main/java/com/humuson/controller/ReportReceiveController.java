@@ -1,11 +1,9 @@
 package com.humuson.controller;
 
 import com.google.gson.Gson;
-import com.humuson.domain.msgs.AtMsgs;
 import com.humuson.domain.report.AtReport;
-import com.humuson.domain.report.AtReportJdbcRepository;
+import com.humuson.domain.repository.AtReportJdbcRepository;
 import com.humuson.domain.report.MtReport;
-import com.humuson.dto.report.AtReportDto;
 import com.humuson.dto.report.AtReportSaveRequestDto;
 import com.humuson.dto.report.MtReportSaveRequestDto;
 import com.humuson.service.*;
@@ -13,10 +11,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @Tag(name="메시지 전송 결과 관리", description = "메시지 전송 결과를 받는 컨트롤러")
 @RequiredArgsConstructor

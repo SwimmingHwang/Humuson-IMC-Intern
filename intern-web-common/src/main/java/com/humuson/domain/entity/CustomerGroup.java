@@ -26,4 +26,8 @@ public class CustomerGroup {
         this.id = id;
         this.groupName = groupName;
     }
+
+    public void updateGroupName(String groupName){
+        this.groupName = groupName;
+    }
 }

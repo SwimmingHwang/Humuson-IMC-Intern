@@ -19,6 +19,7 @@ public class MtCampaign {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+    private String campName;
     private String reservedDate;
     private String callback;
     private long count;
@@ -26,8 +27,9 @@ public class MtCampaign {
     private String msg;
 
     @Builder
-    public MtCampaign(long id, String reservedDate, String callback, long count, String msg) {
+    public MtCampaign(long id, String campName, String reservedDate, String callback, long count, String msg) {
         this.id = id;
+        this.campName = campName;
         this.reservedDate = reservedDate;
         this.callback = callback;
         this.count = count;

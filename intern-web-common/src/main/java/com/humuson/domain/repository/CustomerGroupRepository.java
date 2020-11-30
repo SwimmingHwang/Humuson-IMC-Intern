@@ -1,7 +1,13 @@
 package com.humuson.domain.repository;
 
+import com.humuson.domain.entity.Customer;
 import com.humuson.domain.entity.CustomerGroup;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+
+import java.util.List;
 
 public interface CustomerGroupRepository extends JpaRepository<CustomerGroup, Long> {
+    @Query("SELECT p FROM CustomerGroup p ORDER BY p.id DESC")
+    List<CustomerGroup> findAllDesc();
 }

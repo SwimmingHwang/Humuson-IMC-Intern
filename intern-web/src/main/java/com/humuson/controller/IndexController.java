@@ -1,6 +1,7 @@
 package com.humuson.controller;
 
 import com.humuson.dto.at.AtMsgsResponseDto;
+import com.humuson.dto.customer.CustomerGroupResponseDto;
 import com.humuson.dto.customer.CustomerResponseDto;
 import com.humuson.dto.ft.FtMsgsResponseDto;
 import com.humuson.dto.mt.MtMsgsResponseDto;
@@ -24,6 +25,7 @@ public class IndexController {
 
     private final TemplateInfoService templateInfoService;
     private final CustomerService customerService;
+    private final CustomerGroupService customerGroupService;
 
     // TODO : index로 가는일 없게 하기 혹은 다른 페이지 보여주기
     @GetMapping("/")
@@ -196,20 +198,17 @@ public class IndexController {
      *
      * 기업 회원의 고객 관리
      * */
-    @Operation(summary="고객 주소록 조회", description = "고객 주소록 조회")
     @GetMapping("/customer")
     public String profileCreate(Model model) {
         model.addAttribute("title", "고객 리스트 조회");
         model.addAttribute("customers", customerService.findAll());
         return "customer/customerTable";
     }
-    @Operation(summary="고객 추가 세부 페이지", description = "고객 추가를 위한 세부 작성 페이지")
     @GetMapping("/customer/create")
     public String customerSave() {
         return "customer/customerSave";
     }
 
-    @Operation(summary="고객 수정 세부 페이지", description = "고객 수정을 위한 세부 작성 페이지")
     @GetMapping("/customer/update/{id}") // 수정할 화면 연결
     public String customerUpdate(@PathVariable long id, Model model) {
         CustomerResponseDto dto = customerService.findById(id);
@@ -221,5 +220,25 @@ public class IndexController {
     * Profile
     * */
 
+
+
+    /*
+    * 고객 그룹 관리
+    * */
+    @GetMapping("/customer/group")
+    public String customerGroup(Model model) {
+        model.addAttribute("groups", customerGroupService.findAll());
+        return "customer/customerGroupTable";
+    }
+    @GetMapping("/customer/group/create")
+    public String customerGroupSave() {
+        return "customer/customerGroupSave";
+    }
+    @GetMapping("/customer/group/update/{id}") // 수정할 화면 연결
+    public String customerGroupUpdate(@PathVariable long id, Model model) {
+        CustomerGroupResponseDto dto = customerGroupService.findById(id);
+        model.addAttribute("group", dto);
+        return "customer/customerGroupUpdate";
+    }
 
 }

@@ -52,6 +52,7 @@ project(':intern-web-common') {
         compile('org.thymeleaf.extras:thymeleaf-extras-springsecurity5')
 
         compile('org.apache.httpcomponents:httpclient:4.5.13')
+
     }
 }
 

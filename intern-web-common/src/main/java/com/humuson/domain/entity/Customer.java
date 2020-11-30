@@ -24,6 +24,7 @@ public class Customer {
     private String var1;
     private String var2;
     private String var3;
+    private String address;
 
     @ManyToOne
     @JoinColumns({
@@ -32,22 +33,25 @@ public class Customer {
     private CustomerGroup customerGroup;
 
 
-    public void update(String userId, String name, String phoneNumber, String var1, String var2, String var3) {
+    public void update(String userId, String name, String phoneNumber, String address, String var1, String var2, String var3) {
         this.userId = userId;
         this.name = name;
         this.phoneNumber = phoneNumber;
+        this.address = address;
         this.var1 = var1;
         this.var2 = var2;
         this.var3 = var3;
     }
     @Builder
-    public Customer(long id, String userId, String name, String phoneNumber, String var1, String var2, String var3) {
+    public Customer(long id, String userId, String name, String phoneNumber, String address, String var1, String var2, String var3) {
         this.id = id;
         this.userId = userId;
         this.name = name;
         this.phoneNumber = phoneNumber;
+        this.address = address == null? "":address;
         this.var1 = var1 == null? "" : var1; // 결과 받는 URL
         this.var2 = var2 == null? "" : var2; // 결과 받는 URL
         this.var3 = var3 == null? "" : var3; // 결과 받는 URL
     }
 }
+
