@@ -8,23 +8,23 @@
 package com.humuson.dto.customer;
 
 import com.humuson.domain.entity.Customer;
-import com.humuson.domain.entity.CustomerGroup;
+import com.humuson.domain.entity.Group;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
-public class CustomerGroupSaveRequestDto {
+public class GroupSaveRequestDto {
     private String groupName;
 
     @Builder
-    public CustomerGroupSaveRequestDto(String groupName) {
+    public GroupSaveRequestDto(String groupName) {
         this.groupName = groupName;
     }
 
-    public CustomerGroup toEntity() {
-        return CustomerGroup.builder()
+    public Group toEntity() {
+        return Group.builder()
                 .groupName(groupName)
                 .build();
     }

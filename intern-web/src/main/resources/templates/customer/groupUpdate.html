@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout/default_layout">
+<div layout:fragment="content">
+
+<h1>그룹 정보 수정</h1>
+
+<div class="col-md-12">
+    <form>
+        <div class="form-group">
+            <label for="userId"><strong>그룹명</strong></label>
+            <input type="text" class="form-control" id="userId" th:value="${group.groupName}">
+        </div>
+
+        <table class="table table-sm" id="dataTable" width="100%" cellspacing="0">
+            <thead>
+            <tr>
+                <th class = "checkbox"><input name="customerChkAll" type="checkbox" id="customerChkAll"></th>
+                <th>고객 아이디</th>
+                <th>성함</th>
+                <th>전화번호</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="customer : ${customers}">
+                <td><input type="checkbox" name = "customerChk" th:value="${customer.id}" th:default="checked"> </td>
+                <!--                                        <td th:text="${customer.id}">default</td>-->
+                <td th:text="${customer.userId}">default</td>
+                <td th:text="${customer.name}">default</a></td>
+                <td th:text="${customer.phoneNumber}">default</td>
+            </tr>
+            </tbody>
+        </table>
+
+    </form>
+    <a href="/customer/group" role="button" class="btn btn-secondary">취소</a>
+    <button type="button" class="btn btn-primary" id="btn-update">수정 완료</button>
+    <button type="button" class="btn btn-danger" id="btn-delete">삭제</button>
+</div>
+<!--custom 스크립트 -->
+<th:block layout:fragment="script">
+    <script th:src="@{/js/app/group.js}"></script>
+</th:block>
+</div>
+
+
+</html>

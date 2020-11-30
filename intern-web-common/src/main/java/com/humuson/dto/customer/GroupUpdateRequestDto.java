@@ -6,11 +6,11 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
-public class CustomerGroupUpdateRequestDto {
+public class GroupUpdateRequestDto {
     private String groupName;
 
     @Builder
-    public CustomerGroupUpdateRequestDto(String groupName) {
+    public GroupUpdateRequestDto(String groupName) {
         this.groupName = groupName;
     }
 }

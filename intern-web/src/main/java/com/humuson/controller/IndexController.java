@@ -1,7 +1,10 @@
 package com.humuson.controller;
 
+import com.humuson.domain.entity.Customer;
+import com.humuson.domain.entity.CustomerGroup;
 import com.humuson.dto.at.AtMsgsResponseDto;
 import com.humuson.dto.customer.CustomerGroupResponseDto;
+import com.humuson.dto.customer.GroupResponseDto;
 import com.humuson.dto.customer.CustomerResponseDto;
 import com.humuson.dto.ft.FtMsgsResponseDto;
 import com.humuson.dto.mt.MtMsgsResponseDto;
@@ -14,6 +17,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import java.util.List;
+
 @RequiredArgsConstructor
 @Controller
 public class IndexController {
@@ -25,6 +30,7 @@ public class IndexController {
 
     private final TemplateInfoService templateInfoService;
     private final CustomerService customerService;
+    private final GroupService groupService;
     private final CustomerGroupService customerGroupService;
 
     // TODO : index로 가는일 없게 하기 혹은 다른 페이지 보여주기
@@ -226,19 +232,24 @@ public class IndexController {
     * 고객 그룹 관리
     * */
     @GetMapping("/customer/group")
-    public String customerGroup(Model model) {
-        model.addAttribute("groups", customerGroupService.findAll());
-        return "customer/customerGroupTable";
+    public String group(Model model) {
+        model.addAttribute("groups", groupService.findAll());
+        return "customer/groupTable";
     }
     @GetMapping("/customer/group/create")
-    public String customerGroupSave() {
-        return "customer/customerGroupSave";
+    public String groupSave(Model model) {
+        model.addAttribute("customers", customerService.findAll());
+        return "customer/groupSave";
     }
     @GetMapping("/customer/group/update/{id}") // 수정할 화면 연결
-    public String customerGroupUpdate(@PathVariable long id, Model model) {
-        CustomerGroupResponseDto dto = customerGroupService.findById(id);
-        model.addAttribute("group", dto);
-        return "customer/customerGroupUpdate";
+    public String groupUpdate(@PathVariable long id, Model model) {
+        GroupResponseDto groupDto = groupService.findById(id);
+        //customer gorup service
+        List<CustomerGroup> customerGroups = customerGroupService.findByGroupId(id);
+        List<Customer> customers = customerService.findAllJoinFetch(id);
+        model.addAttribute("group", groupDto);
+        model.addAttribute("customers", customers);
+        return "customer/groupUpdate";
     }
 
 }
