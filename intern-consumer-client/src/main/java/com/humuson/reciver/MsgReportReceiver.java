@@ -45,17 +45,16 @@ public class MsgReportReceiver {
         String status = ApiCallCC.post(atReport.getEtc2(), message);
         log.info("status is {}", status);
         if(status.equals("200")) {
-//            registry.destroy();
-//            registry.start();
+            registry.destroy();
+            registry.start();
+//            registry.stop();
             log.info("success");
         } else {
-            registry.stop();
             throw new RuntimeException("failed");
         }
-
     }
 
-    @KafkaListener(topics = "${kafka.mt.report.topic.name}", groupId = "${kafka.mt.report.topic.group.name}", containerFactory = "kafkaListenerContainerFactory")
+    /*@KafkaListener(topics = "${kafka.mt.report.topic.name}", groupId = "${kafka.mt.report.topic.group.name}", containerFactory = "kafkaListenerContainerFactory")
     public void mtLoglistenr(@Payload List<String> messages) {
         log.info("Mt Report Topic Listener : {}", messages);
 
@@ -73,5 +72,5 @@ public class MsgReportReceiver {
             }
             log.info("status is {}", status);
         });
-    }
+    }*/
 }
