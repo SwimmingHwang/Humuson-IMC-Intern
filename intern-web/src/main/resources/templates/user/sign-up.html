@@ -4,7 +4,7 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorator="layout/login_layout">
 <div layout:fragment="content">
-    <body class="bg-gradient-primary">
+    <body class="bg-gradient-success">
 
     <div class="container">
 
@@ -17,22 +17,22 @@
                     <div class="col-lg-7">
                         <div class="p-5">
                             <div class="text-center">
-                                <h1 class="h4 text-gray-900 mb-4">Create an Account!</h1>
+                                <h1 class="h4 text-gray-900 mb-4">회원 등록</h1>
                             </div>
                             <input id="checkEmail" th:value="${checkEmail}" type="hidden">
                             <form class="user" th:action="@{/user/sign-up}" method="post" onsubmit="return signup.check();">
                                 <div class="form-group">
                                     <input type="text" class="form-control form-control-user" id="username"
-                                           name="username" placeholder="UserName" th:value="${username}">
+                                           name="username" placeholder="이름" th:value="${username}">
                                 </div>
 
                                 <div class="form-group">
                                     <input type="email" class="form-control form-control-user" id="email"
-                                           name="email" placeholder="Email Address" th:value="${email}">
+                                           name="email" placeholder="이메일" th:value="${email}">
                                 </div>
                                 <div class="form-group">
                                     <input type="password" class="form-control form-control-user"
-                                           name="password" id="password" placeholder="Password">
+                                           name="password" id="password" placeholder="비밀번호">
                                 </div>
                                 <!--                                -->
                                 <!--                                <div class="form-group row">-->
@@ -48,10 +48,10 @@
                                 <!--                                -->
                                 <div class="form-group">
                                     <input type="text" class="form-control form-control-user" id="phoneNumber"
-                                           name="phoneNumber" placeholder="Phone Number" th:value="${phoneNumber}">
+                                           name="phoneNumber" placeholder="핸드폰 번호" th:value="${phoneNumber}">
                                 </div>
 
-                                <button type="submit" class="btn btn-primary btn-user btn-block">Register Account</button>
+                                <button type="submit" class="btn btn-warning btn-user btn-block">등록하기</button>
 
                                 <!-- google, facebook login -->
                                 <!--
