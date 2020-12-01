@@ -46,6 +46,7 @@ project(':intern-web-common') {
         compile('com.h2database:h2')
         compile("mysql:mysql-connector-java")
         compile("com.google.code.gson:gson:2.8.6")
+//        compile('org.hibernate.validator:hibernate-validator')
 
         // spring secuirty 5
         compile('org.springframework.boot:spring-boot-starter-security')
@@ -87,7 +88,6 @@ project(':intern-web') {
 
         testCompile('org.springframework.boot:spring-boot-starter-test') // static debug 용
         compile group: 'org.jsoup', name: 'jsoup', version: '1.11.3'
-
     }
 }
 
@@ -120,8 +120,6 @@ project(':intern-consumer-client') {
         compile('org.springframework.boot:spring-boot-starter-actuator')
         // springboot admin - client
         compile('de.codecentric:spring-boot-admin-starter-client:2.1.0')
-        // kafka health check
-//        compile('com.deviceinsight.kafka:kafka-health-check:1.2.0')
 //        compile('org.springframework.boot:spring-boot-starter-tomcat')
         compile('org.springdoc:springdoc-openapi-ui:1.5.0')
     }
@@ -181,7 +179,7 @@ project(':intern-consumer-agent') {
         // springboot admin - client
         compile('de.codecentric:spring-boot-admin-starter-client:2.1.0')
         // kafka health check
-        compile('com.deviceinsight.kafka:kafka-health-check:1.2.0')
+//        compile('com.deviceinsight.kafka:kafka-health-check:1.2.0')
 
         compile('org.springframework.boot:spring-boot-starter-tomcat')
     }
@@ -223,3 +221,12 @@ project(':intern-springboot-admin') {
     }
 }
 
+project(':intern-kafka-check') {
+    dependencies {
+        compile('org.springframework.boot:spring-boot-starter-web')
+        compile('com.deviceinsight.kafka:kafka-health-check:1.2.0')
+        compile('org.springframework.boot:spring-boot-starter-actuator')
+        compile('de.codecentric:spring-boot-admin-starter-client:2.1.0')
+        compile('org.springframework.kafka:spring-kafka')
+    }
+}

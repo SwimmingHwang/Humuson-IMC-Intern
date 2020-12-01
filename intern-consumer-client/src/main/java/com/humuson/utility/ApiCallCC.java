@@ -87,7 +87,7 @@ public class ApiCallCC {
                 if (body.equals("9000")){ // produce 예외 발생시 9000
                     log.error("Response is error 예외 발생: " + body);
                 }
-                return body;
+                return "200";
             } else {
                 log.error("Response is error : " + response.getStatusLine().getStatusCode());
                 return response.getStatusLine().getStatusCode()+"";

@@ -1,6 +1,5 @@
 package com.humuson.domain.entity;
 
-import com.sun.istack.NotNull;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,22 +20,19 @@ public class User { // db layer 와 데이터 주고 받을 때 사용
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull
+    @Column(nullable = false)
     private String username;
 
-    @NotNull
+    @Column(nullable = false, unique = true)
     private String email;
 
-    @NotNull
+    @Column(nullable = false)
     private String password;
 
-    @NotNull
+    @Column(nullable = false)
     private String phoneNumber;
 
-    @NotNull
     private String authority;
-
-    @NotNull
     private Boolean status;
 
     @Builder

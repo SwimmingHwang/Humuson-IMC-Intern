@@ -4,7 +4,7 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorator="layout/login_layout">
 <div layout:fragment="content">
-    <body class="bg-gradient-primary">
+    <body class="bg-gradient-success">
 
     <div class="container">
 
@@ -12,26 +12,27 @@
             <div class="card-body p-0">
                 <!-- Nested Row within Card Body -->
                 <div class="row">
-                    <div class="col-lg-5 d-none d-lg-block bg-register-image"></div>
+<!--                    <div class="col-lg-5 d-none d-lg-block bg-register-image"></div>-->
+                    <img class="col-lg-5 d-none d-lg-block" src="http://d3bro317a31qh1.cloudfront.net/humusonImage.png">
                     <div class="col-lg-7">
-                        <div class="p-5">
+                        <div class="p-6">
                             <div class="text-center">
-                                <h1 class="h4 text-gray-900 mb-4">Create an Account!</h1>
+                                <h1 class="h4 text-gray-900 mb-4">회원 등록</h1>
                             </div>
-
-                            <form class="user" th:action="@{/user/sign-up}" method="post">
+                            <input id="checkEmail" th:value="${checkEmail}" type="hidden">
+                            <form class="user" th:action="@{/user/sign-up}" method="post" onsubmit="return signup.check();">
                                 <div class="form-group">
                                     <input type="text" class="form-control form-control-user" id="username"
-                                           name="username" placeholder="UserName">
+                                           name="username" placeholder="이름" th:value="${username}">
                                 </div>
 
                                 <div class="form-group">
                                     <input type="email" class="form-control form-control-user" id="email"
-                                           name="email" placeholder="Email Address">
+                                           name="email" placeholder="이메일" th:value="${email}">
                                 </div>
                                 <div class="form-group">
                                     <input type="password" class="form-control form-control-user"
-                                           name="password" id="password" placeholder="Password">
+                                           name="password" id="password" placeholder="비밀번호">
                                 </div>
                                 <!--                                -->
                                 <!--                                <div class="form-group row">-->
@@ -47,10 +48,10 @@
                                 <!--                                -->
                                 <div class="form-group">
                                     <input type="text" class="form-control form-control-user" id="phoneNumber"
-                                           name="phoneNumber" placeholder="Phone Number">
+                                           name="phoneNumber" placeholder="핸드폰 번호" th:value="${phoneNumber}">
                                 </div>
 
-                                <button type="submit" class="btn btn-primary btn-user btn-block">Register Account</button>
+                                <button type="submit" class="btn btn-warning btn-user btn-block">등록하기</button>
 
                                 <!-- google, facebook login -->
                                 <!--
@@ -63,16 +64,12 @@
                                 </a>
                                 -->
                             </form>
-                            <!-- help menu -->
-                            <!--
                             <hr>
-                            <div class="text-center">
-                                <a class="small" href="forgot-password.html">Forgot Password?</a>
-                            </div>
-                            <div class="text-center">
-                                <a class="small" href="login.html">Already have an account? Login!</a>
-                            </div>
-                            -->
+                            <form class="user" th:action="@{/user/login}">
+                                <button type="submit" class="btn btn-warning btn-user btn-block">
+                                    뒤로가기
+                                </button>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -81,6 +78,9 @@
 
     </div>
     </body>
-
+    <th:block layout:fragment="script">
+        <script  th:src="@{/vendor/jquery/jquery.min.js}"></script>
+        <script th:src="@{/js/app/sing-up.js}"></script>
+    </th:block>
 </div>
 </html>

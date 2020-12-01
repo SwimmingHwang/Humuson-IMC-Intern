@@ -5,7 +5,7 @@
       layout:decorator="layout/login_layout">
 
 <div layout:fragment="content">
-    <body class="bg-gradient-primary">
+    <body class="bg-gradient-success">
 
     <div class="container">
 
@@ -18,29 +18,30 @@
                     <div class="card-body p-0">
                         <!-- Nested Row within Card Body -->
                         <div class="row">
-                            <div class="col-lg-6 d-none d-lg-block bg-login-image"></div>
+<!--                            <div class="col-lg-6 d-none d-lg-block bg-login-image"></div>-->
+                            <img class="col-lg-6 d-none d-lg-block" src="http://d3bro317a31qh1.cloudfront.net/humusonImage.png">
                             <div class="col-lg-6">
                                 <div class="p-5">
                                     <div class="text-center">
-                                        <h1 class="h4 text-gray-900 mb-4">Welcome Back!</h1>
+                                        <h1 class="h4 text-gray-900 mb-4">환영합니다</h1>
                                     </div>
                                     <input id="iswrongPW" th:value="${iswrongPW}" type="hidden">
-                                    <form class="user" th:action="@{/user/login/pro}" method="post">
+                                    <form class="user" th:action="@{/user/login/pro}" method="post" onsubmit="return login.check();">
 <!--                                        <input-->
 <!--                                                type="hidden" th:name="${_csrf.parameterName}"-->
 <!--                                                th:value="${_csrf.token}" />-->
 
                                         <div class="form-group">
                                             <input type="email" class="form-control form-control-user"
-                                                   name="email" aria-describedby="emailHelp"
-                                                   placeholder="Enter Email Address...">
+                                                   id="email" name="email" aria-describedby="emailHelp"
+                                                   placeholder="이메일을 입력하세요.">
                                         </div>
                                         <div class="form-group">
                                             <input type="password" class="form-control form-control-user"
-                                                   name="password" placeholder="Password">
+                                                   id="password" name="password" placeholder="비밀번호를 입력하세요.">
                                         </div>
-                                        <button type="submit" class="btn btn-primary btn-user btn-block">
-                                            Login
+                                        <button type="submit" class="btn btn-success btn-user btn-block">
+                                            로그인
                                         </button>
                                         <!--
                                         <hr>
@@ -58,9 +59,11 @@
                                         <a class="small" href="forgot-password.html">Forgot Password?</a>
                                     </div>
                                     -->
-                                    <div class="text-center">
-                                        <a class="small" href="/user/sign-up">Create an Account!</a>
-                                    </div>
+                                    <form class="user" th:action="@{/user/sign-up}">
+                                        <button type="submit" class="btn btn-warning btn-user btn-block">
+                                            회원가입
+                                        </button>
+                                    </form>
                                 </div>
                             </div>
                         </div>
@@ -78,7 +81,7 @@
     <!--custom 스크립트 -->
     <th:block layout:fragment="script">
         <script  th:src="@{/vendor/jquery/jquery.min.js}"></script>
-        <script th:src="@{/js/app/wrongPW.js}"></script>
+        <script th:src="@{/js/app/login.js}"></script>
     </th:block>
 
 </div>

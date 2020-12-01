@@ -9,7 +9,7 @@
     <div id="wrapper">
 
         <!-- Sidebar -->
-        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+        <ul class="navbar-nav bg-gradient-success sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
             <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/">
@@ -47,8 +47,9 @@
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">메시지 발송을 예약합니다.</h6>
                         <a class="collapse-item" href="/send/at-send">알림톡 발송</a>
-                        <a class="collapse-item" href="/send/ft-send">(X)친구톡 발송</a>
-                        <a class="collapse-item" href="/send/mt-send">문자 메시지 발송</a>
+<!--                        <a class="collapse-item" href="/send/ft-send">(X)친구톡 발송</a>-->
+<!--                        <a class="collapse-item" href="/send/mt-send">문자 메시지 발송</a>-->
+                        <a class="collapse-item" href="/send/at-msgs-send">문자 메시지 발송</a>
                     </div>
                 </div>
             </li>
@@ -62,9 +63,9 @@
                 <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">발송 이력 및 통계를 확인합니다.</h6>
-                        <a class="collapse-item" href="/">(X)전체</a>
+<!--                        <a class="collapse-item" href="/">(X)전체</a>-->
                         <a class="collapse-item" href="/send/at-record">알림톡</a>
-                        <a class="collapse-item" href="/send/ft-record">(X)친구톡</a>
+<!--                        <a class="collapse-item" href="/send/ft-record">(X)친구톡</a>-->
                         <a class="collapse-item" href="/send/mt-record">문자 메시지</a>
                     </div>
                 </div>
@@ -302,7 +303,8 @@
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span class="mr-2 d-none d-lg-inline text-gray-600 small"><span th:text="${#authentication.name}"></span></span>
-                                <img class="img-profile rounded-circle" src="https://source.unsplash.com/QAB-WJcbgJk/60x60">
+<!--                                <img class="img-profile rounded-circle" src="https://source.unsplash.com/QAB-WJcbgJk/60x60">-->
+                                <img class="img-profile rounded-circle" src="http://d3bro317a31qh1.cloudfront.net/userImage.png">
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">

@@ -19,6 +19,8 @@ public class SBAService {
             port = "8083";
         } else if(app_name.equals("intern-producer-batch")) {
             port = "8084";
+        } else if(app_name.equals("intern-consumer-agent")) {
+            port = "8085";
         } else {
             log.info("failed shutdown");
             return;
