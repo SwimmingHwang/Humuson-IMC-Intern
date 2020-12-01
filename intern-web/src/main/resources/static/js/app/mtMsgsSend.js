@@ -6,7 +6,7 @@ var mtSend = {
         $(function () {
             _this.initTime();
             _this.initDatePicker();
-            $('#datepicker').datepicker('destroy')
+            $('#datepicker').datepicker('destroy');
         });
         $('#send-immediate').on('click', function () {
             _this.sendImmediate();
@@ -17,7 +17,6 @@ var mtSend = {
         $(function() {
             $('#msg-text').keyup(function () {
                 bytesHandler(this);
-                // changeLimit();
             });
         });
         function getTextLength(str) {
@@ -66,6 +65,27 @@ var mtSend = {
                 msg_type.text("SMS");
             }
         }
+        $('a').click(function() //this will apply to all anchor tags
+        {
+            $('#area').val('foobar'); //this puts the textarea for the id labeled 'area'
+        })
+
+        $('#var-name').on('click', function () {
+            $('#msg-text').focus().val($('#msg-text').val() + "#{이름}");
+            $('#byte-count').text(getTextLength($('#msg-text').val()));
+        });
+        $('#var-1').on('click', function () {
+            $('#msg-text').focus().val($('#msg-text').val() + "#{변수1}");
+            $('#byte-count').text(getTextLength($('#msg-text').val()));
+        });
+        $('#var-2').on('click', function () {
+            $('#msg-text').focus().val($('#msg-text').val() + "#{변수2}");
+            $('#byte-count').text(getTextLength($('#msg-text').val()));
+        });
+        $('#var-3').on('click', function () {
+            $('#msg-text').focus().val($('#msg-text').val() + "#{변수3}");
+            $('#byte-count').text(getTextLength($('#msg-text').val()));
+        });
     },
     initTime: function() {
         var date = new Date();
