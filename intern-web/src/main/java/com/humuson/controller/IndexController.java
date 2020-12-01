@@ -55,6 +55,11 @@ public class IndexController {
         return "page/send/atsend";
 
     }
+    @GetMapping("/send/at-msgs-send")
+    public String atMsgsSend(){
+        return "page/send/atMsgsSend";
+
+    }
     @GetMapping("/send/ft-send")
     public String ftSend(Model model){
         model.addAttribute("title","친구톡 발송 예약 내역");

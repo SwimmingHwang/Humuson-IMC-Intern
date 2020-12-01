@@ -1,0 +1,49 @@
+.font-size-18 {
+    font-size: 18px !important;
+}
+
+.text-align-center {
+    text-align: center !important;
+}
+
+.text-align-left {
+    text-align: left !important;
+}
+
+.text-align-right {
+    text-align: right !important;
+}
+
+.bottom-left {
+    position: absolute;
+    bottom: 8px;
+    left: 16px;
+    font-size: 18px;
+}
+
+.text-white {
+    color: #ffffff;
+}
+.remove-radius {
+    border-radius: 0rem;
+}
+
+.background-gray-color {
+    background-color: #f2f2f5;
+    border: 1px #f2f2f5;
+}
+
+.background-dgray-color {
+    background-color: #696974;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.margin-zero {
+    margin-left: 0rem;
+    margin-right: 0rem;
+}
+
+.right-box-middle {
+    transform: translate(0, 15%);
+}

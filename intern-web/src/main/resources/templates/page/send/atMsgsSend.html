@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.w3.org/1999/xhtml"
+
+      layout:decorator="layout/default_layout">
+
+<div layout:fragment="content">
+    <h1 class="h3 mb-1 text-gray-800">문자</h1>
+    <p class="mb-4">문자 발송 페이지 입니다.</p>
+
+    <div class="row">
+
+        <div class="col-md-4">
+            <div class="card position-relative">
+                <div class="card-body py-3">
+                    <h4 class="m-0 font-weight-bold">SMS</h4>
+                </div>
+                <div class="card-body py-1">
+                    <input type="text" class="form-control bg-light border-0" placeholder="여기 광고 문구 표시 여부 체크 하기">
+                </div>
+                <div class="card-body py-1">
+                    <input type="text" class="form-control bg-light border-0" placeholder="발신 번호">
+                </div>
+                <div class="card-body py-1">
+                    <input type="text" class="form-control bg-light border-0" placeholder="제목 입력">
+                </div>
+                <div class="card-body py-1">
+                    <textarea class="form-control bg-light border-0" placeholder="보내실 메시지를 입력해 주세요." rows="10"></textarea>
+                </div>
+                <div class="card-body py-1 text-align-right">
+                    <h6 class="m-0 font-weight-bold text-success">80/2000 byte</h6>
+                </div>
+                <div class="card-body py-1 row text-align-center" >
+                    <a class="btn col-md-3 background-gray-color remove-radius border-dark" id="name">이름</a>
+                    <a class="btn col-md-3 background-gray-color remove-radius border-dark" id="var1">변수1</a>
+                    <a class="btn col-md-3 background-gray-color remove-radius border-dark" id="var2">변수2</a>
+                    <a class="btn col-md-3 background-gray-color remove-radius border-dark" id="var3">변수3</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 row">
+
+            <div>
+                <table class="table table-bordered" id="dataTable" cellspacing="0">
+                    <!-- 기존 -->
+                    <!--<table class="table table-horizontal table-bordered">-->
+                    <thead class="thead-strong">
+                    <tr>
+                        <th>이름</th>
+                        <th>전화번호</th>
+                        <th>변수1</th>
+                        <th>변수2</th>
+                        <th>변수3</th>
+                    </tr>
+                    </thead>
+                    <tbody id="tbody">
+                    <!--<tr th:each="customer : ${customers}">
+                        <td th:text="${customer.name}">default</td>
+                        <td th:text="${customer.phoneNumber}">default</td>
+                        <td th:text="${customer.var1}">default</td>
+                        <td th:text="${customer.var2}">default</td>
+                        <td th:text="${customer.var3}">default</td>
+                    </tr>-->
+                    <tr>
+                        <td>빈용민</td>
+                        <td>01075566607</td>
+                        <td>국민은행</td>
+                        <td>마라탕</td>
+                        <td>강아지</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div>
+                <button  class="bottom-left btn btn-success">발송하기</button>
+            </div>
+        </div>
+
+        <div class="col-md-4 right-box-middle">
+            <div class="card position-relative py-2 text-align-center font-size-18">
+                <span class="btn card-body py-3 background-dgray-color text-white remove-radius border-dark"><b>주소록 불러오기</b></span>
+                <span class="btn card-body py-3 background-dgray-color text-white remove-radius border-dark"><b>엑셀 다운</b></span>
+                <span class="btn card-body py-3 background-dgray-color text-white remove-radius border-dark"><b>엑셀 불러오기</b></span>
+                <div class="card-body py-2 row background-gray-color margin-zero">
+                    <span class="btn font-weight-bold col-md-6 text-gray-700"><b>즉시</b></span>
+                    <span class="btn font-weight-bold col-md-6 text-gray-700"><b>예약</b></span>
+                </div>
+                <div class="card-body py-2 row">
+                    <span class="font-weight-bold col-md-3 text-align-right">날짜</span>
+                    <input type="text" id="datePicker" class="form-control col-md-7">
+                </div>
+                <div class="card-body py-2 row">
+                    <span class="font-weight-bold col-md-3 text-align-right">시간</span>
+                    <input type="time" id="time" class="form-control col-md-7" value="10:00" min="00:00:00" max="23:59:59">
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+
+    <!--custom 스크립트 -->
+    <th:block layout:fragment="script">
+        <link rel="stylesheet" th:href="@{/vendor/bootstrap/scss/bootstrap-datepicker.min.css}">
+        <script th:src="@{/vendor/bootstrap/js/bootstrap-datepicker.min.js}"></script>
+        <link rel="stylesheet" th:href="@{/css/custom.css}">
+        <script th:src="@{/js/app/mtMsgsSend.js}"></script>
+<!--        <script th:src="@{/js/app/{msgjs}Send.js(msgjs=${msg})}"></script>-->
+    </th:block>
+</div>
+</html>

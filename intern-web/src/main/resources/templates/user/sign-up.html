@@ -15,7 +15,7 @@
 <!--                    <div class="col-lg-5 d-none d-lg-block bg-register-image"></div>-->
                     <img class="col-lg-5 d-none d-lg-block" src="http://d3bro317a31qh1.cloudfront.net/humusonImage.png">
                     <div class="col-lg-7">
-                        <div class="p-5">
+                        <div class="p-6">
                             <div class="text-center">
                                 <h1 class="h4 text-gray-900 mb-4">회원 등록</h1>
                             </div>
@@ -64,16 +64,12 @@
                                 </a>
                                 -->
                             </form>
-                            <!-- help menu -->
-                            <!--
                             <hr>
-                            <div class="text-center">
-                                <a class="small" href="forgot-password.html">Forgot Password?</a>
-                            </div>
-                            <div class="text-center">
-                                <a class="small" href="login.html">Already have an account? Login!</a>
-                            </div>
-                            -->
+                            <form class="user" th:action="@{/user/login}">
+                                <button type="submit" class="btn btn-warning btn-user btn-block">
+                                    뒤로가기
+                                </button>
+                            </form>
                         </div>
                     </div>
                 </div>
