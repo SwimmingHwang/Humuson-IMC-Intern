@@ -1,5 +1,6 @@
 package com.humuson.controller;
 
+import com.humuson.domain.entity.Group;
 import com.humuson.dto.customer.*;
 import com.humuson.service.GroupService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -20,9 +21,8 @@ public class GroupApiController {
 
     @Operation(summary="그룹 생성", description = "그룹 주소록에 그룹 정보를 추가")
     @PostMapping("/api/v1/customer/group")
-    public long save(@RequestBody GroupCustomerSaveRequestDto requestDto) {
-        log.info(requestDto.toString());
-        groupService.save(requestDto);
+    public long save(@RequestBody Group group) {
+        groupService.save(group);
         return 1;
     }
 //    @Operation(summary="그룹 생성", description = "그룹 주소록에 그룹 정보를 추가")
@@ -31,11 +31,11 @@ public class GroupApiController {
 //        return groupService.save(requestDto);
 //    }
 
-    @Operation(summary="그룹 수정", description = "그룹 주소록의 그룹 정보를 수정")
-    @PutMapping("/api/v1/customer/group/{id}")
-    public long update(@PathVariable long id, @RequestBody GroupUpdateRequestDto requestDto) {
-        return groupService.update(id, requestDto);
-    }
+//    @Operation(summary="그룹 수정", description = "그룹 주소록의 그룹 정보를 수정")
+//    @PutMapping("/api/v1/customer/group/{id}")
+//    public long update(@PathVariable long id, @RequestBody GroupUpdateRequestDto requestDto) {
+//        return groupService.update(id, requestDto);
+//    }
     @Operation(summary="그룹 삭제", description = "그룹 주소록의 그룹 정보를 삭제")
     @DeleteMapping("/api/v1/customer/group/{id}")
     public long delete(@PathVariable long id) {
@@ -44,7 +44,7 @@ public class GroupApiController {
     }
     @Operation(summary="그룹 조회", description = "그룹 주소록의 그룹 정보를 조희")
     @GetMapping("/api/v1/customer/group/{id}")
-    public GroupResponseDto findById(@PathVariable long id) {
+    public Group findById(@PathVariable long id) {
         return groupService.findById(id);
     }
     

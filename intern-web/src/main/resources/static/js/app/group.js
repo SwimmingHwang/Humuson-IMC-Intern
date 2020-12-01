@@ -26,11 +26,11 @@ var send = {
         });
         $('input:checkbox[name="customerChkAll"]').change(function(){
             if (this.checked){
-                $('input:checkbox[name="customerChk"]').each(function() {
+                $('input:checkbox[name="customers"]').each(function() {
                     $(this).prop("checked",true);
                 });
             }else{
-                $('input:checkbox[name="customerChk"]').each(function() {
+                $('input:checkbox[name="customers"]').each(function() {
                     $(this).prop("checked",false);
                 });
             }
@@ -44,9 +44,11 @@ var send = {
 
         send.saveTempCustomers();
 
+        console.log(checkArr);
+
         var data = {
             groupName : groupName,
-            customerIdStrList : checkArr,
+            customers : $("form").serialize()
         };
 
         $.ajax({
@@ -65,21 +67,21 @@ var send = {
     saveTempCustomers : function (){
         checkArr = [];     // 배열 초기화
 
-        $("input[name='customerChk']:checked").each(function(i) {
+        $("input[name='customers']:checked").each(function(i) {
             checkArr.push($(this).val());     // 체크된 것만 값을 뽑아서 배열에 push
         });
 
         $('#customersModal').modal('hide');
 
     },
-    saveTempNotCustomers : function(){
-        uncheckArr = [];     // 배열 초기화
-
-        $("input[name='customerChk']:checked",false).each(function(i) {
-            uncheckArr.push($(this).val());     // 체크된 것만 값을 뽑아서 배열에 push
-        });
-        console.log(uncheckArr);
-    },
+    // saveTempNotCustomers : function(){
+    //     uncheckArr = [];     // 배열 초기화
+    //
+    //     $("input[name='customers']:checked",false).each(function(i) {
+    //         uncheckArr.push($(this).val());     // 체크된 것만 값을 뽑아서 배열에 push
+    //     });
+    //     console.log(uncheckArr);
+    // },
     update : function () {
         // var csrfHeader = $("meta[name='_csrf_header']").attr("content");
         // var csrfToken = $("meta[name='_csrf']").attr("content");

@@ -1,21 +1,22 @@
 package com.humuson.controller;
 
 import com.humuson.domain.entity.Customer;
-import com.humuson.domain.entity.CustomerGroup;
+import com.humuson.domain.entity.Group;
 import com.humuson.dto.at.AtMsgsResponseDto;
-import com.humuson.dto.customer.CustomerGroupResponseDto;
 import com.humuson.dto.customer.GroupResponseDto;
 import com.humuson.dto.customer.CustomerResponseDto;
+import com.humuson.dto.customer.GroupSaveRequestDto;
 import com.humuson.dto.ft.FtMsgsResponseDto;
 import com.humuson.dto.mt.MtMsgsResponseDto;
 import com.humuson.service.*;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.List;
 
@@ -31,7 +32,6 @@ public class IndexController {
     private final TemplateInfoService templateInfoService;
     private final CustomerService customerService;
     private final GroupService groupService;
-    private final CustomerGroupService customerGroupService;
 
     // TODO : index로 가는일 없게 하기 혹은 다른 페이지 보여주기
     @GetMapping("/")
@@ -238,18 +238,42 @@ public class IndexController {
     }
     @GetMapping("/customer/group/create")
     public String groupSave(Model model) {
-        model.addAttribute("customers", customerService.findAll());
+        Group group = new Group();
+        model.addAttribute("group", group);
+        model.addAttribute("customerList", customerService.findAll());
         return "customer/groupSave";
     }
     @GetMapping("/customer/group/update/{id}") // 수정할 화면 연결
     public String groupUpdate(@PathVariable long id, Model model) {
-        GroupResponseDto groupDto = groupService.findById(id);
-        //customer gorup service
-        List<CustomerGroup> customerGroups = customerGroupService.findByGroupId(id);
-        List<Customer> customers = customerService.findAllJoinFetch(id);
-        model.addAttribute("group", groupDto);
-        model.addAttribute("customers", customers);
+        Group group = groupService.findById(id);
+        List<Customer> customers = customerService.findAll();
+        model.addAttribute("group", group);
+        model.addAttribute("customerList", customers);
         return "customer/groupUpdate";
     }
 
+    @GetMapping("/all")
+    public String showAll(Model model) {
+        model.addAttribute("groups", groupService.findAll());
+        return "test";
+    }
+    @GetMapping("/create")
+    public String showCreateForm(Model model) {
+        GroupSaveRequestDto groupSaveRequestDto = new GroupSaveRequestDto();
+
+        for (int i = 1; i <= 3; i++) {
+            groupSaveRequestDto.addCustomer(new Customer());
+        }
+
+        model.addAttribute("form", groupSaveRequestDto);
+        return "testform";
+    }
+
+    @PostMapping("/test/save")
+    public String saveBooks(@ModelAttribute GroupSaveRequestDto form, Model model) {
+        groupService.saveAll((List<Group>) new GroupSaveRequestDto(form.getGroupName(),form.getCustomers()));
+
+        model.addAttribute("groups", groupService.findAll());
+        return "redirect:/all";
+    }
 }

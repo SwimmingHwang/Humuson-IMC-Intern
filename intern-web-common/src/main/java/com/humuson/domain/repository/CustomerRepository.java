@@ -11,7 +11,5 @@ public interface CustomerRepository extends JpaRepository<Customer, Long> {
     @Query("SELECT p FROM Customer p ORDER BY p.id DESC")
     List<Customer> findAllDesc();
 
-    @Query("select c from Customer c join fetch c.customerGroups")
-    List<Customer> findAllJoinFetch(long id);
 }
 

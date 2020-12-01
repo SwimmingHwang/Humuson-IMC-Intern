@@ -1,9 +1,6 @@
 package com.humuson.service;
 
-import com.humuson.domain.entity.Customer;
-import com.humuson.domain.entity.CustomerGroup;
 import com.humuson.domain.entity.Group;
-import com.humuson.domain.repository.CustomerGroupRepository;
 import com.humuson.domain.repository.CustomerRepository;
 import com.humuson.domain.repository.GroupRepository;
 import com.humuson.dto.customer.*;
@@ -14,7 +11,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -24,50 +20,34 @@ public class GroupService {
     @NonNull
     private final GroupRepository groupRepository;
     private final CustomerRepository customerRepository;
-    private final CustomerGroupRepository customerGroupRepository;
 
     @Transactional
-    public void save(GroupCustomerSaveRequestDto requestDto) {
-        Group group = new Group(requestDto.getGroupName());
-        groupRepository.save(group);
-
-        List<String> customerIdStrList = requestDto.getCustomerIdStrList();
-        for(String customerId : customerIdStrList){
-            long id = Long.parseLong(customerId);
-            Optional<Customer> opCustomer = customerRepository.findById(id);
-            if (opCustomer.isPresent()){
-                Customer customer = opCustomer.get();
-                customerGroupRepository.save(new CustomerGroup(group, customer));
-                log.info("그룹에 고객 추가완료! id : "+ id);
-            }
-            else{
-                log.info("customer이 존재하지 않음!"+ id);
-            }
-        }
+    public Group save(Group group){
+        log.info("Group info : " + group.toString());
+        return groupRepository.save(group);
     }
-
-    @Transactional
-    public long update(long id, GroupCustomerUpdateRequestDto requestDto) {
-        // id : group 인덱스, GroupCustomerURD : group 이름, 삭제할
-
-//        List<CustomerGroup> customerGroups = customerGroupRepository.findByGroup_Id(id);
-////        customerGroupRepository.updateGroupId()
-////        GroupResponseDto groupResponseDto = this.findById(id);
+//    @Transactional
+//    public void save(GroupCustomerSaveRequestDto requestDto) {
+//        Group group = new Group(requestDto.getGroupName());
 //
-//        List<String> customerIdStrList = requestDto.getNotCustomerIdStrList();
+//        List<String> customerIdStrList = requestDto.getCustomerIdStrList();
 //        for(String customerId : customerIdStrList){
-//            long customerLongId = Long.parseLong(customerId);
-//            Optional<Customer> opCustomer = customerRepository.findById(customerLongId);
+//            long id = Long.parseLong(customerId);
+//            Optional<Customer> opCustomer = customerRepository.findById(id);
 //            if (opCustomer.isPresent()){
 //                Customer customer = opCustomer.get();
-//                customerGroupRepository.save(new CustomerGroup(group, customer));
-////                log.info("그룹에 고객 추가완료! id : "+ id);
+//                group.getCustomers().add(customer);
+//                log.info("그룹에 고객 추가완료! id : "+ id);
 //            }
 //            else{
-////                log.info("customer이 존재하지 않음!"+ id);
+//                log.info("customer이 존재하지 않음!"+ id);
 //            }
 //        }
-        return id;
+//        groupRepository.save(group);
+//    }
+
+    @Transactional
+    public long update(long id, GroupCustomerUpdateRequestDto requestDto) { return id;
     }
 
     @Transactional
@@ -78,11 +58,11 @@ public class GroupService {
     }
 
     @Transactional(readOnly = true)
-    public GroupResponseDto findById(long id) {
+    public Group findById(long id) {
         Group entity = groupRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("해당 사용자가 없습니다. id=" + id));
 
-        return new GroupResponseDto(entity);
+        return entity;
     }
     @Transactional(readOnly = true)
     public List<Group> findAll() {
@@ -96,4 +76,7 @@ public class GroupService {
                 .collect(Collectors.toList());
     }
 
+    public List<Group> saveAll(List<Group> groups) {
+        return groupRepository.saveAll(groups);
+    }
 }

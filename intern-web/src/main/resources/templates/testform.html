@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout/default_layout">
+<div layout:fragment="content">
+
+<form action="#" th:action="@{/test/save}" th:object="${form}"
+      method="post">
+    <fieldset>
+        <input type="submit" id="submitButton" th:value="Save">
+        <input type="reset" id="resetButton" name="reset" th:value="Reset"/>
+        <table>
+            <thead>
+            <tr>
+                <th> Title</th>
+                <th> Author</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="customer, itemStat : *{customers}">
+                <td><input th:field="*{customers[__${itemStat.index}__].phoneNumber}" /></td>
+                <td><input th:field="*{customers[__${itemStat.index}__].name}" /></td>
+            </tr>
+            </tbody>
+        </table>
+    </fieldset>
+</form>
+
+</div>
+</html>

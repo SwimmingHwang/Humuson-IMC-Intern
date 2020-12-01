@@ -8,7 +8,9 @@ import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @DynamicInsert // insert 시 null인 필드 제외
 @DynamicUpdate // update 시
@@ -28,9 +30,8 @@ public class Customer {
     private String var3;
     private String address;
 
-    /* 일대다 양방향 매핑 */
-    @OneToMany(mappedBy ="customer" ,fetch = FetchType.EAGER, cascade =CascadeType.REMOVE, orphanRemoval = true)
-    private List<CustomerGroup> customerGroups = new ArrayList<>();
+    @ManyToMany(mappedBy = "customers")
+    private Set<Group> groups = new HashSet<>();
 
     public void update(String userId, String name, String phoneNumber, String address, String var1, String var2, String var3) {
         this.userId = userId;

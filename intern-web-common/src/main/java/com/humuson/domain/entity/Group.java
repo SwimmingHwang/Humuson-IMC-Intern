@@ -8,10 +8,8 @@ import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
-@ToString
 @DynamicInsert
 @DynamicUpdate
 @Getter
@@ -25,22 +23,39 @@ public class Group {
     private long id;
     private String groupName;
 
-    /* 일대다 양방향 매핑 */
-    @OneToMany(mappedBy ="group" ,fetch = FetchType.EAGER, cascade =CascadeType.REMOVE, orphanRemoval = true)
-    private List<CustomerGroup> customerGroups = new ArrayList<>();
+    @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "imc_customer_group",
+            joinColumns = @JoinColumn(name = "group_id"),
+            inverseJoinColumns = @JoinColumn(name = "customer_id")
+    )
+    private Set<Customer> customers = new HashSet<>();
+
 
     public Group(String groupName) {
         this.groupName = groupName;
     }
-
-    @Builder
-    public Group(String groupName, List<CustomerGroup> customerGroups) {
-        this.groupName = groupName;
-        this.customerGroups.addAll(customerGroups);
-    }
-
     public void updateGroupName(String groupName){
         this.groupName = groupName;
     }
 
+    @Override
+    public String toString() {
+        return this.groupName;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Group group = (Group) o;
+        return id == group.id &&
+                Objects.equals(groupName, group.groupName) &&
+                Objects.equals(customers, group.customers);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, groupName, customers);
+    }
 }
