@@ -1,5 +1,6 @@
 package com.humuson.service;
 
+import com.humuson.domain.entity.Customer;
 import com.humuson.domain.entity.Group;
 import com.humuson.domain.repository.CustomerRepository;
 import com.humuson.domain.repository.GroupRepository;
@@ -11,6 +12,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -21,33 +24,19 @@ public class GroupService {
     private final GroupRepository groupRepository;
     private final CustomerRepository customerRepository;
 
-    @Transactional
-    public Group save(Group group){
-        log.info("Group info : " + group.toString());
-        return groupRepository.save(group);
-    }
-//    @Transactional
-//    public void save(GroupCustomerSaveRequestDto requestDto) {
-//        Group group = new Group(requestDto.getGroupName());
-//
-//        List<String> customerIdStrList = requestDto.getCustomerIdStrList();
-//        for(String customerId : customerIdStrList){
-//            long id = Long.parseLong(customerId);
-//            Optional<Customer> opCustomer = customerRepository.findById(id);
-//            if (opCustomer.isPresent()){
-//                Customer customer = opCustomer.get();
-//                group.getCustomers().add(customer);
-//                log.info("그룹에 고객 추가완료! id : "+ id);
-//            }
-//            else{
-//                log.info("customer이 존재하지 않음!"+ id);
-//            }
-//        }
-//        groupRepository.save(group);
-//    }
 
     @Transactional
-    public long update(long id, GroupCustomerUpdateRequestDto requestDto) { return id;
+    public Group save(Group group){
+        return groupRepository.save(group);
+    }
+
+    @Transactional
+    public long update(long id, String groupName, Set<Customer> customerSet) {
+        Group group = groupRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("해당 그룹 정보가 없습니다. id=" + id));
+
+        group.update(groupName, customerSet);
+        return id;
     }
 
     @Transactional

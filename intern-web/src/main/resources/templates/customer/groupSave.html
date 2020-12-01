@@ -11,10 +11,10 @@
         <div class="col-md-4">
 
 
-            <form action="#" th:object="${group}" >
+            <form th:object="${group}" >
                 <div>
                     <strong>그룹 이름</strong>
-                    <input type="text" class="form-control input-lg" id="groupName" placeholder="그룹 이름을 입력하세요">
+                    <input type="text" class="form-control input-lg" id="groupName" placeholder="그룹 이름을 입력하세요" th:field="*{groupName}">
                 </div>
                 <br>
 
@@ -31,12 +31,6 @@
                     <div id= "customersModal" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
                         <div class="modal-dialog modal-lg">
                             <div class="modal-content">
-<!--                                <input type="checkbox" name="roles"-->
-<!--                                       th:each="customer : ${customerList}"-->
-<!--                                       th:text="${customer.name}"-->
-<!--                                       th:value="${customer.id}"-->
-<!--                                       th:field="*{customers}">-->
-
                                     <table class="table table-sm" id="dataTable" width="100%" cellspacing="0">
                                     <thead>
                                     <tr>
@@ -47,19 +41,14 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-<!--customerChk-->
                                     <tr th:each="customer : ${customerList}">
-                                        <td><input th:field="*{customers}" type="checkbox" name = "customers" th:value="${customer.id}"> </td>
-<!--                                        <td th:text="${customer.id}">default</td>-->
+                                        <td><input th:field="*{customers}" type="checkbox" name = "customersChk" th:value="${customer.id}"> </td>
                                         <td th:text="${customer.userId}">default</td>
                                         <td th:text="${customer.name}">default</a></td>
                                         <td th:text="${customer.phoneNumber}">default</td>
                                     </tr>
-                                    </tbody>
 
-
-                                </table>
-
+                                    </table>
                                 <div>
                                     <button type="button" class="btn btn-primary" id="btn-customerChkOK">확인</button>
                                     <button type="button" class="btn btn-primary" id="btn-customerChkCancel">취소</button>

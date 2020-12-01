@@ -7,37 +7,17 @@
 
 package com.humuson.dto.customer;
 
-import com.humuson.domain.entity.Customer;
-import com.humuson.domain.entity.Group;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Setter
 @Getter
-//@NoArgsConstructor
+@NoArgsConstructor
 public class GroupSaveRequestDto {
     private String groupName;
-    private List<Customer> customers;
-
-    public GroupSaveRequestDto(){
-        this.groupName = "default groupname";
-        this.customers = new ArrayList<Customer>();
-    }
-
-    @Builder
-    public GroupSaveRequestDto(String groupName, List<Customer> customers) {
-        this.groupName = groupName == null? "test name" : groupName;
-        this.customers = new ArrayList<Customer>();
-    }
-
-    public void addCustomer(Customer customer){
-        this.customers.add(customer);
-    }
-
+    private List<String> customers;
 
 }

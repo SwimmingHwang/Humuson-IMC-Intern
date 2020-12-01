@@ -251,29 +251,4 @@ public class IndexController {
         model.addAttribute("customerList", customers);
         return "customer/groupUpdate";
     }
-
-    @GetMapping("/all")
-    public String showAll(Model model) {
-        model.addAttribute("groups", groupService.findAll());
-        return "test";
-    }
-    @GetMapping("/create")
-    public String showCreateForm(Model model) {
-        GroupSaveRequestDto groupSaveRequestDto = new GroupSaveRequestDto();
-
-        for (int i = 1; i <= 3; i++) {
-            groupSaveRequestDto.addCustomer(new Customer());
-        }
-
-        model.addAttribute("form", groupSaveRequestDto);
-        return "testform";
-    }
-
-    @PostMapping("/test/save")
-    public String saveBooks(@ModelAttribute GroupSaveRequestDto form, Model model) {
-        groupService.saveAll((List<Group>) new GroupSaveRequestDto(form.getGroupName(),form.getCustomers()));
-
-        model.addAttribute("groups", groupService.findAll());
-        return "redirect:/all";
-    }
 }

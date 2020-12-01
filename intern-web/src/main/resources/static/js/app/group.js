@@ -1,9 +1,3 @@
-/*
-* send.js만의 스코프 지정
-* */
-var checkArr = [];     // 배열 초기화
-var uncheckArr = [];     // 배열 초기화
-
 var send = {
     init : function () {
         var _this = this;
@@ -18,10 +12,9 @@ var send = {
             _this.delete();
         });
         $('#btn-customerChkOK').on('click', function(){
-            _this.saveTempCustomers();
+            $('#customersModal').modal('hide');
         });
         $('#btn-customerChkCancel').on('click', function(){
-            checkArr = [];
             $('#customersModal').modal('hide');
         });
         $('input:checkbox[name="customerChkAll"]').change(function(){
@@ -35,21 +28,33 @@ var send = {
                 });
             }
         });
+        /*
+            @author https://github.com/macek/jquery-serialize-object
+        */
+        $.fn.serializeObject = function () {
+            'use strict';
+            var result = {customers:Array()};
+            var extend = function (i, element) {
+                var node = result[element.name];
+                if ('undefined' !== typeof node && node !== null) {
+                    if ($.isArray(node)) {
+                        node.push(element.value);
+                    } else {
+                        result[element.name] = [node, element.value];
+                    }
+                } else {
+                    result[element.name] = element.value;
+                }
+            };
+
+
+            $.each(this.serializeArray(), extend);
+            return result;
+        };
     },
     save : function () {
-        // var csrfHeader = $("meta[name='_csf_header']").attr("content");
-        // var csrfToken = $("meta[name='_csrf']").attr("content");
 
-        var groupName = $('#groupName').val();
-
-        send.saveTempCustomers();
-
-        console.log(checkArr);
-
-        var data = {
-            groupName : groupName,
-            customers : $("form").serialize()
-        };
+        var data = $("form").serializeObject();
 
         $.ajax({
             type: 'POST',
@@ -64,36 +69,9 @@ var send = {
             alert(JSON.stringify(error));
         });
     },
-    saveTempCustomers : function (){
-        checkArr = [];     // 배열 초기화
-
-        $("input[name='customers']:checked").each(function(i) {
-            checkArr.push($(this).val());     // 체크된 것만 값을 뽑아서 배열에 push
-        });
-
-        $('#customersModal').modal('hide');
-
-    },
-    // saveTempNotCustomers : function(){
-    //     uncheckArr = [];     // 배열 초기화
-    //
-    //     $("input[name='customers']:checked",false).each(function(i) {
-    //         uncheckArr.push($(this).val());     // 체크된 것만 값을 뽑아서 배열에 push
-    //     });
-    //     console.log(uncheckArr);
-    // },
     update : function () {
-        // var csrfHeader = $("meta[name='_csrf_header']").attr("content");
-        // var csrfToken = $("meta[name='_csrf']").attr("content");
-
-        var groupName = $('#groupName').val();
-
-        var data = {
-            groupName : groupName,
-            notCustomerIdStrList : uncheckArr
-        };
-
         var id = $('#id').val();
+        var data = $("form").serializeObject();
 
         $.ajax({
             type: 'PUT',
@@ -101,10 +79,7 @@ var send = {
             dataType: 'json',
             contentType:'application/json; charset=utf-8',
             data: JSON.stringify(data),
-            // beforeSend: function (xhr) {
-            //     //데이터를 전송하기 전에 헤더에 csrf값을 설정한다
-            //     xhr.setRequestHeader(csrfHeader, csrfToken);
-            // },
+
         }).done(function() {
             alert('고객정보가 수정되었습니다.');
             window.location.href = '/customer/group';

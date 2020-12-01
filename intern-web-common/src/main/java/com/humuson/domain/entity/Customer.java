@@ -20,7 +20,7 @@ import java.util.Set;
 @Entity //JPA의 어노테이션
 public class Customer {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String userId;
     private String name;
@@ -30,7 +30,7 @@ public class Customer {
     private String var3;
     private String address;
 
-    @ManyToMany(mappedBy = "customers")
+    @ManyToMany(mappedBy = "customers" ,cascade = CascadeType.MERGE)
     private Set<Group> groups = new HashSet<>();
 
     public void update(String userId, String name, String phoneNumber, String address, String var1, String var2, String var3) {

@@ -1,9 +1,7 @@
 package com.humuson.domain.entity;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import com.humuson.service.GroupService;
+import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
@@ -12,6 +10,7 @@ import java.util.*;
 
 @DynamicInsert
 @DynamicUpdate
+@Setter
 @Getter
 @NoArgsConstructor
 @Table(name = "imc_group")
@@ -23,7 +22,7 @@ public class Group {
     private long id;
     private String groupName;
 
-    @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
+    @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
     @JoinTable(
             name = "imc_customer_group",
             joinColumns = @JoinColumn(name = "group_id"),
@@ -35,27 +34,10 @@ public class Group {
     public Group(String groupName) {
         this.groupName = groupName;
     }
-    public void updateGroupName(String groupName){
+
+    public void update(String groupName, Set<Customer> customers){
         this.groupName = groupName;
+        this.customers = customers;
     }
 
-    @Override
-    public String toString() {
-        return this.groupName;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Group group = (Group) o;
-        return id == group.id &&
-                Objects.equals(groupName, group.groupName) &&
-                Objects.equals(customers, group.customers);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, groupName, customers);
-    }
 }
