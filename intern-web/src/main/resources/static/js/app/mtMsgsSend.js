@@ -25,17 +25,31 @@ var mtSend = {
                 if (escape(str.charAt(i)).length == 6) len++;
                 len++;
             }
-            if(len <= 80) flag = false;
-            else flag = true;
-            if(msg_status != flag) { // 상태 변경 되었을 때만 changLimit 호출
-                msg_status = flag.valueOf();
-                changeLimit();
-            }
             return len;
         }
         function bytesHandler(obj) {
             var text = $(obj).val();
-            $('#byte-count').text(getTextLength(text));
+            var textLen = getTextLength(text);
+
+            if(textLen <= 2000) {
+                if (textLen <= 80) flag = false;
+                else flag = true;
+                if (msg_status != flag) { // 상태 변경 되었을 때만 changLimit 호출
+                    msg_status = flag.valueOf();
+                    changeLimit();
+                }
+                $('#byte-count').text(textLen);
+            } else {
+                alert("최대 2000byte 크기까지 보낼 수 있습니다.");
+                var nextLen = textLen;
+                var nextStr = text;
+                while (nextLen > 2000) {
+                    nextStr = nextStr.substring(0, nextStr.length-1);
+                    nextLen = getTextLength(nextStr);
+                }
+                $('#msg-text').focus().val(nextStr);
+                $('#byte-count').text(nextLen);
+            }
         }
         function changeLimit() {
             var text_limit = $('#byte-limit');
@@ -46,7 +60,7 @@ var mtSend = {
                 text_limit.addClass("text-warning");
                 text_count.removeClass("text-success");
                 text_count.addClass("text-warning");
-                text_limit.text("/ 2000");
+                text_limit.text("/ 2000 byte");
 
                 msg_type.removeClass("text-success");
                 msg_type.addClass("text-warning");
@@ -58,33 +72,38 @@ var mtSend = {
                 text_limit.addClass("text-success");
                 text_count.removeClass("text-warning");
                 text_count.addClass("text-success");
-                text_limit.text("/ 80");
+                text_limit.text("/ 80 byte");
 
                 msg_type.removeClass("text-warning");
                 msg_type.addClass("text-success");
                 msg_type.text("SMS");
             }
         }
-        $('a').click(function() //this will apply to all anchor tags
-        {
-            $('#area').val('foobar'); //this puts the textarea for the id labeled 'area'
-        })
 
+        function applyButton(nt) {
+            var len = getTextLength(nt);
+            if(len > 2000) {
+                alert("최대 2000byte 크기까지 보낼 수 있습니다.");
+            } else {
+                $('#msg-text').focus().val(nt);
+                $('#byte-count').text(len);
+            }
+        }
         $('#var-name').on('click', function () {
-            $('#msg-text').focus().val($('#msg-text').val() + "#{이름}");
-            $('#byte-count').text(getTextLength($('#msg-text').val()));
+            var nextText = $('#msg-text').val() + "#{이름}";
+            applyButton(nextText);
         });
         $('#var-1').on('click', function () {
-            $('#msg-text').focus().val($('#msg-text').val() + "#{변수1}");
-            $('#byte-count').text(getTextLength($('#msg-text').val()));
+            var nextText = $('#msg-text').val() + "#{변수1}";
+            applyButton(nextText);
         });
         $('#var-2').on('click', function () {
-            $('#msg-text').focus().val($('#msg-text').val() + "#{변수2}");
-            $('#byte-count').text(getTextLength($('#msg-text').val()));
+            var nextText = $('#msg-text').val() + "#{변수2}";
+            applyButton(nextText);
         });
         $('#var-3').on('click', function () {
-            $('#msg-text').focus().val($('#msg-text').val() + "#{변수3}");
-            $('#byte-count').text(getTextLength($('#msg-text').val()));
+            var nextText = $('#msg-text').val() + "#{변수3}";
+            applyButton(nextText);
         });
     },
     initTime: function() {
