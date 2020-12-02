@@ -13,8 +13,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @Tag(name="메시지 전송 결과 관리", description = "메시지 전송 결과를 받는 컨트롤러")
 @RequiredArgsConstructor
 @RestController

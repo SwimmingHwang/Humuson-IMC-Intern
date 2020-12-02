@@ -34,7 +34,7 @@ public class CustomerService {
         Customer customer = customerRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("해당 사용자가 없습니다. id=" + id));
 
-        customer.update(requestDto.getUserId(), requestDto.getName(), requestDto.getPhoneNumber(), requestDto.getVar1(),requestDto.getVar2(),requestDto.getVar3());
+        customer.update(requestDto.getUserId(), requestDto.getName(), requestDto.getPhoneNumber(), customer.getAddress(), requestDto.getVar1(),requestDto.getVar2(),requestDto.getVar3());
 
         return id;
     }
@@ -67,4 +67,8 @@ public class CustomerService {
         // repo에서 넘어온 stream을 map을 통해 dto로 변환해서 리스트로 반환
         return customerRepository.findAll();
     }
+//    @Transactional
+//    public List<Customer> findAllJoinFetch(long id){
+//        return customerRepository.findAllJoinFetch(id);
+//    }
 }

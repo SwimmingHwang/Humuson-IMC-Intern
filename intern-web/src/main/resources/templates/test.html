@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout/default_layout">
+<div layout:fragment="content">
+
+<table>
+    <thead>
+    <tr>
+        <th> Name </th>
+        <th> Number </th>
+        <th> Customer </th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:if="${groups.empty}">
+        <td colspan="2"> No Books Available </td>
+    </tr>
+    <tr th:each="group : ${groups}">
+        <td><span th:text="${group.groupName}"> Group Name </span></td>
+        <td><span th:text="${group.id}"> Group Number </span></td>
+        <td><span th:text="${group.customers}"> Group customers </span></td>
+    </tr>
+    </tbody>
+</table>
+
+</div>
+</html>

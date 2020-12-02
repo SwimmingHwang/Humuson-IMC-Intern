@@ -4,6 +4,7 @@
 package com.humuson.dto.customer;
 
 import com.humuson.domain.entity.Customer;
+import com.humuson.domain.msgs.Msgs;
 import lombok.Getter;
 
 @Getter
@@ -24,5 +25,17 @@ public class CustomerResponseDto {
         this.var1 = entity.getVar1();
         this.var2 = entity.getVar2();
         this.var3 = entity.getVar3();
+    }
+
+    public Customer toEntity() {
+        return Customer.builder()
+                .id(id)
+                .userId(userId)
+                .name(name)
+                .phoneNumber(phoneNumber)
+                .var1(var1)
+                .var2(var2)
+                .var3(var3)
+                .build();
     }
 }

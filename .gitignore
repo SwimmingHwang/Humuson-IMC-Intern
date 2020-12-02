@@ -38,3 +38,6 @@ out/
 application.home_IS_UNDEFINED
 RUNNING_PID
 gradle
+intern-web/hs_err_pid1704.log
+intern-web/replay_pid1704.log
+*.log

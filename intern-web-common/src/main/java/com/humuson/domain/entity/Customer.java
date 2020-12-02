@@ -7,6 +7,10 @@ import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @DynamicInsert // insert 시 null인 필드 제외
 @DynamicUpdate // update 시
@@ -16,7 +20,7 @@ import javax.persistence.*;
 @Entity //JPA의 어노테이션
 public class Customer {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String userId;
     private String name;
@@ -24,30 +28,30 @@ public class Customer {
     private String var1;
     private String var2;
     private String var3;
+    private String address;
 
-    @ManyToOne
-    @JoinColumns({
-            @JoinColumn(name="customer_group_id", referencedColumnName = "id")
-    })
-    private CustomerGroup customerGroup;
+    @ManyToMany(mappedBy = "customers" ,cascade = CascadeType.MERGE)
+    private Set<Group> groups = new HashSet<>();
 
-
-    public void update(String userId, String name, String phoneNumber, String var1, String var2, String var3) {
+    public void update(String userId, String name, String phoneNumber, String address, String var1, String var2, String var3) {
         this.userId = userId;
         this.name = name;
         this.phoneNumber = phoneNumber;
+        this.address = address;
         this.var1 = var1;
         this.var2 = var2;
         this.var3 = var3;
     }
     @Builder
-    public Customer(long id, String userId, String name, String phoneNumber, String var1, String var2, String var3) {
+    public Customer(long id, String userId, String name, String phoneNumber, String address, String var1, String var2, String var3) {
         this.id = id;
         this.userId = userId;
         this.name = name;
         this.phoneNumber = phoneNumber;
+        this.address = address == null? "":address;
         this.var1 = var1 == null? "" : var1; // 결과 받는 URL
         this.var2 = var2 == null? "" : var2; // 결과 받는 URL
         this.var3 = var3 == null? "" : var3; // 결과 받는 URL
     }
 }
+
