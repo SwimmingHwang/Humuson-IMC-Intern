@@ -11,6 +11,7 @@ import com.humuson.dto.mt.MtMsgsResponseDto;
 import com.humuson.service.*;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,6 +29,7 @@ public class IndexController {
     private final AtMsgsService atMsgsService;
     private final FtMsgsService ftMsgsService;
     private final MtMsgsService mtMsgsService;
+    private final UserService userService;
 
     private final TemplateInfoService templateInfoService;
     private final CustomerService customerService;
@@ -63,10 +65,12 @@ public class IndexController {
         return "page/send/atsend";
 
     }
+    // ymbin
     @GetMapping("/send/at-msgs-send")
-    public String atMsgsSend(){
+    public String atMsgsSend(Model model, Authentication authentication){
+        String sendNumber = userService.findPhoneNumber(authentication.getName());
+        model.addAttribute("sendNumber", sendNumber);
         return "page/send/atMsgsSend";
-
     }
     @GetMapping("/send/ft-send")
     public String ftSend(Model model){

@@ -79,4 +79,13 @@ public class UserService implements UserDetailsService {
             return true;
         }
     }
+
+    public String findPhoneNumber(String email) {
+        try {
+            User user = userRepository.findByEmail(email).get();
+            return user.getPhoneNumber();
+        } catch (Exception e) {
+            return "";
+        }
+    }
 }

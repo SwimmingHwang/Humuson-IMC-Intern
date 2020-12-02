@@ -14,36 +14,37 @@
         <div class="col-md-4">
             <div class="card position-relative">
                 <div class="card-body py-3">
-                    <h4 class="m-0 font-weight-bold">SMS</h4>
+                    <h4 id="msg-type" class="m-0 font-weight-bold text-success">SMS</h4>
                 </div>
                 <div class="card-body py-1">
-                    <input type="text" class="form-control bg-light border-0" placeholder="여기 광고 문구 표시 여부 체크 하기">
+                    <strong>광고 문구 표시 여부</strong>
+                    <input id="adFlag" type="checkbox" name="adFlag" value="Y">
                 </div>
                 <div class="card-body py-1">
-                    <input type="text" class="form-control bg-light border-0" placeholder="발신 번호">
+                    <input type="text" th:value="${sendNumber}" class="form-control bg-light border-0" placeholder="발신 번호">
                 </div>
                 <div class="card-body py-1">
                     <input type="text" class="form-control bg-light border-0" placeholder="제목 입력">
                 </div>
                 <div class="card-body py-1">
-                    <textarea class="form-control bg-light border-0" placeholder="보내실 메시지를 입력해 주세요." rows="10"></textarea>
+                    <textarea id="msg-text" class="form-control bg-light border-0" placeholder="보내실 메시지를 입력해 주세요." rows="10" maxlength="2000"></textarea>
                 </div>
                 <div class="card-body py-1 text-align-right">
-                    <h6 class="m-0 font-weight-bold text-success">80/2000 byte</h6>
+                    <span id="byte-count" class="m-0 font-weight-bold text-success">0</span>
+                    <span id="byte-limit" class="m-0 font-weight-bold text-success">/ 80 byte</span>
                 </div>
                 <div class="card-body py-1 row text-align-center" >
-                    <a class="btn col-md-3 background-gray-color remove-radius border-dark" id="name">이름</a>
-                    <a class="btn col-md-3 background-gray-color remove-radius border-dark" id="var1">변수1</a>
-                    <a class="btn col-md-3 background-gray-color remove-radius border-dark" id="var2">변수2</a>
-                    <a class="btn col-md-3 background-gray-color remove-radius border-dark" id="var3">변수3</a>
+                    <a class="btn col-md-3 background-gray-color remove-radius border-dark" id="var-name">이름</a>
+                    <a class="btn col-md-3 background-gray-color remove-radius border-dark" id="var-1">변수1</a>
+                    <a class="btn col-md-3 background-gray-color remove-radius border-dark" id="var-2">변수2</a>
+                    <a class="btn col-md-3 background-gray-color remove-radius border-dark" id="var-3">변수3</a>
                 </div>
             </div>
         </div>
 
-        <div class="col-md-4 row">
-
-            <div>
-                <table class="table table-bordered" id="dataTable" cellspacing="0">
+        <div class="col-md-4">
+            <div class="table-responsive add-scroll">
+                <table class="table table-bordered table-sm " id="dataTable">
                     <!-- 기존 -->
                     <!--<table class="table table-horizontal table-bordered">-->
                     <thead class="thead-strong">
@@ -56,50 +57,226 @@
                     </tr>
                     </thead>
                     <tbody id="tbody">
-                    <!--<tr th:each="customer : ${customers}">
-                        <td th:text="${customer.name}">default</td>
-                        <td th:text="${customer.phoneNumber}">default</td>
-                        <td th:text="${customer.var1}">default</td>
-                        <td th:text="${customer.var2}">default</td>
-                        <td th:text="${customer.var3}">default</td>
-                    </tr>-->
-                    <tr>
-                        <td>빈용민</td>
-                        <td>01075566607</td>
-                        <td>국민은행</td>
-                        <td>마라탕</td>
-                        <td>강아지</td>
-                    </tr>
+                        <!--<tr th:each="customer : ${customers}">
+                            <td th:text="${customer.name}">default</td>
+                            <td th:text="${customer.phoneNumber}">default</td>
+                            <td th:text="${customer.var1}">default</td>
+                            <td th:text="${customer.var2}">default</td>
+                            <td th:text="${customer.var3}">default</td>
+                        </tr>-->
+                        <tr>
+                            <td>빈용민</td>
+                            <td>01075566607</td>
+                            <td>국민은행</td>
+                            <td>마라탕</td>
+                            <td>강아지</td>
+                        </tr>
+                        <tr>
+                            <td>빈용민</td>
+                            <td>01075566607</td>
+                            <td>국민은행</td>
+                            <td>마라탕</td>
+                            <td>강아지</td>
+                        </tr>
+                        <tr>
+                            <td>빈용민</td>
+                            <td>01075566607</td>
+                            <td>국민은행</td>
+                            <td>마라탕</td>
+                            <td>강아지</td>
+                        </tr>
+                        <tr>
+                            <td>빈용민</td>
+                            <td>01075566607</td>
+                            <td>국민은행</td>
+                            <td>마라탕</td>
+                            <td>강아지</td>
+                        </tr>
+                        <tr>
+                            <td>빈용민</td>
+                            <td>01075566607</td>
+                            <td>국민은행</td>
+                            <td>마라탕</td>
+                            <td>강아지</td>
+                        </tr>
+                        <tr>
+                            <td>빈용민</td>
+                            <td>01075566607</td>
+                            <td>국민은행</td>
+                            <td>마라탕</td>
+                            <td>강아지</td>
+                        </tr>
+                        <tr>
+                            <td>빈용민</td>
+                            <td>01075566607</td>
+                            <td>국민은행</td>
+                            <td>마라탕</td>
+                            <td>강아지</td>
+                        </tr>
+                        <tr>
+                            <td>빈용민</td>
+                            <td>01075566607</td>
+                            <td>국민은행</td>
+                            <td>마라탕</td>
+                            <td>강아지</td>
+                        </tr>
+                        <tr>
+                            <td>빈용민</td>
+                            <td>01075566607</td>
+                            <td>국민은행</td>
+                            <td>마라탕</td>
+                            <td>강아지</td>
+                        </tr>
+                        <tr>
+                            <td>빈용민</td>
+                            <td>01075566607</td>
+                            <td>국민은행</td>
+                            <td>마라탕</td>
+                            <td>강아지</td>
+                        </tr>
+                        <tr>
+                            <td>빈용민</td>
+                            <td>01075566607</td>
+                            <td>국민은행</td>
+                            <td>마라탕</td>
+                            <td>강아지</td>
+                        </tr>
+                        <tr>
+                            <td>빈용민</td>
+                            <td>01075566607</td>
+                            <td>국민은행</td>
+                            <td>마라탕</td>
+                            <td>강아지</td>
+                        </tr>
+                        <tr>
+                            <td>빈용민</td>
+                            <td>01075566607</td>
+                            <td>국민은행</td>
+                            <td>마라탕</td>
+                            <td>강아지</td>
+                        </tr>
+                        <tr>
+                            <td>빈용민</td>
+                            <td>01075566607</td>
+                            <td>국민은행</td>
+                            <td>마라탕</td>
+                            <td>강아지</td>
+                        </tr>
+                        <tr>
+                            <td>빈용민</td>
+                            <td>01075566607</td>
+                            <td>국민은행</td>
+                            <td>마라탕</td>
+                            <td>강아지</td>
+                        </tr>
+                        <tr>
+                            <td>빈용민</td>
+                            <td>01075566607</td>
+                            <td>국민은행</td>
+                            <td>마라탕</td>
+                            <td>강아지</td>
+                        </tr>
+                        <tr>
+                            <td>빈용민</td>
+                            <td>01075566607</td>
+                            <td>국민은행</td>
+                            <td>마라탕</td>
+                            <td>강아지</td>
+                        </tr>
+                        <tr>
+                            <td>빈용민</td>
+                            <td>01075566607</td>
+                            <td>국민은행</td>
+                            <td>마라탕</td>
+                            <td>강아지</td>
+                        </tr>
+                        <tr>
+                            <td>빈용민</td>
+                            <td>01075566607</td>
+                            <td>국민은행</td>
+                            <td>마라탕</td>
+                            <td>강아지</td>
+                        </tr>
+                        <tr>
+                            <td>빈용민</td>
+                            <td>01075566607</td>
+                            <td>국민은행</td>
+                            <td>마라탕</td>
+                            <td>강아지</td>
+                        </tr>
+                        <tr>
+                            <td>빈용민</td>
+                            <td>01075566607</td>
+                            <td>국민은행</td>
+                            <td>마라탕</td>
+                            <td>강아지</td>
+                        </tr>
+                        <tr>
+                            <td>빈용민</td>
+                            <td>01075566607</td>
+                            <td>국민은행</td>
+                            <td>마라탕</td>
+                            <td>강아지</td>
+                        </tr>
+                        <tr>
+                            <td>빈용민</td>
+                            <td>01075566607</td>
+                            <td>국민은행</td>
+                            <td>마라탕</td>
+                            <td>강아지</td>
+                        </tr>
+                        <tr>
+                            <td>빈용민</td>
+                            <td>01075566607</td>
+                            <td>국민은행</td>
+                            <td>마라탕</td>
+                            <td>강아지</td>
+                        </tr>
                     </tbody>
+
                 </table>
             </div>
-
-            <div>
-                <button  class="bottom-left btn btn-success">발송하기</button>
-            </div>
         </div>
 
-        <div class="col-md-4 right-box-middle">
+        <div class="col-md-4">
             <div class="card position-relative py-2 text-align-center font-size-18">
-                <span class="btn card-body py-3 background-dgray-color text-white remove-radius border-dark"><b>주소록 불러오기</b></span>
-                <span class="btn card-body py-3 background-dgray-color text-white remove-radius border-dark"><b>엑셀 다운</b></span>
-                <span class="btn card-body py-3 background-dgray-color text-white remove-radius border-dark"><b>엑셀 불러오기</b></span>
+                <span class="card-body py-2 background-dgray-color text-white remove-radius"><b>고객 정보 불러오기</b></span>
                 <div class="card-body py-2 row background-gray-color margin-zero">
-                    <span class="btn font-weight-bold col-md-6 text-gray-700"><b>즉시</b></span>
-                    <span class="btn font-weight-bold col-md-6 text-gray-700"><b>예약</b></span>
+                    <span class="btn font-weight-bold col-md-4 text-gray-700"><b>주소록</b></span>
+                    <span class="btn font-weight-bold col-md-4 text-gray-700"><b>엑셀</b></span>
+                    <span class="btn font-weight-bold col-md-4 text-gray-700"><b>텍스트</b></span>
                 </div>
-                <div class="card-body py-2 row">
-                    <span class="font-weight-bold col-md-3 text-align-right">날짜</span>
-                    <input type="text" id="datePicker" class="form-control col-md-7">
+                <span class="card-body py-2 background-dgray-color text-white remove-radius"><b>고객 정보 다운로드</b></span>
+                <div class="card-body py-2 row background-gray-color margin-zero">
+                    <span class="btn font-weight-bold col-md-4 text-gray-700"><b>주소록</b></span>
+                    <span class="btn font-weight-bold col-md-4 text-gray-700"><b>엑셀</b></span>
+                    <span class="btn font-weight-bold col-md-4 text-gray-700"><b>텍스트</b></span>
                 </div>
-                <div class="card-body py-2 row">
-                    <span class="font-weight-bold col-md-3 text-align-right">시간</span>
-                    <input type="time" id="time" class="form-control col-md-7" value="10:00" min="00:00:00" max="23:59:59">
+                <span class="card-body py-2 background-dgray-color text-white remove-radius"><b>발송 시간 설정</b></span>
+                <div class="card-body py-2 row background-gray-color margin-zero">
+                    <span id="send-immediate" class="btn font-weight-bold col-md-6 text-gray-700"><b>즉시</b></span>
+                    <span id="send-reserve" class="btn font-weight-bold col-md-6 text-gray-700"><b>예약</b></span>
                 </div>
-
+                <div class="card-body py-2">
+                    <div class="col-md-10 row">
+                        <span class="font-weight-bold col-md-4 text-right">날짜</span>
+                        <input type="text" id="datepicker" class="form-control col-md-7 background-dgray-color" readonly>
+                    </div>
+                </div>
+                <div class="card-body py-2">
+                    <div class="col-md-10 row">
+                        <span class="font-weight-bold col-md-4 text-right">시간</span>
+                        <input type="time" id="time" class="form-control col-md-7 background-dgray-color" value="10:00" min="00:00:00" max="23:59:59" readonly>
+                    </div>
+                </div>
             </div>
-        </div>
 
+            <div class="card-body py-2">
+                <button class="btn btn-success">발송하기</button>
+                <button class="btn btn-warning">뒤로가기</button>
+            </div>
+
+        </div>
     </div>
 
 
