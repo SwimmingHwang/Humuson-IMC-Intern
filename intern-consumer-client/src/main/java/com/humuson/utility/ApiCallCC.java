@@ -67,10 +67,9 @@ public class ApiCallCC {
 //            postRequest.setHeader("X-CSRF-TOKEN", getData);
 
 
-
             HttpEntity entity = new StringEntity(jsonMessage, "UTF-8");
             log.info("엔터티 byte 크기 확인 : " + entity.getContentLength()); // 77
-
+            log.info("message : {}", jsonMessage);
 
             postRequest.setEntity(entity); //json 메시지 입력
             HttpResponse response = client.execute(postRequest);

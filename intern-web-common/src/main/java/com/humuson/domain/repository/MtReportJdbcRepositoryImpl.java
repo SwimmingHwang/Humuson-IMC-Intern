@@ -40,29 +40,22 @@ public class MtReportJdbcRepositoryImpl implements MtReportJdbcRepository{
 
     private int batchInsert(int batchSize, int batchCount, List<MtReport> mtReportList) {
 
-        jdbcTemplate.batchUpdate("INSERT INTO imc_at (`status`,`priority`,`reserved_date`,`sender_key`,`phone_number`, `template_code`,`message`," +
-                        "`request_uid``request_date`,`response_date`,`response_code`,`report_type`,`report_date`,`report_code`,`arrival_date`,`etc1`,`etc2`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
+        jdbcTemplate.batchUpdate("INSERT INTO imc_mt_report (`reserved_date`,`phone_number`,`request_uid``request_date`," +
+                        "`response_date`,`response_code`, `report_date`,`report_code`,`arrival_date`,`callback`) VALUES (?,?,?,?,?,?,?,?,?,?)",
                 new BatchPreparedStatementSetter() {
                     // TODO 직접 insert 하기 때문에 default값 재설정 필요
                     @Override
                     public void setValues(PreparedStatement ps, int i) throws SQLException {
-                        ps.setString(1, mtReportList.get(i).getStatus());
-                        ps.setString(2, mtReportList.get(i).getPriority());
-                        ps.setString(3, mtReportList.get(i).getReserved_date());
-                        ps.setString(4, mtReportList.get(i).getAd_flag());
-                        ps.setString(5, mtReportList.get(i).getPhone_number());
-                        ps.setString(6, mtReportList.get(i).getMt_type());
-                        ps.setString(7, mtReportList.get(i).getMessage());
-                        ps.setString(8, mtReportList.get(i).getRequest_uid());
-                        ps.setString(9, mtReportList.get(i).getRequest_date());
-                        ps.setString(10, mtReportList.get(i).getReserved_date());
-                        ps.setString(11, mtReportList.get(i).getResponse_code());
-                        ps.setString(12, mtReportList.get(i).getReport_type());
-                        ps.setString(13, mtReportList.get(i).getReport_date());
-                        ps.setString(14, mtReportList.get(i).getReport_code());
-                        ps.setString(15, mtReportList.get(i).getArrival_date());
-                        ps.setString(16, mtReportList.get(i).getEtc1());
-                        ps.setString(17, mtReportList.get(i).getEtc2());
+                        ps.setString(1, mtReportList.get(i).getReserved_date());
+                        ps.setString(2, mtReportList.get(i).getPhone_number());
+                        ps.setString(3, mtReportList.get(i).getRequest_uid());
+                        ps.setString(4, mtReportList.get(i).getRequest_date());
+                        ps.setString(5, mtReportList.get(i).getReserved_date());
+                        ps.setString(6, mtReportList.get(i).getResponse_code());
+                        ps.setString(7, mtReportList.get(i).getReport_date());
+                        ps.setString(8, mtReportList.get(i).getReport_code());
+                        ps.setString(9, mtReportList.get(i).getArrival_date());
+                        ps.setString(10, mtReportList.get(i).getCallback());
                     }
                     @Override
                     public int getBatchSize() {

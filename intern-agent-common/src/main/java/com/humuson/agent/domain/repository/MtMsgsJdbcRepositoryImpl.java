@@ -34,7 +34,7 @@ public class MtMsgsJdbcRepositoryImpl implements MtMsgsJdbcRepository {
         if (!subItems.isEmpty()) {
             batchCount = batchInsert(batchSize, batchCount, subItems);
         }
-        log.info("DB Save all batchCount: " + batchCount);
+        log.info("Mt DB Save all batchCount: " + batchCount);
 
     }
 
