@@ -2,6 +2,7 @@ package com.humuson.controller;
 
 import com.humuson.domain.entity.Customer;
 import com.humuson.domain.entity.Group;
+import com.humuson.domain.repository.GroupRepository;
 import com.humuson.dto.customer.*;
 import com.humuson.service.CustomerService;
 import com.humuson.service.GroupService;
@@ -23,7 +24,7 @@ import java.util.Set;
 public class GroupApiController {
     private final GroupService groupService;
     private final CustomerService customerService;
-
+    private final GroupRepository groupRepository;
     @Operation(summary="그룹 생성", description = "그룹 주소록에 그룹 정보를 추가")
     @PostMapping("/api/v1/customer/group")
     public long save(@RequestBody GroupSaveRequestDto requestDto) {
@@ -37,8 +38,8 @@ public class GroupApiController {
 
         for(String customerStr : customerStrList){
             long id = Long.parseLong(customerStr);
-            CustomerResponseDto customerResponseDto= customerService.findById(id);
-            group.getCustomers().add(customerResponseDto.toEntity());
+            Customer customer= customerService.findById(id);
+            group.getCustomers().add(customer);
         }
         groupService.save(group);
         // TODO : return 형태 고칠 것
@@ -48,23 +49,16 @@ public class GroupApiController {
     @Operation(summary="그룹 수정", description = "그룹 주소록의 그룹 정보를 수정")
     @PutMapping("/api/v1/customer/group/{id}")
     public long update(@PathVariable long id, @RequestBody GroupUpdateRequestDto requestDto) {
-
-
         List<String> customerStrList= requestDto.getCustomers();
         Set<Customer> customers = new HashSet<>();
 
         for(String customerStr : customerStrList){
             long customerId = Long.parseLong(customerStr);
-            CustomerResponseDto customerResponseDto= customerService.findById(customerId);
-            customers.add(customerResponseDto.toEntity());
+            Customer customer= customerService.findById(customerId);
+            customers.add(customer);
         }
         return groupService.update(id,requestDto.getGroupName(), customers );
     }
-
-//
-//    public long update(@PathVariable long id, @RequestBody CustomerUpdateRequestDto requestDto) {
-//        return customerService.update(id, requestDto);
-//    }
 
     @Operation(summary="그룹 삭제", description = "그룹 주소록의 그룹 정보를 삭제")
     @DeleteMapping("/api/v1/customer/group/{id}")

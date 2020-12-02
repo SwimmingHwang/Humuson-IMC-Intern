@@ -37,7 +37,13 @@ public class Group {
 
     public void update(String groupName, Set<Customer> customers){
         this.groupName = groupName;
-        this.customers = customers;
-    }
 
+        Set<Customer> setCha = new HashSet<>();
+        // 차집합
+        setCha.addAll(this.getCustomers());
+        setCha.removeAll(customers);
+
+        this.getCustomers().removeAll(setCha);
+        this.getCustomers().addAll(customers);
+    }
 }

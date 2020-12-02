@@ -48,11 +48,11 @@ public class CustomerService {
     }
 
     @Transactional(readOnly = true)
-    public CustomerResponseDto findById(long id) {
+    public Customer findById(long id) {
         Customer entity = customerRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("해당 사용자가 없습니다. id=" + id));
 
-        return new CustomerResponseDto(entity);
+        return entity;
     }
 
     @Transactional(readOnly = true)

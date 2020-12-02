@@ -222,7 +222,7 @@ public class IndexController {
 
     @GetMapping("/customer/update/{id}") // 수정할 화면 연결
     public String customerUpdate(@PathVariable long id, Model model) {
-        CustomerResponseDto dto = customerService.findById(id);
+        Customer dto = customerService.findById(id);
         model.addAttribute("customer", dto);
         return "customer/customerUpdate";
     }
