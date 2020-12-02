@@ -15,32 +15,36 @@ var send = {
         $('#btn-delete').on('click', function () {
             _this.delete();
         });
+        $.fn.serializeObject = function () {
+            'use strict';
+            var result = {};
+            var extend = function (i, element) {
+                var node = result[element.name];
+                if ('undefined' !== typeof node && node !== null) {
+                    if ($.isArray(node)) {
+                        node.push(element.value);
+                    } else {
+                        result[element.name] = [node, element.value];
+                    }
+                } else {
+                    result[element.name] = element.value;
+                }
+            };
+
+            $.each(this.serializeArray(), extend);
+            return result;
+        };
     },
     save : function () {
-        // var csrfHeader = $("meta[name='_csrf_header']").attr("content");
-        // var csrfToken = $("meta[name='_csrf']").attr("content");
 
-        var data = {
-            userId: $('#userId').val(),
-            name : $('#name').val(),
-            phoneNumber: $('#phoneNumber').val(),
-            var1 :$('#var1').val(),
-            var2 : $('#var2').val(),
-            var3 : $('#var3').val()
-        };
-
-
+        var data = $("form").serializeObject();
 
         $.ajax({
             type: 'POST',
             url: '/api/v1/customer',
             dataType: 'json',
             contentType: 'application/json; charset=utf-8',
-            data: JSON.stringify(data),
-            // beforeSend: function (xhr) {
-            //     //데이터를 전송하기 전에 헤더에 csrf값을 설정한다
-            //     xhr.setRequestHeader(csrfHeader, csrfToken);
-            // },
+            data: JSON.stringify(data)
         }).done(function () {
             alert('고객 정보가 추가되었습니다.');
             window.location.href = '/customer';
@@ -49,19 +53,9 @@ var send = {
         });
     },
     update : function () {
-        // var csrfHeader = $("meta[name='_csrf_header']").attr("content");
-        // var csrfToken = $("meta[name='_csrf']").attr("content");
-
-        var data = {
-            userId: $('#userId').val(),
-            name : $('#name').val(),
-            phoneNumber: $('#phoneNumber').val(),
-            var1 :$('#var1').val(),
-            var2 : $('#var2').val(),
-            var3 : $('#var3').val()
-        };
 
         var id = $('#id').val();
+        var data = $("form").serializeObject();
 
         $.ajax({
             type: 'PUT',

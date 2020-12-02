@@ -1,33 +1,6 @@
 var send = {
     init : function () {
         var _this = this;
-
-        $('#btn-save').on('click', function () {
-            _this.save();
-        });
-        $('#btn-update').on('click', function () {
-            _this.update();
-        });
-        $('#btn-delete').on('click', function () {
-            _this.delete();
-        });
-        $('#btn-customerChkOK').on('click', function(){
-            $('#customersModal').modal('hide');
-        });
-        $('#btn-customerChkCancel').on('click', function(){
-            $('#customersModal').modal('hide');
-        });
-        $('input:checkbox[name="customerChkAll"]').change(function(){
-            if (this.checked){
-                $('input:checkbox[name="customers"]').each(function() {
-                    $(this).prop("checked",true);
-                });
-            }else{
-                $('input:checkbox[name="customers"]').each(function() {
-                    $(this).prop("checked",false);
-                });
-            }
-        });
         /*
             @author https://github.com/macek/jquery-serialize-object
         */
@@ -47,10 +20,37 @@ var send = {
                 }
             };
 
-
             $.each(this.serializeArray(), extend);
             return result;
         };
+        $('#btn-save').on('click', function () {
+            _this.save();
+        });
+        $('#btn-update').on('click', function () {
+            _this.update();
+        });
+        $('#btn-delete').on('click', function () {
+            _this.delete();
+        });
+        $('#btn-customerChkOK').on('click', function(){
+            $('#customersModal').modal('hide');
+            $('#selectedCustomerCount').text($("form").serializeObject().customers.length);
+        });
+        $('#btn-customerChkCancel').on('click', function(){
+            $('#customersModal').modal('hide');
+        });
+        $('input:checkbox[name="customerChkAll"]').change(function(){
+            if (this.checked){
+                $('input:checkbox[name="customers"]').each(function() {
+                    $(this).prop("checked",true);
+                });
+            }else{
+                $('input:checkbox[name="customers"]').each(function() {
+                    $(this).prop("checked",false);
+                });
+            }
+        });
+
     },
     save : function () {
 
@@ -81,7 +81,7 @@ var send = {
             data: JSON.stringify(data),
 
         }).done(function() {
-            alert('고객정보가 수정되었습니다.');
+            alert('그룹 정보가 수정되었습니다.');
             window.location.href = '/customer/group';
         }).fail(function (error) {
             alert(JSON.stringify(error));
@@ -103,7 +103,7 @@ var send = {
             //     xhr.setRequestHeader(csrfHeader, csrfToken);
             // },
         }).done(function() {
-            alert('고객 정보가 삭제되었습니다.');
+            alert('그룹 정보가 삭제되었습니다.');
             window.location.href = '/customer/group';
         }).fail(function (error) {
             alert(JSON.stringify(error));

@@ -18,29 +18,35 @@
             <div class="table-responsive">
 
                 <div class="col-md-6">
-                    <a href="/customer/group/create" role="button" class="btn btn-primary">그룹 생성하기</a>
+                    <a href="/customer/group/create" role="button" class="btn btn-primary">그룹 추가</a>
                 </div>
                 <br>
 
                 <table class="table" id="dataTable" width="100%" cellspacing="0">
                     <thead>
                     <tr>
-                        <th>번호</th>
-                        <th>그룹명</th>
+<!--                        <th>번호</th>-->
+                        <th>그룹 이름</th>
+                        <th>그룹 설명</th>
+                        <th>소속된 고객 수</th>
                         <th>수정하기</th>
                     </tr>
                     </thead>
                     <tfoot>
                     <tr>
-                        <th>번호</th>
-                        <th>그룹명</th>
+<!--                        <th>번호</th>-->
+                        <th>그룹 이름</th>
+                        <th>그룹 설명</th>
+                        <th>소속된 고객 수</th>
                         <th>수정하기</th>
                     </tr>
                     </tfoot>
                     <tbody>
                     <tr th:each="group : ${groups}">
-                        <td th:text="${group.id}">default</td>
+<!--                        <td th:text="${group.id}">default</td>-->
                         <td th:text="${group.groupName}">default</td>
+                        <td th:text="${group.groupComment}">default</td>
+                        <td th:text="${group.customerCount}">default</td>
                         <td><a th:href="@{/customer/group/update/{id}(id=${group.id})}" th:text="수정">default</a></td>
                     </tr>
                     </tbody>
@@ -50,11 +56,11 @@
     </div>
 
     <!-- Page level plugins -->
-    <script  th:src="@{/vendor/datatables/jquery.dataTables.min.js}"></script>
-    <script  th:src="@{/vendor/datatables/dataTables.bootstrap4.min.js}"></script>
+<!--    <script  th:src="@{/vendor/datatables/jquery.dataTables.min.js}"></script>-->
+<!--    <script  th:src="@{/vendor/datatables/dataTables.bootstrap4.min.js}"></script>-->
 
     <!-- Page level custom scripts -->
-    <script  th:src="@{/js/common/demo/datatables-demo.js}"></script>
+<!--    <script  th:src="@{/js/common/demo/datatables-demo.js}"></script>-->
 
 </div>
 </html>

@@ -27,15 +27,16 @@ public class GroupService {
 
     @Transactional
     public Group save(Group group){
+        group.setCustomerCount(group.getCustomers().size());
         return groupRepository.save(group);
     }
 
     @Transactional
-    public long update(long id, String groupName, Set<Customer> customerSet) {
+    public long update(long id, String groupName, String groupComment, Set<Customer> customerSet) {
         Group group = groupRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("해당 그룹 정보가 없습니다. id=" + id));
 
-        group.update(groupName, customerSet);
+        group.update(groupName, groupComment, customerSet);
         return id;
     }
 
@@ -43,6 +44,7 @@ public class GroupService {
     public void delete (long id) {
         Group group = groupRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("해당 그륩이 없습니다. id=" + id));
+        group.setCustomerCount(group.getCustomers().size());
         groupRepository.delete(group);
     }
 

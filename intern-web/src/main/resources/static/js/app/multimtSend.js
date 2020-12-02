@@ -102,10 +102,7 @@ var send = {
                 var cell2 = row.insertCell(1); // 아이디
                 var cell3 = row.insertCell(2); // 이름
                 var cell4 = row.insertCell(3); // 전화번호
-
-                var cell5 = row.insertCell(4); // var1
-                var cell6 = row.insertCell(5); // var2
-                var cell7 = row.insertCell(6); // var3
+                var cell5 = row.insertCell(4); // address
 
                 cellData = res[i].split(sep);
                 cellData[6] = cellData[6].replace(/\r/gm,"")
@@ -115,16 +112,12 @@ var send = {
                 cell3.innerHTML = cellData[2];
                 cell4.innerHTML = cellData[3];
                 cell5.innerHTML = cellData[4];
-                cell6.innerHTML = cellData[5];
-                cell7.innerHTML = cellData[6];
 
                 li.push(cellData[0]);
                 li.push(cellData[1]);
                 li.push(cellData[2]);
                 li.push("82"+cellData[3].substring(1));
                 li.push(cellData[4])
-                li.push(cellData[5])
-                li.push(cellData[6])
 
                 customerList.push(li);
 

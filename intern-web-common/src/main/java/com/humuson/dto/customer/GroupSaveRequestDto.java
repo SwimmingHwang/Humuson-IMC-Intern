@@ -18,6 +18,7 @@ import java.util.List;
 @NoArgsConstructor
 public class GroupSaveRequestDto {
     private String groupName;
+    private String groupComment;
     private List<String> customers;
 
 }

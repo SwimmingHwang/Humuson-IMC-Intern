@@ -32,7 +32,7 @@ public class GroupApiController {
         /* String index List로 받았을 시 Set으로 변환
          * html form에서 객체 post시 사용
          * */
-        Group group = new Group(requestDto.getGroupName());
+        Group group = new Group(requestDto.getGroupName(), requestDto.getGroupComment());
 
         List<String> customerStrList= requestDto.getCustomers();
 
@@ -57,7 +57,7 @@ public class GroupApiController {
             Customer customer= customerService.findById(customerId);
             customers.add(customer);
         }
-        return groupService.update(id,requestDto.getGroupName(), customers );
+        return groupService.update(id,requestDto.getGroupName(), requestDto.getGroupComment(), customers );
     }
 
     @Operation(summary="그룹 삭제", description = "그룹 주소록의 그룹 정보를 삭제")

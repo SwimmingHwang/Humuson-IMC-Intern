@@ -9,9 +9,20 @@
 <div class="col-md-12">
     <form th:object="${group}">
         <div class="form-group">
-            <label for="groupName"><strong>그룹명</strong></label>
-            <input type="text" class="form-control" id="groupName" th:field="*{groupName}">
             <input th:type="hidden" id="id" th:value="${group.id}">
+
+            <div>
+                <strong>그룹 이름</strong>
+                <input type="text" class="form-control input-lg" id="groupName" placeholder="그룹 이름을 입력하세요" th:field="*{groupName}">
+            </div>
+            <br>
+
+            <div>
+                <strong>그룹 설명</strong>
+                <input type="text" class="form-control input-lg" id="groupComment" placeholder="그룹 설명을 입력하세요" th:field="*{groupComment}">
+            </div>
+            <br>
+
         <table class="table table-sm" id="dataTable" width="100%" cellspacing="0">
             <thead>
             <tr>

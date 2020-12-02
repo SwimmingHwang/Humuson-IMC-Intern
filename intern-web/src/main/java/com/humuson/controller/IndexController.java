@@ -210,8 +210,7 @@ public class IndexController {
     }
 
     /*
-     *
-     * 기업 회원의 고객 관리
+     * 고객 관리
      * */
     @GetMapping("/customer")
     public String profileCreate(Model model) {
@@ -220,7 +219,9 @@ public class IndexController {
         return "customer/customerTable";
     }
     @GetMapping("/customer/create")
-    public String customerSave() {
+    public String customerSave(Model model) {
+        Customer customer = new Customer();
+        model.addAttribute("customer", customer);
         return "customer/customerSave";
     }
 
@@ -230,12 +231,6 @@ public class IndexController {
         model.addAttribute("customer", dto);
         return "customer/customerUpdate";
     }
-
-    /*
-    * Profile
-    * */
-
-
 
     /*
     * 고객 그룹 관리
