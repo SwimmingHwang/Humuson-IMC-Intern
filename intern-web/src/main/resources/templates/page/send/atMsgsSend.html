@@ -27,7 +27,7 @@
                     <input type="text" class="form-control bg-light border-0" placeholder="제목 입력">
                 </div>
                 <div class="card-body py-1">
-                    <textarea id="msg-text" class="form-control bg-light border-0" placeholder="보내실 메시지를 입력해 주세요." rows="10"></textarea>
+                    <textarea id="msg-text" class="form-control bg-light border-0" placeholder="보내실 메시지를 입력해 주세요." rows="10" maxlength="2000"></textarea>
                 </div>
                 <div class="card-body py-1 text-align-right">
                     <span id="byte-count" class="m-0 font-weight-bold text-success">0</span>
@@ -43,7 +43,7 @@
         </div>
 
         <div class="col-md-4">
-            <div class="table-responsive overflow-y">
+            <div class="table-responsive add-scroll">
                 <table class="table table-bordered table-sm " id="dataTable">
                     <!-- 기존 -->
                     <!--<table class="table table-horizontal table-bordered">-->
