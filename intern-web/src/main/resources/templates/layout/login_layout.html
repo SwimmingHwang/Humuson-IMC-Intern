@@ -9,12 +9,12 @@
         <title>Login</title>
 
         <th:block th:replace="fragment/configCss :: configCssFragment" ></th:block>
-        <th:block th:replace="fragment/configJs :: configJsFragment"></th:block>
+        <script th:src="@{/vendor/jquery/jquery.min.js}"></script>
     </head>
     
     <body>
         <th:block layout:fragment="content"></th:block>
-
+        <th:block th:replace="fragment/configJs :: configJsFragment"></th:block>
     </body>
 
 </html>
