@@ -3,9 +3,7 @@ package com.humuson.controller;
 import com.humuson.domain.entity.Customer;
 import com.humuson.domain.entity.Group;
 import com.humuson.dto.at.AtMsgsResponseDto;
-import com.humuson.dto.customer.GroupResponseDto;
 import com.humuson.dto.customer.CustomerResponseDto;
-import com.humuson.dto.customer.GroupSaveRequestDto;
 import com.humuson.dto.ft.FtMsgsResponseDto;
 import com.humuson.dto.mt.MtMsgsResponseDto;
 import com.humuson.service.*;
@@ -15,9 +13,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.List;
 
@@ -66,11 +62,11 @@ public class IndexController {
 
     }
     // ymbin
-    @GetMapping("/send/mt-msgs-send")
+    @GetMapping("/send/bulk-mt-msgs-send")
     public String atMsgsSend(Model model, Authentication authentication){
         String sendNumber = userService.findPhoneNumber(authentication.getName());
         model.addAttribute("sendNumber", sendNumber);
-        return "page/send/mtMsgsSend";
+        return "page/sendDetails/bulkMtMsgsSend";
     }
     @GetMapping("/send/ft-send")
     public String ftSend(Model model){
