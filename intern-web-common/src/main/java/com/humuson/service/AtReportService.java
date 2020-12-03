@@ -6,6 +6,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @RequiredArgsConstructor
 @Service
 public class AtReportService {
@@ -15,5 +17,11 @@ public class AtReportService {
     @Transactional
     public void save(AtReport atReport) {
         atReportRepository.save(atReport);
+    }
+
+    @Transactional
+    public List<AtReport> findAll() {
+        List<AtReport> atReportList = atReportRepository.findAll();
+        return atReportList;
     }
 }

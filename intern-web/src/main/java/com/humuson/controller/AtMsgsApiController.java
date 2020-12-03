@@ -71,7 +71,19 @@ public class AtMsgsApiController {
     public AtMsgsResponseDto findById(@PathVariable Integer id) {
         return atMsgsService.findById(id);
     }
+
+    /*@Operation(summary="알림톡 리스트 조회", description = "모든 알림톡 리스트의 레코드 조회")
+    @GetMapping("/api/v1/at-msgs/list")
     public List<AtMsgsListResponseDto> findAll() {
         return atMsgsService.findAllDesc();
+    }*/
+
+    @Operation(summary="알림톡 리스트 조회", description = "모든 알림톡 리스트의 레코드 조회")
+    @GetMapping("/api/v1/at-msgs/list")
+    public List<AtMsgs> atMsgsfindAll() {
+        return atMsgsService.findAll();
     }
+
+
+
 }
