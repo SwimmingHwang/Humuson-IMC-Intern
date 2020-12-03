@@ -20,7 +20,7 @@ public class KafkaScheduler {
 
     private final ProducerService producerSerivce;
     private final AtReportService atReportService;
-    private final FtReportService ftMsgsLogService;
+//    private final FtReportService ftMsgsLogService;
     private final MtReportService mtReportService;
 
     // Agent DB 에서 imc_at_biz_msg_log 데이터 가져와!

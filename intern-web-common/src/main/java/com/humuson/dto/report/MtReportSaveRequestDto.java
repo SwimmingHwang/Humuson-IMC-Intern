@@ -17,15 +17,9 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class MtReportSaveRequestDto {
-    private String status;
-    private String priority;
     private String reserved_date;
-    private String mt_type;
-    private String ad_flag;
     private String callback;
     private String phone_number;
-    private String title;
-    private String message;
     private String request_uid;
     private String request_date;
     private String response_date;
@@ -34,79 +28,37 @@ public class MtReportSaveRequestDto {
     private String report_date;
     private String report_code;
     private String arrival_date;
-    private String sender_code;
     private String etc1;
     private String etc2;
 
     @Builder
-    public MtReportSaveRequestDto(MtReport entity) {
-        this.status = entity.getStatus();
-        this.priority = entity.getPriority();
-        this.reserved_date = entity.getReserved_date();
-        this.mt_type = entity.getMt_type();
-        this.ad_flag = entity.getAd_flag();
-        this.callback = entity.getCallback();
-        this.phone_number = entity.getPhone_number();
-        this.title = entity.getTitle();
-        this.message = entity.getMessage();
-        this.request_uid = entity.getRequest_uid();
-        this.request_date = entity.getRequest_date();
-        this.response_date = entity.getResponse_date();
-        this.response_code = entity.getResponse_code();
-        this.report_type = entity.getReport_type();
-        this.report_date = entity.getReport_date();
-        this.report_code = entity.getReport_code();
-        this.arrival_date = entity.getArrival_date();
-        this.sender_code = entity.getSender_code();
-        this.etc1 = entity.getEtc1();
-        this.etc2 = entity.getEtc2();
+    public MtReportSaveRequestDto(String reserved_date, String callback, String phone_number, String request_uid, String request_date, String response_date, String response_code, String report_type, String report_date, String report_code, String arrival_date) {
+        this.reserved_date = reserved_date;
+        this.callback = callback;
+        this.phone_number = phone_number;
+        this.request_uid = request_uid;
+        this.request_date = request_date;
+        this.response_date = response_date;
+        this.response_code = response_code;
+        this.report_type = report_type;
+        this.report_date = report_date;
+        this.report_code = report_code;
+        this.arrival_date = arrival_date;
     }
 
     public MtReport toEntity() {
         return MtReport.builder()
-                .status(status)
-                .priority(priority)
                 .reserved_date(reserved_date)
-                .mt_type(mt_type)
-                .ad_flag(ad_flag)
                 .callback(callback)
                 .phone_number(phone_number)
-                .title(title)
-                .message(message)
                 .request_uid(request_uid)
                 .request_date(request_date)
                 .response_date(response_date)
                 .response_code(response_code)
-                .report_type(report_type)
                 .report_date(report_date)
                 .report_code(report_code)
                 .arrival_date(arrival_date)
-                .sender_code(sender_code)
-                .etc1(etc1)
-                .etc2(etc2)
                 .build();
     }
-    
-//    @Override
-//    public String toString() {
-//        return "AtReport {" +
-//                " status:" + status +
-//                ", priority:" + priority +
-//                ", reserved_date:" + reserved_date +
-//                ", sender_key:" + sender_key +
-//                ", phone_number:" + phone_number +
-//                ", template_code:" + template_code +
-//                ", message:" + message +
-//                ", request_uid:" + request_uid +
-//                ", request_date:" + request_date +
-//                ", response_date:" + response_date +
-//                ", response_code:" + response_code +
-//                ", report_type:" + report_type +
-//                ", report_date:" + report_date +
-//                ", report_code:" + report_code +
-//                ", arrival_date:" + arrival_date +
-//                ", etc1:" + etc1 +
-//                ", etc2:" + etc2 +
-//                "}";
-//    }
+
 }

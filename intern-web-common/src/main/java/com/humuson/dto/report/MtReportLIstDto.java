@@ -1,12 +1,10 @@
 package com.humuson.dto.report;
 
-import com.humuson.domain.report.AtReport;
-import com.humuson.domain.report.MtReport;
 import lombok.Builder;
 import lombok.Getter;
 
 @Getter
-public class MtReportDto {
+public class MtReportLIstDto {
     private String reserved_date;
     private String callback;
     private String phone_number;
@@ -19,7 +17,7 @@ public class MtReportDto {
     private String arrival_date;
 
     @Builder
-    public MtReportDto(String reserved_date, String callback, String phone_number, String request_uid, String request_date, String response_date, String response_code, String report_date, String report_code, String arrival_date) {
+    public MtReportLIstDto(String reserved_date, String callback, String phone_number, String request_uid, String request_date, String response_date, String response_code, String report_date, String report_code, String arrival_date) {
         this.reserved_date = reserved_date;
         this.callback = callback;
         this.phone_number = phone_number;

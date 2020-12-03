@@ -72,9 +72,16 @@ public class MtMsgsApiController {
     public MtMsgsResponseDto findById(@PathVariable Integer id) {
         return mtMsgsService.findById(id);
     }
-    @Operation(summary="문자톡 조회", description = "문자톡 메시지 레코드 조회")
+    
+    /*@Operation(summary="문자톡 리스트 조회", description = "모든 문자톡 메시지의 레코드 조회")
     @GetMapping("/api/v1/mt-msgs/list")
     public List<MtMsgsListResponseDto> findAll() {
         return mtMsgsService.findAllDesc();
+    }*/
+
+    @Operation(summary="문자톡 리스트 조회", description = "모든 문자톡 메시지의 레코드 조회")
+    @GetMapping("/api/v1/mt-msgs/list")
+    public List<MtMsgs> mtMsgsfindAll() {
+        return mtMsgsService.findAll();
     }
 }

@@ -34,20 +34,20 @@ class ClientSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests().anyRequest().permitAll();
-        http.authorizeRequests()
-                .antMatchers(HttpMethod.POST,"/**").permitAll()
-                .antMatchers(HttpMethod.PUT,"/**").permitAll();
+//        http.authorizeRequests().anyRequest().permitAll();
+//        http.authorizeRequests()
+//                .antMatchers(HttpMethod.POST,"/**").permitAll()
+//                .antMatchers(HttpMethod.PUT,"/**").permitAll();
         http.csrf()
             .disable();
-//        http.authorizeRequests()
-//            .antMatchers("/user/**").permitAll()
-//            //member 권한
-//            .antMatchers("/member/**").hasRole("MEMBER")
-//            .antMatchers("/monitor/**").permitAll()
-//            .antMatchers("/sba/**").permitAll()
-//            .anyRequest().authenticated()
-//        ;
+        http.authorizeRequests()
+            .antMatchers("/user/**").permitAll()
+            //member 권한
+            .antMatchers("/member/**").hasRole("MEMBER")
+            .antMatchers("/monitor/**").permitAll()
+            .antMatchers("/sba/**").permitAll()
+            .anyRequest().authenticated()
+        ;
         http.formLogin()
             .loginPage("/user/login")
             .usernameParameter("email").passwordParameter("password") // id, pwd param 변경

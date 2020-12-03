@@ -53,7 +53,7 @@ public class ReportReceiveController {
     @PostMapping("/api/v1/mt-report/{id}")
     @ResponseBody
     public String updateStatusMt(@PathVariable Integer id, @RequestBody String message) {
-        log.info("AT update {} status api called ", id);
+        log.info("MT update {} status api called ", id);
         mtMsgsService.updateStatus(id, "3");
         // at report 저장
         Gson gson = new Gson();

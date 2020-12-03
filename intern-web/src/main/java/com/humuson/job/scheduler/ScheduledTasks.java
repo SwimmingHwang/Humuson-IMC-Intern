@@ -31,7 +31,7 @@ public class ScheduledTasks {
     private final CustomerService customerService;
 
     @Async
-//    @Scheduled(initialDelay = 1000, fixedRate  = 10000)
+    @Scheduled(initialDelay = 1000, fixedRate  = 10000)
     public void updateStatusrunEvery10Sec(){
         try{
             log.info("스케쥴러 : 시작");

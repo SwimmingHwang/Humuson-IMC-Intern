@@ -3,9 +3,8 @@
 * */
 package com.humuson.agent.service;
 
+import com.humuson.agent.domain.entity.AtMsgs;
 import com.humuson.agent.domain.repository.AtMsgsJdbcRepository;
-import com.humuson.agent.domain.repository.AtReportJdbcRepository;
-import com.humuson.agent.dto.AtMsgsSaveRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
@@ -21,8 +20,8 @@ public class AtMsgsJdbcService {
     private final AtMsgsJdbcRepository atMsgsJdbcRepository;
 
     @Transactional
-    public void saveAll(List<AtMsgsSaveRequestDto> atMsgsSaveRequestDtos) {
-        atMsgsJdbcRepository.saveAll(atMsgsSaveRequestDtos);
+    public void saveAll(List<AtMsgs> atMsgs) {
+        atMsgsJdbcRepository.saveAll(atMsgs);
     }
 
 
