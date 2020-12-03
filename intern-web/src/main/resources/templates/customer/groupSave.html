@@ -5,86 +5,110 @@
       layout:decorator="layout/default_layout">
 
 <div layout:fragment="content">
+    <script>
+        $(document).ready(function() {
+            $('#dataTable').DataTable( {
+                "paging":   false,
+                "ordering": false,
+            } );
+        } );
+    </script>
 
-    <h1>그룹 생성</h1>
-    <div class="col-md-12">
-        <div class="col-md-4">
 
+    <h1 class="h3 mb-1 text-gray-800">그룹 추가</h1>
+    <p class="mb-4">고객 그룹 목록에 추가합니다.</p>
 
-            <form th:object="${group}" >
-
-                <div>
-                    <strong>그룹 이름</strong>
-                    <input type="text" class="form-control input-lg" id="groupName" placeholder="그룹 이름을 입력하세요" th:field="*{groupName}">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card position-relative">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-success">그룹 정보 입력</h6>
                 </div>
-                <br>
+                <div class="card-body">
 
-                <div>
-                    <strong>그룹 설명</strong>
-                    <input type="text" class="form-control input-lg" id="groupComment" placeholder="그룹 설명을 입력하세요" th:field="*{groupComment}">
-                </div>
-                <br>
+                    <form th:object="${group}" >
 
-
-                <!--                TODO : 고객 추가 어떻게 하지..? 파일 input? 직접 입력? 주소록에서 선택?-->
-                <div>
-                    <strong>고객 추가</strong>
-
-                    <div>
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-lg">고객 추가하기</button>
-                    </div>
-                    <br>
-
-                    <div id= "customersModal" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-                        <div class="modal-dialog modal-lg">
-                            <div class="modal-content">
-                                <div>
-                                    <button type="button" class="btn btn-primary" id="btn-customerChkOK">확인</button>
-                                    <button type="button" class="btn btn-primary" id="btn-customerChkCancel">취소</button>
-                                </div>
-                                    <table class="table table-sm" id="dataTable" width="100%" cellspacing="0">
-                                    <thead>
-                                    <tr>
-                                        <th class = "checkbox"><input name="customerChkAll" type="checkbox" id="customerChkAll"></th>
-                                        <th>고객 아이디</th>
-                                        <th>성함</th>
-                                        <th>전화번호</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <tr th:each="customer : ${customerList}">
-                                        <td><input th:field="*{customers}" type="checkbox" name = "customersChk" th:value="${customer.id}"> </td>
-                                        <td th:text="${customer.userId}">default</td>
-                                        <td th:text="${customer.name}">default</a></td>
-                                        <td th:text="${customer.phoneNumber}">default</td>
-                                        <td th:text="${customer.address}">default</td>
-                                    </tr>
-                                    </tbody>
-                                    </table>
-                                    <br>
-                            </div>
-                            <!-- end of madal content-->
+                        <div>
+                            <strong>그룹 이름</strong>
+                            <input type="text" class="form-control input-lg" id="groupName" placeholder="그룹 이름을 입력하세요" th:field="*{groupName}">
                         </div>
-                    </div> <!-- End of modal class-->
+                        <br>
 
-                    <div>
-                        <strong>선택된 고객 수</strong>
-                        <div id="selectedCustomerCount">0</div>
-                    </div>
-                    <br>
+                        <div>
+                            <strong>그룹 설명</strong>
+                            <input type="text" class="form-control input-lg" id="groupComment" placeholder="그룹 설명을 입력하세요" th:field="*{groupComment}">
+                        </div>
+                        <br>
+
+                        <div>
+                            <strong>고객 추가</strong>
+
+                            <div>
+                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-lg">고객 선택하기</button>
+                            </div>
+
+                            <div id= "customersModal" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-lg">
+                                    <div class="modal-content">
+                                        <div>
+                                            <div>
+                                                <strong>선택된 고객 수</strong>
+                                                <div id="selectedCustomerCount2">0</div>
+                                            </div>
+                                            <br>
+
+                                            <button type="button" class="btn btn-primary" id="btn-customerChkOK">확인</button>
+                                            <button type="button" class="btn btn-primary" id="btn-customerChkCancel">취소</button>
+                                        </div>
+        <!--                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">-->
+
+                                        <table class="table table-sm" id="dataTable" width="100%" cellspacing="0">
+                                            <thead>
+                                            <tr>
+                                                <th class = "checkbox"><input name="customerChkAll" type="checkbox" id="customerChkAll"></th>
+                                                <th>고객 아이디</th>
+                                                <th>성함</th>
+                                                <th>전화번호</th>
+                                                <th>주소</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr th:each="customer : ${customerList}">
+                                                <td><input type="checkbox" name = "customers" th:value="${customer.id}"> </td>
+                                                <td th:text="${customer.userId}">default</td>
+                                                <td th:text="${customer.name}">default</a></td>
+                                                <td th:text="${customer.phoneNumber}">default</td>
+                                                <td th:text="${customer.address}">default</td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+
+                                        <br>
+                                    </div>
+                                    <!-- end of madal content-->
+                                </div>
+                            </div> <!-- End of modal class-->
+
+
+                        </div>
+                        <br>
+
+                        <div>
+                            <strong>선택된 고객 수</strong>
+                            <div id="selectedCustomerCount">0</div>
+                        </div>
+                        <br>
+
+                    </form>
+
+                    <!--        TODO : 취소하면 이전 페이지로 이동하게 설정할 것 -->
+                    <a href="/customer/group" role="button" class="btn btn-secondary">취소</a>
+                    <button type="button" class="btn btn-primary" id="btn-save">등록</button>
                 </div>
-                <br>
-            </form>
-            <!--        TODO : 취소하면 이전 페이지로 이동하게 설정할 것 -->
-            <a href="/customer/group" role="button" class="btn btn-secondary">취소</a>
-            <button type="button" class="btn btn-primary" id="btn-save">등록</button>
+            </div>
         </div>
     </div>
 
-    <!--custom 스크립트 -->
-    <th:block layout:fragment="script">
-        <script th:src="@{/js/app/group.js}"></script>
-    </th:block>
 
     <!-- Page level plugins -->
     <script  th:src="@{/vendor/datatables/jquery.dataTables.min.js}"></script>
@@ -92,6 +116,11 @@
 
     <!-- Page level custom scripts -->
     <script  th:src="@{/js/common/demo/datatables-demo.js}"></script>
+
+    <!--custom 스크립트 -->
+    <th:block layout:fragment="script">
+        <script th:src="@{/js/app/group.js}"></script>
+    </th:block>
 
 </div>
 </html>

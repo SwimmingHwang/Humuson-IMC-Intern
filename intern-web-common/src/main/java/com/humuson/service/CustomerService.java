@@ -9,14 +9,15 @@ package com.humuson.service;
 import com.humuson.domain.entity.Customer;
 import com.humuson.domain.repository.CustomerRepository;
 import com.humuson.dto.customer.CustomerListResponseDto;
-import com.humuson.dto.customer.CustomerResponseDto;
 import com.humuson.dto.customer.CustomerSaveRequestDto;
 import com.humuson.dto.customer.CustomerUpdateRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor// final이 선언된 모든 필드를 인자값으로하는 생성자를 생성해줌.
@@ -67,8 +68,8 @@ public class CustomerService {
         // repo에서 넘어온 stream을 map을 통해 dto로 변환해서 리스트로 반환
         return customerRepository.findAll();
     }
-//    @Transactional
-//    public List<Customer> findAllJoinFetch(long id){
-//        return customerRepository.findAllJoinFetch(id);
-//    }
+
+    public Set<Customer> findAllById(List<Long> idList) {
+        return new HashSet<>(customerRepository.findAllById(idList));
+    }
 }

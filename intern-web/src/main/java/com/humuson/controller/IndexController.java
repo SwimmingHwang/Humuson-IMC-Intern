@@ -213,7 +213,7 @@ public class IndexController {
      * 고객 관리
      * */
     @GetMapping("/customer")
-    public String profileCreate(Model model) {
+    public String customerCreate(Model model) {
         model.addAttribute("title", "고객 리스트 조회");
         model.addAttribute("customers", customerService.findAll());
         return "customer/customerTable";
@@ -253,6 +253,7 @@ public class IndexController {
         List<Customer> customers = customerService.findAll();
         model.addAttribute("group", group);
         model.addAttribute("customerList", customers);
+        model.addAttribute("selectedCustomers",groupService.findAllCustomersIds(id) );
         return "customer/groupUpdate";
     }
 }

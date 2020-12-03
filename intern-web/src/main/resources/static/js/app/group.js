@@ -23,6 +23,7 @@ var send = {
             $.each(this.serializeArray(), extend);
             return result;
         };
+
         $('#btn-save').on('click', function () {
             _this.save();
         });
@@ -35,12 +36,14 @@ var send = {
         $('#btn-customerChkOK').on('click', function(){
             $('#customersModal').modal('hide');
             $('#selectedCustomerCount').text($("form").serializeObject().customers.length);
+
         });
         $('#btn-customerChkCancel').on('click', function(){
             $('#customersModal').modal('hide');
         });
         $('input:checkbox[name="customerChkAll"]').change(function(){
             if (this.checked){
+                console.log("this checked")
                 $('input:checkbox[name="customers"]').each(function() {
                     $(this).prop("checked",true);
                 });
@@ -49,8 +52,15 @@ var send = {
                     $(this).prop("checked",false);
                 });
             }
+            $('#selectedCustomerCount2').text($("form").serializeObject().customers.length);
         });
-
+        $('input:checkbox[name="customers"]').change(function() {
+            if (this.checked) {
+                $('#selectedCustomerCount2').text($("form").serializeObject().customers.length);
+            } else {
+                $('#selectedCustomerCount2').text($("form").serializeObject().customers.length);
+            }
+        });
     },
     save : function () {
 

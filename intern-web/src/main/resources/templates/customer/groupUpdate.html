@@ -2,60 +2,79 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorator="layout/default_layout">
+
 <div layout:fragment="content">
+    <script>
+        $(document).ready(function() {
+            $('#dataTable').DataTable( {
+                "paging":   false,
+                "ordering": false,
+            } );
+        } );
+    </script>
+    <h1>그룹 정보 수정</h1>
 
-<h1>그룹 정보 수정</h1>
+    <div class="col-md-12">
+        <form th:object="${group}">
+            <div class="form-group">
+                <input th:type="hidden" id="id" th:value="${group.id}">
 
-<div class="col-md-12">
-    <form th:object="${group}">
-        <div class="form-group">
-            <input th:type="hidden" id="id" th:value="${group.id}">
+                <div>
+                    <strong>그룹 이름</strong>
+                    <input type="text" class="form-control input-lg" id="groupName" placeholder="그룹 이름을 입력하세요" th:field="*{groupName}">
+                </div>
+                <br>
 
-            <div>
-                <strong>그룹 이름</strong>
-                <input type="text" class="form-control input-lg" id="groupName" placeholder="그룹 이름을 입력하세요" th:field="*{groupName}">
+                <div>
+                    <strong>그룹 설명</strong>
+                    <input type="text" class="form-control input-lg" id="groupComment" placeholder="그룹 설명을 입력하세요" th:field="*{groupComment}">
+                </div>
+                <br>
+
+                <a href="/customer/group" role="button" class="btn btn-secondary">취소</a>
+                <button type="button" class="btn btn-primary" id="btn-update">수정 완료</button>
+                <button type="button" class="btn btn-danger" id="btn-delete">삭제</button>
+                <br>
+
+                <table class="table table-sm" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                    <tr>
+                        <th class = "checkbox"><input name="customerChkAll" type="checkbox" id="customerChkAll"></th>
+                        <th>고객 아이디</th>
+                        <th>성함</th>
+                        <th>전화번호</th>
+                        <th>주소</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="customer : ${customerList}">
+                            <td><input type="checkbox" name = "customers" th:value="${customer.id}" th:checked="${selectedCustomers.contains(customer.id)}"> </td>
+                            <td th:text="${customer.userId}">default</td>
+                            <td th:text="${customer.name}">default</a></td>
+                            <td th:text="${customer.phoneNumber}">default</td>
+                            <td th:text="${customer.address}">default</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+
             </div>
-            <br>
 
-            <div>
-                <strong>그룹 설명</strong>
-                <input type="text" class="form-control input-lg" id="groupComment" placeholder="그룹 설명을 입력하세요" th:field="*{groupComment}">
-            </div>
-            <br>
+        </form>
 
-        <table class="table table-sm" id="dataTable" width="100%" cellspacing="0">
-            <thead>
-            <tr>
-                <th class = "checkbox"><input name="customerChkAll" type="checkbox" id="customerChkAll"></th>
-                <th>고객 아이디</th>
-                <th>성함</th>
-                <th>전화번호</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr  th:each="customer : ${customerList}">
-                <td><input th:field="*{customers}" type="checkbox" name = "customerChk" th:value="${customer.id}" th:default="checked"> </td>
-                <!--                                        <td th:text="${customer.id}">default</td>-->
-                <td th:text="${customer.userId}">default</td>
-                <td th:text="${customer.name}">default</a></td>
-                <td th:text="${customer.phoneNumber}">default</td>
-            </tr>
-            </tbody>
-        </table>
+    </div>
 
 
-        </div>
+    <!-- Page level plugins -->
+    <script  th:src="@{/vendor/datatables/jquery.dataTables.min.js}"></script>
+    <script  th:src="@{/vendor/datatables/dataTables.bootstrap4.min.js}"></script>
 
-    </form>
-    <a href="/customer/group" role="button" class="btn btn-secondary">취소</a>
-    <button type="button" class="btn btn-primary" id="btn-update">수정 완료</button>
-    <button type="button" class="btn btn-danger" id="btn-delete">삭제</button>
+    <!-- Page level custom scripts -->
+    <script  th:src="@{/js/common/demo/datatables-demo.js}"></script>
+
+    <!--custom 스크립트 -->
+    <th:block layout:fragment="script">
+        <script th:src="@{/js/app/group.js}"></script>
+    </th:block>
 </div>
-<!--custom 스크립트 -->
-<th:block layout:fragment="script">
-    <script th:src="@{/js/app/group.js}"></script>
-</th:block>
-</div>
-
-
 </html>

@@ -12,10 +12,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Tag(name="그룹 관리", description = "그룹 주소록의 정보를 관리합니다.")
@@ -28,19 +26,12 @@ public class GroupApiController {
     @Operation(summary="그룹 생성", description = "그룹 주소록에 그룹 정보를 추가")
     @PostMapping("/api/v1/customer/group")
     public long save(@RequestBody GroupSaveRequestDto requestDto) {
-
-        /* String index List로 받았을 시 Set으로 변환
-         * html form에서 객체 post시 사용
-         * */
         Group group = new Group(requestDto.getGroupName(), requestDto.getGroupComment());
 
         List<String> customerStrList= requestDto.getCustomers();
+        List<Long> idList = customerStrList.stream().map(Long::parseLong).collect(Collectors.toList());
 
-        for(String customerStr : customerStrList){
-            long id = Long.parseLong(customerStr);
-            Customer customer= customerService.findById(id);
-            group.getCustomers().add(customer);
-        }
+        group.setCustomers(customerService.findAllById(idList));
         groupService.save(group);
         // TODO : return 형태 고칠 것
         return 1;
@@ -50,14 +41,13 @@ public class GroupApiController {
     @PutMapping("/api/v1/customer/group/{id}")
     public long update(@PathVariable long id, @RequestBody GroupUpdateRequestDto requestDto) {
         List<String> customerStrList= requestDto.getCustomers();
-        Set<Customer> customers = new HashSet<>();
+        List<Long> idList = customerStrList.stream().map(Long::parseLong).collect(Collectors.toList());
 
-        for(String customerStr : customerStrList){
-            long customerId = Long.parseLong(customerStr);
-            Customer customer= customerService.findById(customerId);
-            customers.add(customer);
-        }
-        return groupService.update(id,requestDto.getGroupName(), requestDto.getGroupComment(), customers );
+        Set<Customer> customers = customerService.findAllById(idList);
+
+        groupService.update(id,requestDto.getGroupName(), requestDto.getGroupComment(), customers );
+        // TODO : return 형태 고칠 것
+        return 1;
     }
 
     @Operation(summary="그룹 삭제", description = "그룹 주소록의 그룹 정보를 삭제")
@@ -77,8 +67,5 @@ public class GroupApiController {
     public List<GroupListResponseDto> findAll() {
         return groupService.findAllDesc();
     }
-
-    // customer의 그룹 정보 업데이트
-
 
 }

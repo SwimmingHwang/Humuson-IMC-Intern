@@ -39,18 +39,12 @@ public class Group {
         this.customerCount = this.getCustomers().size();
     }
 
-    public void update(String groupName, String groupComment, Set<Customer> customers){
+    public void update(String groupName, String groupComment, long customerCount, Set<Customer> customers){
         this.groupName = groupName;
 
-        Set<Customer> setCha = new HashSet<>();
-        // 차집합
-        setCha.addAll(this.getCustomers());
-        setCha.removeAll(customers);
-
-        this.getCustomers().removeAll(setCha);
         this.getCustomers().addAll(customers);
 
         this.groupComment = groupComment;
-        this.customerCount = this.getCustomers().size();
+        this.customerCount = customerCount;
     }
 }
