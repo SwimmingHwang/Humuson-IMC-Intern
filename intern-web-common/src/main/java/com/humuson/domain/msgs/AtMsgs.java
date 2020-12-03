@@ -27,15 +27,23 @@ public class AtMsgs {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    @Column(nullable = false, length = 1)
     private String status;
+    @Column(nullable = false, length = 1)
     private String priority;
+    @Column(nullable = false, length = 19)
     private String reservedDate;
+    @Column(nullable = false, length = 40)
     private String senderKey;
+    @Column(nullable = false, length = 16)
     private String phoneNumber;
+    @Column(nullable = false, length = 30)
     private String templateCode;
-    @Column(name = "MESSAGE")
+    @Column(name = "MESSAGE", nullable = false, length = 3000)
     private String msg; // 메시지 내용
+    @Column(length = 64)
     private String etc1; // Agent DB에 전달되었는지 확인하는 status
+    @Column(length = 64)
     private String etc2; // 결과 받는 URL
 
     @OneToOne

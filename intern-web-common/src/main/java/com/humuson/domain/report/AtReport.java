@@ -15,14 +15,23 @@ public class AtReport {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(nullable = false, length = 19)
     private String reserved_date;
+    @Column(nullable = false, length = 16)
     private String phone_number;
+    @Column(length = 40)
     private String request_uid;
+    @Column(length = 19)
     private String request_date;
+    @Column(length = 19)
     private String response_date;
+    @Column(length = 5)
     private String response_code;
+    @Column(length = 19)
     private String report_date;
+    @Column(length = 5)
     private String report_code;
+    @Column(length = 19)
     private String arrival_date;
 
     @Builder

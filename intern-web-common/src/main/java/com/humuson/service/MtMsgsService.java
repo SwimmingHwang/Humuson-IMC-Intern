@@ -50,7 +50,7 @@ public class MtMsgsService {
                 .orElseThrow(() -> new IllegalArgumentException("해당 사용자가 없습니다. id=" + id));
 
         msgs.update(requestDto.getReservedDate(), requestDto.getMtType(), requestDto.getCallback(),
-                requestDto.getMsg(), requestDto.getPhoneNumber());
+                requestDto.getTitle(), requestDto.getMsg(), requestDto.getPhoneNumber());
 
         return id;
     }

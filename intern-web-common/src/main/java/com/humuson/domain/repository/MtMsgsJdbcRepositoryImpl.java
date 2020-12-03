@@ -40,8 +40,8 @@ public class MtMsgsJdbcRepositoryImpl implements MtMsgsJdbcRepository{
 
     private int batchInsert(int batchSize, int batchCount, List<MtMsgs> mtMsgs) {
 
-        jdbcTemplate.batchUpdate("INSERT INTO imc_mt (`status`,`priority`,`reserved_date`,`callback`, " +
-                        "`mt_type`, `ad_flag`,`message`, `phone_number`,`etc1`,`etc2`) VALUES (?,?,?,?,?,?,?,?,?,?)",
+        jdbcTemplate.batchUpdate("INSERT INTO imc_mt (`status`,`priority`,`reserved_date`,`callback`, `title`," +
+                        "`mt_type`, `ad_flag`,`message`, `phone_number`,`etc1`,`etc2`) VALUES (?,?,?,?,?,?,?,?,?,?,?)",
                 new BatchPreparedStatementSetter() {
             // TODO 직접 insert 하기 때문에 default값 재설정 필요
                     @Override
@@ -50,12 +50,13 @@ public class MtMsgsJdbcRepositoryImpl implements MtMsgsJdbcRepository{
                         ps.setString(2, mtMsgs.get(i).getPriority());
                         ps.setString(3, mtMsgs.get(i).getReservedDate());
                         ps.setString(4, mtMsgs.get(i).getCallback());
-                        ps.setString(5, mtMsgs.get(i).getMtType());
-                        ps.setString(6, mtMsgs.get(i).getAdFlag());
-                        ps.setString(7, mtMsgs.get(i).getMsg());
-                        ps.setString(8, mtMsgs.get(i).getPhoneNumber());
-                        ps.setString(9, mtMsgs.get(i).getEtc1());
-                        ps.setString(10, mtMsgs.get(i).getEtc2());
+                        ps.setString(5, mtMsgs.get(i).getTitle());
+                        ps.setString(6, mtMsgs.get(i).getMtType());
+                        ps.setString(7, mtMsgs.get(i).getAdFlag());
+                        ps.setString(8, mtMsgs.get(i).getMsg());
+                        ps.setString(9, mtMsgs.get(i).getPhoneNumber());
+                        ps.setString(10, mtMsgs.get(i).getEtc1());
+                        ps.setString(11, mtMsgs.get(i).getEtc2());
                     }
                     @Override
                     public int getBatchSize() {

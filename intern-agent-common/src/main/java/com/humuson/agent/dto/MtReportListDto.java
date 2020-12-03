@@ -10,6 +10,7 @@ public class MtReportListDto {
     private String reserved_date;
     private String phone_number;
     private String callback;
+    private String title;
     private String mt_type;
     private String ad_flag;
     private String message;
@@ -17,12 +18,13 @@ public class MtReportListDto {
     private String etc2;
     private String etc3;
 
-    public MtReportListDto(String status, String priority, String reserved_date, String callback,
+    public MtReportListDto(String status, String priority, String reserved_date, String callback, String title,
                            String phone_number, String mt_type, String ad_flag, String msg, String etc1, String etc2, String etc3){
         this.status = status;
         this.priority = priority;
         this.reserved_date = reserved_date;
         this.callback = callback;
+        this.title = title;
         this.phone_number = phone_number;
         this.mt_type = mt_type;
         this.ad_flag = ad_flag;
