@@ -21,7 +21,7 @@
                     <input id="adFlag" type="checkbox" name="adFlag" value="Y">
                 </div>
                 <div class="card-body py-1">
-                    <input type="text" th:value="${sendNumber}" class="form-control bg-light border-0" placeholder="발신 번호">
+                    <input type="text" th:value="${sendNumber}" class="form-control bg-light border-0" placeholder="발신 번호" readonly>
                 </div>
                 <div class="card-body py-1">
                     <input type="text" class="form-control bg-light border-0" placeholder="제목 입력">
@@ -273,6 +273,7 @@
 
             <div class="card-body py-2">
                 <button id="send-button" class="btn btn-success">발송하기</button>
+<!--                <a class="btn btn-warning" href="/">뒤로가기</a>-->
             </div>
 
         </div>

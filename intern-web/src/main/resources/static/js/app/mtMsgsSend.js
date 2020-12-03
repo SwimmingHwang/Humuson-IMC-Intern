@@ -55,6 +55,7 @@ var mtSend = {
             var text_limit = $('#byte-limit');
             var text_count = $('#byte-count');
             var msg_type = $('#msg-type');
+            var send_button = $('#send-button');
             if(flag) {
                 text_limit.removeClass("text-success");
                 text_limit.addClass("text-warning");
@@ -65,6 +66,9 @@ var mtSend = {
                 msg_type.removeClass("text-success");
                 msg_type.addClass("text-warning");
                 msg_type.text("LMS");
+
+                send_button.removeClass("btn-success");
+                send_button.addClass("btn-warning");
 
                 alert("LMS 타입으로 변경되었습니다.")
             } else {
@@ -77,6 +81,9 @@ var mtSend = {
                 msg_type.removeClass("text-warning");
                 msg_type.addClass("text-success");
                 msg_type.text("SMS");
+
+                send_button.removeClass("btn-warning");
+                send_button.addClass("btn-success");
             }
         }
 
