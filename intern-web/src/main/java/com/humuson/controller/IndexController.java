@@ -66,11 +66,11 @@ public class IndexController {
 
     }
     // ymbin
-    @GetMapping("/send/at-msgs-send")
+    @GetMapping("/send/mt-msgs-send")
     public String atMsgsSend(Model model, Authentication authentication){
         String sendNumber = userService.findPhoneNumber(authentication.getName());
         model.addAttribute("sendNumber", sendNumber);
-        return "page/send/atMsgsSend";
+        return "page/send/mtMsgsSend";
     }
     @GetMapping("/send/ft-send")
     public String ftSend(Model model){
