@@ -41,16 +41,16 @@ public class MultiMtMsgsSaveListRequestDto {
         for (Customer customer : all) {
             String msgCopied = msg + "";
 
-            // 변수 매핑
-            if (varCheckList.contains(1)==true){
-                msgCopied = msgCopied.replace("#{변수1}", customer.getVar1()== null? "" : customer.getVar1());
-            }
-            if (varCheckList.contains(2)==true){
-                msgCopied = msgCopied.replace("#{변수2}", customer.getVar2()== null? "" : customer.getVar2());
-            }
-            if (varCheckList.contains(3)==true){
-                msgCopied = msgCopied.replace("#{변수3}", customer.getVar3()== null? "" : customer.getVar3());
-            }
+//            // 변수 매핑
+//            if (varCheckList.contains(1)==true){
+//                msgCopied = msgCopied.replace("#{변수1}", customer.getVar1()== null? "" : customer.getVar1());
+//            }
+//            if (varCheckList.contains(2)==true){
+//                msgCopied = msgCopied.replace("#{변수2}", customer.getVar2()== null? "" : customer.getVar2());
+//            }
+//            if (varCheckList.contains(3)==true){
+//                msgCopied = msgCopied.replace("#{변수3}", customer.getVar3()== null? "" : customer.getVar3());
+//            }
             MtMsgs mtMsg = new MtMsgs(status, priority, reservedDate, callback,
                     "82"+customer.getPhoneNumber().substring(1), mtType, adFlag, msgCopied, etc1, etc2 );
             msgs.add(mtMsg);
