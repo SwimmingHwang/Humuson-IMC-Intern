@@ -170,6 +170,7 @@ var mtSend = {
             todayHighlight : true ,	//오늘 날짜에 하이라이팅 기능 기본값 :false
             toggleActive : true,	//이미 선택된 날짜 선택하면 기본값 : false인경우 그대로 유지 true인 경우 날짜 삭제
             weekStart : 0 ,//달력 시작 요일 선택하는 것 기본값은 0인 일요일
+            language: 'ko'
         });
         $('#datepicker').datepicker('update',today);
     },

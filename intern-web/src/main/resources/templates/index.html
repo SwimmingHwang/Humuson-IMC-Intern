@@ -100,6 +100,18 @@
                 </div>
 
                 <!-- Content Row -->
+                <!-- 기간 선택 -->
+                <div class="row">
+                    <div class="col-ml-2 col-md-1 mb-3">
+                        <input type="text" id="datepicker1" class="form-control text-center">
+                    </div>
+                    <div class="text-center">
+                        <h5 class="font-weight-bold text-gray-800"> ~ </h5>
+                    </div>
+                    <div class="col-ml-2 col-md-1 mb-3">
+                        <input type="text" id="datepicker2" class="form-control text-center">
+                    </div>
+                </div>
 
                 <div class="row">
 
@@ -180,8 +192,12 @@
 
     <!--custom 스크립트 -->
     <th:block layout:fragment="script">
-        <link rel="stylesheet" th:href="@{/vendor/bootstrap/scss/bootstrap-datepicker.min.css}">
+        <!--<link rel="stylesheet" th:href="@{/vendor/bootstrap/scss/bootstrap-datepicker.min.css}">
         <script th:src="@{/vendor/bootstrap/js/bootstrap-datepicker.min.js}"></script>
+        <script th:src="@{/vendor/bootstrap/js/datepicker.ko.js}"></script>-->
+        <link rel="stylesheet" th:href="@{/vendor/datepicker/datepicker.min.css}">
+        <script th:src="@{/vendor/datepicker/datepicker.min.js}"></script>
+        <script th:src="@{/vendor/datepicker/datepicker.ko.js}"></script>
         <link rel="stylesheet" th:href="@{/css/custom.css}">
         <script th:src="@{/js/app/dashboard.js}"></script>
     </th:block>
