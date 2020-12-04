@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.humuson.call.ApiCall;
 import com.humuson.domain.msgs.MtMsgs;
 import com.humuson.dto.mt.*;
+import com.humuson.dto.report.MtReportListDashboardResponseDto;
 import com.humuson.service.CustomerService;
 import com.humuson.service.MtMsgsJdbcService;
 import com.humuson.service.MtMsgsService;
@@ -83,5 +84,11 @@ public class MtMsgsApiController {
     @GetMapping("/api/v1/mt-msgs/list")
     public List<MtMsgs> mtMsgsfindAll() {
         return mtMsgsService.findAll();
+    }
+
+    @Operation(summary="필요한 문자 결과 정보 조회", description = "대시보드에 필요한 문자 메세지의 상태를 조회")
+    @GetMapping("/api/v1/mt-msgs-info/list")
+    public List<MtMsgsListDashboardResponseDto> mtMsgsFindInfoList() {
+        return mtMsgsService.findInfoList();
     }
 }

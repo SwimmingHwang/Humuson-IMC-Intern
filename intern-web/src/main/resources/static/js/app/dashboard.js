@@ -1,19 +1,180 @@
-
+var atMsgs = [];
+var mtMsgs = [];
+var atReport = [];
+var mtReport = [];
 
 var dashboard = {
-    init : function() {
+    init: function () {
         var _this = this;
-        var atMsgs;
-        var mtMsgs;
-        var atReport;
-        var mtReport;
-        
+
+        _this.initCount(); // 달라지는 값 체크해서 객체들을 리스트에 저장
+        _this.initDatePicker(); // datepicker 세팅
+        setTimeout(function () {
+            _this.initChart(); // 차트 세팅
+        }, 700)
+
+
+    },
+    initCount: function () {
+        // 달라지는 값 체크해서 변경사항 있을 시 계속 변경
+        console.log("init Count");
+        changeAllCount();
+        setInterval(function () { // 7초당 한번씩 데이터 업데이트
+            changeAllCount();
+        }, 7000);
+
+        // api 호출한 뒤 변경사항 있으면 변경
+        function changeAllCount() {
+            // api 호출하여 객체 데이터 json 형식으로 가져옴
+            callApi();
+            setTimeout(function () {
+                /**
+                 * 발송량, 과금액 구현 부분
+                 */
+                var today = new Date();
+                var monthAtCount = monthCountSet(today, atReport);
+                var monthMtCount = monthCountSet(today, mtReport);
+                var monthCount = monthAtCount + monthMtCount;
+                var monthBill = countBill(monthAtCount, monthMtCount);
+                // mc 변수의 형식과 같게 설정
+                if (!($('#monthCount').text() == monthCount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','))) {
+                    new numberCounter("monthCount", monthCount);
+                    new numberCounter("monthBill", monthBill);
+                }
+                var dayAtCount = dayCountSet(today, atReport);
+                var dayMtCount = dayCountSet(today, mtReport);
+                var dayCount = dayAtCount + dayMtCount;
+                var dayBill = countBill(dayAtCount, dayMtCount);
+                if (!($('#dayCount').text() == dayCount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','))) {
+                    new numberCounter("dayCount", dayCount);
+                    new numberCounter("dayBill", dayBill);
+                }
+            }, 1000);
+        };
+
+        // number rolling
+        function numberCounter(target_frame, target_number) {
+            this.count = 0;
+            this.diff = 0;
+            this.target_count = parseInt(target_number);
+            this.target_frame = document.getElementById(target_frame);
+            this.timer = null;
+            this.counter();
+        };
+        numberCounter.prototype.counter = function () {
+            var self = this;
+            this.diff = this.target_count - this.count;
+
+            if (this.diff > 0) {
+                self.count += Math.ceil(this.diff / 5);
+            }
+
+            this.target_frame.innerHTML = this.count.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+
+            if (this.count < this.target_count) {
+                this.timer = setTimeout(function () {
+                    self.counter();
+                }, 20);
+            } else {
+                clearTimeout(this.timer);
+            }
+        };
+
+        // api 호출 함수
+        function callApi() {
+            $.ajax({
+                type: 'GET',
+                url: '/api/v1/at-msgs-info/list',
+                dataType: 'json',
+                contentType: 'application/json; charset=utf-8',
+            }).done(function (data) {
+                atMsgs = data;
+            }).fail(function (error) {
+                console.log(JSON.stringify(error));
+            });
+            $.ajax({
+                type: 'GET',
+                url: '/api/v1/mt-msgs-info/list',
+                dataType: 'json',
+                contentType: 'application/json; charset=utf-8',
+            }).done(function (data) {
+                mtMsgs = data;
+            }).fail(function (error) {
+                console.log(JSON.stringify(error));
+            });
+            $.ajax({
+                type: 'GET',
+                url: '/api/v1/at-report-info/list',
+                dataType: 'json',
+                contentType: 'application/json; charset=utf-8',
+            }).done(function (data) {
+                atReport = data;
+            }).fail(function (error) {
+                console.log(JSON.stringify(error));
+            });
+            $.ajax({
+                type: 'GET',
+                url: '/api/v1/mt-report-info/list',
+                dataType: 'json',
+                contentType: 'application/json; charset=utf-8',
+            }).done(function (data) {
+                mtReport = data;
+            }).fail(function (error) {
+                console.log(JSON.stringify(error));
+            });
+        }
+
+        // 금월 발송건 카운트
+        function monthCountSet(today, obj) {
+            var count = 0;
+            var ty = today.getFullYear();
+            var tm = today.getMonth();
+            for (var i = 0; i < obj.length; i++) {
+                if (obj[i].report_code != "0000") continue;
+                var date = changeDate(obj[i].response_date);
+                var y = date.getFullYear();
+                var m = date.getMonth();
+                if (y == ty && m == tm) {
+                    count++;
+                }
+            }
+            return count;
+        }
+
+        // 금일 발송건 카운트
+        function dayCountSet(today, obj) {
+            var count = 0;
+            var ty = today.getFullYear();
+            var tm = today.getMonth();
+            var td = today.getDate();
+            for (var i = 0; i < obj.length; i++) {
+                if (obj[i].report_code != "0000") continue;
+                var date = changeDate(obj[i].response_date);
+                var y = date.getFullYear();
+                var m = date.getMonth();
+                var d = date.getDate();
+                if (y == ty && m == tm && d == td) {
+                    count++;
+                }
+            }
+            return count;
+        }
+
+        // 알림톡, 문자톡 총 금액 합계 (알림톡 6원, 문자 8원)
+        function countBill(atBill, mtBill) {
+            return (atBill * 6) + (mtBill * 8);
+        }
+    },
+    initDatePicker: function () {
+        console.log("init Date Picker");
+        var _this = this;
+
         // 초기 datepicker 값 설정
         var today = new Date();
-        var lastWeek = new Date(today.getFullYear(), today.getMonth(), today.getDate()-7);
+        var lastWeek = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 6);
         $("#datepicker1").datepicker({
             maxDate: today,
-            minDate: new Date(today.getFullYear(), today.getMonth(), today.getDay()-30),
+            minDate: new Date(today.getFullYear(), today.getMonth(), today.getDay() - 30),
             startDate: lastWeek,
             language: 'ko',
             autoClose: true
@@ -28,12 +189,6 @@ var dashboard = {
         $("#datepicker2").val(today);
         // datepicker setting
         datePickerSet($("#datepicker1"), $("#datepicker2"), true);
-
-        // 달라지는 값 체크해서 변경사항 있을 시 계속 변경
-        changeAll();
-        setInterval(function() {
-            changeAll();
-        }, 7000);
 
         // datepicker setting
         function datePickerSet(sDate, eDate, flag) {
@@ -53,15 +208,16 @@ var dashboard = {
                 if (!isValidStr(eDay)) {
                     sDate.datepicker({
                         maxDate: new Date(eDay.replace(/-/g, "-")),
-                        minDate: new Date(today.getFullYear(), today.getMonth(), today.getDay()-30) // 30일 전만 가능하게 설정
+                        minDate: new Date(today.getFullYear(), today.getMonth(), today.getDay() - 30) // 30일 전만 가능하게 설정
                     });
                 }
                 sDate.datepicker({
                     startDate: lastWeek, // 일주일 전을 시작으로 설정
                     language: 'ko',
                     autoClose: true,
-                    onSelect: function () {
+                    onSelect: function () { // 버튼 클릭 시 이벤트 발생
                         datePickerSet(sDate, eDate);
+                        _this.initChart(); // TODO: 나중에 update로 변경
                     }
                 });
 
@@ -78,6 +234,7 @@ var dashboard = {
                     autoClose: true,
                     onSelect: function () {
                         datePickerSet(sDate, eDate);
+                        _this.initChart(); // TODO: 나중에 update로 변경
                     }
                 });
                 //한개짜리 달력 datepicker
@@ -91,9 +248,13 @@ var dashboard = {
                     startDate: today,
                     language: 'ko',
                     autoClose: true,
-                    maxDate: today
+                    maxDate: today,
+                    onSelect: function () {
+                        _this.initChart(); // TODO: 나중에 update로 변경
+                    }
                 });
             }
+
             function isValidStr(str) {
                 if (str == null || str == undefined || str == "")
                     return true;
@@ -101,224 +262,166 @@ var dashboard = {
                     return false;
             }
         };
+    },
+    initChart: function () {
+        console.log("init Chart");
+        /**
+         * 차트 구현 부분
+         */
 
-        // number rolling
-        function numberCounter(target_frame, target_number) {
-            this.count = 0; this.diff = 0;
-            this.target_count = parseInt(target_number);
-            this.target_frame = document.getElementById(target_frame);
-            this.timer = null;
-            this.counter();
-        };
-        numberCounter.prototype.counter = function() {
-            var self = this;
-            this.diff = this.target_count - this.count;
+        setTimeout(function() {
+            changeAllChart();
+        }, 500);
 
-            if(this.diff > 0) {
-                self.count += Math.ceil(this.diff / 5);
+        // setInterval(function () { // 8초당 한번씩 데이터 업데이트
+        //     changeAllChart();
+        // }, 8000);
+
+        function changeAllChart() {
+            /**
+             * 가로 막대 차트 부분 (발송량 조회)
+             * 세로 막대 차트 부분 (발송 현황 조회) - status == 2, status == 3 & report_code == '0000 , report_code != '0000' / 대기중, 성공, 실패
+             */
+            var sdt = dateFormatChange($('#datepicker1').val());
+            var edt = dateFormatChange($('#datepicker2').val());
+
+            // 기간 내의 성공한 데이터만 조회
+            var perAtReport = periodObj(sdt, edt, atReport);
+            var perMtReport = periodObj(sdt, edt, mtReport);
+
+            var chartData = [];
+            var chartLabel = [];
+            // 총 일자
+            var totalDay = diffPeriod(sdt, edt);
+            for (var i = 0; i <= totalDay; i++) {
+                chartData[i] = 0;
+                chartLabel[i] = "";
+            }
+            // y축 : 날짜 세팅
+            var ndt = sdt;
+            for (var i = 0; i <= totalDay; i++) {
+                var m = ndt.getMonth() + 1;
+                var d = ndt.getDate();
+                if (m.toString().length == 1) m = "0" + m;
+                if (d.toString().length == 1) d = "0" + d;
+                chartLabel[i] = ndt.getFullYear() + "년 " + m + "월 " + d + "일";
+                ndt.setDate(ndt.getDate()+1);
+            }
+            // x축 : 데이터 세팅
+            for (var i = 0; i < perAtReport.length; i++) {
+                var ndt = changeDate(perAtReport[i].response_date);
+                var diffPer = diffPeriod(sdt, ndt);
+                chartData[totalDay - diffPer + 1]++;
+            }
+            for (var i = 0; i < perMtReport.length; i++) {
+                var ndt = changeDate(perMtReport[i].response_date);
+                var diffPer = diffPeriod(sdt, ndt);
+                chartData[totalDay - diffPer + 1]++;
             }
 
-            this.target_frame.innerHTML = this.count.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+            // countSelectDate(perAtReport, diffPer, dataList, sdt);
+            // setTimeout(function() {
+            //     countSelectDate(perMtReport, diffPer, dataList, sdt);
+            // }, 500);
 
-            if(this.count < this.target_count) {
-                this.timer = setTimeout(function() { self.counter(); }, 20);
-            } else {
-                clearTimeout(this.timer);
-            }
-        };
-        // count
-        function monthCount(today, obj) {
-            var count = 0;
-            var ty = today.getFullYear();
-            var tm = today.getMonth();
-
-            for(var i=0; i<obj.length; i++) {
-                if(obj[i].report_code != "0000") continue;
-                var responseDate = obj[i].response_date;
-                var y = parseInt(responseDate.substring(0,4));
-                var m = parseInt(responseDate.substring(4,6)) - 1;
-                if(y == ty && m == tm) {
-                    count++;
-                }
-            }
-            return count;
+            drawChart(chartData, chartLabel);
+            console.log(chartData);
+            console.log(chartLabel);
         }
-        function dayCount(today, obj) {
-            var count = 0;
-            var ty = today.getFullYear();
-            var tm = today.getMonth();
-            var td = today.getDate();
 
-            for(var i=0; i<obj.length; i++) {
-                if(obj[i].report_code != "0000") continue;
-                var responseDate = obj[i].response_date;
-                var y = parseInt(responseDate.substring(0,4));
-                var m = parseInt(responseDate.substring(4,6)) - 1;
-                var d = parseInt(responseDate.substring(6,8));
-                if(y == ty && m == tm && d == td) {
-                    count++;
-                }
-            }
-            return count;
+        // 페이지 기간 설정 datepicker의 데이터를 변경 (yyyy-mm-dd -> yyyymmdd 로 변경)
+        function dateFormatChange(date) {
+            var year = parseInt(date.substring(0, 4));
+            var month = parseInt(date.substring(5, 7)) - 1;
+            var day = parseInt(date.substring(8, 10));
+            return new Date(year, month, day);
         }
+
         // 기간 내의 객체만 추출
-        function periodObj(prevDate, nextDate, obj) {
+        function periodObj(sdt, edt, obj) {
             var nobj = [];
-            for(var i=0; i<obj.length; i++) {
-                if(obj[i].report_code != "0000") continue;
-                var responseDate = obj[i].response_date;
-                var y = parseInt(responseDate.substring(0,4));
-                var m = parseInt(responseDate.substring(4,6)) - 1;
-                var d = parseInt(responseDate.substring(6,8));
-                var date = new Date(y, m, d);
-                if(prevDate <= date && date <= nextDate) {
+            for (var i = 0; i < obj.length; i++) {
+                if (obj[i].report_code != "0000") continue;
+                var date = changeDate(obj[i].response_date);
+                if (sdt <= date && date <= edt) {
+                    var m = date.getMonth() + 1;
+                    var d = date.getDate();
+                    if (m.toString().length == 1) m = "0" + m;
+                    if (d.toString().length == 1) d = "0" + d;
+                    obj[i].response_date = date.getFullYear() + "" + m + "" + d;
                     nobj.push(obj[i]);
                 }
             }
             return nobj;
         }
 
-        // api 호출 함수
-        function callApi() {
-            $.ajax({
-                type : 'GET',
-                url : '/api/v1/at-msgs/list',
-                dataType: 'json',
-                contentType: 'application/json; charset=utf-8',
-            }).done(function(data) {
-                atMsgs = data;
-            }).fail(function(error) {
-                console.log(JSON.stringify(error));
-            });
-            $.ajax({
-                type : 'GET',
-                url : '/api/v1/mt-msgs/list',
-                dataType: 'json',
-                contentType: 'application/json; charset=utf-8',
-            }).done(function(data) {
-                mtMsgs = data;
-            }).fail(function(error) {
-                console.log(JSON.stringify(error));
-            });
-            $.ajax({
-                type : 'GET',
-                url : '/api/v1/at-report/list',
-                dataType: 'json',
-                contentType: 'application/json; charset=utf-8',
-            }).done(function(data) {
-                atReport = data;
-            }).fail(function(error) {
-                console.log(JSON.stringify(error));
-            });
-            $.ajax({
-                type : 'GET',
-                url : '/api/v1/mt-report/list',
-                dataType: 'json',
-                contentType: 'application/json; charset=utf-8',
-            }).done(function(data) {
-                mtReport = data;
-            }).fail(function(error) {
-                console.log(JSON.stringify(error));
-            });
+        // Date 일수 차이 구하기
+        function diffPeriod(sdt, edt) {
+            // var time = Math.floor((edt.getTime() - sdt.getTime()) / 1000 / 60 / 60 / 24);
+            // return time < 0 ? 0 : time;
+            var timeDif = Math.abs(edt.getTime() - sdt.getTime());
+            return Math.ceil(timeDif / (1000 * 3600 * 24));
         }
 
-        // api 호출한 뒤 변경사항 있으면 변경
-        function changeAll() {
-            callApi();
-            setTimeout(function() {
-                // count 변경 부분
-                var today = new Date();
-                var mc = monthCount(today, atReport) + monthCount(today, mtReport);
-                // mc의 형식과 같게 설정
-                if (!($('#monthCount').text() == mc.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','))) {
-                    new numberCounter("monthCount", mc);
-                    new numberCounter("monthBill", mc * 7);
+        // 선택된 날짜에 순으로 리스트에 count
+        function countSelectDate(report, diffPer, dataList, sdt) {
+            for (var i = 0; i < report.length; i++) {
+                if (report[i].report_code != "0000") continue;
+                var ndt = changeDate(report[i].response_date);
+                var diffPer = diffPeriod(sdt, ndt);
+                dataList[diffPer]++;
+            }
+        }
+
+        function drawChart(data, labels) {
+            var ctx = document.getElementById('myChart').getContext('2d');
+            var chart = new Chart(ctx, {
+                // The type of chart we want to create
+                type: 'bar',
+
+                // The data for our dataset
+                data: {
+                    // labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+                    labels: labels,
+                    datasets: [{
+                        label: '메세지 전송량',
+                        // barPercentage: 0,
+                        barThickness: 30,
+                        maxBarThickness: 50,
+                        minBarLength: 0,
+                        backgroundColor: '#1cc88a',
+                        borderColor: '#8cdcc0',
+                        hoverBackgroundColor: '#0cc784',
+                        hoverBorderColor: '#01ac6f',
+                        hoverBorderWidth: 1,
+                        data: data
+                    }]
+                },
+
+                // Configuration options go here
+                options: {
+                    responsive: false,
+                    legend: {
+                        labels: {
+                            // This more specific font property overrides the global property
+                            fontColor: 'black',
+                            defaultFontSize: 16
+                        }
+                    },
                 }
-                var dc = dayCount(today, atReport) + dayCount(today, mtReport);
-                if (!($('#dayCount').text() == dc.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','))) {
-                    new numberCounter("dayCount", dc);
-                    new numberCounter("dayBill", dc * 5);
-                }
+            });
 
-                // string -> Date
-                var date1 = dateFormatChange($('#datepicker1').val());
-                var date2 = dateFormatChange($('#datepicker2').val());
-                // 기간 내의 데이터만 조회
-                var perAtReport = periodObj(date1, date2, atReport);
-                var perMtReport = periodObj(date1, date2, mtReport);
-
-                console.log(perAtReport.length);
-                console.log(perMtReport.length);
-
-                //가로 막대 차트 부분 (발송량 조회)
-
-
-                // 세로 막대 차트 부분 (발송 현황 조회)
-
-            }, 1000);
         }
-        // date form yyyymmdd 로 변경
-        function dateFormatChange(date) {
-            var year = parseInt(date.substring(0, 4));
-            var month = parseInt(date.substring(5, 7))-1;
-            var day = parseInt(date.substring(8, 10));
-            return new Date(year, month, day);
-            /*var year = parseInt(date.substring(date.indexOf("년")-5, date.indexOf("년")));
-            var month = parseInt( date.substring(date.indexOf("월")-2, date.indexOf("월")))-1;
-            var day = parseInt(date.substring(date.indexOf("일")-2, date.indexOf("일")));
-            return new Date(year, month, day);*/
-        }
-
     },
-    /*initDatePicker1: function() {
-        var date = new Date();
-        var lastWeek = lastWeek(date);
-        function lastWeek(date) {
-            var dayOfMonth = date.getDate()
-            date.setDate(dayOfMonth - 7)
-            return date;
-        }
-        $('#datepicker1').datepicker({
-            format: "yyyy년 mm월 dd일",	//데이터 포맷 형식(yyyy : 년 mm : 월 dd : 일 )
-            // startDate: '-30d',	//달력에서 선택 할 수 있는 가장 빠른 날짜. 이전으로는 선택 불가능 ( d : 일 m : 달 y : 년 w : 주)
-            // endDate: '0d',	//달력에서 선택 할 수 있는 가장 느린 날짜. 이후로 선택 불가 ( d : 일 m : 달 y : 년 w : 주)
-            // autoclose : true,	//사용자가 날짜를 클릭하면 자동 캘린더가 닫히는 옵션
-            // calendarWeeks : false, //캘린더 옆에 몇 주차인지 보여주는 옵션 기본값 false 보여주려면 true
-            // clearBtn : false, //날짜 선택한 값 초기화 해주는 버튼 보여주는 옵션 기본값 false 보여주려면 true
-            // daysOfWeekHighlighted : [0], //강조 되어야 하는 요일 설정
-            // immediateUpdates: false,	//사용자가 보는 화면으로 바로바로 날짜를 변경할지 여부 기본값 :false
-            // multidate : false, //여러 날짜 선택할 수 있게 하는 옵션 기본값 :false
-            // multidateSeparator :",", //여러 날짜를 선택했을 때 사이에 나타나는 글짜 2019-05-01,2019-06-01
-            // templates : {
-            //     leftArrow: '&laquo;',
-            //     rightArrow: '&raquo;'
-            // }, //다음달 이전달로 넘어가는 화살표 모양 커스텀 마이징
-            // showWeekDays : true ,// 위에 요일 보여주는 옵션 기본값 : true
-            // todayHighlight : true ,	//오늘 날짜에 하이라이팅 기능 기본값 :false
-            // toggleActive : true,	//이미 선택된 날짜 선택하면 기본값 : false인경우 그대로 유지 true인 경우 날짜 삭제
-            // weekStart : 0 ,//달력 시작 요일 선택하는 것 기본값은 0인 일요일
-            language: 'ko'
-        });
-        $('#datepicker1').datepicker('update',lastWeek);
-    },
-    initDatePicker2: function() {
-        var date = new Date();
-        var today = setDay(date);
-        function setDay(date) {
-            var day = date.getDate(),
-                month = date.getMonth() + 1,
-                year = date.getFullYear();
-            month = (month < 10 ? "0" : "") + month;
-            day = (day < 10 ? "0" : "") + day;
-            return year + "" + month + "" + day;
-        }
-        $('#datepicker2').datepicker({
-            format: "yyyy년 mm월 dd일",	//데이터 포맷 형식(yyyy : 년 mm : 월 dd : 일 )
-            language: 'ko'
-        });
-        $('#datepicker2').datepicker('update',today);
-    },*/
 
+}
+
+// yyyymmdd 형식의 데이터를 변경 -> Date(yyyy, mm, dd);
+function changeDate(str) {
+    var year = str.substring(0, 4);
+    var month = str.substring(4, 6) - 1;
+    var day = str.substring(6, 8);
+    return new Date(year, month, day);
 }
 
 dashboard.init();

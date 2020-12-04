@@ -10,6 +10,7 @@ import com.humuson.domain.repository.CustomerRepository;
 import com.humuson.domain.msgs.AtMsgs;
 import com.humuson.domain.repository.AtMsgsRepository;
 import com.humuson.dto.at.*;
+import com.humuson.dto.report.AtReportListDashboardResponseDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -107,5 +108,12 @@ public class AtMsgsService {
     @Transactional(readOnly = true)
     public List<AtMsgs> findAllByReservedDate(){
         return atMsgsRepository.findAllByReservedDate();
+    }
+
+    @Transactional
+    public List<AtMsgsListDashboardResponseDto> findInfoList() {
+        return atMsgsRepository.findAll().stream()
+                .map(AtMsgsListDashboardResponseDto::new)
+                .collect(Collectors.toList());
     }
 }

@@ -4,7 +4,6 @@ import lombok.Getter;
 
 @Getter
 public class MtReportListDto {
-    private Long id;
     private String status;
     private String priority;
     private String reserved_date;
