@@ -75,7 +75,6 @@
 }
 
 #myChart {
-    /*padding-right: 2%;*/
-    /*width: inherit !important;*/
-    /*height: inherit !important;;*/
+    width: inherit !important;
+    height: inherit !important;;
 }

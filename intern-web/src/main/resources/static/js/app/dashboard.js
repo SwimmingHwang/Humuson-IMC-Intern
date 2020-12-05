@@ -2,6 +2,9 @@ var atMsgs = [];
 var mtMsgs = [];
 var atReport = [];
 var mtReport = [];
+var chartData = [];
+var chartLabel = [];
+var chart;
 
 var dashboard = {
     init: function () {
@@ -217,7 +220,8 @@ var dashboard = {
                     autoClose: true,
                     onSelect: function () { // 버튼 클릭 시 이벤트 발생
                         datePickerSet(sDate, eDate);
-                        _this.initChart(); // TODO: 나중에 update로 변경
+                        updateChartVal();
+                        updateChartData(chartData, chartLabel);
                     }
                 });
 
@@ -234,7 +238,8 @@ var dashboard = {
                     autoClose: true,
                     onSelect: function () {
                         datePickerSet(sDate, eDate);
-                        _this.initChart(); // TODO: 나중에 update로 변경
+                        updateChartVal();
+                        updateChartData(chartData, chartLabel);
                     }
                 });
                 //한개짜리 달력 datepicker
@@ -250,7 +255,8 @@ var dashboard = {
                     autoClose: true,
                     maxDate: today,
                     onSelect: function () {
-                        _this.initChart(); // TODO: 나중에 update로 변경
+                        updateChartVal();
+                        updateChartData(chartData, chartLabel);
                     }
                 });
             }
@@ -268,114 +274,21 @@ var dashboard = {
         /**
          * 차트 구현 부분
          */
+        var sdt;
+        var edt;
 
-        setTimeout(function() {
-            changeAllChart();
-        }, 500);
-
-        // setInterval(function () { // 8초당 한번씩 데이터 업데이트
-        //     changeAllChart();
-        // }, 8000);
-
-        function changeAllChart() {
-            /**
-             * 가로 막대 차트 부분 (발송량 조회)
-             * 세로 막대 차트 부분 (발송 현황 조회) - status == 2, status == 3 & report_code == '0000 , report_code != '0000' / 대기중, 성공, 실패
-             */
-            var sdt = dateFormatChange($('#datepicker1').val());
-            var edt = dateFormatChange($('#datepicker2').val());
-
-            // 기간 내의 성공한 데이터만 조회
-            var perAtReport = periodObj(sdt, edt, atReport);
-            var perMtReport = periodObj(sdt, edt, mtReport);
-
-            var chartData = [];
-            var chartLabel = [];
-            // 총 일자
-            var totalDay = diffPeriod(sdt, edt);
-            for (var i = 0; i <= totalDay; i++) {
-                chartData[i] = 0;
-                chartLabel[i] = "";
+        updateChartVal();
+        setInterval(function() {
+            updateChartVal();
+            if(checkChartDate(sdt, edt)) { // 데이터 다를 때만 업데이트
+                updateChartData(chartData, chartLabel);
             }
-            // y축 : 날짜 세팅
-            var ndt = sdt;
-            for (var i = 0; i <= totalDay; i++) {
-                var m = ndt.getMonth() + 1;
-                var d = ndt.getDate();
-                if (m.toString().length == 1) m = "0" + m;
-                if (d.toString().length == 1) d = "0" + d;
-                chartLabel[i] = ndt.getFullYear() + "년 " + m + "월 " + d + "일";
-                ndt.setDate(ndt.getDate()+1);
-            }
-            // x축 : 데이터 세팅
-            for (var i = 0; i < perAtReport.length; i++) {
-                var ndt = changeDate(perAtReport[i].response_date);
-                var diffPer = diffPeriod(sdt, ndt);
-                chartData[totalDay - diffPer + 1]++;
-            }
-            for (var i = 0; i < perMtReport.length; i++) {
-                var ndt = changeDate(perMtReport[i].response_date);
-                var diffPer = diffPeriod(sdt, ndt);
-                chartData[totalDay - diffPer + 1]++;
-            }
-
-            // countSelectDate(perAtReport, diffPer, dataList, sdt);
-            // setTimeout(function() {
-            //     countSelectDate(perMtReport, diffPer, dataList, sdt);
-            // }, 500);
-
-            drawChart(chartData, chartLabel);
-            console.log(chartData);
-            console.log(chartLabel);
-        }
-
-        // 페이지 기간 설정 datepicker의 데이터를 변경 (yyyy-mm-dd -> yyyymmdd 로 변경)
-        function dateFormatChange(date) {
-            var year = parseInt(date.substring(0, 4));
-            var month = parseInt(date.substring(5, 7)) - 1;
-            var day = parseInt(date.substring(8, 10));
-            return new Date(year, month, day);
-        }
-
-        // 기간 내의 객체만 추출
-        function periodObj(sdt, edt, obj) {
-            var nobj = [];
-            for (var i = 0; i < obj.length; i++) {
-                if (obj[i].report_code != "0000") continue;
-                var date = changeDate(obj[i].response_date);
-                if (sdt <= date && date <= edt) {
-                    var m = date.getMonth() + 1;
-                    var d = date.getDate();
-                    if (m.toString().length == 1) m = "0" + m;
-                    if (d.toString().length == 1) d = "0" + d;
-                    obj[i].response_date = date.getFullYear() + "" + m + "" + d;
-                    nobj.push(obj[i]);
-                }
-            }
-            return nobj;
-        }
-
-        // Date 일수 차이 구하기
-        function diffPeriod(sdt, edt) {
-            // var time = Math.floor((edt.getTime() - sdt.getTime()) / 1000 / 60 / 60 / 24);
-            // return time < 0 ? 0 : time;
-            var timeDif = Math.abs(edt.getTime() - sdt.getTime());
-            return Math.ceil(timeDif / (1000 * 3600 * 24));
-        }
-
-        // 선택된 날짜에 순으로 리스트에 count
-        function countSelectDate(report, diffPer, dataList, sdt) {
-            for (var i = 0; i < report.length; i++) {
-                if (report[i].report_code != "0000") continue;
-                var ndt = changeDate(report[i].response_date);
-                var diffPer = diffPeriod(sdt, ndt);
-                dataList[diffPer]++;
-            }
-        }
+        }, 7000);
+        drawChart(chartData, chartLabel);
 
         function drawChart(data, labels) {
             var ctx = document.getElementById('myChart').getContext('2d');
-            var chart = new Chart(ctx, {
+            chart = new Chart(ctx, {
                 // The type of chart we want to create
                 type: 'bar',
 
@@ -410,18 +323,127 @@ var dashboard = {
                     },
                 }
             });
-
         }
     },
 
 }
 
 // yyyymmdd 형식의 데이터를 변경 -> Date(yyyy, mm, dd);
-function changeDate(str) {
-    var year = str.substring(0, 4);
-    var month = str.substring(4, 6) - 1;
-    var day = str.substring(6, 8);
+function changeDate(_str) {
+    var year = _str.substring(0, 4);
+    var month = _str.substring(4, 6) - 1;
+    var day = _str.substring(6, 8);
     return new Date(year, month, day);
+}
+
+// chart.js 다시 그릴 시 이전 차트 남아있는 버그 있으므로 remove 이후 추가하는 걸로 대체
+function updateChartData(_data, _labels) {
+    // chart.data.labels.forEach(label =>
+    //     chart.data.labels.pop()
+    // )
+    // chart.data.datasets.forEach((dataset) => {
+    //     dataset.data.pop();
+    // });
+    // chart.update();
+    // chart.data.datasets.forEach((dataset) => {
+    //     dataset.data.push(_data);
+    //     chart.data.labels.push(_labels);
+    // });
+    chart.data.labels = _labels;
+    chart.data.datasets[0].data = _data;
+    console.log(_labels);
+    console.log(_data);
+    chart.update();
+
+}
+
+function updateChartVal() {
+    /**
+     * 가로 막대 차트 부분 (발송량 조회)
+     * 세로 막대 차트 부분 (발송 현황 조회) - status == 2, status == 3 & report_code == '0000 , report_code != '0000' / 대기중, 성공, 실패
+     */
+    sdt = dateFormatChange($('#datepicker1').val());
+    edt = dateFormatChange($('#datepicker2').val());
+
+    // 기간 내의 성공한 데이터만 조회
+    var perAtReport = periodObj(sdt, edt, atReport);
+    var perMtReport = periodObj(sdt, edt, mtReport);
+
+    chartData = [];
+    chartLabel = [];
+    // 총 일자
+    var totalDay = diffPeriod(sdt, edt);
+    for (var i = 0; i <= totalDay; i++) {
+        chartData[i] = 0;
+        chartLabel[i] = "";
+    }
+    // y축 : 날짜 세팅
+    var ndt = sdt;
+    for (var i = 0; i <= totalDay; i++) {
+        var m = ndt.getMonth() + 1;
+        var d = ndt.getDate();
+        if (m.toString().length == 1) m = "0" + m;
+        if (d.toString().length == 1) d = "0" + d;
+        chartLabel[i] = ndt.getFullYear() + "년 " + m + "월 " + d + "일";
+        ndt.setDate(ndt.getDate()+1);
+    }
+    // x축 : 데이터 세팅
+    for (var i = 0; i < perAtReport.length; i++) {
+        var ndt = changeDate(perAtReport[i].response_date);
+        var diffPer = diffPeriod(sdt, ndt);
+        chartData[totalDay - diffPer + 1]++;
+    }
+    for (var i = 0; i < perMtReport.length; i++) {
+        var ndt = changeDate(perMtReport[i].response_date);
+        var diffPer = diffPeriod(sdt, ndt);
+        chartData[totalDay - diffPer + 1]++;
+    }
+}
+
+// 페이지 기간 설정 datepicker의 데이터를 변경 (yyyy-mm-dd -> yyyymmdd 로 변경)
+function dateFormatChange(_date) {
+    var year = parseInt(_date.substring(0, 4));
+    var month = parseInt(_date.substring(5, 7)) - 1;
+    var day = parseInt(_date.substring(8, 10));
+    return new Date(year, month, day);
+}
+
+// 기간 내의 객체만 추출
+function periodObj(_sdt, _edt, _obj) {
+    var nobj = [];
+    for (var i = 0; i < _obj.length; i++) {
+        if (_obj[i].report_code != "0000") continue;
+        var date = changeDate(_obj[i].response_date);
+        if (_sdt <= date && date <= _edt) {
+            var m = date.getMonth() + 1;
+            var d = date.getDate();
+            if (m.toString().length == 1) m = "0" + m;
+            if (d.toString().length == 1) d = "0" + d;
+            _obj[i].response_date = date.getFullYear() + "" + m + "" + d;
+            nobj.push(_obj[i]);
+        }
+    }
+    return nobj;
+}
+
+// Date 일수 차이 구하기
+function diffPeriod(_sdt, _edt) {
+    // var time = Math.floor((edt.getTime() - sdt.getTime()) / 1000 / 60 / 60 / 24);
+    // return time < 0 ? 0 : time;
+    var timeDif = Math.abs(_edt.getTime() - _sdt.getTime());
+    return Math.ceil(timeDif / (1000 * 3600 * 24));
+}
+
+// 차트 데이터 업데이트 되었는지 검사
+function checkChartDate(_sdt, _edt) {
+    var s = dateFormatChange($('#datepicker1').val());
+    var e = dateFormatChange($('#datepicker2').val());
+    if(_sdt.getFullYear() == s.getFullYear() || _sdt.getMonth() == s.getMonth() || _sdt.getDate() == s.getDate()) {
+        if(_edt.getFullYear() == e.getFullYear() || _edt.getMonth() == e.getMonth() || _edt.getDate() == e.getDate()) {
+            return false;
+        }
+    }
+    return true;
 }
 
 dashboard.init();
