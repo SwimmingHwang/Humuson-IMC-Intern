@@ -1,11 +1,10 @@
 package com.humuson.controller;
 
+import com.humuson.domain.entity.AtCampaign;
 import com.humuson.domain.entity.Customer;
 import com.humuson.domain.entity.Group;
+import com.humuson.dto.at.AtCampaignSaveRequestDto;
 import com.humuson.dto.at.AtMsgsResponseDto;
-import com.humuson.dto.customer.GroupResponseDto;
-import com.humuson.dto.customer.CustomerResponseDto;
-import com.humuson.dto.customer.GroupSaveRequestDto;
 import com.humuson.dto.ft.FtMsgsResponseDto;
 import com.humuson.dto.mt.MtMsgsResponseDto;
 import com.humuson.service.*;
@@ -15,9 +14,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.List;
 
@@ -58,19 +55,12 @@ public class IndexController {
 //    }
 
     /*
-    * 발송 페이지
+    * 발송 기본 페이지
     * */
     @GetMapping("/send/at-send")
     public String atSend(){
         return "page/send/atsend";
 
-    }
-    // ymbin
-    @GetMapping("/send/mt-msgs-send")
-    public String atMsgsSend(Model model, Authentication authentication){
-        String sendNumber = userService.findPhoneNumber(authentication.getName());
-        model.addAttribute("sendNumber", sendNumber);
-        return "page/send/mtMsgsSend";
     }
     @GetMapping("/send/ft-send")
     public String ftSend(Model model){
@@ -87,12 +77,37 @@ public class IndexController {
         return "page/send/mtsend";
     }
 
+    /*
+    * 발송 세부사항 입력 페이지
+    * */
+    @GetMapping("/send/at-msgs-send")
+//    public String atMsgsSend(Model model, Authentication authentication){
+        public String atMsgsSend(Model model){
+        // TODO : profile에서 모든 senderkey-senderName으로!!!!!! 가져오기 : select 로 구현할 것
+        String senderKey = "temp sender key";
+        AtCampaignSaveRequestDto atCampaignSaveRequestDto = new AtCampaignSaveRequestDto();
+        atCampaignSaveRequestDto.setSenderKey(senderKey);
+        model.addAttribute("atCampaign",atCampaignSaveRequestDto);
+        model.addAttribute("templateCodes",templateInfoService.findAll());
+        return "page/sendDetails/atMsgsSend";
+    }
+    // ymbin
+    @GetMapping("/send/mt-msgs-send")
+//    public String mtMsgsSend(Model model, Authentication authentication){
+    public String mtMsgsSend(Model model){
+        String sendNumber = userService.findPhoneNumber("t1@test.com");
+        model.addAttribute("sendNumber", sendNumber);
+        return "page/sendDetails/mtMsgsSend";
+    }
+
+
+
     // 결과 조회 ------------------------------------------------------------------------------------
     @GetMapping("/send/at-record")
     public String atRecord(Model model){
         model.addAttribute("title","알림톡 발송 예약 내역");
         model.addAttribute("msgSbj","at");
-        model.addAttribute("msgs", atMsgsService.findAll());
+        model.addAttribute("msgs", atMsgsService.findAllReservedDateDesc());
         return "page/attable";
     }
     @GetMapping("/send/ft-record")

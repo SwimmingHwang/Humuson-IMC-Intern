@@ -48,8 +48,8 @@ public class CustomerApiController {
 
     @Operation(summary="고객 리스트 조회", description = "고객 주소록의 고객 정보들을 조희")
     @GetMapping("/api/v1/customer/list")
-    public List<CustomerListResponseDto> findAll() {
-        return customerService.findAllDesc();
+    public List<Customer> findAll() {
+        return customerService.findAll();
     }
 
     @Operation(summary = "고객 그룹 정보 업데이트", description = "고객의 그룹 정보를 업데이트 함.")

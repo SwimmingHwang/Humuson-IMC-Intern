@@ -19,4 +19,9 @@ public class TemplateInfoService {
         // repo에서 넘어온 stream을 map을 통해 dto로 변환해서 리스트로 반환
         return templateInfoRepository.findAll();
     }
+    @Transactional(readOnly = true)
+    public TemplateInfo findByTemplateName(String name) {
+        // repo에서 넘어온 stream을 map을 통해 dto로 변환해서 리스트로 반환
+        return templateInfoRepository.findByTemplateName(name);
+    }
 }

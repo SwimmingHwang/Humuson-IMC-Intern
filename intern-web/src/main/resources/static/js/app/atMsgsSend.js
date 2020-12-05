@@ -5,6 +5,8 @@ let isCustomerInfoUpload = false;
 var recipientsGroupList = [];
 var recipientsCustomerList = [];
 var groupJsonList = [];
+var groupId;
+var groupName;
 var atSend = {
     init: function () {
         var _this = this;
@@ -31,6 +33,8 @@ var atSend = {
             _this.initTime();
             _this.initDatePicker();
             $('#datepicker').datepicker('destroy');
+            $('#reservedDate').val($('#datepicker').val()+$('#time').val().toString().replace(/:/gi,"")+"00",)
+
         });
         $('#send-immediate').on('click', function () {
             _this.sendImmediate();
@@ -45,6 +49,16 @@ var atSend = {
         $('#msg').keyup(function () {
             atSend.alertLimit();
         });
+        $('#btn-save').on('click', function () {
+            console.log("button saved")
+            _this.save();
+        });
+        $('#btn-update').on('click', function () {
+            _this.update();
+        });
+        $('#btn-delete').on('click', function () {
+            _this.delete();
+        });
         $(function() {
             var varElements = document.getElementsByClassName("vars");
             Array.from(varElements).forEach(function(element) {
@@ -56,76 +70,48 @@ var atSend = {
             if(!isGroupInfoUpload){
                 atSend.getGroupInput(); // table upload
             }
-            if(!isCustomerInfoUpload) {
-                // atSend.getCustomerInput
-                atSend.setCustomerTable(); // table upload
-                // atSend.tableInit(); // add table event listener
-            }
+            // if(!isCustomerInfoUpload) {
+            //     // atSend.getCustomerInput
+            //     atSend.setCustomerTable(); // table upload
+            //     // atSend.tableInit(); // add table event listener
+            // }
         });
         $('#btn-customerChkOK').on('click', function(){
-            $('#customersModal').modal('hide');
-            $('#selectedCustomerCount').text($("form").serializeObject().customers.length);
-        });
-        $('#btn-customerChkCancel').on('click', function(){
+            $('input:hidden[name=customers]').val(recipientsCustomerList.pop());
             $('#customersModal').modal('hide');
         });
-
         /* end of modal listener*/
-
     },
     groupTableInit: function(){ // table listener
-        $('input:checkbox[name="groupChkAll"]').off().on('click', function(){
-            recipientsGroupList = []
-            $("#recipientsGroupList").empty();
-            if (this.checked){
-                $('input:checkbox[name="groups"]').each(function() {
-                    $(this).prop("checked",true);
-                    var valStr = $(this).prop("value");
-                    recipientsGroupList.push(valStr);
-                    atSend.recipientsGroupListAdd(valStr, $(this).parent().parent().children().eq(1).text())
-
-                    // 그룹의 고객들 체크
-                    var customers = groupJsonList[parseInt(valStr)-1].customers;
-                    $.each(customers, function(index, customer) {
-                        atSend.recipientsCustomerListAdd(parseInt(valStr)-1, customer.id.toString(),customer.name)
-                    });
-
-                });
-            }else{
-                $('input:checkbox[name="groups"]').each(function() {
-                    $(this).prop("checked",false);
-                });
-            }
-            // $('#selectedCustomerCount2').text($("form").serializeObject().customers.length);
-        });
-
         $('#inputGroupTable tr').click(function (event) {
-            var groupId = parseInt($(this).children().eq(0).attr("group_id")); // db id라 1부터 시작
-            if (groupJsonList != null){
-                // 해당 클래스 show or hide
-                // atSend.setCustomerTable(groupId-1, groupJsonList[groupId-1].customers)
-            }
+            groupId = parseInt($(this).attr("group_id")); // db id라 1부터 시작
+            groupName = $(this).children().eq(0).text()
+            atSend.setCustomerTable(groupId);
+            $('#customerChkAll').prop("checked", false)
         });
 
     },
     customerTableInit:function(){
         $('input:checkbox[name="customerChkAll"]').off().on('click', function(){
             if (this.checked){
-                $('input:checkbox[name="customers"]').each(function() {
+                $('input:checkbox.group_'+groupId).each(function() {
                     if ($(this).prop("checked")===false) {
                         $(this).prop("checked", true);
                         var valStr = $(this).prop("value");//sy
+                        var customerName = $(this).parent().parent().children().eq(1).text();
                         recipientsCustomerList.push(valStr);//sy
-                        atSend.recipientsCustomerListAdd(valStr, $(this).parent().parent().children().eq(1).text())//sy
+                        atSend.recipientsCustomerListAdd(groupId, groupName, parseInt(valStr), customerName)
+
                     }
                 });
                 console.log(recipientsCustomerList)
             }else{
-                $('input:checkbox[name="customers"]').each(function() {
+                $('input:checkbox.group_'+groupId).each(function() {
                     if ($(this).prop("checked")===true) {
                         $(this).prop("checked", false);
                         var valStr = $(this).prop("value");//sy
                         recipientsCustomerList.pop(valStr);//sy
+                        atSend.recipientsCustomerListDelete(groupId,parseInt(valStr))
                     }
                 });
             }
@@ -135,71 +121,32 @@ var atSend = {
             var val;
             var checkbox = $(this).find('input');//sy
 
-            if(checkbox.prop("name")=="customerChkAll")
+            if(checkbox.prop("name")==="customerChkAll")
                 return
-
             if(event.target.type ==='checkbox') {
-
             } else {
                 // 해당 row 체크박스에 checked or unchecked 해주기
                 checkbox = $(this).find('input'); //sy
                 checkbox.prop('checked', !checkbox.is(':checked'));
-
-                // val = checkbox.val();
             }
             val = checkbox.val();
+            var groupIdxStr = $(this).attr("class").slice(-1);
+            var groupIdxInt = parseInt(groupIdxStr);
+            groupName = $('#inputGroupTable tr').get(groupIdxInt).children[0].textContent;
+            var customerName = $(this).children().eq(1).text();
+
             if (checkbox.prop("checked") === true) {
                 // 받는 대상 리스트에 추가
                 recipientsCustomerList.push(val);
                 console.log(recipientsCustomerList)
-                atSend.recipientsCustomerListAdd(val-1, checkbox.parent().parent().children().eq(1).text())
+                atSend.recipientsCustomerListAdd(groupIdxInt, groupName, val, customerName)
             } else {
                 // 받는 대상 리스트에 삭제
                 const idx = recipientsCustomerList.indexOf(val);
                 if (idx > -1) recipientsCustomerList.splice(idx, 1);
-                atSend.recipientsCustomerListDelete(val)
+                atSend.recipientsCustomerListDelete(groupIdxInt, val)
                 console.log(recipientsCustomerList)
-
             }
-
-            // }
-            //     if(event.target.type ==='checkbox'){
-            //     checkbox = $(this).find('input');
-            //     val = checkbox.val();
-            //     if(checkbox.prop("checked") === true) {
-            //         console.log(val)
-            //
-            //         // 받는 대상 리스트에 그룹 추가
-            //         recipientsCustomerList.push(val);
-            //         if (val ==="on") // head 눌렀을 때
-            //             return;
-            //         var apIdx = atSend.recipientsGroupListAdd(val, checkbox.parent().parent().children().eq(1).text())
-            //
-            //         // // 그룹의 고객들 체크
-            //         // var customers = groupJsonList[parseInt(val)-1].customers;
-            //         // $.each(customers, function(index, customer) {
-            //         //     atSend.recipientsCustomerListAdd(apIdx,customer.id.toString(),customer.name)
-            //         // });
-            //
-            //         // $('#customerChkAll').prop("checked",true);
-            //         // atSend.
-            //         // recipientsCustomerList.push(val);
-            //     }
-            //     else {
-            //         // 받는 대상 리스트에 삭제
-            //         const idx = recipientsGroupList.indexOf(val);
-            //         if (idx > -1) recipientsGroupList.splice(idx, 1);
-            //         atSend.recipientsGroupListDelete(val)
-            //     }
-            //
-            // }else {
-            //     var groupId = parseInt($(this).children().eq(0).attr("group_id")); // db id라 1부터 시작
-            //
-            //     if (groupJsonList != null){
-            //         atSend.setCustomerTable(groupJsonList[groupId-1].customers)
-            //     }
-            // }
-
         });
     },
     alertLimit: function() {
@@ -236,92 +183,111 @@ var atSend = {
             contentType: 'application/json; charset=utf-8',
         }).done(function(groupJsonListRes) {
             groupJsonList = groupJsonListRes
-            atSend.setGroupTable(groupJsonList);
-            // atSend.setCustomerTable(groupJsonList[0].customers)
+            atSend.setTables(groupJsonList);
         }).fail(function(error) {
             console.log(JSON.stringify(error));
         });
     },
-    setGroupTable : function(groupJsonList){
-        // add row
+    setTables : function(groupJsonList){
+        /* Set group and customer table */
+        if ($("#inputGroupTable tbody").length == 0) {
+            $("#inputGroupTable").append("<tbody></tbody>");
+        }
+        if ($("#inputCustomerTable tbody").length == 0) {
+            $("#inputCustomerTable").append("<tbody></tbody>");
+        }
         $.each(groupJsonList, function(index, group) {
-            if ($("#inputGroupTable tbody").length == 0) {
-                $("#inputGroupTable").append("<tbody></tbody>");
-            }
             $("#inputGroupTable tbody").append(atSend.groupBuildTableRow(group));
+            $.each(group.customers, function(index, customer) {
+                $("#inputCustomerTable tbody").append(atSend.customerBuildTableRow(group.id, customer));
+            });
         });
         isGroupInfoUpload = true;
         isCustomerInfoUpload = true;
         atSend.groupTableInit(); // add table event listener
         atSend.customerTableInit();
+        atSend.hideCustomerTable();
     },
     groupBuildTableRow : function(group) {
-        var ret = "<tr>"
+        var ret = "<tr group_id="+ group.id+">"
             // +<td><input type="checkbox" name = "groups" value="' + group.id + '" class="cbx"></td>'
-            + "<td group_id="+ group.id+">" + group.groupName + "</td>"
+            + "<td>" + group.groupName + "</td>"
             + "<td>" + group.customerCount+ "</td>"
             + "</tr>";
         return ret;
     }, /* end of get and get group table*/
-    setCustomerTable : function(){
-        // Init table
-        // $.each(groupJsonList,function (index, group) {
-        //
-        // })
-        // // for groupJsonList.length
-        var customerJsonList = groupJsonList[groupIdx].customers;
-
-        // $("#inputCustomerTable tbody").empty()
-        $("#inputCustomerTable tbody").hide()
-        $("#inputCustomerTable tbody").show()
-
-        $("#inputCustomerTable thead").find('input').prop("checked",false);
-        $.each(customerJsonList, function(index, customer) {
-            if ($("#inputCustomerTable tbody").length == 0) {
-                $("#inputCustomerTable").append("<tbody></tbody>");
-            }
-            $("#inputCustomerTable tbody").append(atSend.customerBuildTableRow(groupIdx, customer));
-        });
-
-        isCustomerInfoUpload = true;
-        atSend.customerTableInit();
-    },
     customerBuildTableRow : function(groupIdx, customer) {
         if (customer.phoneNumber == null){
             customer.phoneNumber = "";
         }
         var ret = '<tr class="group_'+ groupIdx
             +'"><td><input type="checkbox" name = "customers" value="'
-            + customer.id + '" class="cbx"></td>'
+            + customer.id + '" class="group_'+groupIdx+'"></td>'
             + "<td>" + customer.name + "</td>"
             + "<td>" + customer.phoneNumber + "</td>"
             + "</tr>";
         return ret;
     }, /* end of get and get customer table*/
-    recipientsGroupListAdd : function(idStr, text){
+    setCustomerTable : function(groupId){
+        for (i = 1; i <= groupJsonList.length; i++) {
+            if(i=== groupId)
+                $(".group_"+i).show()
+            else{
+                $(".group_"+i).hide()
+            }
+        }
+    },
+    hideCustomerTable : function(groupId){
+        for (i = 1; i <= groupJsonList.length; i++) {
+                $(".group_"+i).hide()
+        }
+    },
+    recipientsGroupListAdd : function(groupIdx, groupName){
         var ul_list = $("#recipientsGroupList"); //ul_list선언
-        ul_list.append("<li id='"+ idStr +"'>"+text+"</li>"); //ul_list안쪽에 li추가
+        if ($("#group_li_"+groupIdx).length ===0)
+            ul_list.append("<li id=group_li_"+ groupIdx +">"+groupName+"</li>"); //ul_list안쪽에 li추가
 
-        return $("#recipientsGroupList > li").length-1 //customer 추가할 위치
+        // return $("#recipientsGroupList > li").length-1 //customer 추가할 위치
     },
     recipientsGroupListDelete : function(idText){
         $("#"+idText).remove(); //해당id의 li태그 삭제하기
     },
-    recipientsCustomerListAdd : function(groupId, groupName, idStr, text){
+    recipientsCustomerListAdd : function(groupId, groupName, customerId, customerName){
         console.log("group ul에 group and customer add ")
 
         // 그룹 블럭에 li없으면 추가
-        atSend.recipientsGroupListAdd(groupId, groupName)
+        atSend.recipientsGroupListAdd(groupId, groupName);
 
-
-        if ($('#recipientsGroupList > li:eq('+apIdxAtr +') > ul').length === 0)
+        if ($('#group_li_'+groupId+' > ul').length === 0)
         {
-            $('#recipientsGroupList > li:eq('+apIdxAtr+')').append("<ul></ul>")
+            $('#group_li_'+groupId+'').append("<ul></ul>");
         }
-        $('#recipientsGroupList > li:eq('+apIdxAtr +') > ul').append("<li id=" +idStr + ">"+text+"</li>");
+        $('#group_li_'+groupId+' > ul').append("<li id=customer_li_" +customerId + ">"+customerName+"</li>");
     },
-    recipientsCustomerListDelete : function(idText){
-        $("#c"+idText).remove(); //해당id의 li태그 삭제하기
+    recipientsCustomerListDelete : function(groupIdx, customerId){
+        $("#customer_li_"+customerId).remove(); //해당id의 li태그 삭제하기
+        if ($("#group_li_"+groupIdx).children().children().length===0){
+            $("#group_li_"+groupIdx).remove()
+        }
+
+        },
+    save : function () {
+
+        $('#reservedDate').val($('#datePicker').val()+$('#time').val().toString().replace(/:/gi,"")+"00",)
+        var data = $("form").serializeObject();
+        console.log(data)
+        $.ajax({
+            type: 'POST',
+            url: '/api/v1/at-campaign',
+            dataType: 'json',
+            contentType: 'application/json; charset=utf-8',
+            data: JSON.stringify(data),
+        }).done(function () {
+            alert('알림톡 대량 발송이 예약되었습니다.');
+            window.location.href = '/send';
+        }).fail(function (error) {
+            alert(JSON.stringify(error));
+        });
     },
     initTime: function() {
         var date = new Date();

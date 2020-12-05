@@ -19,15 +19,11 @@ public class TemplateInfo {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name="template_code")
     private String templateCode;
-    @Column(name="template_name")
     private String templateName;
-    @Column(name="message_type")
+    private String templateContent;
     private String messageType;
-    @Column(name="button_url")
     private String buttonUrl;
-    @Column(name="attachment_json")
     private String attachmentJson;
 //
 //    // parent에 식별자 클래스 타입의 필드 생성
@@ -35,9 +31,11 @@ public class TemplateInfo {
 //    protected TemplateInfoPK templateInfoPK;
 
     @Builder
-    public TemplateInfo( String templateCode, String templateName, String messageType, String buttonUrl, String attachmentJson) {
+    public TemplateInfo( String templateCode, String templateName, String templateContent,
+                         String messageType, String buttonUrl, String attachmentJson) {
         this.templateCode = templateCode;
         this.templateName = templateName;
+        this.templateContent = templateContent;
         this.messageType = messageType;
         this.buttonUrl = buttonUrl;
         this.attachmentJson = attachmentJson;

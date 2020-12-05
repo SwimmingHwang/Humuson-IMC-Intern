@@ -64,8 +64,12 @@ public class GroupApiController {
     
     @Operation(summary="그룹 리스트 조회", description = "그룹 주소록의 그룹 정보들을 조희")
     @GetMapping("/api/v1/customer/group/list")
-    public List<GroupListResponseDto> findAll() {
-        return groupService.findAllDesc();
+    public List<Group> findAll() {
+        return groupService.findAll();
     }
+
+//    public List<GroupListResponseDto> findAll() {
+//        return groupService.findAllDesc();
+//    }
 
 }

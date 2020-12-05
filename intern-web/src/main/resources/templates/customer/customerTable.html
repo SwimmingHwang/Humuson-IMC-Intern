@@ -4,6 +4,13 @@
       layout:decorator="layout/default_layout">
 
 <div layout:fragment="content">
+    <script>
+        $(document).ready(function() {
+            $('#dataTable').DataTable( {
+                "ordering": false,
+            });
+        } );
+    </script>
 
     <!-- Page Heading -->
     <h1 class="h3 mb-2 text-gray-800" th:text="${title}">Title</h1>

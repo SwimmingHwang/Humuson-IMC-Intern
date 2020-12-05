@@ -1,4 +1,7 @@
 package com.humuson.domain.repository;
 
-public interface AtCampaignRepository {
+import com.humuson.domain.entity.AtCampaign;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface AtCampaignRepository extends JpaRepository<AtCampaign, Long> {
 }

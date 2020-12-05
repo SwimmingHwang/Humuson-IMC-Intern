@@ -64,7 +64,17 @@
 
     </div>
     <!-- /.container-fluid -->
-
+    <script>
+        $(document).ready(function() {
+            $('#dataTable').DataTable( {
+                "order": [
+                    [ 0, 'desc' ],
+                    [ 1, 'asc' ]
+                ],
+                "ordering": false,
+            } );
+        } );
+    </script>
 
 
     <!-- Page level plugins -->

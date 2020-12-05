@@ -5,6 +5,7 @@
 
 <div layout:fragment="content">
 
+
     <!-- Begin Page Content -->
     <div class="container-fluid">
 
@@ -21,10 +22,9 @@
             </div>
             <div class="card-body">
                 <div class="table-responsive">
-                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <table class="table table-bordered" id="dataTable" width="100%" >
                         <thead>
                         <tr>
-                            <th>번호</th>
                             <th>발송 일시</th>
                             <th>메세지 내용</th>
                             <th>전화번호</th>
@@ -34,7 +34,6 @@
                         </thead>
                         <tfoot>
                         <tr>
-                            <th>번호</th>
                             <th>발송 일시</th>
                             <th>메세지 내용</th>
                             <th>전화번호</th>
@@ -44,7 +43,6 @@
                         </tfoot>
                         <tbody>
                         <tr  th:each="msg : ${msgs}">
-                            <td class="" th:text="${msg.id}">default</td>
                             <td th:text="${msg.reservedDate}">default</td>
                             <td th:if="${msg.status} == 1 "><a th:href="@{/send/msgs/update/{sbj}/{id}(sbj=${msgSbj},id=${msg.id})}" th:text="${msg.msg}">default</a></td>
                             <td th:if="${msg.status} != 1 "><a th:text="${msg.msg}">default</a></td>
@@ -61,7 +59,13 @@
 
     </div>
     <!-- /.container-fluid -->
-
+    <script>
+        $(document).ready(function() {
+            $('#dataTable').DataTable( {
+                "ordering": false,
+            });
+        } );
+    </script>
 
     <!-- Page level plugins -->
     <script  th:src="@{/vendor/datatables/jquery.dataTables.min.js}"></script>

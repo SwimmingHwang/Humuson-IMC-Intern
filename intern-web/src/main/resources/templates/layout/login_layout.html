@@ -7,13 +7,13 @@
     <head>
         <meta charset="UTF-8" />
         <title>Login</title>
-
+        <script  th:src="@{/vendor/jquery/jquery.min.js}"></script>
         <th:block th:replace="fragment/configCss :: configCssFragment" ></th:block>
-        <th:block th:replace="fragment/configJs :: configJsFragment"></th:block>
     </head>
     
     <body>
         <th:block layout:fragment="content"></th:block>
+        <th:block th:replace="fragment/configJs :: configJsFragment"></th:block>
 
     </body>
 
