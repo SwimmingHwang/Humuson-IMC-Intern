@@ -47,8 +47,8 @@
 
 .background-dgray-color {
     background-color: #ceced4;
-    font-weight: bold;
-    font-size: 18px;
+    /*font-weight: bold;*/
+    /*font-size: 18px;*/
 }
 
 .margin-zero {
@@ -75,6 +75,11 @@
 }
 
 #myChart {
+    width: inherit !important;
+    height: inherit !important;;
+}
+
+#myChart2 {
     width: inherit !important;
     height: inherit !important;;
 }

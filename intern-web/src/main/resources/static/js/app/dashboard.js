@@ -2,9 +2,14 @@ var atMsgs = [];
 var mtMsgs = [];
 var atReport = [];
 var mtReport = [];
-var chartData = [];
-var chartLabel = [];
+var chartData;
+var chartLabel;
+var chartData2;
+var chartLabel2;
 var chart;
+var chart2;
+var sdt;
+var edt;
 
 var dashboard = {
     init: function () {
@@ -151,7 +156,9 @@ var dashboard = {
             var tm = today.getMonth();
             var td = today.getDate();
             for (var i = 0; i < obj.length; i++) {
-                if (obj[i].report_code != "0000") continue;
+                if (obj[i].report_code != "0000") {
+                    continue;
+                }
                 var date = changeDate(obj[i].response_date);
                 var y = date.getFullYear();
                 var m = date.getMonth();
@@ -222,6 +229,7 @@ var dashboard = {
                         datePickerSet(sDate, eDate);
                         updateChartVal();
                         updateChartData(chartData, chartLabel);
+                        updateChart2Data(chartData2, chartLabel2);
                     }
                 });
 
@@ -240,6 +248,7 @@ var dashboard = {
                         datePickerSet(sDate, eDate);
                         updateChartVal();
                         updateChartData(chartData, chartLabel);
+                        updateChart2Data(chartData2, chartLabel2);
                     }
                 });
                 //한개짜리 달력 datepicker
@@ -257,6 +266,7 @@ var dashboard = {
                     onSelect: function () {
                         updateChartVal();
                         updateChartData(chartData, chartLabel);
+                        updateChart2Data(chartData2, chartLabel2);
                     }
                 });
             }
@@ -274,17 +284,14 @@ var dashboard = {
         /**
          * 차트 구현 부분
          */
-        var sdt;
-        var edt;
-
         updateChartVal();
         setInterval(function() {
             updateChartVal();
-            if(checkChartDate(sdt, edt)) { // 데이터 다를 때만 업데이트
-                updateChartData(chartData, chartLabel);
-            }
+            updateChartData(chartData, chartLabel);
+            updateChart2Data(chartData2, chartLabel2);
         }, 7000);
         drawChart(chartData, chartLabel);
+        drawChart2(chartData2, chartLabel2);
 
         function drawChart(data, labels) {
             var ctx = document.getElementById('myChart').getContext('2d');
@@ -324,6 +331,37 @@ var dashboard = {
                 }
             });
         }
+        function drawChart2(data, labels) {
+            var ctx2 = document.getElementById('myChart2').getContext('2d');
+            chart2 = new Chart(ctx2, {
+                type: 'horizontalBar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: '메세지 전송량',
+                        // barPercentage: 0,
+                        barThickness: 15,
+                        maxBarThickness: 15,
+                        minBarLength: 0,
+                        backgroundColor: '#1cc88a',
+                        borderColor: '#8cdcc0',
+                        hoverBackgroundColor: '#0cc784',
+                        hoverBorderColor: '#01ac6f',
+                        hoverBorderWidth: 1,
+                        data: data
+                    }]
+                },
+                options: {
+                    responsive: false,
+                    legend: {
+                        labels: {
+                            fontColor: 'black',
+                            defaultFontSize: 16
+                        }
+                    },
+                }
+            });
+        }
     },
 
 }
@@ -351,16 +389,28 @@ function updateChartData(_data, _labels) {
     // });
     chart.data.labels = _labels;
     chart.data.datasets[0].data = _data;
-    console.log(_labels);
-    console.log(_data);
     chart.update();
+}
 
+function updateChart2Data(_data, _labels) {
+    // chart.data.labels.forEach(label =>
+    //     chart.data.labels.pop()
+    // )
+    // chart.data.datasets.forEach((dataset) => {
+    //     dataset.data.pop();
+    // });
+    // chart.update();
+    // chart.data.datasets.forEach((dataset) => {
+    //     dataset.data.push(_data);
+    //     chart.data.labels.push(_labels);
+    // });
+    chart2.data.datasets[0].data = _data;
+    chart2.update();
 }
 
 function updateChartVal() {
     /**
      * 가로 막대 차트 부분 (발송량 조회)
-     * 세로 막대 차트 부분 (발송 현황 조회) - status == 2, status == 3 & report_code == '0000 , report_code != '0000' / 대기중, 성공, 실패
      */
     sdt = dateFormatChange($('#datepicker1').val());
     edt = dateFormatChange($('#datepicker2').val());
@@ -398,6 +448,33 @@ function updateChartVal() {
         var diffPer = diffPeriod(sdt, ndt);
         chartData[totalDay - diffPer + 1]++;
     }
+
+    /**
+     * 세로 막대 차트 부분 (발송 현황 조회) - status 1/2/3 대기중/성공/실패
+     */
+    chartLabel2= ["대기", "성공", "실패"];
+    chartData2 = [];
+
+    for(var i=0; i<3; i++) {
+        chartData2[i] = 0;
+    }
+    for(var i=0; i<atMsgs.length; i++) {
+        chartData2[parseInt(atMsgs[i].status)-2]++;
+    }
+    for(var i=0; i<mtMsgs.length; i++) {
+        chartData2[parseInt(mtMsgs[i].status)-2]++;
+    }
+    var count = 0;
+    for(var i=0; i<atReport.length; i++) {
+        if (atReport[i].report_code != "0000") count++;
+    }
+    for(var i=0; i<mtReport.length; i++) {
+        if (mtReport[i].report_code != "0000") count++;
+    }
+    chartData2[2] = count;
+
+    console.log(chartData2);
+    console.log(chartLabel2);
 }
 
 // 페이지 기간 설정 datepicker의 데이터를 변경 (yyyy-mm-dd -> yyyymmdd 로 변경)
@@ -435,7 +512,7 @@ function diffPeriod(_sdt, _edt) {
 }
 
 // 차트 데이터 업데이트 되었는지 검사
-function checkChartDate(_sdt, _edt) {
+/*function checkChartDate(_sdt, _edt) {
     var s = dateFormatChange($('#datepicker1').val());
     var e = dateFormatChange($('#datepicker2').val());
     if(_sdt.getFullYear() == s.getFullYear() || _sdt.getMonth() == s.getMonth() || _sdt.getDate() == s.getDate()) {
@@ -444,6 +521,6 @@ function checkChartDate(_sdt, _edt) {
         }
     }
     return true;
-}
+}*/
 
 dashboard.init();
