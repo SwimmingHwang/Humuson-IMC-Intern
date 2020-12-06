@@ -3,6 +3,7 @@ package com.humuson.controller;
 import com.humuson.domain.entity.AtCampaign;
 import com.humuson.domain.entity.Customer;
 import com.humuson.domain.entity.Group;
+import com.humuson.domain.entity.Profile;
 import com.humuson.dto.at.AtCampaignSaveRequestDto;
 import com.humuson.dto.at.AtMsgsResponseDto;
 import com.humuson.dto.ft.FtMsgsResponseDto;
@@ -31,6 +32,8 @@ public class IndexController {
     private final TemplateInfoService templateInfoService;
     private final CustomerService customerService;
     private final GroupService groupService;
+    private final ProfileService profileService;
+    private final AtCampaignService atCampaignService;
 
     // TODO : index로 가는일 없게 하기 혹은 다른 페이지 보여주기
     @GetMapping("/")
@@ -82,13 +85,23 @@ public class IndexController {
     * */
     @GetMapping("/send/at-msgs-send")
 //    public String atMsgsSend(Model model, Authentication authentication){
-        public String atMsgsSend(Model model){
+        public String atMsgsSend(Model model ,Authentication authentication){
         // TODO : profile에서 모든 senderkey-senderName으로!!!!!! 가져오기 : select 로 구현할 것
-        String senderKey = "temp sender key";
+
+//        authentication.getName();
+//        long userIdx = userService.findUserIdx(authentication.getName());
+        long userIdx = userService.findUserIdx("t1@test.com");
+        Profile profile = profileService.findByUserId(userIdx);
+        String senderName = profile.getSenderName();
+        String senderKey = profile.getSenderKey();
+
         AtCampaignSaveRequestDto atCampaignSaveRequestDto = new AtCampaignSaveRequestDto();
+        atCampaignSaveRequestDto.setSenderName(senderName);
         atCampaignSaveRequestDto.setSenderKey(senderKey);
+
         model.addAttribute("atCampaign",atCampaignSaveRequestDto);
         model.addAttribute("templateCodes",templateInfoService.findAll());
+
         return "page/sendDetails/atMsgsSend";
     }
     // ymbin
@@ -124,6 +137,23 @@ public class IndexController {
         model.addAttribute("msgs",mtMsgsService.findAll());
         return "page/mttable";
     }
+
+    // 결과 조회 ------------------------------------------------------------------------------------
+    @GetMapping("/send/at-camp-record")
+    public String atCampRecord(Model model){
+        model.addAttribute("title","알림톡 발송 예약 내역");
+        model.addAttribute("msgSbj","at");
+        model.addAttribute("msgs", atCampaignService.findAllReservedDateDesc());
+        return "page/atcamptable";
+    }
+    @GetMapping("/send/mt-camp-record")
+    public String mtCampRecord(Model model){
+        model.addAttribute("title","문자 메시지 발송 예약 내역");
+        model.addAttribute("msgSbj","mt");
+        model.addAttribute("msgs",mtMsgsService.findAll());
+        return "page/mttable";
+    }
+
 
 
     /*

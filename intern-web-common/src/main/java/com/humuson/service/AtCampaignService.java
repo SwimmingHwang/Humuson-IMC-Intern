@@ -5,6 +5,7 @@ package com.humuson.service;
 import com.humuson.domain.entity.AtCampaign;
 import com.humuson.domain.entity.Customer;
 import com.humuson.domain.entity.Group;
+import com.humuson.domain.msgs.AtMsgs;
 import com.humuson.domain.repository.AtCampaignRepository;
 import com.humuson.domain.repository.CustomerRepository;
 import com.humuson.domain.repository.GroupRepository;
@@ -30,6 +31,11 @@ public class AtCampaignService {
         return atCampaignRepository.save(atCampaign);
     }
 
+    @Transactional(readOnly = true)
+    public List<AtCampaign> findAllReservedDateDesc() {
+        // repo에서 넘어온 stream을 map을 통해 dto로 변환해서 리스트로 반환
+        return atCampaignRepository.findAllReservedDateDesc();
+    }
 //    @Transactional
 //    public Long update(long id, String groupName, String groupComment, Set<Customer> customerSet) {
 //        Group group = groupRepository.findById(id)

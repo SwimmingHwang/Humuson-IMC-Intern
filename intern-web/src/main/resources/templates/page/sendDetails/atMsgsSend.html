@@ -40,15 +40,15 @@
                             <h4 id="msg-type" class="m-0 font-weight-bold text-warning">알림톡</h4>
                         </div>
                         <div class="card-body py-1">
-                            <input type="text" th:field="*{senderKey}" class="form-control bg-light border-0" placeholder="발신프로필 키" readonly>
+                            <input type="text" th:field="*{senderName}" class="form-control bg-light border-0" placeholder="발신프로필 키" readonly>
+                            <input  th:field="*{senderKey}" class="form-control bg-light border-0" placeholder="발신프로필 키" type="hidden">
                         </div>
                         <div class="card-body py-1">
                             <strong>템플릿</strong>
-                            <select id="templateCode" class="custom-select" th:field="*{templateInfo}">
-                                <option value="" disabled selected>템플릿을 선택하세요.</option>
+                            <select id="templateContent" name="templateContent" class="custom-select" >
+                                <option value="default" disabled selected>템플릿을 선택하세요.</option>
                                 <tr th:each="templateCode : ${templateCodes}">
-                                    <option th:text="${templateCode.templateName}" th:value="${templateCode.templateContent}"
-                                            th:field="*{templateInfo}">default</option>
+                                    <option th:text="${templateCode.templateName}" th:value="${templateCode.templateContent}">default</option>
                                 </tr>
                             </select>
                         </div>
@@ -111,7 +111,7 @@
                     <input type="hidden" id="reservedDate" th:field="*{reservedDate}">
 
                     <div class="card-body py-2">
-                        <button id="btn-save" class="btn btn-success">발송하기</button>
+                        <input type="button" id="btn-save" class="btn btn-success" value="발송하기">
                         <a class="btn btn-warning" href="/">뒤로가기</a>
                     </div>
 
@@ -220,7 +220,7 @@
                                                 <div class="card-header py-3">
                                                     <h6 class="m-0 font-weight-bold text-success">받는 사람</h6>
                                                 </div>
-                                                <input th:type="hidden" id="customers" th:field="*{customers}">
+<!--                                                <input th:type="hidden" th:field="*{customers}">-->
                                                 <div style="height:500px; overflow-y:scroll">
                                                     <ul id="recipientsGroupList">
                                                     </ul>

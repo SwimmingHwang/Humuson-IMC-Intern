@@ -12,7 +12,8 @@ var atSend = {
         var _this = this;
         $.fn.serializeObject = function () {
             'use strict';
-            var result = {customers:Array()};
+            var count = recipientsCustomerList.length;
+            var result = {customers:Array(), count:count};
             var extend = function (i, element) {
                 var node = result[element.name];
                 if ('undefined' !== typeof node && node !== null) {
@@ -42,7 +43,7 @@ var atSend = {
         $('#send-reserve').on('click', function () {
             _this.sendReserve();
         });
-        $('#templateCode').on('change', function () {
+        $('#templateContent').on('change', function () {
             $('#msg').val($(this).val());
             atSend.alertLimit();
         });
@@ -77,13 +78,17 @@ var atSend = {
             // }
         });
         $('#btn-customerChkOK').on('click', function(){
-            $('input:hidden[name=customers]').val(recipientsCustomerList.pop());
+            // $('input:hidden[name=customers]').val(recipientsCustomerList);
+            console.log("customers :" + recipientsCustomerList);
             $('#customersModal').modal('hide');
         });
         /* end of modal listener*/
     },
     groupTableInit: function(){ // table listener
         $('#inputGroupTable tr').click(function (event) {
+            if ($(this).attr("group_id") === "0"){
+                return
+            }
             groupId = parseInt($(this).attr("group_id")); // db id라 1부터 시작
             groupName = $(this).children().eq(0).text()
             atSend.setCustomerTable(groupId);
@@ -130,7 +135,7 @@ var atSend = {
                 checkbox.prop('checked', !checkbox.is(':checked'));
             }
             val = checkbox.val();
-            var groupIdxStr = $(this).attr("class").slice(-1);
+            var groupIdxStr = $(this).attr("class").slice(6);
             var groupIdxInt = parseInt(groupIdxStr);
             groupName = $('#inputGroupTable tr').get(groupIdxInt).children[0].textContent;
             var customerName = $(this).children().eq(1).text();
@@ -272,22 +277,26 @@ var atSend = {
 
         },
     save : function () {
+        var date = $('#datepicker').val().replace(/[^0-9]/g,'');
+        $('#reservedDate').val(date+$('#time').val().toString().replace(/:/gi,"")+"00",)
 
-        $('#reservedDate').val($('#datePicker').val()+$('#time').val().toString().replace(/:/gi,"")+"00",)
         var data = $("form").serializeObject();
-        console.log(data)
+
         $.ajax({
             type: 'POST',
             url: '/api/v1/at-campaign',
             dataType: 'json',
             contentType: 'application/json; charset=utf-8',
             data: JSON.stringify(data),
-        }).done(function () {
+            // success :
+        }).done(function (status) {
             alert('알림톡 대량 발송이 예약되었습니다.');
             window.location.href = '/send';
+
         }).fail(function (error) {
             alert(JSON.stringify(error));
         });
+        // alert("save 끝")
     },
     initTime: function() {
         var date = new Date();
