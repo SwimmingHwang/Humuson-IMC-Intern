@@ -14,6 +14,7 @@ public class MultiMtMsgsSaveRequestDto {
     private String adFlag;
     private String status;
     private String callback;
+    private String title;
     private String priority;
     private String mtType;
     private List<List<String>> customerList;
@@ -22,13 +23,14 @@ public class MultiMtMsgsSaveRequestDto {
     private String etc2;
 
     @Builder
-    public MultiMtMsgsSaveRequestDto(String msg, String reservedDate, String adFlag, String status, String callback,
+    public MultiMtMsgsSaveRequestDto(String msg, String reservedDate, String adFlag, String status, String callback, String title,
                                      String priority, String mtType, List<List<String>> customerList, List<Integer> varCheckList) {
         this.msg = msg;
         this.reservedDate = reservedDate;
         this.adFlag = adFlag;
         this.status = status;
         this.callback = callback;
+        this.title = title;
         this.priority = priority;
         this.mtType = mtType;
         this.customerList = customerList;
@@ -52,7 +54,7 @@ public class MultiMtMsgsSaveRequestDto {
                 msgCopied = msgCopied.replace("#{변수3}",li.get(6));
             }
 
-            MtMsgs mtMsg = new MtMsgs(status,priority,reservedDate,callback, li.get(3), mtType, adFlag, msgCopied, etc1, etc2);
+            MtMsgs mtMsg = new MtMsgs(status,priority,reservedDate,callback, title,li.get(3), mtType, adFlag, msgCopied, etc1, etc2);
             msgs.add(mtMsg);
         }
         return msgs;

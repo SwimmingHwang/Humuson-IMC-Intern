@@ -15,26 +15,47 @@ public class MtReport {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    @Column(nullable = false, length = 1)
     private String status;
+    @Column(nullable = false, length = 1)
     private String priority;
+    @Column(nullable = false, length = 19)
     private String reserved_date;
+    @Column(nullable = false, length = 2)
     private String mt_type;
+    @Column(nullable = false, length = 1)
     private String ad_flag;
+    @Column(length = 16)
     private String callback;
+    @Column(nullable = false, length = 16)
     private String phone_number;
+    @Column(length = 100)
     private String title;
+    @Column(nullable = false, length = 3000)
     private String message;
+    @Column(length = 40)
     private String request_uid;
+    @Column(length = 19)
     private String request_date;
+    @Column(length = 19)
     private String response_date;
+    @Column(length = 5)
     private String response_code;
+    @Column(length = 2)
     private String report_type;
+    @Column(length = 19)
     private String report_date;
+    @Column(length = 5)
     private String report_code;
+    @Column(length = 19)
     private String arrival_date;
+    @Column(length = 2)
     private String sender_code;
+    @Column(length = 64)
     private String etc1;
+    @Column(length = 64)
     private String etc2;
+    @Column(length = 64)
     private String etc3;
 
     @Builder

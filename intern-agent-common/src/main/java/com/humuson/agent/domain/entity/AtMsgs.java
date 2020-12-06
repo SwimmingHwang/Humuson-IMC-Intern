@@ -16,34 +16,25 @@ public class AtMsgs {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    @Column(name="status")
+    private Integer id;
+    @Column(nullable = false, length = 1)
     private String status;
-
-    @Column(name="priority")
+    @Column(nullable = false, length = 1)
     private String priority;
-
-    @Column(name="reserved_date")
+    @Column(nullable = false, length = 19)
     private String reservedDate;
-
-    @Column(name="sender_key")
+    @Column(nullable = false, length = 40)
     private String senderKey;
-
-    @Column(name="phone_number")
+    @Column(nullable = false, length = 16)
     private String phoneNumber;
-
-    @Column(name="template_code")
+    @Column(nullable = false, length = 30)
     private String templateCode;
-
-    @Column(name="message")
-    private String msg;
-
-    @Column(name="etc1")
-    private String etc1;
-
-    @Column(name="etc2")
-    private String etc2;
+    @Column(name = "MESSAGE", nullable = false, length = 3000)
+    private String msg; // 메시지 내용
+    @Column(length = 64)
+    private String etc1; // Agent DB에 전달되었는지 확인하는 status
+    @Column(length = 64)
+    private String etc2; // 결과 받는 URL
 
 
     @Builder // 해당 클래스의 빌더 패턴 클래스를 생성

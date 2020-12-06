@@ -91,22 +91,22 @@ project(':intern-web') {
     }
 }
 
-project(':intern-admin') {
-    dependencies {
-        compile project(':intern-web-common')
-        compile('org.springframework.boot:spring-boot-starter-web')
-        // thymeleaf
-        compile('org.springframework.boot:spring-boot-starter-thymeleaf')
-        compile(group: 'nz.net.ultraq.thymeleaf', name: 'thymeleaf-layout-dialect', version: '2.4.1')
-
-        // actuator
-        compile('org.springframework.boot:spring-boot-starter-actuator')
-        // springboot admin - client
-        compile('de.codecentric:spring-boot-admin-starter-client:2.1.0')
-
-        compile('org.springdoc:springdoc-openapi-ui:1.5.0')
-    }
-}
+//project(':intern-admin') {
+//    dependencies {
+//        compile project(':intern-web-common')
+//        compile('org.springframework.boot:spring-boot-starter-web')
+//        // thymeleaf
+//        compile('org.springframework.boot:spring-boot-starter-thymeleaf')
+//        compile(group: 'nz.net.ultraq.thymeleaf', name: 'thymeleaf-layout-dialect', version: '2.4.1')
+//
+//        // actuator
+//        compile('org.springframework.boot:spring-boot-starter-actuator')
+//        // springboot admin - client
+//        compile('de.codecentric:spring-boot-admin-starter-client:2.1.0')
+//
+//        compile('org.springdoc:springdoc-openapi-ui:1.5.0')
+//    }
+//}
 
 project(':intern-consumer-client') {
     dependencies {

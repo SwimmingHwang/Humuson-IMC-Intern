@@ -12,6 +12,7 @@ public class MultiMtMsgsSaveListRequestDto {
     private String reservedDate;
     private String adFlag;
     private String callback;
+    private String title;
     private String status;
     private String priority;
     private String mtType;
@@ -21,12 +22,13 @@ public class MultiMtMsgsSaveListRequestDto {
 
 
     @Builder
-    public MultiMtMsgsSaveListRequestDto(String msg, String reservedDate, String adFlag, String callback, String status,
+    public MultiMtMsgsSaveListRequestDto(String msg, String reservedDate, String adFlag, String callback, String title, String status,
                                          String priority, String mtType, List<Integer> varCheckList, String etc1, String etc2) {
         this.msg = msg;
         this.reservedDate = reservedDate;
         this.adFlag = adFlag;
         this.callback = callback;
+        this.title = title;
         this.status = status;
         this.priority = priority;
         this.mtType = mtType;
@@ -41,17 +43,7 @@ public class MultiMtMsgsSaveListRequestDto {
         for (Customer customer : all) {
             String msgCopied = msg + "";
 
-//            // 변수 매핑
-//            if (varCheckList.contains(1)==true){
-//                msgCopied = msgCopied.replace("#{변수1}", customer.getVar1()== null? "" : customer.getVar1());
-//            }
-//            if (varCheckList.contains(2)==true){
-//                msgCopied = msgCopied.replace("#{변수2}", customer.getVar2()== null? "" : customer.getVar2());
-//            }
-//            if (varCheckList.contains(3)==true){
-//                msgCopied = msgCopied.replace("#{변수3}", customer.getVar3()== null? "" : customer.getVar3());
-//            }
-            MtMsgs mtMsg = new MtMsgs(status, priority, reservedDate, callback,
+            MtMsgs mtMsg = new MtMsgs(status, priority, reservedDate, callback, title,
                     "82"+customer.getPhoneNumber().substring(1), mtType, adFlag, msgCopied, etc1, etc2 );
             msgs.add(mtMsg);
         }

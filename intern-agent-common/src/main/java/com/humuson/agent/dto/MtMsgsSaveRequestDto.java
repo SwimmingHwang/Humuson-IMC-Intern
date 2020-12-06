@@ -21,11 +21,12 @@ public class MtMsgsSaveRequestDto {
     private String mtType;
     private String reservedDate;
     private String callback;
+    private String title;
     private String etc1;
     private String etc2;
 
     @Builder
-    public MtMsgsSaveRequestDto(String msg, String phoneNumber, String adFlag, String callback, String mtType, String reservedDate
+    public MtMsgsSaveRequestDto(String msg, String phoneNumber, String adFlag, String callback, String title, String mtType, String reservedDate
     , String etc1, String etc2) {
         this.msg = msg;
         this.phoneNumber = phoneNumber;
@@ -33,6 +34,7 @@ public class MtMsgsSaveRequestDto {
         this.mtType = mtType;
         this.reservedDate = reservedDate;
         this.callback = callback;
+        this.title = title;
         this.etc1 = etc1;
         this.etc2 = etc2;
     }
@@ -44,6 +46,7 @@ public class MtMsgsSaveRequestDto {
                 .adFlag(adFlag)
                 .mtType(mtType)
                 .callback(callback)
+                .title(title)
                 .reservedDate(reservedDate)
                 .etc1(etc1)
                 .etc2(etc2)

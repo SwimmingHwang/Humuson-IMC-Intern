@@ -2,7 +2,7 @@ rootProject.name = 'imc'
 
 include 'intern-web'
 include 'intern-web-common'
-include 'intern-admin'
+//include 'intern-admin'
 include 'intern-producer-batch'
 include 'intern-consumer-client'
 include 'intern-consumer-agent'

@@ -9,6 +9,7 @@ package com.humuson.service;
 import com.humuson.domain.repository.CustomerRepository;
 import com.humuson.domain.msgs.MtMsgs;
 import com.humuson.domain.repository.MtMsgsRepository;
+import com.humuson.dto.at.AtMsgsListDashboardResponseDto;
 import com.humuson.dto.mt.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -50,7 +51,7 @@ public class MtMsgsService {
                 .orElseThrow(() -> new IllegalArgumentException("해당 사용자가 없습니다. id=" + id));
 
         msgs.update(requestDto.getReservedDate(), requestDto.getMtType(), requestDto.getCallback(),
-                requestDto.getMsg(), requestDto.getPhoneNumber());
+                requestDto.getTitle(), requestDto.getMsg(), requestDto.getPhoneNumber());
 
         return id;
     }
@@ -92,8 +93,7 @@ public class MtMsgsService {
         // repo에서 넘어온 stream을 map을 통해 dto로 변환해서 리스트로 반환
         return mtMsgsRepository.findAllDesc().stream()
                 .map(MtMsgsListResponseDto::new)
-                .collect(Collectors.toList());
-    }
+                .collect(Collectors.toList());    }
     @Transactional(readOnly = true)
     public List<MtMsgs> findAll() {
         // repo에서 넘어온 stream을 map을 통해 dto로 변환해서 리스트로 반환
@@ -104,5 +104,10 @@ public class MtMsgsService {
         return mtMsgsRepository.findAllByReservedDate();
     }
 
-
+    @Transactional
+    public List<MtMsgsListDashboardResponseDto> findInfoList() {
+        return mtMsgsRepository.findAll().stream()
+                .map(MtMsgsListDashboardResponseDto::new)
+                .collect(Collectors.toList());
+    }
 }

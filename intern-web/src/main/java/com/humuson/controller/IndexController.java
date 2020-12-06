@@ -65,6 +65,13 @@ public class IndexController {
         return "page/send/atsend";
 
     }
+    // ymbin
+    @GetMapping("/send/bulk-mt-msgs-send")
+    public String mtMsgsSend(Model model, Authentication authentication){
+        String sendNumber = userService.findPhoneNumber(authentication.getName());
+        model.addAttribute("sendNumber", sendNumber);
+        return "page/sendDetails/bulkMtMsgsSend";
+    }
     @GetMapping("/send/ft-send")
     public String ftSend(Model model){
         model.addAttribute("title","친구톡 발송 예약 내역");
@@ -104,14 +111,14 @@ public class IndexController {
 
         return "page/sendDetails/atMsgsSend";
     }
-    // ymbin
-    @GetMapping("/send/mt-msgs-send")
-//    public String mtMsgsSend(Model model, Authentication authentication){
-    public String mtMsgsSend(Model model){
-        String sendNumber = userService.findPhoneNumber("t1@test.com");
-        model.addAttribute("sendNumber", sendNumber);
-        return "page/sendDetails/mtMsgsSend";
-    }
+//    // ymbin
+//    @GetMapping("/send/mt-msgs-send")
+////    public String mtMsgsSend(Model model, Authentication authentication){
+//    public String mtMsgsSend(Model model){
+//        String sendNumber = userService.findPhoneNumber("t1@test.com");
+//        model.addAttribute("sendNumber", sendNumber);
+//        return "page/sendDetails/mtMsgsSend";
+//    }
 
 
 

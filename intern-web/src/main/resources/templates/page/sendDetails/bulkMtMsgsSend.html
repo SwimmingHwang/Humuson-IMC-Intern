@@ -21,7 +21,7 @@
                     <input id="adFlag" type="checkbox" name="adFlag" value="Y">
                 </div>
                 <div class="card-body py-1">
-                    <input type="text" th:value="${sendNumber}" class="form-control bg-light border-0" placeholder="발신 번호">
+                    <input type="text" th:value="${sendNumber}" class="form-control bg-light border-0" placeholder="발신 번호" readonly>
                 </div>
                 <div class="card-body py-1">
                     <input type="text" class="form-control bg-light border-0" placeholder="제목 입력">
@@ -239,7 +239,7 @@
         </div>
 
         <div class="col-md-4">
-            <div class="card position-relative py-2 text-align-center font-size-18">
+           <!-- <div class="card position-relative py-2 text-align-center font-size-18">
                 <span class="card-body py-2 background-dgray-color text-white remove-radius"><b>고객 정보 불러오기</b></span>
                 <div class="card-body py-2 row background-gray-color margin-zero">
                     <span class="btn font-weight-bold col-md-4 text-gray-700"><b>주소록</b></span>
@@ -272,9 +272,107 @@
             </div>
 
             <div class="card-body py-2">
-                <button class="btn btn-success">발송하기</button>
-                <a class="btn btn-warning" href="/">뒤로가기</a>
+                <button id="send-button" class="btn btn-success">발송하기</button>
+&lt;!&ndash;                <a class="btn btn-warning" href="/">뒤로가기</a>&ndash;&gt;
+            </div>-->
+
+            <div class="row">
+
+                <div class="col-md-12 mb-1">
+                    <div class="card bg-success text-center text-white shadow">
+                        <span class="text">불러오기</span>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-5">
+                    <div class="card btn btn-success bg-light text-black-50 shadow">
+                        <span class="text">주소록</span>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-5">
+                    <div class="card btn btn-success bg-light text-black-50 shadow">
+                        <span class="text">엑셀</span>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-5">
+                    <div class="card btn btn-success bg-light text-black-50 shadow">
+                        <span class="text">텍스트</span>
+                    </div>
+                </div>
+
+                <div class="col-md-12 mb-1">
+                    <div class="card bg-success text-center text-white shadow">
+                        <span class="text">저장하기</span>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-5">
+                    <div class="card btn btn-success bg-light text-black-50 shadow">
+                        <span class="text">주소록</span>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-5">
+                    <div class="card btn btn-success bg-light text-black-50 shadow">
+                        <span class="text">엑셀</span>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-5">
+                    <div class="card btn btn-success bg-light text-black-50 shadow">
+                        <span class="text">텍스트</span>
+                    </div>
+                </div>
+
+                <div class="col-md-12 mb-1">
+                    <div class="card bg-success text-center text-white shadow">
+                        <span class="text">발송 시간 설정</span>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-5">
+                    <div id="send-immediate" class="card btn btn-success bg-secondary text-black-50 shadow">
+                        <span class="text">즉시</span>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-5">
+                    <div id="send-reserve" class="card btn btn-success bg-light text-black-50 shadow">
+                        <span class="text">예약</span>
+                    </div>
+                </div>
+
+                <div class="col-md-12 mb-1">
+                    <div class="row">
+                        <div class="col-md-3 text-right">
+                            <span>날짜</span>
+                        </div>
+                        <div class="col-md-9">
+                            <input type="text" id="datepicker" class="text bg-secondary" readonly>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-12 mb-5">
+                    <div class="row">
+                        <div class="col-md-3 text-right">
+                            <span>시간</span>
+                        </div>
+                        <div class="col-md-9">
+                            <input type="time" id="time" class="text bg-secondary" value="10:00" min="00:00:00" max="23:59:59" readonly>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="col-md-3">
+                    <div class="card btn btn-success bg-light text-black-50 shadow">
+                        <span class="text">발송하기</span>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card btn btn-warning bg-light text-black-50 shadow">
+                        <span class="text">뒤로가기</span>
+                    </div>
+                </div>
+
             </div>
+
+
 
         </div>
     </div>

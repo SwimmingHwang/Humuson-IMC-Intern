@@ -1,6 +1,7 @@
 package com.humuson.controller;
 
 import com.humuson.domain.report.AtReport;
+import com.humuson.dto.report.AtReportListDashboardResponseDto;
 import com.humuson.service.AtReportService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -23,4 +24,9 @@ public class AtReportApiController {
         return atReportService.findAll();
     }
 
+    @Operation(summary="필요한 알림톡 레포트 결과 정보 조회", description = "대시보드에 필요한 알림톡 메세지 정보를 조회")
+    @GetMapping("/api/v1/at-report-info/list")
+    public List<AtReportListDashboardResponseDto> atReportFindInfoList() {
+        return atReportService.findInfoList();
+    }
 }

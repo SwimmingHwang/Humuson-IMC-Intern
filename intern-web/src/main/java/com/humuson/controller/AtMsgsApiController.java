@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.humuson.call.ApiCall;
 import com.humuson.domain.msgs.AtMsgs;
 import com.humuson.dto.at.*;
+import com.humuson.dto.mt.MtMsgsListDashboardResponseDto;
 import com.humuson.service.AtMsgsJdbcService;
 import com.humuson.service.AtMsgsService;
 import com.humuson.service.CustomerService;
@@ -84,6 +85,10 @@ public class AtMsgsApiController {
         return atMsgsService.findAll();
     }
 
-
+    @Operation(summary="필요한 알림톡 정보 조회", description = "대시보드에 필요한 알림톡 메세지의 상태를 조회")
+    @GetMapping("/api/v1/at-msgs-info/list")
+    public List<AtMsgsListDashboardResponseDto> AtMsgsFindInfoList() {
+        return atMsgsService.findInfoList();
+    }
 
 }

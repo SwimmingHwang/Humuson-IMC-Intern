@@ -55,6 +55,7 @@ var mtSend = {
             var text_limit = $('#byte-limit');
             var text_count = $('#byte-count');
             var msg_type = $('#msg-type');
+            var send_button = $('#send-button');
             if(flag) {
                 text_limit.removeClass("text-success");
                 text_limit.addClass("text-warning");
@@ -65,6 +66,9 @@ var mtSend = {
                 msg_type.removeClass("text-success");
                 msg_type.addClass("text-warning");
                 msg_type.text("LMS");
+
+                send_button.removeClass("btn-success");
+                send_button.addClass("btn-warning");
 
                 alert("LMS 타입으로 변경되었습니다.")
             } else {
@@ -77,6 +81,9 @@ var mtSend = {
                 msg_type.removeClass("text-warning");
                 msg_type.addClass("text-success");
                 msg_type.text("SMS");
+
+                send_button.removeClass("btn-warning");
+                send_button.addClass("btn-success");
             }
         }
 
@@ -163,6 +170,7 @@ var mtSend = {
             todayHighlight : true ,	//오늘 날짜에 하이라이팅 기능 기본값 :false
             toggleActive : true,	//이미 선택된 날짜 선택하면 기본값 : false인경우 그대로 유지 true인 경우 날짜 삭제
             weekStart : 0 ,//달력 시작 요일 선택하는 것 기본값은 0인 일요일
+            language: 'ko'
         });
         $('#datepicker').datepicker('update',today);
     },
@@ -173,17 +181,35 @@ var mtSend = {
 
         $('#datepicker').prop('readonly', true);
         $('#time').prop('readonly', true);
-        $('#datepicker').css('backgroundColor', '#eaecf4');
-        $('#time').css('backgroundColor', '#eaecf4');
+
+        $('#send-reserve').removeClass("bg-secondary");
+        $('#send-reserve').addClass("bg-light");
+
+        $('#datepicker').removeClass("bg-light");
+        $('#time').removeClass("bg-light");
+        $('#datepicker').addClass("bg-secondary");
+        $('#time').addClass("bg-secondary");
+
+        $('#send-immediate').removeClass("bg-light");
+        $('#send-immediate').addClass("bg-secondary");
     },
     sendReserve: function() {
         this.initDatePicker();
 
         $('#datepicker').prop('readonly', false);
         $('#time').prop('readonly', false);
-        $('#datepicker').css('backgroundColor', '#fff');
-        $('#time').css('backgroundColor', '#fff');
+
+        $('#send-immediate').removeClass("bg-secondary");
+        $('#send-immediate').addClass("bg-light");
+
+        $('#datepicker').removeClass("bg-secondary");
+        $('#time').removeClass("bg-secondary");
+        $('#datepicker').addClass("bg-light");
+        $('#time').addClass("bg-light");
+
         $("#datepicker").prop('disabled', false);
+        $('#send-reserve').removeClass("bg-light");
+        $('#send-reserve').addClass("bg-secondary");
     }
 }
 

@@ -14,6 +14,7 @@ public class MtMsgsResponseDto {
     private String reservedDate;
     private String mtType;
     private String callback;
+    private String title;
 
     public MtMsgsResponseDto(MtMsgs entity) {
         this.id = entity.getId();
@@ -22,5 +23,6 @@ public class MtMsgsResponseDto {
         this.reservedDate = entity.getReservedDate();
         this.mtType = entity.getMtType();
         this.callback = entity.getCallback();
+        this.title = entity.getTitle();
     }
 }

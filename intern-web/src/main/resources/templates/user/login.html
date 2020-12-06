@@ -19,7 +19,8 @@
                         <!-- Nested Row within Card Body -->
                         <div class="row">
 <!--                            <div class="col-lg-6 d-none d-lg-block bg-login-image"></div>-->
-                            <img class="col-lg-6 d-none d-lg-block" src="http://d3bro317a31qh1.cloudfront.net/humusonImage.png">
+<!--                            <img class="col-lg-6 d-none d-lg-block" src="http://d3bro317a31qh1.cloudfront.net/humuson.jpg">-->
+                            <img class="col-lg-6 d-none d-lg-block" th:src="@{/img/logo.jpg}"/>
                             <div class="col-lg-6">
                                 <div class="p-5">
                                     <div class="text-center">
@@ -34,11 +35,11 @@
                                         <div class="form-group">
                                             <input type="email" class="form-control form-control-user"
                                                    id="email" name="email" aria-describedby="emailHelp"
-                                                   placeholder="이메일을 입력하세요.">
+                                                   placeholder="이메일을 입력하세요." value="12@naver.com">
                                         </div>
                                         <div class="form-group">
                                             <input type="password" class="form-control form-control-user"
-                                                   id="password" name="password" placeholder="비밀번호를 입력하세요.">
+                                                   id="password" name="password" placeholder="비밀번호를 입력하세요." value="12">
                                         </div>
                                         <button type="submit" class="btn btn-success btn-user btn-block">
                                             로그인
@@ -80,7 +81,6 @@
 
     <!--custom 스크립트 -->
     <th:block layout:fragment="script">
-        <script  th:src="@{/vendor/jquery/jquery.min.js}"></script>
         <script th:src="@{/js/app/login.js}"></script>
     </th:block>
 

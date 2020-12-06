@@ -1,6 +1,7 @@
 package com.humuson.controller;
 
 import com.humuson.domain.report.MtReport;
+import com.humuson.dto.report.MtReportListDashboardResponseDto;
 import com.humuson.service.MtReportService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -17,10 +18,16 @@ public class MtReportApiController {
 
     private final MtReportService mtReportService;
 
-    @Operation(summary="문자 레포트 결과 정보 조회", description = "발송된 문자 메세지에 대한 결과 정보를 조희")
+    @Operation(summary="모든 문자 레포트 결과 정보 조회", description = "발송된 문자 메세지에 대한 결과 정보를 조희")
     @GetMapping("/api/v1/mt-report/list")
     public List<MtReport> mtReportFindAll() {
         return mtReportService.findAll();
+    }
+
+    @Operation(summary="필요한 문자 레포트 결과 정보 조회", description = "대시보드에 필요한 문자 메세지 정보를 조회")
+    @GetMapping("/api/v1/mt-report-info/list")
+    public List<MtReportListDashboardResponseDto> mtReportFindInfoList() {
+        return mtReportService.findInfoList();
     }
 
 }
