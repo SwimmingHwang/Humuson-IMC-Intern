@@ -340,24 +340,24 @@ var dashboard = {
                         maxBarThickness: 15,
                         minBarLength: 0,
                         backgroundColor: [
-                            'rgb(249,199,0, 0.7)',
-                            'rgb(0,195,40, 0.7)',
-                            'rgba(246,104,61, 0.7)'
+                            'rgb(255, 205, 86, 0.8)',
+                            'rgb(75, 192, 192, 0.8)',
+                            'rgb(255, 99, 132, 0.8)'
                         ],
                         borderColor: [
-                            'rgb(249,199,0, 0.8)',
-                            'rgb(0,195,40, 0.8)',
-                            'rgba(246,104,61, 0.8)'
+                            'rgb(255, 205, 86, 0.9)',
+                            'rgb(75, 192, 192, 0.9)',
+                            'rgb(255, 99, 132, 0.9)'
                         ],
                         hoverBackgroundColor: [
-                            'rgb(249,199,0, 0.9)',
-                            'rgb(0,195,40, 0.9)',
-                            'rgba(246,104,61, 0.9)'
+                            'rgb(255, 205, 86, 1)',
+                            'rgb(75, 192, 192, 1)',
+                            'rgb(255, 99, 132, 1)'
                         ],
                         hoverBorderColor: [
-                            'rgb(249,199,0, 1)',
-                            'rgb(0,195,40, 1)',
-                            'rgba(246,104,61, 1)'
+                            'rgb(255, 205, 86, 1)',
+                            'rgb(75, 192, 192, 1)',
+                            'rgb(255, 99, 132, 1)'
                         ],
                         hoverBorderWidth: 1,
                         data: data
@@ -421,6 +421,11 @@ function updateChartVal() {
     /**
      * 가로 막대 차트 부분 (발송량 조회)
      */
+    chartData = [];
+    chartLabel = [];
+    chartData2 = [0, 0, 0];
+    chartLabel2 = ["대기", "성공", "실패"];
+
     sdt = dateFormatChange($('#datepicker1').val());
     edt = dateFormatChange($('#datepicker2').val());
 
@@ -428,8 +433,6 @@ function updateChartVal() {
     var perAtReport = periodObj(sdt, edt, atReport);
     var perMtReport = periodObj(sdt, edt, mtReport);
 
-    chartData = [];
-    chartLabel = [];
     // 총 일자
     var totalDay = diffPeriod(sdt, edt);
     for (var i = 0; i <= totalDay; i++) {
@@ -461,29 +464,10 @@ function updateChartVal() {
     /**
      * 세로 막대 차트 부분 (발송 현황 조회) - status 1/2/3 대기중/성공/실패
      */
-    chartLabel2= ["대기", "성공", "실패"];
-    chartData2 = [];
-
-    for(var i=0; i<3; i++) {
-        chartData2[i] = 0;
-    }
-    for(var i=0; i<atMsgs.length; i++) {
-        chartData2[parseInt(atMsgs[i].status)-2]++;
-    }
-    for(var i=0; i<mtMsgs.length; i++) {
-        chartData2[parseInt(mtMsgs[i].status)-2]++;
-    }
-    var count = 0;
-    for(var i=0; i<atReport.length; i++) {
-        if (atReport[i].report_code != "0000") count++;
-    }
-    for(var i=0; i<mtReport.length; i++) {
-        if (mtReport[i].report_code != "0000") count++;
-    }
-    chartData2[2] = count;
-
-    console.log(chartData2);
-    console.log(chartLabel2);
+    // y축 데이터 세팅
+    // 대기 count
+    periodWaitData(sdt, edt, atMsgs, atReport);
+    periodWaitData(sdt, edt, mtMsgs, mtReport);
 }
 
 // 페이지 기간 설정 datepicker의 데이터를 변경 (yyyy-mm-dd -> yyyymmdd 로 변경)
@@ -494,13 +478,17 @@ function dateFormatChange(_date) {
     return new Date(year, month, day);
 }
 
-// 기간 내의 객체만 추출
+// 기간 내의 객체만 추출 및 성공 실패 추출
 function periodObj(_sdt, _edt, _obj) {
     var nobj = [];
     for (var i = 0; i < _obj.length; i++) {
-        if (_obj[i].report_code != "0000") continue;
         var date = changeDate(_obj[i].response_date);
         if (_sdt <= date && date <= _edt) {
+            if (_obj[i].report_code != "0000") {
+                chartData2[2]++;
+                continue;
+            }
+            chartData2[1]++;
             var m = date.getMonth() + 1;
             var d = date.getDate();
             if (m.toString().length == 1) m = "0" + m;
@@ -510,6 +498,18 @@ function periodObj(_sdt, _edt, _obj) {
         }
     }
     return nobj;
+}
+
+// 기간 내의 대기중인 데이터 추출
+function periodWaitData(_sdt, _edt, _obj1) {
+    for (var i = 0; i < _obj1.length; i++) {
+        var date = changeDate(_obj1[i].reserved_date);
+        var status = _obj1[i].status;
+        if (_sdt <= date && date <= _edt) {
+            if(status == "3") continue;
+            chartData2[0]++;
+        }
+    }
 }
 
 // Date 일수 차이 구하기
