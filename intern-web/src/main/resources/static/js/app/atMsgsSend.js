@@ -71,11 +71,6 @@ var atSend = {
             if(!isGroupInfoUpload){
                 atSend.getGroupInput(); // table upload
             }
-            // if(!isCustomerInfoUpload) {
-            //     // atSend.getCustomerInput
-            //     atSend.setCustomerTable(); // table upload
-            //     // atSend.tableInit(); // add table event listener
-            // }
         });
         $('#btn-customerChkOK').on('click', function(){
             // $('input:hidden[name=customers]').val(recipientsCustomerList);

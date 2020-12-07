@@ -14,79 +14,15 @@ var mtSend = {
         $('#send-reserve').on('click', function () {
             _this.sendReserve();
         });
+        $('#msg-text').keyup(function () {
+            mtSend.bytesHandler(this);
+        });
         $(function() {
-            $('#msg-text').keyup(function () {
-                bytesHandler(this);
+            var varElements = document.getElementsByClassName("vars");
+            Array.from(varElements).forEach(function(element) {
+                element.addEventListener('click', mtSend.applyVars);
             });
         });
-        function getTextLength(str) {
-            var len = 0;
-            for (var i = 0; i < str.length; i++) {
-                if (escape(str.charAt(i)).length == 6) len++;
-                len++;
-            }
-            return len;
-        }
-        function bytesHandler(obj) {
-            var text = $(obj).val();
-            var textLen = getTextLength(text);
-
-            if(textLen <= 2000) {
-                if (textLen <= 80) flag = false;
-                else flag = true;
-                if (msg_status != flag) { // 상태 변경 되었을 때만 changLimit 호출
-                    msg_status = flag.valueOf();
-                    changeLimit();
-                }
-                $('#byte-count').text(textLen);
-            } else {
-                alert("최대 2000byte 크기까지 보낼 수 있습니다.");
-                var nextLen = textLen;
-                var nextStr = text;
-                while (nextLen > 2000) {
-                    nextStr = nextStr.substring(0, nextStr.length-1);
-                    nextLen = getTextLength(nextStr);
-                }
-                $('#msg-text').focus().val(nextStr);
-                $('#byte-count').text(nextLen);
-            }
-        }
-        function changeLimit() {
-            var text_limit = $('#byte-limit');
-            var text_count = $('#byte-count');
-            var msg_type = $('#msg-type');
-            var send_button = $('#send-button');
-            if(flag) {
-                text_limit.removeClass("text-success");
-                text_limit.addClass("text-warning");
-                text_count.removeClass("text-success");
-                text_count.addClass("text-warning");
-                text_limit.text("/ 2000 byte");
-
-                msg_type.removeClass("text-success");
-                msg_type.addClass("text-warning");
-                msg_type.text("LMS");
-
-                send_button.removeClass("btn-success");
-                send_button.addClass("btn-warning");
-
-                alert("LMS 타입으로 변경되었습니다.")
-            } else {
-                text_limit.removeClass("text-warning");
-                text_limit.addClass("text-success");
-                text_count.removeClass("text-warning");
-                text_count.addClass("text-success");
-                text_limit.text("/ 80 byte");
-
-                msg_type.removeClass("text-warning");
-                msg_type.addClass("text-success");
-                msg_type.text("SMS");
-
-                send_button.removeClass("btn-warning");
-                send_button.addClass("btn-success");
-            }
-        }
-
         function applyButton(nt) {
             var len = getTextLength(nt);
             if(len > 2000) {
@@ -96,22 +32,116 @@ var mtSend = {
                 $('#byte-count').text(len);
             }
         }
-        $('#var-name').on('click', function () {
-            var nextText = $('#msg-text').val() + "#{이름}";
-            applyButton(nextText);
-        });
-        $('#var-1').on('click', function () {
-            var nextText = $('#msg-text').val() + "#{변수1}";
-            applyButton(nextText);
-        });
-        $('#var-2').on('click', function () {
-            var nextText = $('#msg-text').val() + "#{변수2}";
-            applyButton(nextText);
-        });
-        $('#var-3').on('click', function () {
-            var nextText = $('#msg-text').val() + "#{변수3}";
-            applyButton(nextText);
-        });
+        // $('#var-name').on('click', function () {
+        //     var nextText = $('#msg-text').val() + "#{이름}";
+        //     applyButton(nextText);
+        // });
+        // $('#var-1').on('click', function () {
+        //     var nextText = $('#msg-text').val() + "#{변수1}";
+        //     applyButton(nextText);
+        // });
+        // $('#var-2').on('click', function () {
+        //     var nextText = $('#msg-text').val() + "#{변수2}";
+        //     applyButton(nextText);
+        // });
+        // $('#var-3').on('click', function () {
+        //     var nextText = $('#msg-text').val() + "#{변수3}";
+        //     applyButton(nextText);
+        // });
+    },
+    changeLimit: function () {
+        var text_limit = $('#byte-limit');
+        var text_count = $('#byte-count');
+        var msg_type = $('#msg-type');
+        var send_button = $('#send-button');
+        if(flag) {
+            text_limit.removeClass("text-success");
+            text_limit.addClass("text-warning");
+            text_count.removeClass("text-success");
+            text_count.addClass("text-warning");
+            text_limit.text("/ 2000 byte");
+
+            msg_type.removeClass("text-success");
+            msg_type.addClass("text-warning");
+            msg_type.text("LMS");
+
+            send_button.removeClass("btn-success");
+            send_button.addClass("btn-warning");
+
+            alert("LMS 타입으로 변경되었습니다.")
+        } else {
+            text_limit.removeClass("text-warning");
+            text_limit.addClass("text-success");
+            text_count.removeClass("text-warning");
+            text_count.addClass("text-success");
+            text_limit.text("/ 80 byte");
+
+            msg_type.removeClass("text-warning");
+            msg_type.addClass("text-success");
+            msg_type.text("SMS");
+
+            send_button.removeClass("btn-warning");
+            send_button.addClass("btn-success");
+        }
+    },
+    getTextLength: function (str) {
+        var len = 0;
+        for (var i = 0; i < str.length; i++) {
+            if (escape(str.charAt(i)).length == 6) len++;
+            len++;
+        }
+        return len;
+    },
+    bytesHandler: function (obj) {
+        var text = $(obj).val();
+        var textLen = mtSend.getTextLength(text);
+
+        if(textLen <= 2000) {
+            if (textLen <= 80) flag = false;
+            else flag = true;
+            if (msg_status != flag) { // 상태 변경 되었을 때만 changLimit 호출
+                msg_status = flag.valueOf();
+                changeLimit();
+            }
+            $('#byte-count').text(textLen);
+        } else {
+            alert("최대 2000byte 크기까지 보낼 수 있습니다.");
+            var nextLen = textLen;
+            var nextStr = text;
+            while (nextLen > 2000) {
+                nextStr = nextStr.substring(0, nextStr.length-1);
+                nextLen = mtSend.getTextLength(nextStr);
+            }
+            $('#msg-text').focus().val(nextStr);
+            $('#byte-count').text(nextLen);
+        }
+    },
+    applyVars : function(){
+
+        var varStr = this.getAttribute("value");
+
+        var msgSelector = $('#msg-text');
+
+        var cursorPos = msgSelector.prop('selectionStart');
+        var v = msgSelector.val();
+        var textBefore = v.substring(0, cursorPos);
+        var textAfter = v.substring(cursorPos, v.length);
+
+        msgSelector.val(textBefore + varStr + textAfter);
+
+        mtSend.alertLimit();
+        mtSend.bytesHandler(msgSelector)
+    },
+    alertLimit: function() {
+        var msgSelector = $('#msg-text');
+        var len = mtSend.getTextLength(msgSelector.val());
+
+        if (len > 2000) {
+            alert("최대 2000자 크기까지 보낼 수 있습니다.");
+            msgSelector.val(msgSelector.val().substring(0, 2000));
+        }
+        len =  mtSend.getTextLength(msgSelector.val());
+        $('#byte-count').text(len);
     },
     initTime: function() {
         var date = new Date();

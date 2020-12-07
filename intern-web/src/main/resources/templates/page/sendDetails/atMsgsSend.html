@@ -6,23 +6,8 @@
       layout:decorator="layout/default_layout">
 
 <div layout:fragment="content">
-<!--    <script>-->
-<!--        $(document).ready(function() {-->
-<!--            $('#inputGroupTable').DataTable( {-->
-<!--                "paging":   true,-->
-<!--                "ordering": false,-->
-<!--            } );-->
-<!--            $('#inputCustomerTable').DataTable( {-->
-<!--                "paging":   true,-->
-<!--                "ordering": false,-->
-<!--            } );-->
-<!--        } );-->
-<!--    </script>-->
-
-
     <h1 class="h3 mb-1 text-gray-800">알림톡 대량 발송 예약</h1>
     <p class="mb-4">알림톡 대량 발송 예약 페이지입니다.</p>
-
 
         <form th:object="${atCampaign}">
             <div>
@@ -62,15 +47,7 @@
                             <span id="byte-count" class="m-0 font-weight-bold text-success">0</span>
                             <span id="byte-limit" class="m-0 font-weight-bold text-success">/ 1000 자</span>
                         </div>
-                        <div class="card-body py-1 row text-align-center" >
-                            <a class="vars btn col-md-3 background-gray-color remove-radius border-dark" id="var-name" value="#{이름}">이름</a>
-                            <a class="vars btn col-md-3 background-gray-color remove-radius border-dark" id="var-userId" value="#{고객아이디}">고객 아이디</a>
-                            <a class="vars btn col-md-3 background-gray-color remove-radius border-dark" id="var-phoneNumber" value="#{전화번호}">전화번호</a>
-                            <a class="vars btn col-md-3 background-gray-color remove-radius border-dark" id="var-address" value="#{주소}">주소</a>
-                            <a class="vars btn col-md-3 background-gray-color remove-radius border-dark" id="var-1" value="#{변수1}">변수1</a>
-                            <a class="vars btn col-md-3 background-gray-color remove-radius border-dark" id="var-2" value="#{변수2}">변수2</a>
-                            <a class="vars btn col-md-3 background-gray-color remove-radius border-dark" id="var-3" value="#{변수3}">변수3</a>
-                        </div>
+
                     </div>
                 </div>
 

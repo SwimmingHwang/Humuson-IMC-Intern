@@ -125,7 +125,7 @@ public class IndexController {
     // 결과 조회 ------------------------------------------------------------------------------------
     @GetMapping("/send/at-record")
     public String atRecord(Model model){
-        model.addAttribute("title","알림톡 발송 예약 내역");
+        model.addAttribute("title","알림톡 전체 조회");
         model.addAttribute("msgSbj","at");
         model.addAttribute("msgs", atMsgsService.findAllReservedDateDesc());
         return "page/attable";
@@ -139,7 +139,7 @@ public class IndexController {
     }
     @GetMapping("/send/mt-record")
     public String mtRecord(Model model){
-        model.addAttribute("title","문자 메시지 발송 예약 내역");
+        model.addAttribute("title","문자 전체 조회");
         model.addAttribute("msgSbj","mt");
         model.addAttribute("msgs",mtMsgsService.findAll());
         return "page/mttable";
