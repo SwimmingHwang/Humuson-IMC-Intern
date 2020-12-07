@@ -187,7 +187,7 @@ var send = {
             // }
         }).done(function() {
             alert('수정되었습니다.');
-            window.location.href = '/send/at-record';
+            window.location.href = '/';
         }).fail(function (error) {
             alert(JSON.stringify(error));
         });
