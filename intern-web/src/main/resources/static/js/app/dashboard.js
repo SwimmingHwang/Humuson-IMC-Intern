@@ -309,10 +309,10 @@ var dashboard = {
                         barThickness: 30,
                         maxBarThickness: 50,
                         minBarLength: 0,
-                        backgroundColor: '#1cc88a',
-                        borderColor: '#8cdcc0',
-                        hoverBackgroundColor: '#0cc784',
-                        hoverBorderColor: '#01ac6f',
+                        backgroundColor: 'rgba(28,200,138,0.7)',
+                        borderColor: 'rgba(28,200,138,0.8)',
+                        hoverBackgroundColor: 'rgba(28,200,138,0.9)',
+                        hoverBorderColor: 'rgba(28,200,138,1)',
                         hoverBorderWidth: 1,
                         data: data
                     }]
