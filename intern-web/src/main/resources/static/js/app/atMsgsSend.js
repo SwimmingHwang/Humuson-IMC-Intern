@@ -429,17 +429,35 @@ var atSend = {
 
         $('#datepicker').prop('readonly', true);
         $('#time').prop('readonly', true);
-        $('#datepicker').css('backgroundColor', '#eaecf4');
-        $('#time').css('backgroundColor', '#eaecf4');
+
+        $('#send-reserve').removeClass("bg-gray-400");
+        $('#send-reserve').addClass("bg-light");
+
+        $('#datepicker').removeClass("bg-light");
+        $('#time').removeClass("bg-light");
+        $('#datepicker').addClass("bg-gray-400");
+        $('#time').addClass("bg-gray-400");
+
+        $('#send-immediate').removeClass("bg-light");
+        $('#send-immediate').addClass("bg-gray-400");
     },
     sendReserve: function() {
         this.initDatePicker();
 
         $('#datepicker').prop('readonly', false);
         $('#time').prop('readonly', false);
-        $('#datepicker').css('backgroundColor', '#fff');
-        $('#time').css('backgroundColor', '#fff');
+
+        $('#send-immediate').removeClass("bg-gray-400");
+        $('#send-immediate').addClass("bg-light");
+
+        $('#datepicker').removeClass("bg-gray-400");
+        $('#time').removeClass("bg-gray-400");
+        $('#datepicker').addClass("bg-light");
+        $('#time').addClass("bg-light");
+
         $("#datepicker").prop('disabled', false);
+        $('#send-reserve').removeClass("bg-light");
+        $('#send-reserve').addClass("bg-gray-400");
     }
 }
 
