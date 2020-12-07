@@ -9,10 +9,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class AtMsgsListDashboardResponseDto {
     private String status;
+    private String reserved_date;
 
     @Builder
     public AtMsgsListDashboardResponseDto(AtMsgs entity) {
         this.status = entity.getStatus();
+        this.reserved_date = entity.getReservedDate();
     }
 
 }

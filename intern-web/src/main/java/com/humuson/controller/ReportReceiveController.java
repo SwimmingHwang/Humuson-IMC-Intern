@@ -3,7 +3,6 @@ package com.humuson.controller;
 import com.google.gson.Gson;
 import com.humuson.domain.report.AtReport;
 import com.humuson.domain.report.MtReport;
-import com.humuson.domain.repository.AtReportJdbcRepository;
 import com.humuson.dto.report.AtReportSaveRequestDto;
 import com.humuson.dto.report.MtReportSaveRequestDto;
 import com.humuson.service.*;
@@ -23,8 +22,6 @@ public class ReportReceiveController {
     private final AtReportService atReportService;
     private final MtMsgsService mtMsgsService;
     private final MtReportService mtReportService;
-    private final AtMsgsJdbcService atMsgsJdbcService;
-    private final AtReportJdbcRepository atReportJdbcRepository;
 
     @GetMapping("/api/v1/report-test")
     public String saveAllReport() {
