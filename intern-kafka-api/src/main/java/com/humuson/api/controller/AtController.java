@@ -14,7 +14,7 @@ import java.util.List;
 @Controller
 public class AtController {
 
-    @Operation(summary = "알림톡 Kafka로 전송")
+    @Operation(summary = "알림톡 메시지 리스트 전송")
     @PostMapping(value = "/api/at-msgs",produces = "application/json; charset=utf8")
     @ResponseBody
     public String apiAtMsgs(@RequestBody List<AtMsgsSaveRequestDto> requestDto) {
