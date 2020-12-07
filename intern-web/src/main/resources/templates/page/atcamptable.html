@@ -4,16 +4,11 @@
       layout:decorator="layout/default_layout">
 
 <div layout:fragment="content">
-
-
     <!-- Begin Page Content -->
     <div class="container-fluid">
 
         <!-- Page Heading -->
-        <h1 class="h3 mb-2 text-gray-800" th:text="${title}">Title</h1>
-        <p class="mb-4"> 메시지 내용을 클릭하면 수정할 수 있습니다.
-            단, 이미 발송 시간이 지난 메시지(상태:2 or 3)는 수정이 불가합니다.<br>
-            메시지 상태는    1: 발송 예약 완료    2: 발송 대기    3: 발송 완료    입니다.</p>
+        <h1 class="h3 mb-2 text-gray-800">알림톡 대량 발송 예약 리스트</h1>
 
         <!-- DataTales Example -->
         <div class="card shadow mb-4">
@@ -27,27 +22,31 @@
                         <tr>
                             <th>발송 일시</th>
                             <th>메시지 관리명</th>
+                            <th>템플릿 코드</th>
                             <th>메세지 내용</th>
                             <th>건수</th>
-                            <th>템플릿 코드</th>
                         </tr>
                         </thead>
                         <tfoot>
                         <tr>
                             <th>발송 일시</th>
                             <th>메시지 관리명</th>
+                            <th>템플릿 코드</th>
                             <th>메세지 내용</th>
                             <th>건수</th>
-                            <th>템플릿 코드</th>
                         </tr>
                         </tfoot>
                         <tbody>
                         <tr  th:each="msg : ${msgs}">
-                            <td th:text="${#temporals.createDateTime(msg.reservedDate, 'yyyyMMddHHmmss')}">default</td>
+                            <td th:text="|${msg.reservedDate.substring(0,4)}년 ${msg.reservedDate.substring(4,6)}월
+                            ${msg.reservedDate.substring(6,8)}일  ${msg.reservedDate.substring(8,10)}시
+                            ${msg.reservedDate.substring(10,12)}분|">
+                                default</td>
                             <td th:text="${msg.campName}">default</td>
-                            <td th:text="${msg.msg}">default</td>
-                            <td th:text="${msg.count}">default</td>
                             <td th:text="${msg.templateInfo.templateName}">default</td>
+                            <td style="text-overflow:ellipsis; overflow:hidden; white-space:nowrap;"
+                                th:text="${msg.msg}">default</td>
+                            <td th:text="${msg.count}">default</td>
                         </tr>
                         </tbody>
                     </table>
@@ -57,12 +56,37 @@
 
     </div>
     <!-- /.container-fluid -->
+
     <script>
         $(document).ready(function() {
             $('#dataTable').DataTable( {
                 "ordering": false,
+                autoWidth: false, //step 1
+                columnDefs: [
+                    { width: '250px', targets: 0 }, //step 2, column 1 out of 4
+                    { width: '200px', targets: 1 }, //step 2, column 2 out of 4
+                    { width: '200px', targets: 2 },  //step 2, column 3 out of 4
+                    { width: '200px', targets: 3 },  //step 2, column 4 out of 4
+                    { width: '60px', targets: 4 },  //step 2, column 3 out of 4
+                ],
+                columns: [
+                    null,null,null,
+                        {
+                            "data": "Comment",
+                            "render": function (data, type, full, meta) {
+                                return '<span data-toggle="tooltip" data-placement="right"   title="' + data + '">' + data + '</span>';
+                            },
+                            targets :  3
+                        }
+                ],
+                destroy: true
+
             });
         } );
+        $('#dataTable').on('draw.dt', function () {
+            console.log("draw")
+            $('[data-toggle="tooltip"]').tooltip();
+        });
     </script>
 
     <!-- Page level plugins -->
@@ -71,6 +95,12 @@
 
     <!-- Page level custom scripts -->
     <script  th:src="@{/js/common/demo/datatables-demo.js}"></script>
+
+    <style>
+        .dataTable{
+            table-layout:fixed;
+        }
+    </style>
 
 </div>
 </html>

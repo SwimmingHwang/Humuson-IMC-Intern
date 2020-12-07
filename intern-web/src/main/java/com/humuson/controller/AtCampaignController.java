@@ -67,28 +67,28 @@ public class AtCampaignController {
         try{
             atCampaignService.save(atCampaign);
             statusCode = "200"; //성공
+
+
+            /* AT MSG 생성 */
+            // TODO : At msgs save 로직 구현하기 + count설정해주기
+            List<Long> idList = requestDto.getCustomers().stream().map(Long::parseLong).collect(Collectors.toList());
+
+            Set<Customer> customers = customerService.findAllById(idList);
+            List<List<String>> customerList = new ArrayList<>();
+            for(Customer customer : customers){
+                List<String> custom = new ArrayList<>();
+                custom.add("82"+customer.getPhoneNumber().substring(1));
+                customerList.add(custom);
+            }
+
+            String templateCode = templateInfo.getTemplateCode();
+            MultiAtMsgsSaveRequestDto multiAtMsgsSaveRequestDto = new MultiAtMsgsSaveRequestDto(requestDto.getMsg(), templateCode, requestDto.getReservedDate(), customerList);
+
+            atMsgsService.saveAll(multiAtMsgsSaveRequestDto);
         } catch (Exception e){
             log.error(e.toString());
             statusCode="500"; // db insert실패
         }
-
-        /* AT MSG 생성 */
-        // TODO : At msgs save 로직 구현하기 + count설정해주기
-        List<Long> idList = requestDto.getCustomers().stream().map(Long::parseLong).collect(Collectors.toList());
-
-        Set<Customer> customers = customerService.findAllById(idList);
-        List<List<String>> customerList = new ArrayList<>();
-        for(Customer customer : customers){
-            List<String> custom = new ArrayList<>();
-            custom.add("82"+customer.getPhoneNumber().substring(1));
-            customerList.add(custom);
-        }
-
-        String templateCode = templateInfo.getTemplateCode();
-        MultiAtMsgsSaveRequestDto multiAtMsgsSaveRequestDto = new MultiAtMsgsSaveRequestDto(requestDto.getMsg(), templateCode, requestDto.getReservedDate(), customerList);
-
-        atMsgsService.saveAll(multiAtMsgsSaveRequestDto);
-
         return statusCode;
     }
 }

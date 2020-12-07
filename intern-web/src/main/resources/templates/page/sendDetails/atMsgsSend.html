@@ -6,23 +6,8 @@
       layout:decorator="layout/default_layout">
 
 <div layout:fragment="content">
-<!--    <script>-->
-<!--        $(document).ready(function() {-->
-<!--            $('#inputGroupTable').DataTable( {-->
-<!--                "paging":   true,-->
-<!--                "ordering": false,-->
-<!--            } );-->
-<!--            $('#inputCustomerTable').DataTable( {-->
-<!--                "paging":   true,-->
-<!--                "ordering": false,-->
-<!--            } );-->
-<!--        } );-->
-<!--    </script>-->
-
-
     <h1 class="h3 mb-1 text-gray-800">알림톡 대량 발송 예약</h1>
     <p class="mb-4">알림톡 대량 발송 예약 페이지입니다.</p>
-
 
         <form th:object="${atCampaign}">
             <div>
@@ -62,15 +47,7 @@
                             <span id="byte-count" class="m-0 font-weight-bold text-success">0</span>
                             <span id="byte-limit" class="m-0 font-weight-bold text-success">/ 1000 자</span>
                         </div>
-                        <div class="card-body py-1 row text-align-center" >
-                            <a class="vars btn col-md-3 background-gray-color remove-radius border-dark" id="var-name" value="#{이름}">이름</a>
-                            <a class="vars btn col-md-3 background-gray-color remove-radius border-dark" id="var-userId" value="#{고객아이디}">고객 아이디</a>
-                            <a class="vars btn col-md-3 background-gray-color remove-radius border-dark" id="var-phoneNumber" value="#{전화번호}">전화번호</a>
-                            <a class="vars btn col-md-3 background-gray-color remove-radius border-dark" id="var-address" value="#{주소}">주소</a>
-                            <a class="vars btn col-md-3 background-gray-color remove-radius border-dark" id="var-1" value="#{변수1}">변수1</a>
-                            <a class="vars btn col-md-3 background-gray-color remove-radius border-dark" id="var-2" value="#{변수2}">변수2</a>
-                            <a class="vars btn col-md-3 background-gray-color remove-radius border-dark" id="var-3" value="#{변수3}">변수3</a>
-                        </div>
+
                     </div>
                 </div>
 
@@ -78,18 +55,18 @@
                     <div class="card position-relative py-2 text-align-center font-size-18">
                         <span class="card-body py-2 background-dgray-color text-white remove-radius"><b>고객 정보 불러오기</b></span>
                         <div class="card-body py-2 row background-gray-color margin-zero">
-                           <span class="btn font-weight-bold col-md-4 text-gray-700"
+                           <span class="btn font-weight-bold col-md-6 text-gray-700"
                                  type="button" data-toggle="modal" data-target=".bd-example-modal-lg"><b>주소록</b></span>
-                            <span class="btn font-weight-bold col-md-4 text-gray-700"><b>엑셀</b></span>
-                            <span class="btn font-weight-bold col-md-4 text-gray-700"><b>텍스트</b></span>
+                            <span id="btn-phoneNumber" class="btn font-weight-bold col-md-6 text-gray-700"><b>csv/txt</b></span>
+<!--                            <span class="btn font-weight-bold col-md-4 text-gray-700"><b>텍스트</b></span>-->
                         </div>
-                        <span class="card-body py-2 background-dgray-color text-white remove-radius"><b>고객 정보 다운로드</b></span>
-                        <div class="card-body py-2 row background-gray-color margin-zero">
-                            <span class="btn font-weight-bold col-md-4 text-gray-700"
-                                  type="button" data-toggle="modal" data-target=".bd-example-modal-lg"><b>주소록</b></span>
-                            <span class="btn font-weight-bold col-md-4 text-gray-700"><b>엑셀</b></span>
-                            <span class="btn font-weight-bold col-md-4 text-gray-700"><b>텍스트</b></span>
-                        </div>
+<!--                        <span class="card-body py-2 background-dgray-color text-white remove-radius"><b>고객 정보 다운로드</b></span>-->
+<!--                        <div class="card-body py-2 row background-gray-color margin-zero">-->
+<!--                            <span class="btn font-weight-bold col-md-4 text-gray-700"-->
+<!--                                  type="button" data-toggle="modal" data-target=".bd-example-modal-lg"><b>주소록</b></span>-->
+<!--                            <span class="btn font-weight-bold col-md-4 text-gray-700"><b>엑셀</b></span>-->
+<!--                            <span class="btn font-weight-bold col-md-4 text-gray-700"><b>텍스트</b></span>-->
+<!--                        </div>-->
                         <span class="card-body py-2 background-dgray-color text-white remove-radius"><b>발송 시간 설정</b></span>
                         <div class="card-body py-2 row background-gray-color margin-zero">
                             <span id="send-immediate" class="btn font-weight-bold col-md-6 text-gray-700"><b>즉시</b></span>
@@ -232,6 +209,47 @@
                                     </div> <!-- end of class row -->
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-primary" id="btn-customerChkOK">확인</button>
+                                        <button class="btn btn-secondary" type="button" data-dismiss="modal">취소</button>
+                                    </div>
+                                </div>
+                            </div><!-- end of madal content-->
+                        </div>
+                    </div> <!-- End of modal class-->
+
+
+                    <div id= "csvCustomersModal" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-xl">
+                            <div class="modal-content">
+                                <div class="container-fluid">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="fileCustomersModalLabel">csv/txt 파일 미리보기</h5>
+                                        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">×</span>
+                                        </button>
+                                    </div>
+                                    <div class="row">
+                                        <table id="csvCustomers" class="table table-bordered" width="100%" cellspacing="0">
+                                            <thead class="thead-strong">
+                                            <tr>
+                                                <th>순서</th>
+                                                <th>아이디</th>
+                                                <th>이름</th>
+                                                <th>전화번호</th>
+                                                <th>주소</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody id="tbody">
+                                            <tr th:each="customer : ${customers}">
+                                                <td th:text="${customer.id}">default</td>
+                                                <td th:text="${customer.userId}">default</td>
+                                                <td th:text="${customer.name}">default</td>
+                                                <td th:text="${customer.phoneNumber}">default</td>
+                                                <td th:text="${customer.address}">default</td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div> <!-- end of class row -->
+                                    <div class="modal-footer">
                                         <button class="btn btn-secondary" type="button" data-dismiss="modal">취소</button>
                                     </div>
                                 </div>
