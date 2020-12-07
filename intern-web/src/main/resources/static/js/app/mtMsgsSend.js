@@ -197,7 +197,7 @@ var mtSend = {
             }, //다음달 이전달로 넘어가는 화살표 모양 커스텀 마이징
             showWeekDays : true ,// 위에 요일 보여주는 옵션 기본값 : true
             //title: "테스트",	//캘린더 상단에 보여주는 타이틀
-            todayHighlight : true ,	//오늘 날짜에 하이라이팅 기능 기본값 :false
+            todayHighlight : true ,	//오늘 날짜에 하이라이팅 기능 기본값 :falsse
             toggleActive : true,	//이미 선택된 날짜 선택하면 기본값 : false인경우 그대로 유지 true인 경우 날짜 삭제
             weekStart : 0 ,//달력 시작 요일 선택하는 것 기본값은 0인 일요일
             language: 'ko'
@@ -212,16 +212,16 @@ var mtSend = {
         $('#datepicker').prop('readonly', true);
         $('#time').prop('readonly', true);
 
-        $('#send-reserve').removeClass("bg-secondary");
+        $('#send-reserve').removeClass("bg-gray-400");
         $('#send-reserve').addClass("bg-light");
 
         $('#datepicker').removeClass("bg-light");
         $('#time').removeClass("bg-light");
-        $('#datepicker').addClass("bg-secondary");
-        $('#time').addClass("bg-secondary");
+        $('#datepicker').addClass("bg-gray-400");
+        $('#time').addClass("bg-gray-400");
 
         $('#send-immediate').removeClass("bg-light");
-        $('#send-immediate').addClass("bg-secondary");
+        $('#send-immediate').addClass("bg-gray-400");
     },
     sendReserve: function() {
         this.initDatePicker();
@@ -229,17 +229,17 @@ var mtSend = {
         $('#datepicker').prop('readonly', false);
         $('#time').prop('readonly', false);
 
-        $('#send-immediate').removeClass("bg-secondary");
+        $('#send-immediate').removeClass("bg-gray-400");
         $('#send-immediate').addClass("bg-light");
 
-        $('#datepicker').removeClass("bg-secondary");
-        $('#time').removeClass("bg-secondary");
+        $('#datepicker').removeClass("bg-gray-400");
+        $('#time').removeClass("bg-gray-400");
         $('#datepicker').addClass("bg-light");
         $('#time').addClass("bg-light");
 
         $("#datepicker").prop('disabled', false);
         $('#send-reserve').removeClass("bg-light");
-        $('#send-reserve').addClass("bg-secondary");
+        $('#send-reserve').addClass("bg-gray-400");
     }
 }
 
