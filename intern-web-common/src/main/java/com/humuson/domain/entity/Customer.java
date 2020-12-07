@@ -7,10 +7,7 @@ import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @DynamicInsert // insert 시 null인 필드 제외
 @DynamicUpdate // update 시
@@ -25,33 +22,34 @@ public class Customer {
     private String userId;
     private String name;
     private String phoneNumber; // 플러스친구를 개설한 관리자 핸드폰 번호를 입력하세요
-    private String var1;
-    private String var2;
-    private String var3;
     private String address;
 
-    @ManyToMany(mappedBy = "customers" ,cascade = CascadeType.MERGE)
-    private Set<Group> groups = new HashSet<>();
-
-    public void update(String userId, String name, String phoneNumber, String address, String var1, String var2, String var3) {
+    public void update(String userId, String name, String phoneNumber, String address) {
         this.userId = userId;
         this.name = name;
         this.phoneNumber = phoneNumber;
         this.address = address;
-        this.var1 = var1;
-        this.var2 = var2;
-        this.var3 = var3;
     }
     @Builder
-    public Customer(long id, String userId, String name, String phoneNumber, String address, String var1, String var2, String var3) {
+    public Customer(long id, String userId, String name, String phoneNumber, String address){
         this.id = id;
         this.userId = userId;
         this.name = name;
         this.phoneNumber = phoneNumber;
         this.address = address == null? "":address;
-        this.var1 = var1 == null? "" : var1; // 결과 받는 URL
-        this.var2 = var2 == null? "" : var2; // 결과 받는 URL
-        this.var3 = var3 == null? "" : var3; // 결과 받는 URL
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Customer customer = (Customer) o;
+        return id == customer.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }
 

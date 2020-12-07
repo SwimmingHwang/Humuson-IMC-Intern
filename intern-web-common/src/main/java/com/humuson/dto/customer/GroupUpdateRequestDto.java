@@ -12,6 +12,7 @@ import java.util.List;
 @NoArgsConstructor
 public class GroupUpdateRequestDto {
     private String groupName;
+    private String groupComment;
     private List<String> customers;
 
 }

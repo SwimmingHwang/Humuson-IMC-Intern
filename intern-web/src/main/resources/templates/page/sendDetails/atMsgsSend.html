@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.w3.org/1999/xhtml"
+
+      layout:decorator="layout/default_layout">
+
+<div layout:fragment="content">
+<!--    <script>-->
+<!--        $(document).ready(function() {-->
+<!--            $('#inputGroupTable').DataTable( {-->
+<!--                "paging":   true,-->
+<!--                "ordering": false,-->
+<!--            } );-->
+<!--            $('#inputCustomerTable').DataTable( {-->
+<!--                "paging":   true,-->
+<!--                "ordering": false,-->
+<!--            } );-->
+<!--        } );-->
+<!--    </script>-->
+
+
+    <h1 class="h3 mb-1 text-gray-800">알림톡 대량 발송 예약</h1>
+    <p class="mb-4">알림톡 대량 발송 예약 페이지입니다.</p>
+
+
+        <form th:object="${atCampaign}">
+            <div>
+                <strong>메시지 관리명</strong>
+                <input type="text" class="form-control input-lg" id="campName" placeholder="메시지 관리명을 입력하세요." th:field="*{campName}">
+            </div>
+            <br>
+            <div class="row">
+
+                <div class="col-md-4">
+                    <div class="card position-relative">
+
+
+                        <div class="card-body py-3">
+                            <h4 id="msg-type" class="m-0 font-weight-bold text-warning">알림톡</h4>
+                        </div>
+                        <div class="card-body py-1">
+                            <input type="text" th:field="*{senderName}" class="form-control bg-light border-0" placeholder="발신프로필 키" readonly>
+                            <input  th:field="*{senderKey}" class="form-control bg-light border-0" placeholder="발신프로필 키" type="hidden">
+                        </div>
+                        <div class="card-body py-1">
+                            <strong>템플릿</strong>
+                            <select id="templateContent" name="templateContent" class="custom-select" >
+                                <option value="default" disabled selected>템플릿을 선택하세요.</option>
+                                <tr th:each="templateCode : ${templateCodes}">
+                                    <option th:text="${templateCode.templateName}" th:value="${templateCode.templateContent}">default</option>
+                                </tr>
+                            </select>
+                        </div>
+
+                        <div class="card-body py-1">
+                            <textarea id="msg" class="form-control bg-light border-0" th:field="*{msg}"
+                                      placeholder="보내실 메시지를 입력해 주세요." rows="10" maxlength="2000"></textarea>
+                        </div>
+
+                        <div class="card-body py-1 text-align-right">
+                            <span id="byte-count" class="m-0 font-weight-bold text-success">0</span>
+                            <span id="byte-limit" class="m-0 font-weight-bold text-success">/ 1000 자</span>
+                        </div>
+                        <div class="card-body py-1 row text-align-center" >
+                            <a class="vars btn col-md-3 background-gray-color remove-radius border-dark" id="var-name" value="#{이름}">이름</a>
+                            <a class="vars btn col-md-3 background-gray-color remove-radius border-dark" id="var-userId" value="#{고객아이디}">고객 아이디</a>
+                            <a class="vars btn col-md-3 background-gray-color remove-radius border-dark" id="var-phoneNumber" value="#{전화번호}">전화번호</a>
+                            <a class="vars btn col-md-3 background-gray-color remove-radius border-dark" id="var-address" value="#{주소}">주소</a>
+                            <a class="vars btn col-md-3 background-gray-color remove-radius border-dark" id="var-1" value="#{변수1}">변수1</a>
+                            <a class="vars btn col-md-3 background-gray-color remove-radius border-dark" id="var-2" value="#{변수2}">변수2</a>
+                            <a class="vars btn col-md-3 background-gray-color remove-radius border-dark" id="var-3" value="#{변수3}">변수3</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="card position-relative py-2 text-align-center font-size-18">
+                        <span class="card-body py-2 background-dgray-color text-white remove-radius"><b>고객 정보 불러오기</b></span>
+                        <div class="card-body py-2 row background-gray-color margin-zero">
+                           <span class="btn font-weight-bold col-md-4 text-gray-700"
+                                 type="button" data-toggle="modal" data-target=".bd-example-modal-lg"><b>주소록</b></span>
+                            <span class="btn font-weight-bold col-md-4 text-gray-700"><b>엑셀</b></span>
+                            <span class="btn font-weight-bold col-md-4 text-gray-700"><b>텍스트</b></span>
+                        </div>
+                        <span class="card-body py-2 background-dgray-color text-white remove-radius"><b>고객 정보 다운로드</b></span>
+                        <div class="card-body py-2 row background-gray-color margin-zero">
+                            <span class="btn font-weight-bold col-md-4 text-gray-700"
+                                  type="button" data-toggle="modal" data-target=".bd-example-modal-lg"><b>주소록</b></span>
+                            <span class="btn font-weight-bold col-md-4 text-gray-700"><b>엑셀</b></span>
+                            <span class="btn font-weight-bold col-md-4 text-gray-700"><b>텍스트</b></span>
+                        </div>
+                        <span class="card-body py-2 background-dgray-color text-white remove-radius"><b>발송 시간 설정</b></span>
+                        <div class="card-body py-2 row background-gray-color margin-zero">
+                            <span id="send-immediate" class="btn font-weight-bold col-md-6 text-gray-700"><b>즉시</b></span>
+                            <span id="send-reserve" class="btn font-weight-bold col-md-6 text-gray-700"><b>예약</b></span>
+                        </div>
+                        <div class="card-body py-2">
+                            <div class="col-md-10 row">
+                                <span class="font-weight-bold col-md-4 text-right">날짜</span>
+                                <input type="text" id="datepicker" class="form-control col-md-7 background-dgray-color" readonly>
+                            </div>
+                        </div>
+                        <div class="card-body py-2">
+                            <div class="col-md-10 row">
+                                <span class="font-weight-bold col-md-4 text-right">시간</span>
+                                <input type="time" id="time" class="form-control col-md-7 background-dgray-color" value="10:00" min="00:00:00" max="23:59:59" readonly>
+                            </div>
+                        </div>
+                    </div>
+                    <input type="hidden" id="reservedDate" th:field="*{reservedDate}">
+
+                    <div class="card-body py-2">
+                        <input type="button" id="btn-save" class="btn btn-success" value="발송하기">
+                        <a class="btn btn-warning" href="/">뒤로가기</a>
+                    </div>
+
+                    <div id= "customersModal" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-xl">
+                            <div class="modal-content">
+                                <div class="container-fluid">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">주소록</h5>
+                                        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">×</span>
+                                        </button>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="card position-relative">
+                                                <div class="card-header py-3">
+                                                    <h6 class="m-0 font-weight-bold text-success">그룹</h6>
+                                                </div>
+                                                <div style="height:500px; overflow-y:scroll">
+                                                    <table class="table table-hover table-sm" id="inputGroupTable" width="100%" cellspacing="0">
+                                                        <thead>
+                                                        <tr>
+<!--                                                            <th class = "checkbox eleCbx"><input name="groupChkAll" type="checkbox" id="groupChkAll"></th>-->
+                                                            <th>그룹명</th>
+                                                            <th>고객 수</th>
+                                                        </tr>
+                                                        </thead>
+    <!--                                                                                    <tbody>-->
+    <!--                                                                                    <tr th:each="customer : ${customerList}">-->
+    <!--                                                                                        <td><input type="checkbox" name = "customers" th:value="${customer.id}"> </td>-->
+    <!--                                                                                        <td th:text="${customer.userId}">default</td>-->
+    <!--                                                                                        <td th:text="${customer.name}">default</a></td>-->
+    <!--                                                                                        <td th:text="${customer.phoneNumber}">default</td>-->
+    <!--                                                                                        <td th:text="${customer.address}">default</td>-->
+    <!--                                                                                    </tr>-->
+    <!--                                                                                    </tbody>-->
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <div class="card position-relative">
+                                                <div class="card-header py-3">
+                                                    <h6 class="m-0 font-weight-bold text-success">고객</h6>
+                                                </div>
+                                                <div style="height:500px; overflow-y:scroll">
+
+                                                    <table class="table table-hover table-sm" id="inputCustomerTable" width="100%" cellspacing="0">
+                                                        <thead>
+                                                        <tr>
+                                                            <th class = "checkbox"><input name="customerChkAll" type="checkbox" id="customerChkAll"></th>
+                                                            <th>성함</th>
+                                                            <th>전화번호</th>
+                                                        </tr>
+                                                        </thead>
+                                                        <!--                                <tbody>-->
+                                                        <!--                                <tr th:each="customer : ${customerList}">-->
+                                                        <!--                                    <td><input type="checkbox" name = "customers" th:value="${customer.id}"> </td>-->
+                                                        <!--                                    <td th:text="${customer.userId}">default</td>-->
+                                                        <!--                                    <td th:text="${customer.name}">default</a></td>-->
+                                                        <!--                                    <td th:text="${customer.phoneNumber}">default</td>-->
+                                                        <!--                                    <td th:text="${customer.address}">default</td>-->
+                                                        <!--                                </tr>-->
+                                                        <!--                                </tbody>-->
+                                                    </table>
+                                                </div>
+                                            </div>
+<!--                                            <div>-->
+<!--                                                <div>-->
+<!--                                                    <strong>선택된 고객 수</strong>-->
+<!--                                                    <div id="selectedCustomerCount2">0</div>-->
+<!--                                                </div>-->
+<!--                                                <br>-->
+
+<!--                                                <button type="button" class="btn btn-primary" id="btn-customerChkOK">확인</button>-->
+<!--                                                <button type="button" class="btn btn-primary" id="btn-customerChkCancel">취소</button>-->
+<!--                                            </div>-->
+<!--                                            &lt;!&ndash;                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">&ndash;&gt;-->
+
+
+<!--                                            <table class="table table-sm" id="inputCustomerTable" width="100%" cellspacing="0">-->
+<!--                                                <thead>-->
+<!--                                                <tr>-->
+<!--                                                    <th class = "checkbox"><input name="customerChkAll" type="checkbox" id="customerChkAll"></th>-->
+<!--                                                    <th>고객 아이디</th>-->
+<!--                                                    <th>성함</th>-->
+<!--                                                    <th>전화번호</th>-->
+<!--                                                    <th>주소</th>-->
+<!--                                                </tr>-->
+<!--                                                </thead>-->
+<!--                &lt;!&ndash;                                <tbody>&ndash;&gt;-->
+<!--                &lt;!&ndash;                                <tr th:each="customer : ${customerList}">&ndash;&gt;-->
+<!--                &lt;!&ndash;                                    <td><input type="checkbox" name = "customers" th:value="${customer.id}"> </td>&ndash;&gt;-->
+<!--                &lt;!&ndash;                                    <td th:text="${customer.userId}">default</td>&ndash;&gt;-->
+<!--                &lt;!&ndash;                                    <td th:text="${customer.name}">default</a></td>&ndash;&gt;-->
+<!--                &lt;!&ndash;                                    <td th:text="${customer.phoneNumber}">default</td>&ndash;&gt;-->
+<!--                &lt;!&ndash;                                    <td th:text="${customer.address}">default</td>&ndash;&gt;-->
+<!--                &lt;!&ndash;                                </tr>&ndash;&gt;-->
+<!--                &lt;!&ndash;                                </tbody>&ndash;&gt;-->
+<!--                                            </table>-->
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="card position-relative">
+                                                <div class="card-header py-3">
+                                                    <h6 class="m-0 font-weight-bold text-success">받는 사람</h6>
+                                                </div>
+<!--                                                <input th:type="hidden" th:field="*{customers}">-->
+                                                <div style="height:500px; overflow-y:scroll">
+                                                    <ul id="recipientsGroupList">
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                    </div> <!-- end of class row -->
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-primary" id="btn-customerChkOK">확인</button>
+                                        <button class="btn btn-secondary" type="button" data-dismiss="modal">취소</button>
+                                    </div>
+                                </div>
+                            </div><!-- end of madal content-->
+                        </div>
+                    </div> <!-- End of modal class-->
+
+                </div>
+            </div>
+
+        </form>
+
+
+    <!-- Page level plugins -->
+    <script  th:src="@{/vendor/datatables/jquery.dataTables.min.js}"></script>
+    <script  th:src="@{/vendor/datatables/dataTables.bootstrap4.min.js}"></script>
+
+    <!-- Page level custom scripts -->
+    <script  th:src="@{/js/common/demo/datatables-demo.js}"></script>
+
+    <!--custom 스크립트 -->
+    <th:block layout:fragment="script">
+        <link rel="stylesheet" th:href="@{/vendor/bootstrap/scss/bootstrap-datepicker.min.css}">
+        <script th:src="@{/vendor/bootstrap/js/bootstrap-datepicker.min.js}"></script>
+        <link rel="stylesheet" th:href="@{/css/custom.css}">
+        <script th:src="@{/js/app/atMsgsSend.js}"></script>
+<!--        <script th:src="@{/js/app/{msgjs}Send.js(msgjs=${msg})}"></script>-->
+    </th:block>
+</div>
+</html>

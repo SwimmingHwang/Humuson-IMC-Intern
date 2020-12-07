@@ -7,34 +7,24 @@
 <h1>예약 메시지 수정</h1>
 
 <div class="col-md-12">
-    <form>
-        <div class="form-group">
-            <label for="id">번호</label>
-            <input type="text" class="form-control" id="id" th:value="${customer.id}" readonly>
-        </div>
+    <form th:object="${customer}">
+        <input th:type="hidden" id="id" th:value="${customer.id}">
+
         <div class="form-group">
             <label for="userId">고객 아이디</label>
-            <input type="text" class="form-control" id="userId" th:value="${customer.userId}">
+            <input type="text" class="form-control" id="userId" th:field="*{userId}">
         </div>
         <div class="form-group">
             <label for="name">성함</label>
-            <input type="text" class="form-control" id="name" th:value="${customer.name}">
+            <input type="text" class="form-control" id="name" th:field="*{name}">
         </div>
         <div class="form-group">
             <label for="phoneNumber"> 전화번호 </label>
-            <input type="text" class="form-control" id="phoneNumber" th:value="${customer.phoneNumber}" >
+            <input type="text" class="form-control" id="phoneNumber" th:field="*{phoneNumber}" >
         </div>
         <div class="form-group">
-            <label for="var1"> 변수1 </label>
-            <input type="text" class="form-control" id="var1" th:value="${customer.var1}">
-        </div>
-        <div class="form-group">
-            <label for="var2"> 변수2 </label>
-            <input type="text" class="form-control" id="var2" th:value="${customer.var2}">
-        </div>
-        <div class="form-group">
-            <label for="var3"> 변수3 </label>
-            <input type="text" class="form-control" id="var3" th:value="${customer.var3}">
+            <label for="address"> 주소 </label>
+            <input type="text" class="form-control" id="address" th:field="*{address}" >
         </div>
 
     </form>

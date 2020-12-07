@@ -1,12 +1,10 @@
-package com.humuson.job;
+package com.humuson.job.scheduler;
 
 import com.google.gson.Gson;
 import com.humuson.call.ApiCall;
 import com.humuson.domain.msgs.AtMsgs;
 import com.humuson.domain.msgs.MtMsgs;
 import com.humuson.dto.at.AtMsgsSaveRequestDto;
-import com.humuson.dto.at.AtMsgsUpdateStatusRequestDto;
-import com.humuson.dto.at.MultiAtMsgsSaveListRequestDto;
 import com.humuson.dto.mt.MtMsgsSaveRequestDto;
 import com.humuson.service.AtMsgsService;
 import com.humuson.service.CustomerService;

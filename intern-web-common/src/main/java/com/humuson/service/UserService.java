@@ -88,4 +88,13 @@ public class UserService implements UserDetailsService {
             return "";
         }
     }
+
+    public long findUserIdx(String email) {
+        try {
+            User user = userRepository.findByEmail(email).get();
+            return user.getId();
+        } catch (Exception e) {
+            return -1;
+        }
+    }
 }

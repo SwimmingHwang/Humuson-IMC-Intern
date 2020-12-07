@@ -47,8 +47,6 @@
 
 .background-dgray-color {
     background-color: #ceced4;
-    /*font-weight: bold;*/
-    /*font-size: 18px;*/
 }
 
 .margin-zero {
@@ -66,7 +64,6 @@
     width: 100%;
     height: 60%;
 }
-
 .chart-container {
     /*border: 1px solid #000;*/
     overflow: hidden;

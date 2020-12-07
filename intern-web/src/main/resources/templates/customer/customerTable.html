@@ -4,68 +4,60 @@
       layout:decorator="layout/default_layout">
 
 <div layout:fragment="content">
+    <script>
+        $(document).ready(function() {
+            $('#dataTable').DataTable( {
+                "ordering": false,
+            });
+        } );
+    </script>
 
-    <!-- Begin Page Content -->
-    <div class="container-fluid">
+    <!-- Page Heading -->
+    <h1 class="h3 mb-2 text-gray-800" th:text="${title}">Title</h1>
+    <p class="mb-4">고객 성함을 누르면 고객 정보 수정이 가능합니다.</p>
 
-        <!-- Page Heading -->
-        <h1 class="h3 mb-2 text-gray-800" th:text="${title}">Title</h1>
-        <p class="mb-4">고객 성함을 누르면 고객 정보 수정이 가능합니다.</p>
+    <!-- DataTales Example -->
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-success">고객 정보 테이블</h6>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
 
-        <!-- DataTales Example -->
-        <div class="card shadow mb-4">
-            <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-success">고객 정보 테이블</h6>
-            </div>
-            <div class="card-body">
-                <div class="table-responsive">
-
-                    <div class="col-md-6">
-                        <a href="/customer/create" role="button" class="btn btn-success">주소록 추가</a>
-                    </div>
-                    <br>
-
-                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                        <thead>
-                        <tr>
-                            <th>번호</th>
-                            <th>고객 아이디</th>
-                            <th>성함</th>
-                            <th>전화번호</th>
-                            <th>변수1</th>
-                            <th>변수2</th>
-                            <th>변수3</th>
-                        </tr>
-                        </thead>
-                        <tfoot>
-                        <tr>
-                            <th>번호</th>
-                            <th>고객 아이디</th>
-                            <th>성함</th>
-                            <th>전화번호</th>
-                            <th>변수1</th>
-                            <th>변수2</th>
-                            <th>변수3</th>
-                        </tr>
-                        </tfoot>
-                        <tbody>
-                        <tr th:each="customer : ${customers}">
-                            <td th:text="${customer.id}">default</td>
-                            <td th:text="${customer.userId}">default</td>
-                            <td ><a th:href="@{/customer/update/{id} (id=${customer.id})}" th:text="${customer.name}">default</a></td>
-                            <td th:text="${customer.phoneNumber}">default</td>
-                            <td th:text="${customer.var1}">default</td>
-                            <td th:text="${customer.var2}">default</td>
-                            <td th:text="${customer.var3}">default</td>
-                        </tr>
-                        </tbody>
-                    </table>
+                <div class="col-md-6">
+                    <a href="/customer/create" role="button" class="btn btn-success">주소록 추가</a>
                 </div>
+                <br>
+
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                    <tr>
+                        <th>고객 아이디</th>
+                        <th>성함</th>
+                        <th>전화번호</th>
+                        <th>주소</th>
+                    </tr>
+                    </thead>
+                    <tfoot>
+                    <tr>
+                        <th>고객 아이디</th>
+                        <th>성함</th>
+                        <th>전화번호</th>
+                        <th>주소</th>
+                    </tr>
+                    </tfoot>
+                    <tbody>
+                    <tr th:each="customer : ${customers}">
+                        <td th:text="${customer.userId}">default</td>
+                        <td ><a th:href="@{/customer/update/{id} (id=${customer.id})}" th:text="${customer.name}">default</a></td>
+                        <td th:text="${customer.phoneNumber}">default</td>
+                        <td th:text="${customer.address}">default</td>
+                    </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
-
     </div>
-    <!-- /.container-fluid -->
 
 
     <!-- Page level plugins -->

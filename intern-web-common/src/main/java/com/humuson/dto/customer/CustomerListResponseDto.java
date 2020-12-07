@@ -2,7 +2,9 @@ package com.humuson.dto.customer;
 
 import com.humuson.domain.entity.Customer;
 
-public class CustomerListResponseDto {
+import java.io.Serializable;
+
+public class CustomerListResponseDto{
     private long id;
     private String phoneNumber;
 

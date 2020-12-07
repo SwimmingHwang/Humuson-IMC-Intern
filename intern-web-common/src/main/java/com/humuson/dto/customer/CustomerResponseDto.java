@@ -13,18 +13,12 @@ public class CustomerResponseDto {
     private String userId;
     private String name;
     private String phoneNumber;
-    private String var1;
-    private String var2;
-    private String var3;
 
     public CustomerResponseDto(Customer entity) {
         this.id = entity.getId();
         this.userId = entity.getUserId();
         this.name = entity.getName();
         this.phoneNumber = entity.getPhoneNumber();
-        this.var1 = entity.getVar1();
-        this.var2 = entity.getVar2();
-        this.var3 = entity.getVar3();
     }
 
     public Customer toEntity() {
@@ -33,9 +27,6 @@ public class CustomerResponseDto {
                 .userId(userId)
                 .name(name)
                 .phoneNumber(phoneNumber)
-                .var1(var1)
-                .var2(var2)
-                .var3(var3)
                 .build();
     }
 }

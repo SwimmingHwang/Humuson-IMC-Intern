@@ -101,6 +101,11 @@ public class AtMsgsService {
                 .collect(Collectors.toList());
     }
     @Transactional(readOnly = true)
+    public List<AtMsgs> findAllReservedDateDesc() {
+        // repo에서 넘어온 stream을 map을 통해 dto로 변환해서 리스트로 반환
+        return atMsgsRepository.findAllReservedDateDesc();
+    }
+    @Transactional(readOnly = true)
     public List<AtMsgs> findAll() {
         // repo에서 넘어온 stream을 map을 통해 dto로 변환해서 리스트로 반환
         return atMsgsRepository.findAll();

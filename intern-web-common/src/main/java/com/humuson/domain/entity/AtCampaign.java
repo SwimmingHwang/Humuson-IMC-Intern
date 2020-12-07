@@ -4,6 +4,7 @@ import com.humuson.domain.msgs.AtMsgs;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
@@ -11,6 +12,7 @@ import javax.persistence.*;
 
 @DynamicInsert
 @DynamicUpdate
+@Setter
 @Getter
 @NoArgsConstructor
 @Table(name = "imc_at_campaign")
@@ -34,8 +36,7 @@ public class AtCampaign {
     private TemplateInfo templateInfo;
 
     @Builder
-    public AtCampaign(long id, String campName, String reservedDate, String senderKey, long count, String msg, TemplateInfo templateInfo) {
-        this.id = id;
+    public AtCampaign(String campName, String reservedDate, String senderKey, long count, String msg, TemplateInfo templateInfo) {
         this.campName = campName;
         this.reservedDate = reservedDate;
         this.senderKey = senderKey;

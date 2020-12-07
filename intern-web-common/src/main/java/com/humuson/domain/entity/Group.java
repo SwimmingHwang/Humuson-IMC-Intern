@@ -21,7 +21,9 @@ public class Group {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String groupName;
-
+    private String groupComment;
+    private long customerCount;
+    
     @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
     @JoinTable(
             name = "imc_customer_group",
@@ -31,13 +33,18 @@ public class Group {
     private Set<Customer> customers = new HashSet<>();
 
 
-    public Group(String groupName) {
-        this.groupName = groupName;
+    public Group(String groupName, String groupComment) {
+        this.groupName = groupName; 
+        this.groupComment = groupComment;
+        this.customerCount = this.getCustomers().size();
     }
 
-    public void update(String groupName, Set<Customer> customers){
+    public void update(String groupName, String groupComment, long customerCount, Set<Customer> customers){
         this.groupName = groupName;
-        this.customers = customers;
-    }
 
+        this.getCustomers().addAll(customers);
+
+        this.groupComment = groupComment;
+        this.customerCount = customerCount;
+    }
 }

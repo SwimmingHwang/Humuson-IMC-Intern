@@ -1,9 +1,11 @@
 package com.humuson.controller;
 
+import com.humuson.domain.entity.AtCampaign;
 import com.humuson.domain.entity.Customer;
 import com.humuson.domain.entity.Group;
+import com.humuson.domain.entity.Profile;
+import com.humuson.dto.at.AtCampaignSaveRequestDto;
 import com.humuson.dto.at.AtMsgsResponseDto;
-import com.humuson.dto.customer.CustomerResponseDto;
 import com.humuson.dto.ft.FtMsgsResponseDto;
 import com.humuson.dto.mt.MtMsgsResponseDto;
 import com.humuson.service.*;
@@ -30,6 +32,8 @@ public class IndexController {
     private final TemplateInfoService templateInfoService;
     private final CustomerService customerService;
     private final GroupService groupService;
+    private final ProfileService profileService;
+    private final AtCampaignService atCampaignService;
 
     // TODO : index로 가는일 없게 하기 혹은 다른 페이지 보여주기
     @GetMapping("/")
@@ -54,7 +58,7 @@ public class IndexController {
 //    }
 
     /*
-    * 발송 페이지
+    * 발송 기본 페이지
     * */
     @GetMapping("/send/at-send")
     public String atSend(){
@@ -63,7 +67,7 @@ public class IndexController {
     }
     // ymbin
     @GetMapping("/send/bulk-mt-msgs-send")
-    public String atMsgsSend(Model model, Authentication authentication){
+    public String mtMsgsSend(Model model, Authentication authentication){
         String sendNumber = userService.findPhoneNumber(authentication.getName());
         model.addAttribute("sendNumber", sendNumber);
         return "page/sendDetails/bulkMtMsgsSend";
@@ -83,12 +87,47 @@ public class IndexController {
         return "page/send/mtsend";
     }
 
+    /*
+    * 발송 세부사항 입력 페이지
+    * */
+    @GetMapping("/send/at-msgs-send")
+//    public String atMsgsSend(Model model, Authentication authentication){
+        public String atMsgsSend(Model model ,Authentication authentication){
+        // TODO : profile에서 모든 senderkey-senderName으로!!!!!! 가져오기 : select 로 구현할 것
+
+//        authentication.getName();
+//        long userIdx = userService.findUserIdx(authentication.getName());
+        long userIdx = userService.findUserIdx("t1@test.com");
+        Profile profile = profileService.findByUserId(userIdx);
+        String senderName = profile.getSenderName();
+        String senderKey = profile.getSenderKey();
+
+        AtCampaignSaveRequestDto atCampaignSaveRequestDto = new AtCampaignSaveRequestDto();
+        atCampaignSaveRequestDto.setSenderName(senderName);
+        atCampaignSaveRequestDto.setSenderKey(senderKey);
+
+        model.addAttribute("atCampaign",atCampaignSaveRequestDto);
+        model.addAttribute("templateCodes",templateInfoService.findAll());
+
+        return "page/sendDetails/atMsgsSend";
+    }
+//    // ymbin
+//    @GetMapping("/send/mt-msgs-send")
+////    public String mtMsgsSend(Model model, Authentication authentication){
+//    public String mtMsgsSend(Model model){
+//        String sendNumber = userService.findPhoneNumber("t1@test.com");
+//        model.addAttribute("sendNumber", sendNumber);
+//        return "page/sendDetails/mtMsgsSend";
+//    }
+
+
+
     // 결과 조회 ------------------------------------------------------------------------------------
     @GetMapping("/send/at-record")
     public String atRecord(Model model){
         model.addAttribute("title","알림톡 발송 예약 내역");
         model.addAttribute("msgSbj","at");
-        model.addAttribute("msgs", atMsgsService.findAll());
+        model.addAttribute("msgs", atMsgsService.findAllReservedDateDesc());
         return "page/attable";
     }
     @GetMapping("/send/ft-record")
@@ -105,6 +144,23 @@ public class IndexController {
         model.addAttribute("msgs",mtMsgsService.findAll());
         return "page/mttable";
     }
+
+    // 결과 조회 ------------------------------------------------------------------------------------
+    @GetMapping("/send/at-camp-record")
+    public String atCampRecord(Model model){
+        model.addAttribute("title","알림톡 발송 예약 내역");
+        model.addAttribute("msgSbj","at");
+        model.addAttribute("msgs", atCampaignService.findAllReservedDateDesc());
+        return "page/atcamptable";
+    }
+    @GetMapping("/send/mt-camp-record")
+    public String mtCampRecord(Model model){
+        model.addAttribute("title","문자 메시지 발송 예약 내역");
+        model.addAttribute("msgSbj","mt");
+        model.addAttribute("msgs",mtMsgsService.findAll());
+        return "page/mttable";
+    }
+
 
 
     /*
@@ -206,32 +262,27 @@ public class IndexController {
     }
 
     /*
-     *
-     * 기업 회원의 고객 관리
+     * 고객 관리
      * */
     @GetMapping("/customer")
-    public String profileCreate(Model model) {
+    public String customerCreate(Model model) {
         model.addAttribute("title", "고객 리스트 조회");
         model.addAttribute("customers", customerService.findAll());
         return "customer/customerTable";
     }
     @GetMapping("/customer/create")
-    public String customerSave() {
+    public String customerSave(Model model) {
+        Customer customer = new Customer();
+        model.addAttribute("customer", customer);
         return "customer/customerSave";
     }
 
     @GetMapping("/customer/update/{id}") // 수정할 화면 연결
     public String customerUpdate(@PathVariable long id, Model model) {
-        CustomerResponseDto dto = customerService.findById(id);
+        Customer dto = customerService.findById(id);
         model.addAttribute("customer", dto);
         return "customer/customerUpdate";
     }
-
-    /*
-    * Profile
-    * */
-
-
 
     /*
     * 고객 그룹 관리
@@ -254,6 +305,7 @@ public class IndexController {
         List<Customer> customers = customerService.findAll();
         model.addAttribute("group", group);
         model.addAttribute("customerList", customers);
+        model.addAttribute("selectedCustomers",groupService.findAllCustomersIds(id) );
         return "customer/groupUpdate";
     }
 }

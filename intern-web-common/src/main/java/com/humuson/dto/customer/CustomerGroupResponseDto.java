@@ -13,21 +13,4 @@ import java.util.List;
 public class CustomerGroupResponseDto {
     private String groupName;
     private List<String> customerIdStrList;
-//
-//    @Builder
-//    public GroupCustomerSaveRequestDto(String groupName, List<String> customerIdList) {
-//        this.groupName = groupName;
-//        this.customerIdStrList = customerIdList;
-//    }
-//
-//
-//    public CustomerGroupResponseDto(Customer entity) {
-//        this.id = entity.getId();
-//        this.userId = entity.getUserId();
-//        this.name = entity.getName();
-//        this.phoneNumber = entity.getPhoneNumber();
-//        this.var1 = entity.getVar1();
-//        this.var2 = entity.getVar2();
-//        this.var3 = entity.getVar3();
-//    }
 }
