@@ -428,6 +428,8 @@ function updateChartVal() {
 
     sdt = dateFormatChange($('#datepicker1').val());
     edt = dateFormatChange($('#datepicker2').val());
+    edt.setDate(edt.getDate()+1); // 이 날짜까지 포함
+    edt.setTime(edt.getTime()-1);
 
     // 기간 내의 성공한 데이터만 조회
     var perAtReport = periodObj(sdt, edt, atReport);
@@ -503,12 +505,9 @@ function periodObj(_sdt, _edt, _obj) {
 // 기간 내의 대기중인 데이터 추출
 function periodWaitData(_sdt, _edt, _obj1) {
     for (var i = 0; i < _obj1.length; i++) {
-        var date = changeDate(_obj1[i].reserved_date);
         var status = _obj1[i].status;
-        if (_sdt <= date && date <= _edt) {
-            if(status == "3") continue;
-            chartData2[0]++;
-        }
+        if(status == "3") continue;
+        chartData2[0]++;
     }
 }
 
