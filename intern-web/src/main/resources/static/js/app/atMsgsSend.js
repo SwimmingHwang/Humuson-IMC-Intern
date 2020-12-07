@@ -7,6 +7,9 @@ var recipientsCustomerList = [];
 var groupJsonList = [];
 var groupId;
 var groupName;
+var fileCustomerList = new Array();
+
+
 var atSend = {
     init: function () {
         var _this = this;
@@ -78,6 +81,73 @@ var atSend = {
             $('#customersModal').modal('hide');
         });
         /* end of modal listener*/
+
+        $('#btn-phoneNumber').on('click', function () {
+            atSend.loadPhoneNums();
+        });
+    },
+    loadPhoneNums: function () {
+        var input = document.createElement("input");
+        input.type = "file";
+        input.accept = "text/plain,.csv"; // 확장자가 xxx, yyy 일때, ".xxx, .yyy"
+        input.onchange = function (event) {
+            res = atSend.processFile(event.target.files[0]);
+        };
+        input.click();
+
+    },
+    processFile: function (file) {
+        var reader = new FileReader();
+        reader.onload = function () {
+            var sep = "";
+            if (file.name.split(".").pop() == "txt")
+                sep = " ";
+            else
+                sep = ",";
+
+            res = reader.result.split("\n");
+            // var tbody = document.getElementById('tbody');
+            var tbody = document.getElementById('tbody');
+            while (tbody.rows.length >= 1)
+                // my_tbody.deleteRow(0); // 상단부터 삭제
+                tbody.deleteRow(tbody.rows.length - 1); // 하단부터 삭제
+            fileCustomerList = [];
+            msgList = [];
+
+            for (var i in res) {
+                li = [];
+                if (res[i].length <= 2)
+                    break;
+                var row = tbody.insertRow(tbody.rows.length); // 하단에 추가
+                var cell1 = row.insertCell(0); // 순서
+                var cell2 = row.insertCell(1); // 아이디
+                var cell3 = row.insertCell(2); // 이름
+                var cell4 = row.insertCell(3); // 전화번호
+                var cell5 = row.insertCell(4); // address
+
+                cellData = res[i].split(sep);
+                // cellData[6] = cellData[6].replace(/\r/gm,"")/
+
+                cell1.innerHTML = cellData[0];
+                cell2.innerHTML = cellData[1];
+                cell3.innerHTML = cellData[2];
+                cell4.innerHTML = cellData[3];
+                cell5.innerHTML = cellData[4];
+
+                li.push(cellData[0]);
+                li.push(cellData[1]);
+                li.push(cellData[2]);
+                li.push("82"+cellData[3].substring(1));
+                li.push(cellData[4])
+
+                fileCustomerList.push(li);
+
+            }
+
+        };
+        reader.readAsText(file, /* optional */ "UTF-8");
+        $('#csvCustomersModal').modal('show');
+
     },
     groupTableInit: function(){ // table listener
         $('#inputGroupTable tr').click(function (event) {
@@ -291,7 +361,6 @@ var atSend = {
         }).fail(function (error) {
             alert(JSON.stringify(error));
         });
-        // alert("save 끝")
     },
     initTime: function() {
         var date = new Date();

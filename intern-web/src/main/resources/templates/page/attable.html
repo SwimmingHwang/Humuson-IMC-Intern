@@ -4,17 +4,10 @@
       layout:decorator="layout/default_layout">
 
 <div layout:fragment="content">
-    <script>
-
-    </script>
-
-    <!-- Begin Page Content -->
-    <div class="container-fluid">
-
         <!-- Page Heading -->
         <h1 class="h3 mb-2 text-gray-800" th:text="${title}">Title</h1>
         <p class="mb-4"> 메시지 내용을 클릭하면 수정할 수 있습니다.
-            단, 이미 발송 시간이 지난 메시지(상태:2 or 3)는 수정이 불가합니다.<br>
+            단, 발송 대기 및 발송 완료 상태인 경우 수정이 불가합니다.<br>
 
         <!-- DataTales Example -->
         <div class="card shadow mb-4">
@@ -30,7 +23,8 @@
                             <th>메세지 내용</th>
                             <th>전화번호</th>
                             <th>템플릿 코드</th>
-<!--                            <th>메시지 상태</th>-->
+                            <th>메시지 상태</th>
+                            <th>수정하기</th>
                         </tr>
                         </thead>
                         <tfoot>
@@ -39,39 +33,37 @@
                             <th>메세지 내용</th>
                             <th>전화번호</th>
                             <th>템플릿 코드</th>
-<!--                            <th>메시지 상태</th>-->
+                            <th>메시지 상태</th>
+                            <th>수정하기</th>
                         </tr>
                         </tfoot>
                         <tbody>
-                        <tr  th:each="msg : ${msgs}">
+                        <tr th:each="msg : ${msgs}">
                             <td th:text="|${msg.reservedDate.substring(0,4)}년 ${msg.reservedDate.substring(4,6)}월
                             ${msg.reservedDate.substring(6,8)}일  ${msg.reservedDate.substring(8,10)}시
                             ${msg.reservedDate.substring(10,12)}분|">
                                 default</td>
-<!--                            <td style="text-overflow:ellipsis; overflow:hidden; white-space:nowrap;" th:if="${msg.status} == 1 "><a th:href="@{/send/msgs/update/{sbj}/{id}(sbj=${msgSbj},id=${msg.id})}" th:text="${msg.msg}">default</a></td>-->
-<!--                            <td style="text-overflow:ellipsis; overflow:hidden; white-space:nowrap;" th:if="${msg.status} != 1 "><a th:text="${msg.msg}">default</a></td>-->
                             <td style="text-overflow:ellipsis; overflow:hidden; white-space:nowrap;" th:text="${msg.msg}">default</a></td>
-<!--                            <td style="text-overflow:ellipsis; overflow:hidden; white-space:nowrap;"th:text="${msg.msg}">default</a></td>-->
                             <td th:text="|0${msg.phoneNumber.substring(2)}|">default</td>
                             <td th:text="${msg.templateCode}">default</td>
-<!--                            <td class="sorting_1" th:text="${msg.status}">default</td>-->
+                            <th:block th:switch="${msg.status}">
+                                    <td th:case="1">예약 완료</td>
+                                    <td th:case="2">발송 대기</td>
+                                    <td th:case="3">발송 완료</td>
+                            </th:block>
+                            <div th:if="${msg.status} eq '1'">
+                                <td><a th:href="@{/send/msgs/update/{sbj}/{id}(sbj=${msgSbj},id=${msg.id})}" th:text="수정하기">default</a></td>
+                            </div>
+                            <div th:unless="${msg.status} eq '1'">
+                                <td><a th:text="수정하기">default</a></td>
+                            </div>
                         </tr>
-
                         </tbody>
                     </table>
                 </div>
             </div>
         </div>
 
-    </div>
-    <!-- /.container-fluid -->
-
-    <!-- Page level plugins -->
-    <script  th:src="@{/vendor/datatables/jquery.dataTables.min.js}"></script>
-    <script  th:src="@{/vendor/datatables/dataTables.bootstrap4.min.js}"></script>
-
-    <!-- Page level custom scripts -->
-    <script  th:src="@{/js/common/demo/datatables-demo.js}"></script>
 
     <script>
         $(document).ready(function() {
@@ -92,7 +84,7 @@
                         "render": function (data, type, full, meta) {
                             return '<span data-toggle="tooltip" data-placement="right"  title="' + data + '">' + data + '</span>';
                         },
-                    }
+                    },null,null,null,null
                 ],
                 destroy: true
             });
@@ -102,11 +94,19 @@
             $('[data-toggle="tooltip"]').tooltip();
         });
     </script>
+
+    <!-- Page level plugins -->
+    <script  th:src="@{/vendor/datatables/jquery.dataTables.min.js}"></script>
+    <script  th:src="@{/vendor/datatables/dataTables.bootstrap4.min.js}"></script>
+
+    <!-- Page level custom scripts -->
+    <script  th:src="@{/js/common/demo/datatables-demo.js}"></script>
+
+
     <style>
         .dataTable{
             table-layout:fixed;
         }
     </style>
-
 </div>
 </html>
