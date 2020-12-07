@@ -322,11 +322,7 @@ var dashboard = {
                 options: {
                     responsive: false,
                     legend: {
-                        labels: {
-                            // This more specific font property overrides the global property
-                            fontColor: 'black',
-                            defaultFontSize: 16
-                        }
+                        display: false
                     },
                 }
             });
@@ -343,10 +339,26 @@ var dashboard = {
                         barThickness: 15,
                         maxBarThickness: 15,
                         minBarLength: 0,
-                        backgroundColor: '#1cc88a',
-                        borderColor: '#8cdcc0',
-                        hoverBackgroundColor: '#0cc784',
-                        hoverBorderColor: '#01ac6f',
+                        backgroundColor: [
+                            'rgb(249,199,0, 0.7)',
+                            'rgb(0,195,40, 0.7)',
+                            'rgba(246,104,61, 0.7)'
+                        ],
+                        borderColor: [
+                            'rgb(249,199,0, 0.8)',
+                            'rgb(0,195,40, 0.8)',
+                            'rgba(246,104,61, 0.8)'
+                        ],
+                        hoverBackgroundColor: [
+                            'rgb(249,199,0, 0.9)',
+                            'rgb(0,195,40, 0.9)',
+                            'rgba(246,104,61, 0.9)'
+                        ],
+                        hoverBorderColor: [
+                            'rgb(249,199,0, 1)',
+                            'rgb(0,195,40, 1)',
+                            'rgba(246,104,61, 1)'
+                        ],
                         hoverBorderWidth: 1,
                         data: data
                     }]
@@ -354,10 +366,7 @@ var dashboard = {
                 options: {
                     responsive: false,
                     legend: {
-                        labels: {
-                            fontColor: 'black',
-                            defaultFontSize: 16
-                        }
+                        display: false
                     },
                 }
             });
@@ -371,7 +380,7 @@ function changeDate(_str) {
     var year = _str.substring(0, 4);
     var month = _str.substring(4, 6) - 1;
     var day = _str.substring(6, 8);
-    return new Date(year, month, day);
+    return new Date(year, month, day)
 }
 
 // chart.js 다시 그릴 시 이전 차트 남아있는 버그 있으므로 remove 이후 추가하는 걸로 대체
