@@ -17,14 +17,14 @@ var mtSend = {
         $('#msg-text').keyup(function () {
             mtSend.bytesHandler(this);
         });
-        $(function() {
-            var varElements = document.getElementsByClassName("vars");
-            Array.from(varElements).forEach(function(element) {
-                element.addEventListener('click', mtSend.applyVars);
-            });
-        });
+        // $(function() {
+        //     var varElements = document.getElementsByClassName("vars");
+        //     Array.from(varElements).forEach(function(element) {
+        //         element.addEventListener('click', mtSend.applyVars);
+        //     });
+        // });
         function applyButton(nt) {
-            var len = getTextLength(nt);
+            var len = _this.getTextLength(nt);
             if(len > 2000) {
                 alert("최대 2000byte 크기까지 보낼 수 있습니다.");
             } else {
@@ -93,6 +93,7 @@ var mtSend = {
         return len;
     },
     bytesHandler: function (obj) {
+        var _this = this;
         var text = $(obj).val();
         var textLen = mtSend.getTextLength(text);
 
@@ -101,7 +102,7 @@ var mtSend = {
             else flag = true;
             if (msg_status != flag) { // 상태 변경 되었을 때만 changLimit 호출
                 msg_status = flag.valueOf();
-                changeLimit();
+                _this.changeLimit();
             }
             $('#byte-count').text(textLen);
         } else {
