@@ -219,7 +219,10 @@ public class IndexController {
     // 문자톡 create
     @Operation(hidden = true)
     @GetMapping("/send/single-msg/save/mt")
-    public String singleMtMsgSave(Model model) {
+    public String singleMtMsgSave(Model model, Authentication authentication) {
+        String sendNumber = userService.findPhoneNumber(authentication.getName());
+        model.addAttribute("sendNumber", sendNumber);
+
         model.addAttribute("msg","mt");
         //test 용
         model.addAttribute("msgs", mtMsgsService.findAll());

@@ -410,6 +410,7 @@ var atSend = {
             year = date.getFullYear();
 
         $("#datepicker").val(year + "년 " + month + "월 " + day + "일");
+
     },
     initDatePicker: function() {
         var date = new Date();

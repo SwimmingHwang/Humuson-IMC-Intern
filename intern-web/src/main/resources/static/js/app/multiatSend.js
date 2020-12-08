@@ -214,7 +214,7 @@ var send = {
         }).done(function (stringStatusCode) {
             if (stringStatusCode =="200") {
                 alert('발송 예약이 완료되었습니다.');
-                window.location.href = '/send/at-send';
+                window.location.href = '/';
             }
             else {
                 var error = "";

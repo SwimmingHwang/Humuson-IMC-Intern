@@ -39,7 +39,8 @@ var dashboard = {
                 /**
                  * 발송량, 과금액 구현 부분
                  */
-                var today = new Date();
+                var t = new Date();
+                var today = new Date(t.getFullYear(), t.getMonth(), t.getDate());
                 var monthAtCount = monthCountSet(today, atReport);
                 var monthMtCount = monthCountSet(today, mtReport);
                 var monthCount = monthAtCount + monthMtCount;
@@ -318,12 +319,24 @@ var dashboard = {
                     }]
                 },
 
-                // Configuration options go here
                 options: {
-                    responsive: false,
                     legend: {
                         display: false
                     },
+                    scales: {
+                        xAxes: [{
+                            ticks:{
+                                fontSize : 15
+                            }
+                        }],
+                        yAxes: [{
+                            ticks:{
+                                fontSize : 15,
+                                beginAtZero: true,
+                                suggestedMax: Math.max.apply(null, data) + Math.max.apply(null, data)/20
+                            }
+                        }]
+                    }
                 }
             });
         }
@@ -364,10 +377,21 @@ var dashboard = {
                     }]
                 },
                 options: {
-                    responsive: false,
                     legend: {
                         display: false
                     },
+                    scales: {
+                        xAxes: [{
+                            ticks:{
+                                fontSize : 11
+                            }
+                        }],
+                        yAxes: [{
+                            ticks:{
+                                fontSize : 13
+                            }
+                        }]
+                    }
                 }
             });
         }
@@ -428,8 +452,8 @@ function updateChartVal() {
 
     sdt = dateFormatChange($('#datepicker1').val());
     edt = dateFormatChange($('#datepicker2').val());
-    edt.setDate(edt.getDate()+1); // 이 날짜까지 포함
-    edt.setTime(edt.getTime()-1);
+    // edt.setDate(edt.getDate()+1); // 이 날짜까지 포함
+    // edt.setTime(edt.getTime()-1);
 
     // 기간 내의 성공한 데이터만 조회
     var perAtReport = periodObj(sdt, edt, atReport);
@@ -441,6 +465,7 @@ function updateChartVal() {
         chartData[i] = 0;
         chartLabel[i] = "";
     }
+    console.log(totalDay);
     // y축 : 날짜 세팅
     var ndt = sdt;
     for (var i = 0; i <= totalDay; i++) {
@@ -448,7 +473,7 @@ function updateChartVal() {
         var d = ndt.getDate();
         if (m.toString().length == 1) m = "0" + m;
         if (d.toString().length == 1) d = "0" + d;
-        chartLabel[i] = ndt.getFullYear() + "년 " + m + "월 " + d + "일";
+        chartLabel[i] = ndt.getFullYear() + "/" + m + "/" + d;
         ndt.setDate(ndt.getDate()+1);
     }
     // x축 : 데이터 세팅

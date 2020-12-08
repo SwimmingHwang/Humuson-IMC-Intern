@@ -10,8 +10,103 @@
     <p class="mb-4">한 고객에게 메시지를 발송합니다.</p>
 
     <div class="row">
+        <div class="col-md-4">
+            <div class="card position-relative">
+                <div class="card-body py-3">
+                    <h4 id="msg-type" class="m-0 font-weight-bold text-success">문자</h4>
+                </div>
+                <div class="card-body py-1">
+                    <strong>광고 문구 표시 여부</strong>
+                    <input id="adFlag" type="checkbox" name="adFlag" value="Y">
+                </div>
+                <div class="card-body py-1">
+                    <input type="text" th:value="${sendNumber}" class="form-control bg-light border-0" placeholder="발신 번호" readonly>
+                </div>
+                <div class="card-body py-1">
+                    <input type="text" id="phoneNumber" class="form-control bg-light border-0" placeholder="수신자 번호 입력">
+                </div>
+                <div class="card-body py-1">
+                    <input type="text" class="form-control bg-light border-0" placeholder="제목 입력">
+                </div>
+                <div class="card-body py-1">
+                    <textarea id="msg-text" class="form-control bg-light border-0" placeholder="보내실 메시지를 입력해 주세요." rows="10" maxlength="2000"></textarea>
+                </div>
+                <div class="card-body py-1 text-align-right mb-1">
+                    <span id="byte-count" class="m-0 font-weight-bold text-success">0</span>
+                    <span id="byte-limit" class="m-0 font-weight-bold text-success">/ 80 byte</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card position-relative">
+                <div class="card-body">
+
+                    <div class="row">
+                        <div class="col-md-12 mb-1">
+                            <div class="card bg-success text-center text-white shadow">
+                                <span class="text">발송 시간 설정</span>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-5">
+                            <div id="send-immediate" class="card btn btn-dark bg-gray-400 text-black-50 shadow">
+                                <span class="text">즉시</span>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-5">
+                            <div id="send-reserve" class="card btn btn-dark bg-light text-black-50 shadow">
+                                <span class="text">예약</span>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12 mb-1">
+                            <div class="row">
+                                <div class="col-md-3 text-right">
+                                    <span>날짜</span>
+                                </div>
+                                <div class="col-md-9">
+                                    <input type="text" id="datepicker" class="text bg-gray-400" readonly>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12 mb-5">
+                            <div class="row">
+                                <div class="col-md-3 text-right">
+                                    <span>시간</span>
+                                </div>
+                                <div class="col-md-9">
+                                    <input type="time" id="time" class="text bg-gray-400" value="10:00" min="00:00:00" max="23:59:59" readonly>
+                                </div>
+                            </div>
+                        </div>
+
+                        <input type="hidden" id="mtType" th:value="SM">
+
+                        <div class="col-md-3">
+                            <div class="card btn btn-success bg-light text-black-50 shadow">
+                                <span class="text" id="btn-save">발송하기</span>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card btn btn-warning bg-light text-black-50 shadow">
+                                <span class="text">
+                                    <a class="text-black-50" href="/">뒤로가기</a>
+                                </span>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+
+    <!--<div class="row">
         <div class="col-md-12">
-            <!--            <div class="col-lg-6">-->
             <div class="card position-relative">
                 <div class="card-header py-3">
                     <h6 class="m-0 font-weight-bold text-success">메시지 작성</h6>
@@ -66,13 +161,15 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div>-->
 
     <!--custom 스크립트 -->
     <th:block layout:fragment="script">
         <link rel="stylesheet" th:href="@{/vendor/bootstrap/scss/bootstrap-datepicker.min.css}">
         <script th:src="@{/vendor/bootstrap/js/bootstrap-datepicker.min.js}"></script>
-        <script th:src="@{/js/app/{msgjs}Send.js(msgjs=${msg})}"></script>
+        <link rel="stylesheet" th:href="@{/css/custom.css}">
+<!--        <script th:src="@{/js/app/{msgjs}Send.js(msgjs=${msg})}"></script>-->
+        <script th:src="@{/js/app/mtMsgsSend.js}"></script>
     </th:block>
 </div>
 </html>
