@@ -110,4 +110,8 @@ public class MtMsgsService {
                 .map(MtMsgsListDashboardResponseDto::new)
                 .collect(Collectors.toList());
     }
+
+    public List<MtMsgs> findAllReservedDateDesc() {
+        return mtMsgsRepository.findAllReservedDateDesc();
+    }
 }

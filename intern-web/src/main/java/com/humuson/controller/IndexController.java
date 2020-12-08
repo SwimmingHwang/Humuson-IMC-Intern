@@ -81,7 +81,7 @@ public class IndexController {
     }
     @GetMapping("/send/mt-send")
     public String mtSend(Model model){
-        model.addAttribute("title","문자 메시지 발송 예약 내역");
+        model.addAttribute("title","문자 메시지 발송 내역");
         model.addAttribute("msgSbj","mt");
         model.addAttribute("msgs",mtMsgsService.findAll());
         return "page/send/mtsend";
@@ -132,7 +132,7 @@ public class IndexController {
     }
     @GetMapping("/send/ft-record")
     public String ftRecord(Model model){
-        model.addAttribute("title","친구톡 발송 예약 내역");
+        model.addAttribute("title","친구톡 발송 내역");
         model.addAttribute("msgSbj","ft");
         model.addAttribute("msgs",ftMsgsService.findAll());
         return "page/attable";
@@ -141,24 +141,24 @@ public class IndexController {
     public String mtRecord(Model model){
         model.addAttribute("title","문자 전체 조회");
         model.addAttribute("msgSbj","mt");
-        model.addAttribute("msgs",mtMsgsService.findAll());
+        model.addAttribute("msgs",mtMsgsService.findAllReservedDateDesc());
         return "page/mttable";
     }
 
     // 결과 조회 ------------------------------------------------------------------------------------
     @GetMapping("/send/at-camp-record")
     public String atCampRecord(Model model){
-        model.addAttribute("title","알림톡 발송 예약 내역");
+        model.addAttribute("title","알림톡 발송 내역");
         model.addAttribute("msgSbj","at");
         model.addAttribute("msgs", atCampaignService.findAllReservedDateDesc());
         return "page/atcamptable";
     }
     @GetMapping("/send/mt-camp-record")
     public String mtCampRecord(Model model){
-        model.addAttribute("title","문자 메시지 발송 예약 내역");
-        model.addAttribute("msgSbj","mt");
-        model.addAttribute("msgs",mtMsgsService.findAll());
-        return "page/mttable";
+        model.addAttribute("title","문자 메시지 발송 내역");
+//        model.addAttribute("msgSbj","mt");
+//        model.addAttribute("msgs",mtMsgsService.findAll());
+        return "page/mtcamptable";
     }
 
 

@@ -2,12 +2,15 @@ package com.humuson.controller;
 
 import com.google.gson.Gson;
 import com.humuson.call.ApiCall;
+import com.humuson.domain.entity.TemplateInfo;
 import com.humuson.domain.msgs.AtMsgs;
+import com.humuson.domain.repository.TemplateInfoRepository;
 import com.humuson.dto.at.*;
 import com.humuson.dto.mt.MtMsgsListDashboardResponseDto;
 import com.humuson.service.AtMsgsJdbcService;
 import com.humuson.service.AtMsgsService;
 import com.humuson.service.CustomerService;
+import com.humuson.service.TemplateInfoService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -25,11 +28,15 @@ public class AtMsgsApiController {
     private final AtMsgsService atMsgsService;
     private final AtMsgsJdbcService atMsgsJdbcService;
     private final CustomerService customerService;
+    private final TemplateInfoService templateInfoService;
 
     @Operation(summary="알림톡 생성", description = "알림톡 메시지 레코드를 DB에 insert & Server API로 데이터 전송")
     @PostMapping("/api/v1/at-msgs")
     public String save(@RequestBody AtMsgsSaveRequestDto requestDto) {
         try{
+            TemplateInfo templateInfo = templateInfoService.findByTemplateContent(requestDto.getTemplateCode());
+
+            requestDto.setTemplateCode(templateInfo.getTemplateCode());
             atMsgsService.save(requestDto);
         } catch(Exception e){
             log.info("ERROR : DB INSERT ERROR"); return "300";

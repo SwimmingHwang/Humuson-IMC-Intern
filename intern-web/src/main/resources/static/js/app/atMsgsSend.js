@@ -299,18 +299,26 @@ var atSend = {
         return ret;
     }, /* end of get and get customer table*/
     setCustomerTable : function(groupId){
-        for (i = 1; i <= groupJsonList.length; i++) {
-            if(i=== groupId)
-                $(".group_"+i).show()
-            else{
-                $(".group_"+i).hide()
-            }
-        }
+        groupJsonList.forEach(function(item){
+            console.log(item,item.id);
+                if(item.id === groupId)
+                    $(".group_"+item.id).show()
+                else{
+                    $(".group_"+item.id).hide()
+                }
+        })
+        // for (i = 1; i <= groupJsonList.length; i++) {
+        //     if(i === groupId)
+        //         $(".group_"+i).show()
+        //     else{
+        //         $(".group_"+i).hide()
+        //     }
+        // }
     },
     hideCustomerTable : function(groupId){
-        for (i = 1; i <= groupJsonList.length; i++) {
-                $(".group_"+i).hide()
-        }
+        groupJsonList.forEach(function(item){
+                $(".group_"+item.id).hide()
+        })
     },
     recipientsGroupListAdd : function(groupIdx, groupName){
         var ul_list = $("#recipientsGroupList"); //ul_list선언
@@ -356,7 +364,7 @@ var atSend = {
             // success :
         }).done(function (status) {
             alert('알림톡 대량 발송이 예약되었습니다.');
-            window.location.href = '/send';
+            window.location.href = '/';
 
         }).fail(function (error) {
             alert(JSON.stringify(error));
