@@ -12,7 +12,7 @@
         <form th:object="${atCampaign}">
             <div>
                 <strong>메시지 관리명</strong>
-                <input type="text" class="form-control input-lg" id="campName" placeholder="메시지 관리명을 입력하세요." th:field="*{campName}">
+                <input type="text" class="form-control col-md-8 input-lg" id="campName" placeholder="메시지 관리명을 입력하세요." th:field="*{campName}">
             </div>
             <br>
             <div class="row">
@@ -40,7 +40,7 @@
 
                         <div class="card-body py-1">
                             <textarea id="msg" class="form-control bg-light border-0" th:field="*{msg}"
-                                      placeholder="보내실 메시지를 입력해 주세요." rows="10" maxlength="2000"></textarea>
+                                      placeholder="보내실 메시지를 입력해 주세요." rows="10" maxlength="2000" readonly></textarea>
                         </div>
 
                         <div class="card-body py-1 text-align-right">
@@ -52,45 +52,80 @@
                 </div>
 
                 <div class="col-md-4">
-                    <div class="card position-relative py-2 text-align-center font-size-18">
-                        <span class="card-body py-2 background-dgray-color text-white remove-radius"><b>고객 정보 불러오기</b></span>
-                        <div class="card-body py-2 row background-gray-color margin-zero">
-                           <span class="btn font-weight-bold col-md-6 text-gray-700"
-                                 type="button" data-toggle="modal" data-target=".bd-example-modal-lg"><b>주소록</b></span>
-                            <span id="btn-phoneNumber" class="btn font-weight-bold col-md-6 text-gray-700"><b>csv/txt</b></span>
-<!--                            <span class="btn font-weight-bold col-md-4 text-gray-700"><b>텍스트</b></span>-->
-                        </div>
-<!--                        <span class="card-body py-2 background-dgray-color text-white remove-radius"><b>고객 정보 다운로드</b></span>-->
-<!--                        <div class="card-body py-2 row background-gray-color margin-zero">-->
-<!--                            <span class="btn font-weight-bold col-md-4 text-gray-700"-->
-<!--                                  type="button" data-toggle="modal" data-target=".bd-example-modal-lg"><b>주소록</b></span>-->
-<!--                            <span class="btn font-weight-bold col-md-4 text-gray-700"><b>엑셀</b></span>-->
-<!--                            <span class="btn font-weight-bold col-md-4 text-gray-700"><b>텍스트</b></span>-->
-<!--                        </div>-->
-                        <span class="card-body py-2 background-dgray-color text-white remove-radius"><b>발송 시간 설정</b></span>
-                        <div class="card-body py-2 row background-gray-color margin-zero">
-                            <span id="send-immediate" class="btn font-weight-bold col-md-6 text-gray-700"><b>즉시</b></span>
-                            <span id="send-reserve" class="btn font-weight-bold col-md-6 text-gray-700"><b>예약</b></span>
-                        </div>
-                        <div class="card-body py-2">
-                            <div class="col-md-10 row">
-                                <span class="font-weight-bold col-md-4 text-right">날짜</span>
-                                <input type="text" id="datepicker" class="form-control col-md-7 background-dgray-color" readonly>
-                            </div>
-                        </div>
-                        <div class="card-body py-2">
-                            <div class="col-md-10 row">
-                                <span class="font-weight-bold col-md-4 text-right">시간</span>
-                                <input type="time" id="time" class="form-control col-md-7 background-dgray-color" value="10:00" min="00:00:00" max="23:59:59" readonly>
-                            </div>
-                        </div>
-                    </div>
-                    <input type="hidden" id="reservedDate" th:field="*{reservedDate}">
+                    <div class="card position-relative">
+                        <div class="card-body">
 
-                    <div class="card-body py-2">
-                        <input type="button" id="btn-save" class="btn btn-success" value="발송하기">
-                        <a class="btn btn-warning" href="/">뒤로가기</a>
+                            <div class="row">
+                                <div class="col-md-12 mb-1">
+                                    <div class="card bg-warning text-center text-white shadow">
+                                        <span class="text">고객 정보 불러오기</span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 mb-5">
+                                    <div class="card btn btn-warning bg-light text-black-50 shadow">
+                                        <span class="text" data-toggle="modal" data-target=".bd-example-modal-lg">주소록</span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 mb-5">
+                                    <div class="card btn btn-warning bg-light text-black-50 shadow">
+                                        <span id="btn-phoneNumber" class="text">csv / txt</span>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12 mb-1">
+                                    <div class="card bg-warning text-center text-white shadow">
+                                        <span class="text">발송 시간 설정</span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 mb-5">
+                                    <div id="send-immediate" class="card btn btn-dark bg-gray-400 text-black-50 shadow">
+                                        <span class="text">즉시</span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 mb-5">
+                                    <div id="send-reserve" class="card btn btn-dark bg-light text-black-50 shadow">
+                                        <span class="text">예약</span>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12 mb-1">
+                                    <div class="row">
+                                        <div class="col-md-3 text-right">
+                                            <span>날짜</span>
+                                        </div>
+                                        <div class="col-md-9">
+                                            <input type="text" id="datepicker" class="text bg-gray-400" readonly>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12 mb-5">
+                                    <div class="row">
+                                        <div class="col-md-3 text-right">
+                                            <span>시간</span>
+                                        </div>
+                                        <div class="col-md-9">
+                                            <input type="time" id="time" class="text bg-gray-400" value="10:00" min="00:00:00" max="23:59:59" readonly>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <input type="hidden" id="reservedDate" th:field="*{reservedDate}">
+
+                                <div class="col-md-3">
+                                    <div class="card btn btn-success bg-light text-black-50 shadow">
+                                        <span class="text" id="btn-save">발송하기</span>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="card btn btn-warning bg-light text-black-50 shadow">
+                                        <span class="text" href="/">뒤로가기</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
+
 
                     <div id= "customersModal" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
                         <div class="modal-dialog modal-xl">

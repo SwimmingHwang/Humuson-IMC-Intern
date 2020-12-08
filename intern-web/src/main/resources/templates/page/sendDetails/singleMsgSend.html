@@ -9,61 +9,115 @@
     <h1 class="h3 mb-1 text-gray-800">단일 알림톡 발송</h1>
     <p class="mb-4">한 고객에게 메시지를 발송합니다.</p>
 
-    <div class="row">
-        <div class="col-md-12">
-            <!--            <div class="col-lg-6">-->
-            <div class="card position-relative">
-                <div class="card-header py-3">
-                    <h6 class="m-0 font-weight-bold text-success">메시지 작성</h6>
-                </div>
-                <div class="card-body">
-                    <div>
-                        <strong>템플릿 코드</strong>
-                        <select id="templateCode" class="custom-select">
-                            <option value="" disabled selected>템플릿 코드를 선택하세요.</option>
+    <form th:object="${atCampaign}">
+        <div class="row">
+
+            <div class="col-md-4">
+                <div class="card position-relative">
+
+                    <div class="card-body py-3">
+                        <h4 id="msg-type" class="m-0 font-weight-bold text-warning">알림톡</h4>
+                    </div>
+                    <div class="card-body py-1">
+                        <input type="text" th:field="*{senderName}" class="form-control bg-light border-0" placeholder="발신프로필 키" readonly>
+                        <input  th:field="*{senderKey}" class="form-control bg-light border-0" placeholder="발신프로필 키" type="hidden">
+                    </div>
+                    <div class="card-body py-1">
+                        <strong>템플릿</strong>
+                        <select id="templateContent" name="templateContent" class="custom-select" >
+                            <option value="default" disabled selected>템플릿을 선택하세요.</option>
                             <tr th:each="templateCode : ${templateCodes}">
-                                <option th:text="${templateCode.templateCode}">default</option>
+                                <option th:text="${templateCode.templateName}" th:value="${templateCode.templateContent}">default</option>
                             </tr>
                         </select>
                     </div>
-                    <br>
 
-                    <div>
-                        <strong>발송 일시</strong>
-                        <p>기본은 즉시 발송 입니다. 날짜를 선택하게 되면 선택한 시간으로 발송이 예약됩니다.</p>
-                        <input type="text" id="datePicker" class="form-control" style="max-width: 170px;">
-                        <input type="time" id="time" class="form-control" style="max-width: 170px;" value="10:00" min="00:00:00" max="23:59:59">
-                    </div>
-                    <br>
-
-                    <div>
-                        <strong>메시지 내용</strong>
-                        <input type="text" class="form-control input-lg" id="msg" placeholder="내용을 입력하세요">
-                    </div>
-                    <br>
-
-                    <div>
-                        <strong>전화번호</strong>
-                        <input type="text" class="form-control" id="phoneNumber" placeholder="전화번호를 입력하세요">
-                    </div>
-                    <br>
-
-                    <div>
-                        <a href="/" role="button" class="btn btn-secondary">취소</a>
-                        <button type="button" class="btn btn-primary" id="btn-save">등록</button>
+                    <div class="card-body py-1">
+                        <input type="text" id="phoneNumber" class="form-control bg-light border-0" placeholder="수신자 번호 입력">
                     </div>
 
+                    <div class="card-body py-1">
+                            <textarea id="msg" class="form-control bg-light border-0" th:field="*{msg}"
+                                      placeholder="보내실 메시지를 입력해 주세요." rows="10" maxlength="2000" readonly></textarea>
+                    </div>
+
+                    <div class="card-body py-1 text-align-right">
+                        <span id="byte-count" class="m-0 font-weight-bold text-success">0</span>
+                        <span id="byte-limit" class="m-0 font-weight-bold text-success">/ 1000 자</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card position-relative">
+                    <div class="card-body">
+
+                        <div class="row">
+                            <div class="col-md-12 mb-1">
+                                <div class="card bg-success text-center text-white shadow">
+                                    <span class="text">발송 시간 설정</span>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-5">
+                                <div id="send-immediate" class="card btn btn-dark bg-gray-400 text-black-50 shadow">
+                                    <span class="text">즉시</span>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-5">
+                                <div id="send-reserve" class="card btn btn-dark bg-light text-black-50 shadow">
+                                    <span class="text">예약</span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12 mb-1">
+                                <div class="row">
+                                    <div class="col-md-3 text-right">
+                                        <span>날짜</span>
+                                    </div>
+                                    <div class="col-md-9">
+                                        <input type="text" id="datepicker" class="text bg-gray-400" readonly>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12 mb-5">
+                                <div class="row">
+                                    <div class="col-md-3 text-right">
+                                        <span>시간</span>
+                                    </div>
+                                    <div class="col-md-9">
+                                        <input type="time" id="time" class="text bg-gray-400" value="10:00" min="00:00:00" max="23:59:59" readonly>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <input type="hidden" id="reservedDate" th:field="*{reservedDate}">
+
+                            <div class="col-md-3">
+                                <div class="card btn btn-success bg-light text-black-50 shadow">
+                                    <span class="text" id="btn-save">발송하기</span>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="card btn btn-warning bg-light text-black-50 shadow">
+                                    <span class="text" href="/">뒤로가기</span>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+    </form>
 
 
     <!--custom 스크립트 -->
     <th:block layout:fragment="script">
         <link rel="stylesheet" th:href="@{/vendor/bootstrap/scss/bootstrap-datepicker.min.css}">
         <script th:src="@{/vendor/bootstrap/js/bootstrap-datepicker.min.js}"></script>
-        <script th:src="@{/js/app/{msgjs}Send.js(msgjs=${msg})}"></script>
+        <script th:src="@{/js/app/atMsgsSend.js}"></script>
+        <link rel="stylesheet" th:href="@{/css/custom.css}">
     </th:block>
 </div>
 </html>
