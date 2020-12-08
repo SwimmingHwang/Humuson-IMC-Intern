@@ -96,8 +96,8 @@ public class IndexController {
         // TODO : profile에서 모든 senderkey-senderName으로!!!!!! 가져오기 : select 로 구현할 것
 
 //        authentication.getName();
-//        long userIdx = userService.findUserIdx(authentication.getName());
-        long userIdx = userService.findUserIdx("t1@test.com");
+        long userIdx = userService.findUserIdx(authentication.getName());
+//        long userIdx = userService.findUserIdx("t1@test.com");
         Profile profile = profileService.findByUserId(userIdx);
         String senderName = profile.getSenderName();
         String senderKey = profile.getSenderKey();
@@ -169,10 +169,22 @@ public class IndexController {
 
     // 알림톡 create
     @GetMapping("/send/single-msg/save/at")
-    public String singleMsgSave( Model model) {
+    public String singleMsgSave(Model model, Authentication authentication) {
         model.addAttribute("msg","at");
         //test 용
         model.addAttribute("msgs", atMsgsService.findAll());
+
+//        long userIdx = userService.findUserIdx("t1@test.com");
+        long userIdx = userService.findUserIdx(authentication.getName());
+        Profile profile = profileService.findByUserId(userIdx);
+        String senderName = profile.getSenderName();
+        String senderKey = profile.getSenderKey();
+
+        AtCampaignSaveRequestDto atCampaignSaveRequestDto = new AtCampaignSaveRequestDto();
+        atCampaignSaveRequestDto.setSenderName(senderName);
+        atCampaignSaveRequestDto.setSenderKey(senderKey);
+
+        model.addAttribute("atCampaign",atCampaignSaveRequestDto);
         model.addAttribute("templateCodes",templateInfoService.findAll());
         return "page/sendDetails/singleMsgSend";
     }
