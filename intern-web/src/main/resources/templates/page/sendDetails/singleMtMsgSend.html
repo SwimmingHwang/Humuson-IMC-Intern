@@ -20,7 +20,16 @@
                     <input id="adFlag" type="checkbox" name="adFlag" value="Y">
                 </div>
                 <div class="card-body py-1">
-                    <input type="text" th:value="${sendNumber}" class="form-control bg-light border-0" placeholder="발신 번호" readonly>
+                    <strong>메시지 유형</strong>
+                    <select id="mtType" class="custom-select">
+                        <option value="" disabled selected>메시지 유형을 선택하세요(MT 상품 타입 (SM-SMS, LM-LMS)</option>
+                        <option th:text="SM">default</option>
+                        <option th:text="LM">default</option>
+                    </select>
+                </div>
+
+                <div class="card-body py-1">
+                    <input type="text" id="callback" th:value="${sendNumber}" class="form-control bg-light border-0" placeholder="발신 번호" readonly>
                 </div>
                 <div class="card-body py-1">
                     <input type="text" id="phoneNumber" class="form-control bg-light border-0" placeholder="수신자 번호 입력">
@@ -81,7 +90,7 @@
                             </div>
                         </div>
 
-                        <input type="hidden" id="mtType" th:value="SM">
+<!--                        <input type="hidden" id="mtType" th:value="SM">-->
 
                         <div class="col-md-3">
                             <div class="card btn btn-success bg-light text-black-50 shadow">
@@ -169,7 +178,7 @@
         <script th:src="@{/vendor/bootstrap/js/bootstrap-datepicker.min.js}"></script>
         <link rel="stylesheet" th:href="@{/css/custom.css}">
 <!--        <script th:src="@{/js/app/{msgjs}Send.js(msgjs=${msg})}"></script>-->
-        <script th:src="@{/js/app/mtMsgsSend.js}"></script>
+        <script th:src="@{/js/app/mtSend.js}"></script>
     </th:block>
 </div>
 </html>
