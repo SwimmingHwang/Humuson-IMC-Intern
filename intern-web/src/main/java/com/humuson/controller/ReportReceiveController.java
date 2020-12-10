@@ -34,14 +34,24 @@ public class ReportReceiveController {
     @ResponseBody
     public String updateStatusAt(@PathVariable Integer id, @RequestBody String message) {
         log.info("AT update {} status api called ", id);
-        atMsgsService.updateStatus(id, "3");
-        // at report 저장
-        Gson gson = new Gson();
-        log.info("message:" + message);
-        AtReportSaveRequestDto atReportSaveRequestDto = gson.fromJson(message, AtReportSaveRequestDto.class);
-        AtReport atReport = atReportSaveRequestDto.toEntity();
+        try {
+            atMsgsService.updateStatus(id, "3");
+            log.info("at status update 3 success");
+            // at report 저장
+            Gson gson = new Gson();
+            AtReportSaveRequestDto atReportSaveRequestDto = gson.fromJson(message, AtReportSaveRequestDto.class);
+            AtReport atReport = atReportSaveRequestDto.toEntity();
+            try {
+                atReportService.save(atReport);
+                log.info("at report save success");
+            } catch (Exception e) {
+                atMsgsService.updateStatus(id, "2");
+                log.info("at report save failed");
+            }
 
-        atReportService.save(atReport);
+        } catch (Exception e) {
+            log.info("at status update failed");
+        }
         return "AT : update 3 and report saved";
     }
 
@@ -51,14 +61,24 @@ public class ReportReceiveController {
     @ResponseBody
     public String updateStatusMt(@PathVariable Integer id, @RequestBody String message) {
         log.info("MT update {} status api called ", id);
-        mtMsgsService.updateStatus(id, "3");
-        // at report 저장
-        Gson gson = new Gson();
-        log.info("message:" + message);
-        MtReportSaveRequestDto mtReportSaveRequestDto = gson.fromJson(message, MtReportSaveRequestDto.class);
-        MtReport mtReport = mtReportSaveRequestDto.toEntity();
+        try {
+            mtMsgsService.updateStatus(id, "3");
+            log.info("mt status update 3 success");
+            // mt report 저장
+            Gson gson = new Gson();
+            MtReportSaveRequestDto mtReportSaveRequestDto = gson.fromJson(message, MtReportSaveRequestDto.class);
+            MtReport mtReport = mtReportSaveRequestDto.toEntity();
+            try {
+                mtReportService.save(mtReport);
+                log.info("mt report save success");
+            } catch (Exception e) {
+                mtMsgsService.updateStatus(id, "2");
+                log.info("mt report save failed");
+            }
 
-        mtReportService.save(mtReport);
+        } catch (Exception e) {
+            log.info("mt status update failed");
+        }
         return "MT : update 3 and report saved";
     }
 
