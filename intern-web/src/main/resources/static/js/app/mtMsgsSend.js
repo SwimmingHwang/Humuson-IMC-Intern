@@ -17,12 +17,12 @@ var mtSend = {
         $('#msg-text').keyup(function () {
             mtSend.bytesHandler(this);
         });
-        // $(function() {
-        //     var varElements = document.getElementsByClassName("vars");
-        //     Array.from(varElements).forEach(function(element) {
-        //         element.addEventListener('click', mtSend.applyVars);
-        //     });
-        // });
+        $(function() {
+            var varElements = document.getElementsByClassName("vars");
+            Array.from(varElements).forEach(function(element) {
+                element.addEventListener('click', mtSend.applyVars);
+            });
+        });
         function applyButton(nt) {
             var len = _this.getTextLength(nt);
             if(len > 2000) {
