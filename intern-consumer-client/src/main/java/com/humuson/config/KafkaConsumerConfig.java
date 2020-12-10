@@ -14,11 +14,9 @@ import org.springframework.kafka.core.ConsumerFactory;
 import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
 import org.springframework.kafka.listener.ConcurrentMessageListenerContainer;
 import org.springframework.kafka.listener.ContainerProperties;
-import org.springframework.kafka.support.converter.StringJsonMessageConverter;
 import org.springframework.retry.backoff.FixedBackOffPolicy;
 import org.springframework.retry.policy.SimpleRetryPolicy;
 import org.springframework.retry.support.RetryTemplate;
-import org.springframework.util.backoff.FixedBackOff;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -43,7 +41,7 @@ public class KafkaConsumerConfig {
         props.put(ConsumerConfig.GROUP_ID_CONFIG, consumerGroupid);
         props.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
 
-//        props.put(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, false);
+        props.put(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, false);
 //        props.put(ConsumerConfig.RETRY_BACKOFF_MS_CONFIG, 5000);
 
         props.put(ConsumerConfig.SESSION_TIMEOUT_MS_CONFIG, 15000);
@@ -71,6 +69,7 @@ public class KafkaConsumerConfig {
             log.info(" In recovery callback method ");
             return null;
         });
+        factory.getContainerProperties().setAckMode(ContainerProperties.AckMode.MANUAL_IMMEDIATE);
 //        factory.setBatchListener(true);
         return factory;
     }
@@ -82,6 +81,8 @@ public class KafkaConsumerConfig {
         factory.setMessageConverter(new StringJsonMessageConverter());
         factory.setConsumerFactory(consumerFactory());
         factory.setRetryTemplate(retryTemplate());
+        factory.getContainerProperties().setAckMode(ContainerProperties.AckMode.MANUAL_IMMEDIATE);
+        factory.setBatchListener(true); // 기본값 500 개씩 배치 처리
         return factory;
     }*/
 
@@ -90,11 +91,11 @@ public class KafkaConsumerConfig {
         RetryTemplate retryTemplate = new RetryTemplate();
 
         FixedBackOffPolicy fixedBackOffPolicy = new FixedBackOffPolicy();
-        fixedBackOffPolicy.setBackOffPeriod(10000); // 실패 시 다시 시작 시간 (10초)
+        fixedBackOffPolicy.setBackOffPeriod(10000); // 다시 시작 시간 (10초)
         retryTemplate.setBackOffPolicy(fixedBackOffPolicy);
 
         SimpleRetryPolicy retryPolicy = new SimpleRetryPolicy();
-        retryPolicy.setMaxAttempts(720); // 실패 시 720 다시 시도 -> 2시간 지속
+        retryPolicy.setMaxAttempts(720); // 720 다시 시도 -> 2시간 지속
         retryTemplate.setRetryPolicy(retryPolicy);
 
         return retryTemplate;
