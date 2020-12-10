@@ -100,8 +100,10 @@ public class MtMsgsService {
         return mtMsgsRepository.findAll();
     }
     @Transactional(readOnly = true)
-    public List<MtMsgs> findAllByReservedDate(){
-        return mtMsgsRepository.findAllByReservedDate();
+    public List<MtMsgsSaveRequestDto> findAllByReservedDate(){
+        return mtMsgsRepository.findAllByReservedDate().stream()
+                .map(MtMsgsSaveRequestDto::new)
+                .collect(Collectors.toList());
     }
 
     @Transactional
@@ -111,7 +113,23 @@ public class MtMsgsService {
                 .collect(Collectors.toList());
     }
 
+    @Transactional
     public List<MtMsgs> findAllReservedDateDesc() {
         return mtMsgsRepository.findAllReservedDateDesc();
+    }
+
+    @Transactional
+    public List<Integer> findAllIdByReservedDate() {
+        return mtMsgsRepository.findAllIdByReservedDate();
+    }
+
+    @Transactional
+    public void updateStatusList(List<Integer> mtMsgsIdList) {
+        mtMsgsRepository.updateStatusList(mtMsgsIdList);
+    }
+
+    @Transactional
+    public void updateEtc2(){
+        mtMsgsRepository.updateEtc2();
     }
 }

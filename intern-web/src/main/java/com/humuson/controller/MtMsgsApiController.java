@@ -32,6 +32,7 @@ public class MtMsgsApiController {
     public String save(@RequestBody MtMsgsSaveRequestDto requestDto) {
         try{
             mtMsgsService.save(requestDto);
+            mtMsgsService.updateEtc2();
         } catch(Exception e){
             log.info("ERROR : DB INSERT ERROR"); return "300";
         }
@@ -42,6 +43,7 @@ public class MtMsgsApiController {
     public String saveAll(@RequestBody MultiMtMsgsSaveRequestDto requestDto) {
         try{
             mtMsgsService.saveAll(requestDto);
+            mtMsgsService.updateEtc2();
         } catch(Exception e){
             log.info("ERROR : DB INSERT ERROR"); return "300";
         }
@@ -52,6 +54,7 @@ public class MtMsgsApiController {
     public String saveAllList(@RequestBody MultiMtMsgsSaveListRequestDto requestDto) {
         try{
             mtMsgsJdbcService.saveAllList(requestDto);
+            mtMsgsService.updateEtc2();
         } catch(Exception e){
             log.info("ERROR : DB INSERT ERROR"); return "300";
         }

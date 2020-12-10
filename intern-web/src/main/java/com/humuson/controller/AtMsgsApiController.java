@@ -49,6 +49,7 @@ public class AtMsgsApiController {
     public String saveAll(@RequestBody MultiAtMsgsSaveRequestDto requestDto) {
         try{
             atMsgsService.saveAll(requestDto);
+            atMsgsService.updateEtc2();
         } catch(Exception e){
             log.info("ERROR : DB INSERT ERROR"); return "300";
         }

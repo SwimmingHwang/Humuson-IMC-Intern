@@ -38,6 +38,18 @@ public class MtMsgsSaveRequestDto {
         this.etc2 = etc2;
     }
 
+    public MtMsgsSaveRequestDto(MtMsgs entity){
+        this.msg = entity.getMsg();
+        this.phoneNumber = entity.getPhoneNumber();
+        this.adFlag = entity.getAdFlag();
+        this.mtType = entity.getMtType();
+        this.reservedDate = entity.getReservedDate();
+        this.callback = entity.getCallback();
+        this.title = entity.getTitle();
+        this.etc1 = entity.getEtc1();
+        this.etc2 = entity.getEtc2();
+    }
+
     public MtMsgs toEntity() {
         return MtMsgs.builder()
                 .msg(msg)

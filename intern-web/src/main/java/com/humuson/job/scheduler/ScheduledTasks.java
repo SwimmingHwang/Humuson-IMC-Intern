@@ -26,84 +26,70 @@ public class ScheduledTasks {
 
     private final AtMsgsService atMsgsService;
     private final MtMsgsService mtMsgsService;
-    private final CustomerService customerService;
 
-//    @Async
     @Scheduled(initialDelay = 1000, fixedDelay = 10000)
     public void updateStatusrunEvery10Sec(){
-        try{
-            log.info("스케쥴러 : 시작");
-            List<AtMsgsSaveRequestDto> atMsgsList = null;
-            List<MtMsgs> mtMsgsList = null;
-
+        log.info("스케쥴러 : 시작");
+        try {
+            List<AtMsgsSaveRequestDto> atMsgsList = atMsgsService.findAllByReservedDate();
             List<Integer> atMsgsIdList = atMsgsService.findAllIdByReservedDate();
-            atMsgsList = atMsgsService.findAllByReservedDate();
-            mtMsgsList = mtMsgsService.findAllByReservedDate();
 
-            log.info("스케쥴러 : select 완료");
+            log.info("AT 스케쥴러 : select 완료");
+            log.info("AT 스케쥴러 : atMsgsList" + atMsgsList);
 
-//            List<AtMsgsSaveRequestDto> atMsgsSaveRequestDtoList= new ArrayList<>();
-            List<MtMsgsSaveRequestDto> mtMsgsSaveRequestDtoList= new ArrayList<>();
-
-            log.info("스케쥴러 : atMsgsList"+atMsgsList);
-            log.info("스케쥴러 : mtMsgsList"+mtMsgsList);
-
-            if (!atMsgsList.isEmpty()){
-
+            if (!atMsgsList.isEmpty()) {
                 Gson gson = new Gson();
                 String reqData = gson.toJson(atMsgsList);
-                log.info("Request Data : " +reqData);
-                String statusCode = ApiCall.post("http://localhost:8082/api/at-msgs",reqData);
-                log.info("statusCode :"+statusCode);
+                log.info("AT Request Data : " + reqData);
+                String statusCode = ApiCall.post("http://localhost:8082/api/at-msgs", reqData);
+                log.info("AT Post Response Status Code :" + statusCode);
+
+                // TODO : api server error 인지 produce 실패 인지  status code 분리 필요
+                if (statusCode.equals("200")) {
+                    log.info("AT API POST REQUEST 성공");
+                    log.info("AT 스케쥴러 : AT Update 시작");
+                    // 성공했으면  status update 2
+                    atMsgsService.updateStatusList(atMsgsIdList);
+                    log.info("AT 스케쥴러 : AT Update 끝");
+                } else {
+                    log.info("AT API POST ERROR");
+                }
+            }
+        } catch(Exception e){
+            // TODO : API request 중복 막는 처리 필요
+            log.error("AT Update Status ERROR "+e);
+        }
+
+        try{
+
+            List<MtMsgsSaveRequestDto> mtMsgsList =  mtMsgsService.findAllByReservedDate();
+            List<Integer> mtMsgsIdList = mtMsgsService.findAllIdByReservedDate();
+
+            log.info("MT 스케쥴러 : select 완료");
+            log.info("MT 스케쥴러 : mtMsgsList" + mtMsgsList);
+
+            if (!mtMsgsList.isEmpty()){
+                Gson gson = new Gson();
+                String reqData = gson.toJson(mtMsgsList);
+                log.info("MT Request Data : " + reqData);
+                String statusCode = ApiCall.post("http://localhost:8082/api/mt-msgs",reqData);
+                log.info("MT Post Response Status Code :" + statusCode);
 
                 // TODO : api server error 인지 produce 실패 인지  status code 분리 필요
                 if (statusCode.equals("200")){
-                    log.info("API POST REQUEST 성공");
-                    log.info("스케쥴러 : AT Update 시작");
+                    log.info("MT API POST REQUEST 성공");
+                    log.info("MT 스케쥴러 : MT Update 시작");
                     // 성공했으면  status update 2
-                    atMsgsService.updateStatusList(atMsgsIdList);
-                    log.info("스케쥴러 : AT Update 끝");
+                    mtMsgsService.updateStatusList(mtMsgsIdList);
+                    log.info("MT 스케쥴러 : MT Update 끝");
                 }
                 else{
-                    log.info("API POST ERROR");
+                    log.info("MT API POST ERROR");
                 }
             }
-
-            if (!mtMsgsList.isEmpty()){
-
-                mtMsgsList.forEach(row ->{
-                    MtMsgsSaveRequestDto mtMsgsSaveRequestDto = new MtMsgsSaveRequestDto(row.getMsg(), row.getPhoneNumber(), row.getAdFlag(),
-                            row.getMtType(), row.getReservedDate(), row.getCallback(), row.getTitle(), row.getEtc1(), row.getEtc2()+row.getId().toString());
-                    //    for (int i=0; i<12500; i++) //10만건 테스트용
-                    mtMsgsSaveRequestDtoList.add(mtMsgsSaveRequestDto);
-                });
-
-                Gson gson = new Gson();
-                String reqData = gson.toJson(mtMsgsSaveRequestDtoList);
-                log.info("Request Data : " +reqData);
-                String statusCode = ApiCall.post("http://localhost:8082/api/mt-msgs",reqData);
-                log.info("statusCode :"+statusCode);
-
-                if (statusCode.equals("200")){
-                    log.info("API POST REQUEST 성공");
-
-                    log.info("스케쥴러 : MT Update 시작");
-
-                    mtMsgsList.forEach(row ->{
-                        // TODO : update batch로 작성할 것
-                        log.info("스케쥴러 : MT Update 진행중");
-                        mtMsgsService.updateStatus(row.getId(), "2", true);
-                    });
-                    log.info("스케쥴러 : MT Update 끝");
-                }
-                else{
-                    log.info("API POST ERROR");
-                }
-            }
-            log.info("runEvery10Sec");
-        }catch(Exception e){
-            log.error("Update Status ERROR "+e);
+        }  catch(Exception e){
+            log.error("MT Update Status ERROR "+e);
         }
-
+        log.info("Run Every 10 Sec");
     }
 }
