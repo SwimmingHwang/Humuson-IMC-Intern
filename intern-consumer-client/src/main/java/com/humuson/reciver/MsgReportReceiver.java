@@ -18,28 +18,10 @@ import java.util.List;
 @Service
 public class MsgReportReceiver {
 
-    /*@KafkaListener(topics = "${kafka.at.report.topic.name}", groupId = "${kafka.at.report.topic.group.name}", containerFactory = "kafkaListenerContainerFactory")
-    public void atReportListenr(@Payload List<String> messages) {
-        log.info("At Report Topic Listener : {}", messages);
-
-        Gson gson = new Gson();
-        messages.forEach(message -> {
-            log.info("message : {}", message);
-            AtReportSaveRequestDto atReport = gson.fromJson(message, AtReportSaveRequestDto.class);
-            String status = null;
-            try {
-                status = ApiCallCC.post(atReport.getEtc2(), message);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            log.info("status is {}", status);
-        });
-    }*/
-
     private final KafkaListenerEndpointRegistry registry;
 
     @KafkaListener(topics = "${kafka.at.report.topic.name}", groupId = "${kafka.at.report.topic.group.name}", containerFactory = "kafkaListenerContainerFactory")
-    public void atReportListenr(@Payload String message) {
+    public void atReportListener(@Payload String message) {
         Gson gson = new Gson();
         AtReportSaveRequestDto atReport = gson.fromJson(message, AtReportSaveRequestDto.class);
         String status = ApiCallCC.post(atReport.getEtc2(), message);
@@ -54,7 +36,7 @@ public class MsgReportReceiver {
     }
 
     @KafkaListener(topics = "${kafka.mt.report.topic.name}", groupId = "${kafka.mt.report.topic.group.name}", containerFactory = "kafkaListenerContainerFactory")
-    public void mtLoglistenr(@Payload String message) {
+    public void mtReportListener(@Payload String message) {
         Gson gson = new Gson();
         MtReportSaveRequestDto mtReport = gson.fromJson(message, MtReportSaveRequestDto.class);
         String status = ApiCallCC.post(mtReport.getEtc2(), message);
@@ -66,23 +48,5 @@ public class MsgReportReceiver {
         } else {
             throw new RuntimeException("failed");
         }
-
-
-        /*log.info("Mt Report Topic Listener : {}", messages);
-
-        Gson gson = new Gson();
-        messages.forEach(message -> {
-            log.info("Mt Topic Listner : {}", message);
-
-            MtReportSaveRequestDto mtReport = gson.fromJson(message, MtReportSaveRequestDto.class);
-            log.info("url : {}", mtReport.getEtc2());
-            String status = null;
-            try {
-                status = ApiCallCC.post(mtReport.getEtc2(), message);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            log.info("status is {}", status);
-        });*/
     }
 }

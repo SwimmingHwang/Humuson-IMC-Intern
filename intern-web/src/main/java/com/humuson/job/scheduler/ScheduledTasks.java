@@ -28,8 +28,8 @@ public class ScheduledTasks {
     private final MtMsgsService mtMsgsService;
     private final CustomerService customerService;
 
-    @Async
-    @Scheduled(initialDelay = 1000, fixedRate  = 10000)
+//    @Async
+    @Scheduled(initialDelay = 1000, fixedDelay = 10000)
     public void updateStatusrunEvery10Sec(){
         try{
             log.info("스케쥴러 : 시작");
@@ -62,6 +62,7 @@ public class ScheduledTasks {
                 String statusCode = ApiCall.post("http://localhost:8082/api/at-msgs",reqData);
                 log.info("statusCode :"+statusCode);
 
+                // TODO : api server error 인지 produce 실패 인지  status code 분리 필요
                 if (statusCode.equals("200")){
                     log.info("API POST REQUEST 성공");
 

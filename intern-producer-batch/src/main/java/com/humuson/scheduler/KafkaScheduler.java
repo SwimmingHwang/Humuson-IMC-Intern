@@ -30,6 +30,7 @@ public class KafkaScheduler {
         List<AtReportSaveRequestDto> atReportList = atReportService.findAllByEtc1("0");
         if(atReportList.size() != 0) {
             log.info("=============at report etc1 0 인거 있다============= ");
+            // TODO : ym 아래 두 서비스 배치 처리
 
             // kafka producer 생성하여 토픽에 전달
             producerSerivce.sendAtReportList(atReportList);
@@ -66,7 +67,7 @@ public class KafkaScheduler {
             log.info("=============mt report etc1 0 인거 있다============= ");
             log.info(mtReportList.toString());
 
-            // 아래 두 서비스 배치 처리
+            // TODO : ym 아래 두 서비스 배치 처리
 
             // kafka producer 생성하여 토픽에 전달
             producerSerivce.sendMtReportList(mtReportList);

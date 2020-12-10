@@ -63,7 +63,7 @@ public class AtMsgsService {
     public Integer updateStatus(Integer id, String status, boolean isReport){
         AtMsgs atMsgsId = atMsgsRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("해당 사용자가 없습니다. id=" + id));
-        log.info("id:" + id + "status update");
+        log.info("id:" + id + " status update");
         atMsgsId.updateStatus(status, isReport);
         return id;
     }

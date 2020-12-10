@@ -300,7 +300,6 @@ var atSend = {
     }, /* end of get and get customer table*/
     setCustomerTable : function(groupId){
         groupJsonList.forEach(function(item){
-            console.log(item,item.id);
                 if(item.id === groupId)
                     $(".group_"+item.id).show()
                 else{

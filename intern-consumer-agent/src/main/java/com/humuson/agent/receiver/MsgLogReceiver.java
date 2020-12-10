@@ -23,7 +23,7 @@ public class MsgLogReceiver {
 
 
     @KafkaListener(topics = "${kafka.at.topic.name}", groupId = "${kafka.at.topic.group.name}")
-    public void atLoglistenr(@Payload List<String> messages) {
+    public void atLogListener(@Payload List<String> messages) {
         log.info("At Topic Listener : {}", messages);
 
         Gson gson = new Gson();
@@ -43,21 +43,8 @@ public class MsgLogReceiver {
         if(!list.isEmpty())  atMsgsJdbcService.saveAll(list);
     }
 
-//    @KafkaListener(topics = "${kafka.ft.topic.name}", groupId = "${kafka.ft.topic.group.name}")
-//    public void ftLoglistenr(@Payload String message) {
-//        log.info("Ft Topic Listner : {}", message);
-//        Gson gson = new Gson();
-//        FtMsgsSaveRequestDto ftMsgstDto = null;
-//        try {
-//            ftMsgstDto = new Gson().fromJson(message, FtMsgsSaveRequestDto.class);
-//        } catch (Exception e) {
-//            log.info("it is not json format");
-//        }
-//        if(ftMsgstDto != null) ftMsgsService.save(ftMsgstDto);
-//    }
-
     @KafkaListener(topics = "${kafka.mt.topic.name}", groupId = "${kafka.mt.topic.group.name}")
-    public void mtLoglistenr(@Payload List<String> messages) {
+    public void mtLogListener(@Payload List<String> messages) {
         log.info("Mt Topic Listner : {}", messages);
         Gson gson = new Gson();
         MtMsgs mtMsgsDto = null;

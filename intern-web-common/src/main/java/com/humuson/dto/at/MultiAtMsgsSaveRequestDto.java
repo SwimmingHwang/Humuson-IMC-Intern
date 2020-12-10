@@ -67,7 +67,7 @@ public class MultiAtMsgsSaveRequestDto {
         for (List<String> li : customerList) {
         //    public AtMsgs(String status, String priority, String reservedDate, String senderKey,
         //                  String phoneNumber, String templateCode, String msg, String etc1, String etc2){
-            log.info(li.toString());
+//            log.info(li.toString());
             AtMsgs atMsg = new AtMsgs(null, null, reservedDate, senderKey,
                     li.get(0), templateCode, msg, null,null);
             msgs.add(atMsg);
