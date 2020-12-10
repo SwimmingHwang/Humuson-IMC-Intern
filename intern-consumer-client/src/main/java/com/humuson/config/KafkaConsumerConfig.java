@@ -41,7 +41,7 @@ public class KafkaConsumerConfig {
         props.put(ConsumerConfig.GROUP_ID_CONFIG, consumerGroupid);
         props.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
 
-        props.put(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, false);
+        props.put(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, false); // auto commit 비활성화
 //        props.put(ConsumerConfig.RETRY_BACKOFF_MS_CONFIG, 5000);
 
         props.put(ConsumerConfig.SESSION_TIMEOUT_MS_CONFIG, 15000);
@@ -64,12 +64,18 @@ public class KafkaConsumerConfig {
     public KafkaListenerContainerFactory<ConcurrentMessageListenerContainer<String, String>> kafkaListenerContainerFactory() {
         ConcurrentKafkaListenerContainerFactory<String, String> factory = new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConsumerFactory(consumerFactory());
-        factory.setRetryTemplate(retryTemplate());
+        factory.setRetryTemplate(retryTemplate()); // Exception 발생 시 꺼지지 않고 2시간 동안 계속 작동하게 세팅
         factory.setRecoveryCallback(context -> {
             log.info(" In recovery callback method ");
             return null;
         });
-        factory.getContainerProperties().setAckMode(ContainerProperties.AckMode.MANUAL_IMMEDIATE);
+        // BATCH : Lisner에게 전달된후 Consumer.commitAsync()을 호출한다.
+        // COUNT : ackCount가 초과 했을경우 Consumer.commitAsync()을 호출한다.
+        // COUNT_TIME : ackCount가 기준치를 넘거나, ackTime이 경과했을경우 Consumer.commitAsync()을 호출한다.
+        // MANUAL : pending중인경우를 제외하고는 COUNT_TIME과 같다.
+        // MANUAL_IMMEDIATE : 즉각적으로 ack을 날린다.
+        factory.getContainerProperties().setAckMode(ContainerProperties.AckMode.MANUAL_IMMEDIATE); // listener에서 ack를 날려 커밋을 할 수 있다.
+        factory.setConcurrency(2); // 2 대의 컨슈머 띄움
 //        factory.setBatchListener(true);
         return factory;
     }
