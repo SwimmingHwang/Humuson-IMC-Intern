@@ -3,7 +3,6 @@ package com.humuson.scheduler;
 import com.humuson.agent.dto.AtReportSaveRequestDto;
 import com.humuson.agent.dto.MtReportSaveRequestDto;
 import com.humuson.agent.service.AtReportService;
-import com.humuson.agent.service.FtReportService;
 import com.humuson.agent.service.MtReportService;
 import com.humuson.service.ProducerService;
 import lombok.RequiredArgsConstructor;
@@ -20,11 +19,10 @@ public class KafkaScheduler {
 
     private final ProducerService producerSerivce;
     private final AtReportService atReportService;
-//    private final FtReportService ftMsgsLogService;
     private final MtReportService mtReportService;
 
     // Agent DB 에서 imc_at_biz_msg_log 데이터 가져와!
-    @Scheduled(cron = "*/10 * * * * *") // 10초에 한번 실행
+    @Scheduled(initialDelay = 1000, fixedDelay = 10000) // 스케쥴 끝나고 10초 뒤 재실행
     public void atReportSchedule() {
 //        log.info("=============at report 스케쥴러 작동중============= ");
         List<AtReportSaveRequestDto> atReportList = atReportService.findAllByEtc1("0");
