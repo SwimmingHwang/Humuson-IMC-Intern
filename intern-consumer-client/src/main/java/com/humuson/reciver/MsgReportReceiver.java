@@ -19,7 +19,7 @@ public class MsgReportReceiver {
 
     @KafkaListener(topics = "${kafka.at.report.topic.name}", groupId = "${kafka.at.report.topic.group.name}", containerFactory = "kafkaListenerContainerFactory")
     public void atReportListenr(@Payload String message,
-                                Acknowledgment acknowledgment) throws InterruptedException {
+                                Acknowledgment acknowledgment) {
         Gson gson = new Gson();
         AtReportSaveRequestDto atReport = gson.fromJson(message, AtReportSaveRequestDto.class);
         String status = ApiCallCC.post(atReport.getEtc2(), message);
@@ -34,7 +34,7 @@ public class MsgReportReceiver {
 
     @KafkaListener(topics = "${kafka.mt.report.topic.name}", groupId = "${kafka.mt.report.topic.group.name}", containerFactory = "kafkaListenerContainerFactory")
     public void mtLoglistenr(@Payload String message,
-                             Acknowledgment acknowledgment) throws InterruptedException {
+                             Acknowledgment acknowledgment) {
         Gson gson = new Gson();
         MtReportSaveRequestDto mtReport = gson.fromJson(message, MtReportSaveRequestDto.class);
         String status = ApiCallCC.post(mtReport.getEtc2(), message);
