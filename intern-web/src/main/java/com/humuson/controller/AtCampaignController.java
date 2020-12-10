@@ -49,9 +49,6 @@ public class AtCampaignController {
 
         String statusCode = "";
         try{
-
-
-
             /* AT MSG 생성 */
             List<Long> idList = requestDto.getCustomers().stream().distinct().map(Long::parseLong).collect(Collectors.toList());
 //            resultList = dataList.parallelStream().distinct().collect(Collectors.toList());
@@ -65,9 +62,11 @@ public class AtCampaignController {
             }
 
             String templateCode = templateInfo.getTemplateCode();
-            MultiAtMsgsSaveRequestDto multiAtMsgsSaveRequestDto = new MultiAtMsgsSaveRequestDto(requestDto.getMsg(), templateCode, requestDto.getReservedDate(), customerList);
+            MultiAtMsgsSaveRequestDto multiAtMsgsSaveRequestDto = new MultiAtMsgsSaveRequestDto(requestDto.getMsg(),
+                    templateCode, requestDto.getReservedDate(), customerList);
 
             atMsgsJdbcService.saveAll(multiAtMsgsSaveRequestDto.toEntity());
+            atMsgsService.updateEtc2();
 
             atCampaign.setCount(customerList.size());
             atCampaignService.save(atCampaign);

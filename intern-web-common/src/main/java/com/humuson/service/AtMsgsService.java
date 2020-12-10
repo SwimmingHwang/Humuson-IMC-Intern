@@ -10,8 +10,8 @@ import com.humuson.domain.repository.CustomerRepository;
 import com.humuson.domain.msgs.AtMsgs;
 import com.humuson.domain.repository.AtMsgsRepository;
 import com.humuson.dto.at.*;
-import com.humuson.dto.report.AtReportListDashboardResponseDto;
 import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -68,14 +68,17 @@ public class AtMsgsService {
         return id;
     }
 
-//    @Transactional
-//    public Integer updateStatusAndEtc2(Integer id, String status){
-//        AtMsgs atMsgsId = atMsgsRepository.findById(id)
-//                .orElseThrow(() -> new IllegalArgumentException("해당 사용자가 없습니다. id=" + id));
-//        atMsgsId.updateStatus(status);
-//        atMsgsId.updateEtc2(atMsgsId.getEtc2() + id.toString());
-//        return id;
-//    }
+    @Transactional
+    public void updateStatusList(List<Integer> idList){
+        atMsgsRepository.updateStatusList(idList);
+    }
+
+    // 엔터티가 저장되면 etc2에 id를 추가하여 초기화
+    @Transactional
+    public void updateEtc2(){
+        atMsgsRepository.updateEtc2();
+    }
+
 
     @Transactional
     public void delete (Integer id) {
@@ -100,9 +103,9 @@ public class AtMsgsService {
                 .map(AtMsgsListResponseDto::new)
                 .collect(Collectors.toList());
     }
+    // 예약날짜 순으로 정렬 후 select
     @Transactional(readOnly = true)
     public List<AtMsgs> findAllReservedDateDesc() {
-        // repo에서 넘어온 stream을 map을 통해 dto로 변환해서 리스트로 반환
         return atMsgsRepository.findAllReservedDateDesc();
     }
     @Transactional(readOnly = true)
@@ -110,15 +113,25 @@ public class AtMsgsService {
         // repo에서 넘어온 stream을 map을 통해 dto로 변환해서 리스트로 반환
         return atMsgsRepository.findAll();
     }
+
     @Transactional(readOnly = true)
-    public List<AtMsgs> findAllByReservedDate(){
-        return atMsgsRepository.findAllByReservedDate();
+    public List<AtMsgsSaveRequestDto> findAllByReservedDate(){
+        return atMsgsRepository.findAllByReservedDate().stream()
+                .map(AtMsgsSaveRequestDto::new)
+                .collect(Collectors.toList());
     }
 
+    // 현재 시간을 기준으로 예약시간이 지나고 status가 1인 엔터티의 id list select
+    @Transactional(readOnly = true)
+    public List<Integer> findAllIdByReservedDate() {
+        return atMsgsRepository.findAllIdByReservedDate();
+    }
     @Transactional
     public List<AtMsgsListDashboardResponseDto> findInfoList() {
         return atMsgsRepository.findAll().stream()
                 .map(AtMsgsListDashboardResponseDto::new)
                 .collect(Collectors.toList());
     }
+
+
 }

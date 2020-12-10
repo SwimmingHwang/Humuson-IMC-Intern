@@ -33,15 +33,16 @@ public class ScheduledTasks {
     public void updateStatusrunEvery10Sec(){
         try{
             log.info("스케쥴러 : 시작");
-            List<AtMsgs> atMsgsList = null;
+            List<AtMsgsSaveRequestDto> atMsgsList = null;
             List<MtMsgs> mtMsgsList = null;
 
+            List<Integer> atMsgsIdList = atMsgsService.findAllIdByReservedDate();
             atMsgsList = atMsgsService.findAllByReservedDate();
             mtMsgsList = mtMsgsService.findAllByReservedDate();
 
             log.info("스케쥴러 : select 완료");
 
-            List<AtMsgsSaveRequestDto> atMsgsSaveRequestDtoList= new ArrayList<>();
+//            List<AtMsgsSaveRequestDto> atMsgsSaveRequestDtoList= new ArrayList<>();
             List<MtMsgsSaveRequestDto> mtMsgsSaveRequestDtoList= new ArrayList<>();
 
             log.info("스케쥴러 : atMsgsList"+atMsgsList);
@@ -49,15 +50,8 @@ public class ScheduledTasks {
 
             if (!atMsgsList.isEmpty()){
 
-                atMsgsList.forEach(row ->{
-                    AtMsgsSaveRequestDto atMsgsSaveRequestDto = new AtMsgsSaveRequestDto(row.getMsg(),row.getPhoneNumber(),
-                            row.getTemplateCode(), row.getReservedDate(), row.getSenderKey(), row.getEtc1(), row.getEtc2()+row.getId().toString());
-                    //    for (int i=0; i<12500; i++) //10만건 테스트용
-                    atMsgsSaveRequestDtoList.add(atMsgsSaveRequestDto);
-                });
-
                 Gson gson = new Gson();
-                String reqData = gson.toJson(atMsgsSaveRequestDtoList);
+                String reqData = gson.toJson(atMsgsList);
                 log.info("Request Data : " +reqData);
                 String statusCode = ApiCall.post("http://localhost:8082/api/at-msgs",reqData);
                 log.info("statusCode :"+statusCode);
@@ -65,22 +59,15 @@ public class ScheduledTasks {
                 // TODO : api server error 인지 produce 실패 인지  status code 분리 필요
                 if (statusCode.equals("200")){
                     log.info("API POST REQUEST 성공");
-
                     log.info("스케쥴러 : AT Update 시작");
-
                     // 성공했으면  status update 2
-                    atMsgsList.forEach(row ->{
-                        // TODO : update batch로 작성할 것
-                        log.info("스케쥴러 : AT Update 진행중");
-                        atMsgsService.updateStatus(row.getId(), "2", true);
-                    });
+                    atMsgsService.updateStatusList(atMsgsIdList);
                     log.info("스케쥴러 : AT Update 끝");
                 }
                 else{
                     log.info("API POST ERROR");
                 }
             }
-
 
             if (!mtMsgsList.isEmpty()){
 
@@ -116,7 +103,6 @@ public class ScheduledTasks {
             log.info("runEvery10Sec");
         }catch(Exception e){
             log.error("Update Status ERROR "+e);
-            log.info("Update Status ERROR "+e);
         }
 
     }

@@ -37,6 +37,17 @@ public class AtMsgsSaveRequestDto {
         this.etc2 = etc2;
     }
 
+    public AtMsgsSaveRequestDto(AtMsgs entity) {
+        this.msg = entity.getMsg();
+        this.phoneNumber = entity.getPhoneNumber();
+        this.templateCode = entity.getTemplateCode();
+        this.reservedDate = entity.getReservedDate();
+        this.senderKey = entity.getSenderKey();
+        this.etc1 = entity.getEtc1();
+        this.etc2 = entity.getEtc2();
+
+    }
+
     public AtMsgs toEntity() {
         return AtMsgs.builder()
                 .msg(msg)

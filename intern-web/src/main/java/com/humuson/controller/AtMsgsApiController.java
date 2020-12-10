@@ -38,6 +38,7 @@ public class AtMsgsApiController {
 
             requestDto.setTemplateCode(templateInfo.getTemplateCode());
             atMsgsService.save(requestDto);
+            atMsgsService.updateEtc2();
         } catch(Exception e){
             log.info("ERROR : DB INSERT ERROR"); return "300";
         }
@@ -58,6 +59,7 @@ public class AtMsgsApiController {
     public String saveAllList(@RequestBody MultiAtMsgsSaveListRequestDto requestDto) {
         try{
             atMsgsJdbcService.saveAllList(requestDto);
+            atMsgsService.updateEtc2();
         } catch(Exception e){
             log.info("ERROR : DB INSERT ERROR"); return "300";
         }
