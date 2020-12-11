@@ -151,6 +151,9 @@ project(':intern-kafka-api') {
         // springboot admin - client`
         compile('de.codecentric:spring-boot-admin-starter-client:2.1.0')
         compile('org.springframework.kafka:spring-kafka') // 이거 추가
+
+        // scheduler
+        compile('org.springframework.boot:spring-boot-starter-quartz')
     }
 }
 
@@ -191,7 +194,6 @@ project(':intern-producer-batch') {
 
         compile('org.springframework.boot:spring-boot-starter-web')
         compile('org.springframework.kafka:spring-kafka')
-        compile('org.springframework.boot:spring-boot-starter-batch')
 
         // actuator
         compile('org.springframework.boot:spring-boot-starter-actuator')

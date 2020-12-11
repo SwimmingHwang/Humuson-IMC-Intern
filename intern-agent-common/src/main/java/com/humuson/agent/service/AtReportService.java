@@ -46,6 +46,7 @@ public class AtReportService {
                     at.setEtc1Status("1");
                     atReportRepository.save(at);
                 });
+
     }
 
 }

@@ -4,7 +4,7 @@ import com.humuson.agent.dto.AtReportSaveRequestDto;
 import com.humuson.agent.dto.MtReportSaveRequestDto;
 import com.humuson.agent.service.AtReportService;
 import com.humuson.agent.service.MtReportService;
-import com.humuson.service.ProducerService;
+import com.humuson.utility.Producer;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -17,7 +17,7 @@ import java.util.List;
 @Component
 public class KafkaScheduler {
 
-    private final ProducerService producerSerivce;
+    private final Producer producer;
     private final AtReportService atReportService;
     private final MtReportService mtReportService;
 
@@ -29,7 +29,7 @@ public class KafkaScheduler {
         if(atReportList.size() != 0) {
             log.info("=============at report etc1 0 인거 있다============= ");
             // kafka producer 생성하여 토픽에 전달
-            producerSerivce.sendAtReportList(atReportList);
+            producer.sendAtReportList(atReportList);
             // 토픽에 전달된 데이터 상태 변경
             atReportService.changeAllEtc1Status("0");
         } else {
@@ -47,7 +47,7 @@ public class KafkaScheduler {
 //            // 아래 두 서비스 배치 처리
 //
 //            // kafka producer 생성하여 토픽에 전달
-//            producerSerivce.sendFtReportList(ftReportList);
+//            producer.sendFtReportList(ftReportList);
 //            // 토픽에 전달된 데이터 상태 변경
 //            ftMsgsLogService.changeAllEtc1Status("0");
 //        } else {
@@ -55,8 +55,8 @@ public class KafkaScheduler {
 //        }
 //    }
 
-    @Scheduled(cron = "*/10 * * * * *") // 10초에 한번 실행
-    public void mtLogSchedule() {
+    @Scheduled(initialDelay = 1000, fixedDelay = 10000) // 10초에 한번 실행
+    public void mtReportSchedule() {
 //        log.info("=============mt report 스케쥴러 작동중============= ");
         List<MtReportSaveRequestDto> mtReportList = mtReportService.findAllByEtc1("0");
         if(mtReportList.size() != 0) {
@@ -66,7 +66,7 @@ public class KafkaScheduler {
             // 아래 두 서비스 배치 처리
 
             // kafka producer 생성하여 토픽에 전달
-            producerSerivce.sendMtReportList(mtReportList);
+            producer.sendMtReportList(mtReportList);
             // 토픽에 전달된 데이터 상태 변경
             mtReportService.changeAllEtc1Status("0");
         } else {

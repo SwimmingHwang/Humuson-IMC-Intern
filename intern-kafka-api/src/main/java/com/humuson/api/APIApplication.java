@@ -3,10 +3,10 @@ package com.humuson.api;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.PropertySource;
-import lombok.extern.slf4j.Slf4j;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
-@Slf4j
 @PropertySource("classpath:kafka.properties")
+@EnableScheduling
 @SpringBootApplication
 public class APIApplication {
     public static void main(String[] args) {

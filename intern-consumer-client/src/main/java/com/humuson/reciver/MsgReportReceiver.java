@@ -1,9 +1,11 @@
 package com.humuson.reciver;
 
 import com.google.gson.Gson;
+import com.humuson.acutator.KafkaHealthIndicator;
 import com.humuson.agent.dto.AtReportSaveRequestDto;
 import com.humuson.agent.dto.MtReportSaveRequestDto;
 import com.humuson.utility.ApiCallCC;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.support.Acknowledgment;
@@ -11,7 +13,7 @@ import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Service;
 
 @Slf4j
-//@RequiredArgsConstructor
+@RequiredArgsConstructor
 @Service
 public class MsgReportReceiver {
 
@@ -33,7 +35,7 @@ public class MsgReportReceiver {
     }
 
     @KafkaListener(topics = "${kafka.mt.report.topic.name}", groupId = "${kafka.mt.report.topic.group.name}", containerFactory = "kafkaListenerContainerFactory")
-    public void mtLoglistenr(@Payload String message,
+    public void mtReportlistenr(@Payload String message,
                              Acknowledgment acknowledgment) {
         Gson gson = new Gson();
         MtReportSaveRequestDto mtReport = gson.fromJson(message, MtReportSaveRequestDto.class);
@@ -48,4 +50,15 @@ public class MsgReportReceiver {
             throw new RuntimeException("mt api server have some problem");
         }
     }
+
+    private final  KafkaHealthIndicator kafkaHealthIndicator;
+
+    @KafkaListener(topics = "${kafka.health.check.topic.name}", groupId = "${kafka.health.check.topic.group.name}", containerFactory = "kafkaListenerContainerFactory")
+    public void hcChecklistenr(@Payload String message,
+                             Acknowledgment acknowledgment) {
+        log.info("Health Check Topic Listner {}", message);
+        acknowledgment.acknowledge();
+        kafkaHealthIndicator.setKafkaHealth("200");
+    }
+
 }

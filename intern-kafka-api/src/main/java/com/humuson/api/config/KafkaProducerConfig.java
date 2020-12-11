@@ -15,12 +15,10 @@ import org.springframework.kafka.annotation.EnableKafka;
 import org.springframework.kafka.core.DefaultKafkaProducerFactory;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.core.ProducerFactory;
-import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
 
 @Configuration
 @EnableKafka
@@ -28,6 +26,9 @@ import java.util.Properties;
 public class KafkaProducerConfig {
 
     private static final Logger logger = LoggerFactory.getLogger(com.humuson.api.Producer.class);
+
+    @Value(value = "${kafka.bootstrap.address}")
+    private String bootStrapAddress;
 
     @Bean
     public ProducerFactory<String, byte[]> producerFactory() {
@@ -37,7 +38,7 @@ public class KafkaProducerConfig {
     public Map<String, Object> senderProps() {
         Map<String, Object> props = new HashMap<>();
         // TODO : 값 박지 말 것.
-        props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
+        props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootStrapAddress);
         props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
         props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
         // batch.size: 같은 파티션으로 보내는 여러 데이터를 함께 배치로 보내기 위한 사이즈. 정의된 크기보다 큰 데이터는 배치를 시도하지 않음.
