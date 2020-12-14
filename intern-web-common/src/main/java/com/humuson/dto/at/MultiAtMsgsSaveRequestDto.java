@@ -1,5 +1,6 @@
 package com.humuson.dto.at;
 
+import com.humuson.domain.entity.AtCampaign;
 import com.humuson.domain.msgs.AtMsgs;
 import lombok.Builder;
 import lombok.extern.slf4j.Slf4j;
@@ -16,6 +17,7 @@ public class MultiAtMsgsSaveRequestDto {
     private String senderKey;
     private List<List<String>> customerList;
     private List<Integer> varCheckList;
+    private AtCampaign atCampaign;
 
     @Builder
     public MultiAtMsgsSaveRequestDto(String msg, String phoneNumber, String templateCode,
@@ -30,11 +32,13 @@ public class MultiAtMsgsSaveRequestDto {
 
     @Builder
     public MultiAtMsgsSaveRequestDto(String msg, String templateCode,
-                                     String reservedDate, List<List<String>> customerList) {
+                                     String reservedDate, List<List<String>> customerList, AtCampaign atCampaign) {
         this.msg = msg;
         this.templateCode = templateCode;
         this.reservedDate = reservedDate;
         this.customerList = customerList;
+        this.atCampaign = atCampaign;
+
     }
 
 //        public List<AtMsgs> toEntity() {
@@ -69,7 +73,9 @@ public class MultiAtMsgsSaveRequestDto {
         //                  String phoneNumber, String templateCode, String msg, String etc1, String etc2){
 //            log.info(li.toString());
             AtMsgs atMsg = new AtMsgs(null, null, reservedDate, senderKey,
-                    li.get(0), templateCode, msg, null,null);
+                    li.get(0), templateCode, msg, null,null, atCampaign);
+//                    li.get(0), templateCode, msg, null,null);
+
             msgs.add(atMsg);
         }
         return msgs;

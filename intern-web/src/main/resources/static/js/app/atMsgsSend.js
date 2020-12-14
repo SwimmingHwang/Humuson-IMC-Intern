@@ -5,10 +5,11 @@ let isCustomerInfoUpload = false;
 var recipientsGroupList = [];
 var recipientsCustomerList = [];
 var groupJsonList = [];
+var customerJsonList = [];
 var groupId;
 var groupName;
 var fileCustomerList = new Array();
-
+var notChancedReservedDate = $('#reservedDate').val();
 
 var atSend = {
     init: function () {
@@ -16,6 +17,7 @@ var atSend = {
         $.fn.serializeObject = function () {
             'use strict';
             var count = recipientsCustomerList.length;
+
             var result = {customers:Array(), count:count};
             var extend = function (i, element) {
                 var node = result[element.name];
@@ -29,19 +31,27 @@ var atSend = {
                     result[element.name] = element.value;
                 }
             };
-
             $.each(this.serializeArray(), extend);
+            // TODO : 선택된거 없는 경우는 alert해줘야함
+            if (result.customers.length === 0)
+            {
+                if ($('#recipientsGroupList').attr("field").slice(1,-1).split(",") ==="")
+                    return result
+                else
+                    result.customers = $('#recipientsGroupList').attr("field").slice(1,-1).split(",");
+            }
             return result;
         };
         $(function () {
-            _this.initTime();
-            _this.initDatePicker();
-            $('#datepicker').datepicker('destroy');
-            $('#reservedDate').val($('#datepicker').val()+$('#time').val().toString().replace(/:/gi,"")+"00",)
-
+            _this.initNotChangeReservedDate();
+            // _this.getCustomerInput();
+            _this.initRecipients();
         });
         $('#send-immediate').on('click', function () {
             _this.sendImmediate();
+        });
+        $('#send-not-change').on('click', function () {
+            _this.sendNotChange();
         });
         $('#send-reserve').on('click', function () {
             _this.sendReserve();
@@ -54,7 +64,6 @@ var atSend = {
             atSend.alertLimit();
         });
         $('#btn-save').on('click', function () {
-            console.log("button saved")
             _this.save();
         });
         $('#btn-update').on('click', function () {
@@ -77,13 +86,43 @@ var atSend = {
         });
         $('#btn-customerChkOK').on('click', function(){
             // $('input:hidden[name=customers]').val(recipientsCustomerList);
-            console.log("customers :" + recipientsCustomerList);
+            // console.log("customers :" + recipientsCustomerList);
+            $('#recipientsGroupList-out').empty();
+            $('#recipientsGroupList-out').append($('#recipientsGroupList > li').clone())
             $('#customersModal').modal('hide');
         });
+        $('#btn-customerChkCancel').on('click',function () {
+            $("input[type=checkbox]").prop("checked",false);
+            $('#recipientsGroupList').empty();
+        })
         /* end of modal listener*/
 
         $('#btn-phoneNumber').on('click', function () {
             atSend.loadPhoneNums();
+        });
+    },
+    initRecipients:function(){
+        $('#recipientsGroupList-out').empty();
+
+        var recStrList = $('#recipientsGroupList').attr("field")
+        var recList = JSON.parse("["+recStrList+"]")
+
+        var data = recList[0];
+
+        $.ajax({
+            type: 'POST',
+            url: '/api/v1/customer/list',
+            dataType: 'json',
+            contentType: 'application/json; charset=utf-8',
+            data: JSON.stringify(data),
+        }).done(function (set) {
+            customerJsonList = set;
+            customerJsonList.forEach(function(item){
+                $('#recipientsGroupList-out').append("<li>"+item.phoneNumber +" "+ item.name+"</li>");
+            });
+
+        }).fail(function (error) {
+            console.log("init recipients failed")
         });
     },
     loadPhoneNums: function () {
@@ -94,7 +133,6 @@ var atSend = {
             res = atSend.processFile(event.target.files[0]);
         };
         input.click();
-
     },
     processFile: function (file) {
         var reader = new FileReader();
@@ -258,6 +296,18 @@ var atSend = {
             console.log(JSON.stringify(error));
         });
     },
+    // getCustomerInput:function () {
+    //     $.ajax({
+    //         type : 'GET',
+    //         url : ' /api/v1/customer/list',
+    //         dataType: 'json',
+    //         contentType: 'application/json; charset=utf-8',
+    //     }).done(function(customerJsonListRes) {
+    //         customerJsonList = customerJsonListRes
+    //     }).fail(function(error) {
+    //         console.log(JSON.stringify(error));
+    //     });
+    // },
     setTables : function(groupJsonList){
         /* Set group and customer table */
         if ($("#inputGroupTable tbody").length == 0) {
@@ -306,13 +356,6 @@ var atSend = {
                     $(".group_"+item.id).hide()
                 }
         })
-        // for (i = 1; i <= groupJsonList.length; i++) {
-        //     if(i === groupId)
-        //         $(".group_"+i).show()
-        //     else{
-        //         $(".group_"+i).hide()
-        //     }
-        // }
     },
     hideCustomerTable : function(groupId){
         groupJsonList.forEach(function(item){
@@ -365,6 +408,43 @@ var atSend = {
             alert('알림톡 대량 발송이 예약되었습니다.');
             window.location.href = '/';
 
+        }).fail(function (error) {
+            alert(JSON.stringify(error));
+        });
+    },
+    update : function () {
+        var date = $('#datepicker').val().replace(/[^0-9]/g,'');
+        $('#reservedDate').val(date+$('#time').val().toString().replace(/:/gi,"")+"00",)
+
+        var data = $("form").serializeObject();
+
+        var id = $("#id").val();
+        $.ajax({
+            type: 'PUT',
+            url: '/api/v1/at-campaign/'+id,
+            dataType: 'json',
+            contentType: 'application/json; charset=utf-8',
+            data: JSON.stringify(data),
+            // success :
+        }).done(function (status) {
+            alert('알림톡 대량 발송 정보가 수정되었습니다.');
+            window.location.href = '/send/at-camp-record';
+
+        }).fail(function (error) {
+            alert(JSON.stringify(error));
+        });
+    },
+    delete: function () {
+        var id = $('#id').val();
+
+        $.ajax({
+            type: 'DELETE',
+            url: '/api/v1/at-campaign/' + id,
+            dataType: 'json',
+            contentType: 'application/json; charset=utf-8'
+        }).done(function () {
+            alert('예약 정보가 삭제되었습니다.');
+            window.location.href = '/send/at-camp-record';
         }).fail(function (error) {
             alert(JSON.stringify(error));
         });
@@ -429,6 +509,41 @@ var atSend = {
         });
         $('#datepicker').datepicker('update',today);
     },
+    initNotChangeReservedDate :function(){
+        // "20201214165700"
+        var hour = notChancedReservedDate.substr(8,2);
+        var min = notChancedReservedDate.substr(10,2);
+
+
+        $("#time").val(hour + ":" + min);
+
+        var day = notChancedReservedDate.substr(6,2),
+            month = notChancedReservedDate.substr(4,2),
+            year = notChancedReservedDate.substr(0,4);
+
+        $("#datepicker").val(year + "년 " + month + "월 " + day + "일");
+    },
+    sendNotChange: function(){
+        atSend.initNotChangeReservedDate();
+
+        $('#datepicker').datepicker('destroy')
+
+        $('#datepicker').prop('readonly', true);
+        $('#time').prop('readonly', true);
+
+        $('#datepicker').removeClass("bg-light");
+        $('#time').removeClass("bg-light");
+        $('#datepicker').addClass("bg-gray-400");
+        $('#time').addClass("bg-gray-400");
+
+        $('#send-reserve').removeClass("bg-gray-400");
+        $('#send-reserve').addClass("bg-light");
+        $('#send-immediate').removeClass("bg-gray-400");
+        $('#send-immediate').addClass("bg-light");
+
+        $('#send-not-change').removeClass("bg-light");
+        $('#send-not-change').addClass("bg-gray-400");
+    },
     sendImmediate: function() {
         this.initTime();
         this.initDatePicker();
@@ -437,13 +552,15 @@ var atSend = {
         $('#datepicker').prop('readonly', true);
         $('#time').prop('readonly', true);
 
-        $('#send-reserve').removeClass("bg-gray-400");
-        $('#send-reserve').addClass("bg-light");
-
         $('#datepicker').removeClass("bg-light");
         $('#time').removeClass("bg-light");
         $('#datepicker').addClass("bg-gray-400");
         $('#time').addClass("bg-gray-400");
+
+        $('#send-reserve').removeClass("bg-gray-400");
+        $('#send-reserve').addClass("bg-light");
+        $('#send-not-change').removeClass("bg-gray-400");
+        $('#send-not-change').addClass("bg-light");
 
         $('#send-immediate').removeClass("bg-light");
         $('#send-immediate').addClass("bg-gray-400");
@@ -454,18 +571,21 @@ var atSend = {
         $('#datepicker').prop('readonly', false);
         $('#time').prop('readonly', false);
 
-        $('#send-immediate').removeClass("bg-gray-400");
-        $('#send-immediate').addClass("bg-light");
-
         $('#datepicker').removeClass("bg-gray-400");
         $('#time').removeClass("bg-gray-400");
         $('#datepicker').addClass("bg-light");
         $('#time').addClass("bg-light");
 
         $("#datepicker").prop('disabled', false);
+
+        $('#send-immediate').removeClass("bg-gray-400");
+        $('#send-immediate').addClass("bg-light");
+        $('#send-not-change').removeClass("bg-gray-400");
+        $('#send-not-change').addClass("bg-light");
+
         $('#send-reserve').removeClass("bg-light");
         $('#send-reserve').addClass("bg-gray-400");
-    }
+    },
 }
 
 atSend.init();

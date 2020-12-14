@@ -15,6 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 
 @Tag(name="고객 관리", description = "고객 주소록의 정보를 관리합니다.")
 @RequiredArgsConstructor
@@ -50,6 +51,12 @@ public class CustomerApiController {
     @GetMapping("/api/v1/customer/list")
     public List<Customer> findAll() {
         return customerService.findAll();
+    }
+
+    @Operation(summary="고객 리스트 조회", description = "고객 주소록의 고객 정보들을 조희")
+    @PostMapping("/api/v1/customer/list")
+    public Set<Customer> findAllIdx(@RequestBody List<Long> idList) {
+        return customerService.findAllById(idList);
     }
 
     @Operation(summary = "고객 그룹 정보 업데이트", description = "고객의 그룹 정보를 업데이트 함.")

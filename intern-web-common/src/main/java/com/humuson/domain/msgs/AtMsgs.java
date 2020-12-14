@@ -46,13 +46,13 @@ public class AtMsgs {
     @Column(length = 64)
     private String etc2; // 결과 받는 URL
 
-    @OneToOne
-    @JoinColumn(name="campaign_id", referencedColumnName = "id")
+    @ManyToOne
+    @JoinColumn(name="camp_id", referencedColumnName = "id", insertable=false, updatable=false)
     private AtCampaign atCampaign;
 
     @Builder // 해당 클래스의 빌더 패턴 클래스를 생성
     public AtMsgs(String status, String priority, String reservedDate, String senderKey,
-                  String phoneNumber, String templateCode, String msg, String etc1, String etc2){
+                  String phoneNumber, String templateCode, String msg, String etc1, String etc2, AtCampaign atCampaign){
         this.status = this.status== null ? "1" : status;
         this.priority = this.priority== null ? "N" : priority; // S-Slow, N-Normal, F-Fast
         this.reservedDate = reservedDate; // yyyyMMddhhmmss (hh:24h)
@@ -62,6 +62,7 @@ public class AtMsgs {
         this.msg = msg;
         this.etc1 = this.etc1 == null? "0" : etc1;
         this.etc2 = this.etc2 == null ? "http://localhost:8080/api/v1/at-report/" : etc2;
+        this.atCampaign = atCampaign;
     }
     // 예약메시지 수정
     public void update(String reservedDate, String msg, String phoneNumber, String templateCode){

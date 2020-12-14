@@ -9,6 +9,8 @@ import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @DynamicInsert
 @DynamicUpdate
@@ -28,6 +30,8 @@ public class AtCampaign {
     private long count;
     @Column(name = "MESSAGE")
     private String msg;
+    private String status;
+    private String customers;
 
     @OneToOne
     @JoinColumns({
@@ -35,8 +39,24 @@ public class AtCampaign {
     })
     private TemplateInfo templateInfo;
 
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "camp_id", referencedColumnName = "id")
+    private List<AtMsgs> atMsgs = new ArrayList<>();
+
+
     @Builder
-    public AtCampaign(String campName, String reservedDate, String senderKey, long count, String msg, TemplateInfo templateInfo) {
+    public AtCampaign(String campName, String reservedDate, String senderKey, long count, String msg,
+                      TemplateInfo templateInfo, String status) {
+        this.campName = campName;
+        this.reservedDate = reservedDate;
+        this.senderKey = senderKey;
+        this.count = count;
+        this.msg = msg;
+        this.templateInfo = templateInfo;
+        this.status = status == null? "1":status;
+    }
+
+    public void update(String campName, String reservedDate, String senderKey, long count, String msg, TemplateInfo templateInfo){
         this.campName = campName;
         this.reservedDate = reservedDate;
         this.senderKey = senderKey;
@@ -44,4 +64,9 @@ public class AtCampaign {
         this.msg = msg;
         this.templateInfo = templateInfo;
     }
+
+    public void updateStatus(String status) {
+        this.status = status;
+    }
+    public void updateMsgs(List<AtMsgs> atMsgs){this.atMsgs = atMsgs;}
 }

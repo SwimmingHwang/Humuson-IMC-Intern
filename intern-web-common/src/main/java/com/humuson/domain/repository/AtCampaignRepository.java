@@ -12,4 +12,6 @@ public interface AtCampaignRepository extends JpaRepository<AtCampaign, Long> {
     @Query("SELECT p FROM AtCampaign p ORDER BY p.reservedDate DESC")
     List<AtCampaign> findAllReservedDateDesc();
 
+    @Query(value ="SELECT * FROM imc_at_campaign WHERE STR_TO_DATE(reserved_date,'%Y%m%d%H%i%s') <= now() and status='1'", nativeQuery=true)
+    List<AtCampaign> findAllByReservedDate();
 }

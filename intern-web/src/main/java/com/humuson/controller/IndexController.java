@@ -4,6 +4,7 @@ import com.humuson.domain.entity.AtCampaign;
 import com.humuson.domain.entity.Customer;
 import com.humuson.domain.entity.Group;
 import com.humuson.domain.entity.Profile;
+import com.humuson.domain.msgs.AtMsgs;
 import com.humuson.dto.at.AtCampaignSaveRequestDto;
 import com.humuson.dto.at.AtMsgsResponseDto;
 import com.humuson.dto.ft.FtMsgsResponseDto;
@@ -17,6 +18,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -88,16 +91,14 @@ public class IndexController {
     }
 
     /*
-    * 발송 세부사항 입력 페이지
+    * 알림톡 대량
     * */
     @GetMapping("/send/at-msgs-send")
-//    public String atMsgsSend(Model model, Authentication authentication){
-        public String atMsgsSend(Model model ,Authentication authentication){
+        public String atCampaignSend(Model model ,Authentication authentication){
         // TODO : profile에서 모든 senderkey-senderName으로!!!!!! 가져오기 : select 로 구현할 것
 
-//        authentication.getName();
         long userIdx = userService.findUserIdx(authentication.getName());
-//        long userIdx = userService.findUserIdx("t1@test.com");
+
         Profile profile = profileService.findByUserId(userIdx);
         String senderName = profile.getSenderName();
         String senderKey = profile.getSenderKey();
@@ -111,18 +112,29 @@ public class IndexController {
 
         return "page/sendDetails/atMsgsSend";
     }
-//    // ymbin
-//    @GetMapping("/send/mt-msgs-send")
-////    public String mtMsgsSend(Model model, Authentication authentication){
-//    public String mtMsgsSend(Model model){
-//        String sendNumber = userService.findPhoneNumber("t1@test.com");
-//        model.addAttribute("sendNumber", sendNumber);
-//        return "page/sendDetails/mtMsgsSend";
-//    }
+    @GetMapping("/send/campaign/update/at/{id}")
+    public String atCampaignUpdate(@PathVariable Integer id, Model model, Authentication authentication) {
+        long userIdx = userService.findUserIdx(authentication.getName());
 
+        Profile profile = profileService.findByUserId(userIdx);
+        String senderName = profile.getSenderName();
 
+        AtCampaign dto = atCampaignService.findById(id);
 
-    // 결과 조회 ------------------------------------------------------------------------------------
+        List<String> customers = Arrays.asList(dto.getCustomers());
+
+        AtCampaignSaveRequestDto atCampaignSaveRequestDto = new AtCampaignSaveRequestDto(
+                dto.getCampName(),dto.getReservedDate(),dto.getSenderKey(),senderName,
+                dto.getMsg(), dto.getTemplateInfo().getTemplateContent(), customers
+        );
+
+        model.addAttribute("id", id);
+        model.addAttribute("atCampaign", atCampaignSaveRequestDto);
+        model.addAttribute("templateCodes",templateInfoService.findAll());
+        return "page/sendDetails/atMsgsUpdate";
+    }
+
+    // Single 결과  조회 ------------------------------------------------------------------------------------
     @GetMapping("/send/at-record")
     public String atRecord(Model model){
         model.addAttribute("title","알림톡 전체 조회");
@@ -145,7 +157,7 @@ public class IndexController {
         return "page/mttable";
     }
 
-    // 결과 조회 ------------------------------------------------------------------------------------
+    // Camp 결과 조회 ------------------------------------------------------------------------------------
     @GetMapping("/send/at-camp-record")
     public String atCampRecord(Model model){
         model.addAttribute("title","알림톡 발송 내역");
@@ -232,8 +244,6 @@ public class IndexController {
     @GetMapping("/send/multi-msgs/save/mt")
     public String multiMtMsgsSave(Model model) {
         model.addAttribute("msg","mt");
-        //test 용
-//        model.addAttribute("msgs", mtMsgsService.findAll());
         return "page/sendDetails/multiMtMsgsSend";
     }
     @Operation(hidden = true)

@@ -31,6 +31,4 @@ public interface AtMsgsRepository extends JpaRepository<AtMsgs, Integer> {
     @Modifying
     @Query(value = "UPDATE imc_at SET etc2=concat(etc2,id) WHERE etc2='http://localhost:8080/api/v1/at-report/' and id >=0", nativeQuery = true)
     void updateEtc2();
-
-
 }

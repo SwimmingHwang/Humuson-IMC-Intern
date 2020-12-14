@@ -14,9 +14,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,12 +44,14 @@ public class AtCampaignController {
         /* AT CAMPAIGN 생성 */
         requestDto.setTemplateInfoC(templateInfo);
         AtCampaign atCampaign = requestDto.toEntity();
-
+        atCampaign.setCount(requestDto.getCustomers().size());
+        atCampaign.setCustomers(String.join(",",requestDto.getCustomers()));
+        AtCampaign savedAtCampaign = atCampaignService.save(atCampaign);
+        long campId = savedAtCampaign.getId();
         String statusCode = "";
         try{
             /* AT MSG 생성 */
             List<Long> idList = requestDto.getCustomers().stream().distinct().map(Long::parseLong).collect(Collectors.toList());
-//            resultList = dataList.parallelStream().distinct().collect(Collectors.toList());
 
             Set<Customer> customers = customerService.findAllById(idList);
             List<List<String>> customerList = new ArrayList<>();
@@ -63,19 +63,62 @@ public class AtCampaignController {
 
             String templateCode = templateInfo.getTemplateCode();
             MultiAtMsgsSaveRequestDto multiAtMsgsSaveRequestDto = new MultiAtMsgsSaveRequestDto(requestDto.getMsg(),
-                    templateCode, requestDto.getReservedDate(), customerList);
+                    templateCode, requestDto.getReservedDate(), customerList, savedAtCampaign);
 
             atMsgsJdbcService.saveAll(multiAtMsgsSaveRequestDto.toEntity());
             atMsgsService.updateEtc2();
-
-            atCampaign.setCount(customerList.size());
-            atCampaignService.save(atCampaign);
-
             statusCode = "200"; //성공
         } catch (Exception e){
             log.error(e.toString());
             statusCode="500"; // db insert실패
         }
         return statusCode;
+    }
+    @Operation(summary = "알림톡 캠페인 수정", description = "알림톡 캠페인 예약 정보를 수정합니다.")
+    @PutMapping("/api/v1/at-campaign/{id}")
+    public String update(@PathVariable Long id, @RequestBody AtCampaignSaveRequestDto requestDto){
+        atCampaignService.delete(id); // 캠페인 정보랑 그 자식들도 다 삭제
+        TemplateInfo templateInfo = templateInfoService.findByTemplateContent(requestDto.getTemplateContent());
+
+        /* AT CAMPAIGN 생성 */
+        requestDto.setTemplateInfoC(templateInfo);
+        AtCampaign atCampaign = requestDto.toEntity();
+        atCampaign.setCount(requestDto.getCustomers().size());
+        atCampaign.setCustomers(String.join(",",requestDto.getCustomers()));
+        AtCampaign savedAtCampaign = atCampaignService.save(atCampaign);
+        long campId = savedAtCampaign.getId();
+        String statusCode = "";
+        try{
+            /* AT MSG 생성 */
+            List<Long> idList = requestDto.getCustomers().stream().distinct().map(Long::parseLong).collect(Collectors.toList());
+
+            Set<Customer> customers = customerService.findAllById(idList);
+            List<List<String>> customerList = new ArrayList<>();
+            for(Customer customer : customers){
+                List<String> custom = new ArrayList<>();
+                custom.add("82"+customer.getPhoneNumber().substring(1));
+                customerList.add(custom);
+            }
+
+            String templateCode = templateInfo.getTemplateCode();
+            MultiAtMsgsSaveRequestDto multiAtMsgsSaveRequestDto = new MultiAtMsgsSaveRequestDto(requestDto.getMsg(),
+                    templateCode, requestDto.getReservedDate(), customerList, savedAtCampaign);
+
+            atMsgsJdbcService.saveAll(multiAtMsgsSaveRequestDto.toEntity());
+            atMsgsService.updateEtc2();
+            statusCode = "200"; //성공
+
+        } catch (Exception e){
+            log.error(e.toString());
+            statusCode="500"; // db insert실패
+        }
+        return statusCode;
+    }
+    @Operation(summary="알림톡 캠페인 삭제", description = "알림톡 캠페인 및 관련 메시지 삭제")
+    @DeleteMapping("/api/v1/at-campaign/{id}")
+    public long delete(@PathVariable long id) {
+        // TODO : 관련 메시지들도 삭제 되어야 함.
+        atCampaignService.delete(id);
+        return id;
     }
 }
