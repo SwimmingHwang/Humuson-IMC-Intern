@@ -1,7 +1,6 @@
 package com.humuson.reciver;
 
 import com.google.gson.Gson;
-import com.humuson.acutator.KafkaHealthIndicator;
 import com.humuson.agent.dto.AtReportSaveRequestDto;
 import com.humuson.agent.dto.MtReportSaveRequestDto;
 import com.humuson.utility.ApiCallCC;
@@ -17,10 +16,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class MsgReportReceiver {
 
-//    private final KafkaListenerEndpointRegistry registry;
-
     @KafkaListener(topics = "${kafka.at.report.topic.name}", groupId = "${kafka.at.report.topic.group.name}", containerFactory = "kafkaListenerContainerFactory")
-    public void atReportListenr(@Payload String message,
+    public void atReportListener(@Payload String message,
                                 Acknowledgment acknowledgment) {
         Gson gson = new Gson();
         AtReportSaveRequestDto atReport = gson.fromJson(message, AtReportSaveRequestDto.class);
@@ -35,30 +32,18 @@ public class MsgReportReceiver {
     }
 
     @KafkaListener(topics = "${kafka.mt.report.topic.name}", groupId = "${kafka.mt.report.topic.group.name}", containerFactory = "kafkaListenerContainerFactory")
-    public void mtReportlistenr(@Payload String message,
-                             Acknowledgment acknowledgment) {
+    public void mtReportListener(@Payload String message,
+                                Acknowledgment acknowledgment) {
         Gson gson = new Gson();
         MtReportSaveRequestDto mtReport = gson.fromJson(message, MtReportSaveRequestDto.class);
         String status = ApiCallCC.post(mtReport.getEtc2(), message);
         log.info("Mt Topic Listner {}", status);
         if(status.equals("200")) {
-//            registry.destroy();
-//            registry.start();
             acknowledgment.acknowledge();
             log.info("mt api call success");
         } else {
             throw new RuntimeException("mt api server have some problem");
         }
-    }
-
-    private final  KafkaHealthIndicator kafkaHealthIndicator;
-
-    @KafkaListener(topics = "${kafka.health.check.topic.name}", groupId = "${kafka.health.check.topic.group.name}", containerFactory = "kafkaListenerContainerFactory")
-    public void hcChecklistenr(@Payload String message,
-                             Acknowledgment acknowledgment) {
-        log.info("Health Check Topic Listner {}", message);
-        acknowledgment.acknowledge();
-        kafkaHealthIndicator.setKafkaHealth("200");
     }
 
 }
