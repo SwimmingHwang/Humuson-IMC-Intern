@@ -31,34 +31,7 @@ public class Producer {
     @Value(value = "${kafka.mt.log.topic.name}")
     private String MT_REPORT_TOPIC_NAME;
 
-    @Value(value = "${kafka.health.check.topic.name}")
-    private String HC_TOPIC_NAME;
-
     private final KafkaProducerConfig kafkaProducerConfig;
-
-    public String kafkaHealthCheckProduce() {
-        try {
-            Properties configs = new Properties();
-            configs.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, BOOTSTRAP_SERVERS);
-            configs.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
-            configs.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
-
-            KafkaProducer<String, String> producer = new KafkaProducer<>(configs);
-
-            ProducerRecord<String, String> record = new ProducerRecord<>(HC_TOPIC_NAME, "1");
-            try {
-                producer.send(record);
-            } catch (Exception e) {
-                return "9000";
-            }
-
-            producer.flush();
-            producer.close();
-            return "200";
-        } catch (Exception e) {
-            return "9999";
-        }
-    }
 
     public void sendAtReportList(List<AtReportSaveRequestDto> atReportList) {
 
@@ -120,11 +93,8 @@ public class Producer {
         } catch(Exception e){
             log.info(e.getMessage(), e);
         }
-
         producer.flush();
         producer.close();
     }
-
-
 
 }
