@@ -1,21 +1,29 @@
 package com.humuson.config;
 
+import org.apache.kafka.clients.admin.AdminClient;
+import org.apache.kafka.clients.admin.DescribeClusterOptions;
+import org.apache.kafka.clients.admin.DescribeClusterResult;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.clients.producer.internals.DefaultPartitioner;
 import org.apache.kafka.common.Cluster;
 import org.apache.kafka.common.PartitionInfo;
 import org.apache.kafka.common.serialization.StringSerializer;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.actuate.health.Health;
+import org.springframework.boot.actuate.health.HealthIndicator;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.annotation.EnableKafka;
 import org.springframework.kafka.core.DefaultKafkaProducerFactory;
+import org.springframework.kafka.core.KafkaAdmin;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.core.ProducerFactory;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
 
 @Configuration
 @EnableKafka
@@ -27,6 +35,35 @@ public class KafkaProducerConfig {
     @Bean
     public ProducerFactory<String, byte[]> producerFactory() {
         return new DefaultKafkaProducerFactory<>(senderProps());
+    }
+
+    @Autowired
+    private KafkaAdmin admin;
+
+    @Bean
+    public AdminClient kafkaAdminClient() {
+        return AdminClient.create(admin.getConfig());
+    }
+
+    @Bean
+    public HealthIndicator kafkaHealthIndicator() {
+        final DescribeClusterOptions describeClusterOptions = new DescribeClusterOptions().timeoutMs(1000);
+        final AdminClient adminClient = kafkaAdminClient();
+        return () -> {
+            final DescribeClusterResult describeCluster = adminClient.describeCluster(describeClusterOptions);
+            try {
+                final String clusterId = describeCluster.clusterId().get();
+                final int nodeCount = describeCluster.nodes().get().size();
+                return Health.up()
+                        .withDetail("clusterId", clusterId)
+                        .withDetail("nodeCount", nodeCount)
+                        .build();
+            } catch (InterruptedException | ExecutionException e) {
+                return Health.down()
+                        .withException(e)
+                        .build();
+            }
+        };
     }
 
     public Map<String, Object> senderProps() {
@@ -67,5 +104,40 @@ public class KafkaProducerConfig {
     public KafkaTemplate<String, byte[]> kafkaTemplate() {
         return new KafkaTemplate<>(producerFactory());
     }
+
+/*
+    @Autowired
+    private KafkaAdmin admin;
+
+    @Autowired
+    private Map<String, KafkaTemplate<?, ?>> kafkaTemplates;
+
+    @Bean
+    public AdminClient kafkaAdminClient() {
+        return AdminClient.create(admin.getConfig());
+    }
+
+    @Bean
+    public HealthIndicator kafkaHealthIndicator() {
+        final DescribeClusterOptions describeClusterOptions = new DescribeClusterOptions().timeoutMs(1000);
+        final AdminClient adminClient = kafkaAdminClient();
+        return () -> {
+            final DescribeClusterResult describeCluster = adminClient.describeCluster(describeClusterOptions);
+            try {
+                final String clusterId = describeCluster.clusterId().get();
+                final int nodeCount = describeCluster.nodes().get().size();
+                return Health.up()
+                        .withDetail("clusterId", clusterId)
+                        .withDetail("nodeCount", nodeCount)
+                        .build();
+            } catch (InterruptedException | ExecutionException e) {
+                return Health.down()
+                        .withException(e)
+                        .build();
+            }
+        };
+
+    }*/
+
 
 }
