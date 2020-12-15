@@ -142,7 +142,7 @@ project(':intern-kafka-api') {
         compile('org.springdoc:springdoc-openapi-ui:1.5.0')
 
         //for producer
-        compile('org.apache.kafka:kafka-clients:2.5.0')
+//        compile('org.apache.kafka:kafka-clients:2.5.0')
 
         testCompile('org.springframework.boot:spring-boot-starter-test') // static debug 용
 
@@ -151,9 +151,6 @@ project(':intern-kafka-api') {
         // springboot admin - client`
         compile('de.codecentric:spring-boot-admin-starter-client:2.1.0')
         compile('org.springframework.kafka:spring-kafka') // 이거 추가
-
-        // scheduler
-        compile('org.springframework.boot:spring-boot-starter-quartz')
     }
 }
 

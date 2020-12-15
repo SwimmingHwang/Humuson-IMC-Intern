@@ -33,9 +33,7 @@ import java.util.concurrent.ExecutionException;
 @Slf4j
 public class KafkaProducerConfig {
 
-    private static final Logger logger = LoggerFactory.getLogger(com.humuson.api.Producer.class);
-
-    @Value(value = "${kafka.bootstrap.address}")
+    @Value("${kafka.bootstrap.address}")
     private String bootStrapAddress;
 
     @Autowired
