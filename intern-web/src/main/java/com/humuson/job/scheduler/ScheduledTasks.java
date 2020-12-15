@@ -32,20 +32,20 @@ public class ScheduledTasks {
     @Scheduled(initialDelay = 1000, fixedRate  = 10000)
     public void updateStatusrunEvery10Sec(){
         try{
-            log.info("스케쥴러 : 시작");
+//            log.info("스케쥴러 : 시작");
             List<AtMsgs> atMsgsList = null;
             List<MtMsgs> mtMsgsList = null;
 
             atMsgsList = atMsgsService.findAllByReservedDate();
             mtMsgsList = mtMsgsService.findAllByReservedDate();
 
-            log.info("스케쥴러 : select 완료");
+//            log.info("스케쥴러 : select 완료");
 
             List<AtMsgsSaveRequestDto> atMsgsSaveRequestDtoList= new ArrayList<>();
             List<MtMsgsSaveRequestDto> mtMsgsSaveRequestDtoList= new ArrayList<>();
 
-            log.info("스케쥴러 : atMsgsList"+atMsgsList);
-            log.info("스케쥴러 : mtMsgsList"+mtMsgsList);
+//            log.info("스케쥴러 : atMsgsList"+atMsgsList);
+//            log.info("스케쥴러 : mtMsgsList"+mtMsgsList);
 
             if (!atMsgsList.isEmpty()){
 
@@ -112,7 +112,7 @@ public class ScheduledTasks {
                     log.info("API POST ERROR");
                 }
             }
-            log.info("runEvery10Sec");
+//            log.info("runEvery10Sec");
         }catch(Exception e){
             log.error("Update Status ERROR "+e);
             log.info("Update Status ERROR "+e);
