@@ -192,7 +192,7 @@ var atSend = {
             if ($(this).attr("group_id") === "0"){
                 return
             }
-            groupId = parseInt($(this).attr("group_id")); // db id라 1부터 시작
+            groupId = parseInt($(this).prop('id').substr(9)); // db id라 1부터 시작
             groupName = $(this).children().eq(0).text()
             atSend.setCustomerTable(groupId);
             $('#customerChkAll').prop("checked", false)
@@ -240,7 +240,8 @@ var atSend = {
             val = checkbox.val();
             var groupIdxStr = $(this).attr("class").slice(6);
             var groupIdxInt = parseInt(groupIdxStr);
-            groupName = $('#inputGroupTable tr').get(groupIdxInt).children[0].textContent;
+            // groupName = $('#inputGroupTable tr').get(groupIdxInt).children[0].textContent;
+            groupName = $('#group_id_'+groupIdxStr).children().eq(0).text();
             var customerName = $(this).children().eq(1).text();
 
             if (checkbox.prop("checked") === true) {
@@ -329,7 +330,7 @@ var atSend = {
         atSend.hideCustomerTable();
     },
     groupBuildTableRow : function(group) {
-        var ret = "<tr group_id="+ group.id+">"
+        var ret = "<tr id='group_id_"+ group.id+"'>"
             // +<td><input type="checkbox" name = "groups" value="' + group.id + '" class="cbx"></td>'
             + "<td>" + group.groupName + "</td>"
             + "<td>" + group.customerCount+ "</td>"
@@ -373,8 +374,6 @@ var atSend = {
         $("#"+idText).remove(); //해당id의 li태그 삭제하기
     },
     recipientsCustomerListAdd : function(groupId, groupName, customerId, customerName){
-        console.log("group ul에 group and customer add ")
-
         // 그룹 블럭에 li없으면 추가
         atSend.recipientsGroupListAdd(groupId, groupName);
 
