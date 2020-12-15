@@ -1,8 +1,14 @@
 package com.humuson.agent.config;
 
+import org.apache.kafka.clients.admin.AdminClient;
+import org.apache.kafka.clients.admin.DescribeClusterOptions;
+import org.apache.kafka.clients.admin.DescribeClusterResult;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.actuate.health.Health;
+import org.springframework.boot.actuate.health.HealthIndicator;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.annotation.EnableKafka;
@@ -10,10 +16,12 @@ import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory;
 import org.springframework.kafka.config.KafkaListenerContainerFactory;
 import org.springframework.kafka.core.ConsumerFactory;
 import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
+import org.springframework.kafka.core.KafkaAdmin;
 import org.springframework.kafka.listener.ConcurrentMessageListenerContainer;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
 
 @EnableKafka
 @Configuration
@@ -25,6 +33,35 @@ KafkaReceiveConfig {
 
     @Value("${kafka.consumer.group.id}")
     private String consumer_groupid;
+
+    @Autowired
+    private KafkaAdmin admin;
+
+    @Bean
+    public AdminClient kafkaAdminClient() {
+        return AdminClient.create(admin.getConfig());
+    }
+
+    @Bean
+    public HealthIndicator kafkaHealthIndicator() {
+        final DescribeClusterOptions describeClusterOptions = new DescribeClusterOptions().timeoutMs(1000);
+        final AdminClient adminClient = kafkaAdminClient();
+        return () -> {
+            final DescribeClusterResult describeCluster = adminClient.describeCluster(describeClusterOptions);
+            try {
+                final String clusterId = describeCluster.clusterId().get();
+                final int nodeCount = describeCluster.nodes().get().size();
+                return Health.up()
+                        .withDetail("clusterId", clusterId)
+                        .withDetail("nodeCount", nodeCount)
+                        .build();
+            } catch (InterruptedException | ExecutionException e) {
+                return Health.down()
+                        .withException(e)
+                        .build();
+            }
+        };
+    }
 
     @Bean
     public Map<String, Object> consumerConfigs() {

@@ -42,6 +42,7 @@ public class KafkaConsumerConfig {
     @Value("${kafka.consumer.group.id}")
     private String consumerGroupid;
 
+    // KafkaAdmin : 브로커에 토픽을 저장하는 역할을 한다.
     @Autowired
     private KafkaAdmin admin;
 
