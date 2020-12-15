@@ -3,11 +3,9 @@ package com.humuson.api;
 import com.google.gson.Gson;
 import com.humuson.agent.dto.AtMsgsSaveRequestDto;
 import com.humuson.agent.dto.MtMsgsSaveRequestDto;
-import com.humuson.api.config.KafkaHealthIndicator;
 import com.humuson.api.config.KafkaProducerConfig;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.producer.*;
-import org.apache.kafka.common.serialization.IntegerSerializer;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,7 +25,6 @@ public class Producer {
 
     private static String AT_TOPIC_NAME;
     private static String MT_TOPIC_NAME;
-    private static String HC_TOPIC_NAME;
     private static String BOOTSTRAP_SERVERS;
 
     @Value("${kafka.bootstrap.address}")
@@ -41,10 +38,6 @@ public class Producer {
     @Value("${kafka.mt.topic.name}")
     public void setTopicMtName(String topicName){
         MT_TOPIC_NAME = topicName;
-    }
-    @Value("${kafka.health.check.topic.name}")
-    public void setHCTopicName(String topicName){
-        HC_TOPIC_NAME = topicName;
     }
 
 
@@ -85,32 +78,6 @@ public class Producer {
         }
 
         return stringStatusCode;
-    }
-
-    public static String kafkaHealthCheckProduce() {
-        try {
-            Properties configs = new Properties();
-            configs.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, BOOTSTRAP_SERVERS);
-            configs.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
-            configs.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
-
-            KafkaProducer<String, String> producer = new KafkaProducer<>(configs);
-
-            ProducerRecord<String, String> record = new ProducerRecord<>(HC_TOPIC_NAME, "1");
-            try {
-                producer.send(record);
-                log.info("Send to " + HC_TOPIC_NAME);
-            } catch (Exception e) {
-                log.info("{} is shutdown!!", HC_TOPIC_NAME);
-                return "9000";
-            }
-
-            producer.flush();
-            producer.close();
-            return "200";
-        } catch (Exception e) {
-            return "9999";
-        }
     }
 
     public static String batchAtProduce(List<AtMsgsSaveRequestDto> atMsgsSaveRequestDtos) {

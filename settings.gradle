@@ -9,5 +9,4 @@ include 'intern-consumer-agent'
 include 'intern-kafka-api'
 include 'intern-agent-common'
 include 'intern-springboot-admin'
-include 'intern-kafka-check'
 
