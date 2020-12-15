@@ -23,7 +23,7 @@ public class MsgLogReceiver {
 
 
     @KafkaListener(topics = "${kafka.at.topic.name}", groupId = "${kafka.at.topic.group.name}")
-    public void atMsgslistenr(@Payload List<String> messages) {
+    public void atMsgsListener(@Payload List<String> messages) {
         log.info("At Topic Listener : {}", messages);
 
         Gson gson = new Gson();
@@ -57,7 +57,7 @@ public class MsgLogReceiver {
 //    }
 
     @KafkaListener(topics = "${kafka.mt.topic.name}", groupId = "${kafka.mt.topic.group.name}")
-    public void mtMsgslistenr(@Payload List<String> messages) {
+    public void mtMsgsListener(@Payload List<String> messages) {
         log.info("Mt Topic Listner : {}", messages);
         Gson gson = new Gson();
         MtMsgs mtMsgsDto = null;
@@ -76,9 +76,4 @@ public class MsgLogReceiver {
         if(!list.isEmpty())  mtMsgsJdbcService.saveAll(list);
     }
 
-    @KafkaListener(topics = "${kafka.health.check.topic.name}", groupId = "${kafka.health.check.topic.group.name}")
-    public void kafkaHealthChecklistenr(@Payload String messages) {
-        log.info("Kafka HealthCheck Listner : {}", messages);
-
-    }
 }
