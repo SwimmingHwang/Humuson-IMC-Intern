@@ -4,20 +4,19 @@ import com.google.gson.Gson;
 import com.humuson.agent.dto.AtMsgsSaveRequestDto;
 import com.humuson.agent.dto.MtMsgsSaveRequestDto;
 import com.humuson.api.config.KafkaProducerConfig;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.producer.*;
-import org.apache.kafka.common.serialization.StringSerializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Properties;
 
 @Slf4j
+@RequiredArgsConstructor
 @Component
 public class Producer {
 
@@ -26,6 +25,8 @@ public class Producer {
     private static String AT_TOPIC_NAME;
     private static String MT_TOPIC_NAME;
     private static String BOOTSTRAP_SERVERS;
+
+    private final KafkaProducerConfig kafkaProducerConfig;
 
     @Value("${kafka.bootstrap.address}")
     public void setBootstrapServers(String address) {
@@ -40,6 +41,7 @@ public class Producer {
         MT_TOPIC_NAME = topicName;
     }
 
+/*
 
     public static String produce(String args, int topicIdx) {
         // TODO : String[] stream으로 처리할 것 .
@@ -79,16 +81,15 @@ public class Producer {
 
         return stringStatusCode;
     }
+*/
 
-    public static String batchAtProduce(List<AtMsgsSaveRequestDto> atMsgsSaveRequestDtos) {
+    public String batchAtProduce(List<AtMsgsSaveRequestDto> atMsgsSaveRequestDtos) {
         // TODO : String[] stream으로 처리할 것 .
         // TODO : 데이터 유효성 검사하는 로직 추가할 것.
 
-        KafkaProducerConfig kafkaProducerConfig = new KafkaProducerConfig();
-
         logger.info("BATCH PRODUCE");
 
-        KafkaProducer<String, String> producer = new KafkaProducer<String, String>(kafkaProducerConfig.senderProps());
+        KafkaProducer<String, String> producer = new KafkaProducer<>(kafkaProducerConfig.senderProps());
 
         String topicName = AT_TOPIC_NAME;
 
@@ -132,15 +133,13 @@ public class Producer {
         return stringStatusCode;
     }
 
-    public static String batchMtProduce(List<MtMsgsSaveRequestDto> mtMsgsSaveRequestDtos) {
+    public String batchMtProduce(List<MtMsgsSaveRequestDto> mtMsgsSaveRequestDtos) {
         // TODO : String[] stream으로 처리할 것 .
         // TODO : 데이터 유효성 검사하는 로직 추가할 것.
 
-        KafkaProducerConfig kafkaProducerConfig = new KafkaProducerConfig();
-
         logger.info("BATCH PRODUCE");
 
-        KafkaProducer<String, String> producer = new KafkaProducer<String, String>(kafkaProducerConfig.senderProps());
+        KafkaProducer<String, String> producer = new KafkaProducer<>(kafkaProducerConfig.senderProps());
 
         String topicName = MT_TOPIC_NAME;
 
