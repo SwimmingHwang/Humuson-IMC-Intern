@@ -18,7 +18,7 @@ var atSend = {
             'use strict';
             var count = recipientsCustomerList.length;
 
-            var result = {customers:Array(), count:count};
+            var result = {customers:Array(), count:count , vars:Array()};
             var extend = function (i, element) {
                 var node = result[element.name];
                 if ('undefined' !== typeof node && node !== null) {
@@ -40,6 +40,13 @@ var atSend = {
                 else
                     result.customers = $('#recipientsGroupList').attr("field").slice(1,-1).split(",");
             }
+             // TODO : 선택안된거 있으면 alert 필요
+            // 변수 데이터 넣어주기
+            var varList = [];
+            Array.from($('.vars')).forEach(function(vari,index) {
+                varList.push($('#template_var_'+index).val())}
+            );
+            result.vars = varList.toString();
             return result;
         };
         $(function () {
@@ -59,6 +66,7 @@ var atSend = {
         $('#templateContent').on('change', function () {
             $('#msg').val($(this).val());
             atSend.alertLimit();
+            atSend.getVars();
         });
         $('#msg').keyup(function () {
             atSend.alertLimit();
@@ -283,6 +291,34 @@ var atSend = {
 
         atSend.alertLimit();
     },
+    getVars : function(){
+        const varsSelector = $('#vars');
+        varsSelector.empty();
+
+        const msg = $('#msg').val();
+        const pattern = /#\{.+?\}/g;
+        var varList = [];
+        if (pattern.test(msg)){ // true or false - 매칭 문자열 존재여부
+            varList=msg.match(pattern); //return :  #{} string list
+            // ex) ["#{고객명}", "#{1개월 무료 스트리밍 서비스 제공}", "#{카카오톡 이모티콘 증정}"]
+        }
+        varList.forEach(function(item, index) {
+            varsSelector.append('<div>'
+                +'<strong>'+item +'</strong>'
+                + '<select id=template_var_'+index+' '
+                +'class="vars custom-select">\n' +
+                '        <option value="default" disabled selected>매칭할 변수를 선택하세요.</option>\n' +
+                '        <option text="고객 아이디" value="0">고객 아이디</option>\n' +
+                '        <option text="이름" value="1">이름</option>\n' +
+                '        <option text="전화번호" value="2">전화번호</option>\n' +
+                '        <option text="주소" value="3">주소</option>\n' +
+                '        <option text="etc1" value="4">etc1</option>\n' +
+                '        <option text="etc2" value="5">etc2</option>\n' +
+                '        <option text="etc3" value="6">etc3</option>\n' +
+                '    </select>'
+                +'</div>')
+        });
+    },
     /* get and set group table  */
     getGroupInput : function(){
         $.ajax({
@@ -404,6 +440,7 @@ var atSend = {
             data: JSON.stringify(data),
             // success :
         }).done(function (status) {
+            // TODO status 확인해서 에러 일으키기
             alert('알림톡 대량 발송이 예약되었습니다.');
             window.location.href = '/';
 

@@ -16,7 +16,6 @@ public class MultiAtMsgsSaveRequestDto {
     private String reservedDate;
     private String senderKey;
     private List<List<String>> customerList;
-    private List<Integer> varCheckList;
     private AtCampaign atCampaign;
 
     @Builder
@@ -27,7 +26,6 @@ public class MultiAtMsgsSaveRequestDto {
         this.templateCode = templateCode;
         this.reservedDate = reservedDate;
         this.customerList = customerList;
-        this.varCheckList = varCheckList;
     }
 
     @Builder
@@ -40,42 +38,27 @@ public class MultiAtMsgsSaveRequestDto {
         this.atCampaign = atCampaign;
 
     }
-
-//        public List<AtMsgs> toEntity() {
-//        List<AtMsgs> msgs = new ArrayList<>();
-//        log.info("고객 정보 리스트 "+customerList.toString()+"");
-//        log.info("변수 체크 박스 리스트 "+varCheckList.toString()+"");
-//
-//
-//        for (List<String> li : customerList) {
-//            String msgCopied = msg + "";
-//            // 변수 매핑
-//            if (varCheckList.contains(1)==true){
-//                msgCopied = msgCopied.replace("#{변수1}",li.get(4));
-//            }
-//            if (varCheckList.contains(2)==true){
-//                msgCopied = msgCopied.replace("#{변수2}",li.get(5));
-//            }
-//            if (varCheckList.contains(3)==true){
-//                msgCopied = msgCopied.replace("#{변수3}",li.get(6));
-//            }
-//
-//            AtMsgs atMsg = new AtMsgs(null,null,reservedDate,null, li.get(3),
-//                    templateCode, msgCopied,null,null);
-//            msgs.add(atMsg);
-//        }
-//        return msgs;
-//    }
-    public List<AtMsgs> toEntity() {
+    public List<AtMsgs> toEntity() throws Exception {
         List<AtMsgs> msgs = new ArrayList<>();
+        String varList = atCampaign.getVars();
         for (List<String> li : customerList) {
-        //    public AtMsgs(String status, String priority, String reservedDate, String senderKey,
-        //                  String phoneNumber, String templateCode, String msg, String etc1, String etc2){
-//            log.info(li.toString());
+            String msgCopied = msg + "";
+            /* user id, name, phone number, address, etc1, etc2, etc2
+            * */
+            for(String var:varList.split(",")) {
+                if (!li.get(Integer.parseInt(var)).equals("")) {
+                    if (var.equals("2"))
+                        msgCopied = msgCopied.replaceFirst("#\\{(.|\n)*?\\}", "0" + li.get(Integer.parseInt(var)).substring(2));
+                    else
+                        msgCopied = msgCopied.replaceFirst("#\\{(.|\n)*?\\}", li.get(Integer.parseInt(var)));
+                }
+                else{
+                    msgCopied = msgCopied.replaceFirst("#\\{(.|\n)*?\\}", "");
+                    throw new Exception();
+                }
+            }
             AtMsgs atMsg = new AtMsgs(null, null, reservedDate, senderKey,
-                    li.get(0), templateCode, msg, null,null, atCampaign);
-//                    li.get(0), templateCode, msg, null,null);
-
+                    li.get(2), templateCode, msgCopied, null,null, atCampaign);
             msgs.add(atMsg);
         }
         return msgs;

@@ -23,20 +23,31 @@ public class Customer {
     private String name;
     private String phoneNumber; // 플러스친구를 개설한 관리자 핸드폰 번호를 입력하세요
     private String address;
+    private String etc1;
+    private String etc2;
+    private String etc3;
 
-    public void update(String userId, String name, String phoneNumber, String address) {
+    public void update(String userId, String name, String phoneNumber, String address,
+                       String etc1, String etc2, String etc3){
         this.userId = userId;
         this.name = name;
         this.phoneNumber = phoneNumber;
         this.address = address;
+        this.etc1 = etc1;
+        this.etc2 = etc2;
+        this.etc3 = etc3;
     }
     @Builder
-    public Customer(long id, String userId, String name, String phoneNumber, String address){
+    public Customer(long id, String userId, String name, String phoneNumber, String address,
+                    String etc1, String etc2, String etc3){
         this.id = id;
         this.userId = userId;
         this.name = name;
         this.phoneNumber = phoneNumber;
         this.address = address == null? "":address;
+        this.etc1 = etc1;
+        this.etc2 = etc2;
+        this.etc3 = etc3;
     }
 
     @Override

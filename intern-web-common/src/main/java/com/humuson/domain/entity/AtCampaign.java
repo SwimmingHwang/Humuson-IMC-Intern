@@ -32,6 +32,7 @@ public class AtCampaign {
     private String msg;
     private String status;
     private String customers;
+    private String vars;
 
     @OneToOne
     @JoinColumns({
@@ -46,7 +47,7 @@ public class AtCampaign {
 
     @Builder
     public AtCampaign(String campName, String reservedDate, String senderKey, long count, String msg,
-                      TemplateInfo templateInfo, String status) {
+                      TemplateInfo templateInfo, String status, String customers, String vars) {
         this.campName = campName;
         this.reservedDate = reservedDate;
         this.senderKey = senderKey;
@@ -54,6 +55,8 @@ public class AtCampaign {
         this.msg = msg;
         this.templateInfo = templateInfo;
         this.status = status == null? "1":status;
+        this.customers = customers;
+        this.vars = vars;
     }
 
     public void update(String campName, String reservedDate, String senderKey, long count, String msg, TemplateInfo templateInfo){

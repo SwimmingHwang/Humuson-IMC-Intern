@@ -19,13 +19,13 @@ public class testApp {
         String var3 = "오늘 11시부터 13시 사이에";
         String var4 = "123123123";
 
-         String [] varList = new String[]{var1,var2,var3,var4};
-        for(String var:varList) {
+        String varList = "1,3,6";
+//        varList = varList.split(",");
+
+        for(String var:varList.split(",")) {
             System.out.println(var);
             System.out.println(msg);
-
             msg=msg.replaceFirst("#\\{(.|\n)*?\\}", var);
-
         }
         System.out.println(msg);
 

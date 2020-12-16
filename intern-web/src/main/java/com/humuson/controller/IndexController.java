@@ -125,7 +125,7 @@ public class IndexController {
 
         AtCampaignSaveRequestDto atCampaignSaveRequestDto = new AtCampaignSaveRequestDto(
                 dto.getCampName(),dto.getReservedDate(),dto.getSenderKey(),senderName,
-                dto.getMsg(), dto.getTemplateInfo().getTemplateContent(), customers
+                dto.getMsg(), dto.getTemplateInfo().getTemplateContent(), customers, dto.getVars()
         );
 
         model.addAttribute("id", id);

@@ -30,7 +30,7 @@ public class AtMsgsService {
         return atMsgsRepository.save(requestDto.toEntity()).getId(); // insert/update 쿼리 실행
     }
     @Transactional
-    public List<AtMsgs> saveAll(MultiAtMsgsSaveRequestDto requestDto){
+    public List<AtMsgs> saveAll(MultiAtMsgsSaveRequestDto requestDto) throws Exception {
         // requestDto 를 AtMsgs 리스트로 변환
         List<AtMsgs> atMsgs = requestDto.toEntity();
         return atMsgsRepository.saveAll(atMsgs);

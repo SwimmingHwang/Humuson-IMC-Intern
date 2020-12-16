@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -46,6 +47,7 @@ public class AtCampaignController {
         AtCampaign atCampaign = requestDto.toEntity();
         atCampaign.setCount(requestDto.getCustomers().size());
         atCampaign.setCustomers(String.join(",",requestDto.getCustomers()));
+        atCampaign.setVars(requestDto.getVars());
         AtCampaign savedAtCampaign = atCampaignService.save(atCampaign);
         long campId = savedAtCampaign.getId();
         String statusCode = "";
@@ -56,11 +58,15 @@ public class AtCampaignController {
             Set<Customer> customers = customerService.findAllById(idList);
             List<List<String>> customerList = new ArrayList<>();
             for(Customer customer : customers){
-                List<String> custom = new ArrayList<>();
-                custom.add("82"+customer.getPhoneNumber().substring(1));
+                List<String> custom = Arrays.asList(customer.getUserId(),
+                        customer.getName(),
+                        "82"+customer.getPhoneNumber().substring(1),
+                         customer.getAddress(),
+                        customer.getEtc1() == null? "": customer.getEtc1(),
+                        customer.getEtc2() == null? "": customer.getEtc2(),
+                        customer.getEtc3() == null? "": customer.getEtc3());
                 customerList.add(custom);
             }
-
             String templateCode = templateInfo.getTemplateCode();
             MultiAtMsgsSaveRequestDto multiAtMsgsSaveRequestDto = new MultiAtMsgsSaveRequestDto(requestDto.getMsg(),
                     templateCode, requestDto.getReservedDate(), customerList, savedAtCampaign);
@@ -69,8 +75,10 @@ public class AtCampaignController {
             atMsgsService.updateEtc2();
             statusCode = "200"; //성공
         } catch (Exception e){
-            log.error(e.toString());
             statusCode="500"; // db insert실패
+            log.error(e.toString());
+            log.error(e.getMessage());
+            log.error(e.getCause().toString());
         }
         return statusCode;
     }
@@ -95,8 +103,13 @@ public class AtCampaignController {
             Set<Customer> customers = customerService.findAllById(idList);
             List<List<String>> customerList = new ArrayList<>();
             for(Customer customer : customers){
-                List<String> custom = new ArrayList<>();
-                custom.add("82"+customer.getPhoneNumber().substring(1));
+                List<String> custom = Arrays.asList(customer.getUserId(),
+                        customer.getName(),
+                        "82"+customer.getPhoneNumber().substring(1),
+                        customer.getAddress(),
+                        customer.getEtc1() == null? "": customer.getEtc1(),
+                        customer.getEtc2() == null? "": customer.getEtc2(),
+                        customer.getEtc3() == null? "": customer.getEtc3());
                 customerList.add(custom);
             }
 
@@ -109,7 +122,8 @@ public class AtCampaignController {
             statusCode = "200"; //성공
 
         } catch (Exception e){
-            log.error(e.toString());
+            log.error(e.getMessage());
+            log.error(e.getCause().toString());
             statusCode="500"; // db insert실패
         }
         return statusCode;

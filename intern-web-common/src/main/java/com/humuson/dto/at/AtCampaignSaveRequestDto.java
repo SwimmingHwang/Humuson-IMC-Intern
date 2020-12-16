@@ -26,9 +26,10 @@ public class AtCampaignSaveRequestDto {
     private TemplateInfo templateInfoC; // service에서 저장 로직 시 사용
     private String templateContent; // view에서 request시 사용
     private List<String> customers; // at msgs save controller에서
+    private String vars;
 
     public AtCampaignSaveRequestDto(String campName, String reservedDate, String senderKey,
-                                    String senderName, String msg, String templateContent, List<String> customers) {
+                                    String senderName, String msg, String templateContent, List<String> customers, String vars) {
         this.campName = campName;
         this.reservedDate = reservedDate;
         this.senderKey = senderKey;
@@ -36,6 +37,7 @@ public class AtCampaignSaveRequestDto {
         this.msg = msg;
         this.templateContent = templateContent;
         this.customers = customers;
+        this.vars = vars;
 
     }
 
@@ -49,6 +51,7 @@ public class AtCampaignSaveRequestDto {
                 .count(count)
                 .status(status)
                 .templateInfo(templateInfoC)
+                .vars(vars)
                 .build();
     }
 }
